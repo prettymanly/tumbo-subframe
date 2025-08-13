@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { DefaultPageLayout } from "@/components/subframe/ui/layouts/DefaultPageLayout";
 import { Button } from "@/components/subframe/ui/components/Button";
 import { FeatherChevronDown, FeatherSearch, FeatherBookmark } from "@subframe/core";
@@ -35,14 +36,16 @@ function CuratedClasses() {
         <span className="text-heading-2 font-heading-2 text-default-font">Recommended for Alex</span>
         <div className="flex w-full flex-wrap items-start gap-6 mobile:flex-col mobile:flex-wrap mobile:gap-6">
           <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden">
-            <div className="flex w-full flex-col items-center justify-center gap-24 overflow-hidden rounded-md relative">
+            <Link href="/collections/big-energy-gentle-guidance" className="flex w-full flex-col items-center justify-center gap-24 overflow-hidden rounded-md relative">
               <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}} />
               <img className="h-60 w-full flex-none object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780835/uploads/302/kr9usrdgbwp9cge3ab1f.png" />
-            </div>
+            </Link>
             <div className="flex w-full flex-col items-start gap-2">
               <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2">
                 <span className="text-caption-bold font-caption-bold text-brand-700">FEATURED</span>
-                <span className="line-clamp-2 w-full text-heading-2 font-heading-2 text-default-font">Big Energy, Gentle Guidance</span>
+                <Link href="/collections/big-energy-gentle-guidance" className="line-clamp-2 w-full text-heading-2 font-heading-2 text-default-font">
+                  Big Energy, Gentle Guidance
+                </Link>
                 <span className="line-clamp-2 w-full text-body font-body text-default-font">For kids who bounce off the walls — and just need the right walls.</span>
                 <div className="flex items-center gap-2">
                   <Tags>Emotional regulation</Tags>
@@ -53,14 +56,16 @@ function CuratedClasses() {
             </div>
           </div>
           <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden">
-            <div className="flex w-full flex-col items-center justify-center gap-24 overflow-hidden rounded-md relative">
+            <Link href="/collections/quiet-kids-loud-ideas" className="flex w-full flex-col items-center justify-center gap-24 overflow-hidden rounded-md relative">
               <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}} />
               <img className="h-60 w-full flex-none object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780859/uploads/302/hh4s5xjmsigiehqkb1uh.png" />
-            </div>
+            </Link>
             <div className="flex w-full flex-col items-start gap-2">
               <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2">
                 <span className="text-caption-bold font-caption-bold text-brand-700">FEATURED</span>
-                <span className="line-clamp-2 w-full text-heading-2 font-heading-2 text-default-font">Quiet Kids, Loud Ideas</span>
+                <Link href="/collections/quiet-kids-loud-ideas" className="line-clamp-2 w-full text-heading-2 font-heading-2 text-default-font">
+                  Quiet Kids, Loud Ideas
+                </Link>
                 <span className="line-clamp-2 w-full text-body font-body text-default-font">For introverted kids who speak volumes — just not with their voice.</span>
                 <div className="flex items-center gap-2">
                   <Tags>Self-expression</Tags>
