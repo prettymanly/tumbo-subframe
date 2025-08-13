@@ -7,8 +7,8 @@
 }
 
 @layer base {
-  body {
-    color: var(--tumbo-text);
-    background-color: var(--tumbo-background);
-  }
+  html, body { font-family: var(--font-lexend), system-ui, sans-serif; }
 }
+
+/* Temporary font override: map hard-coded Montserrat utility to Lexend */
+.font-\[\'Montserrat\'\] { font-family: var(--font-lexend), system-ui, sans-serif !important; }
