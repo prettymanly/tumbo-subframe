@@ -1,0 +1,37 @@
+# Tümbo Project Rules
+
+## Tech Stack
+- **Frontend:** Next.js 15 (React 19), Tailwind CSS, shadcn/ui components
+- **Backend:** Supabase (PostgreSQL + Auth + Storage), Node.js scraping scripts
+- **Styling:** Tailwind CSS with custom design tokens for Tümbo's design system
+- **State Management:** React hooks for local state, SWR for fetching
+- **Hosting:** Vercel with edge caching
+
+## Development Commands
+- **Package installation:** `npm install` for packages, `npx shadcn add` for components
+- **Development server:** `npm run dev` (NEVER use --turbopack flag)
+- **Build:** `npm run build`
+- **Deploy:** `npm run deploy` or Vercel CLI
+
+## Coding Style
+- **Functional programming only** - no OOP, use React hooks and functional components
+- **TypeScript strict mode** - proper typing for all components and data
+- **Component composition** - build reusable, composable UI components
+- **Server components first** - use Next.js App Router server components where possible
+
+## Critical Rules
+- **NEVER use Turbopack** - causes severe caching issues where file changes are ignored
+- **Always use standard Next.js dev server** without --turbopack flag
+- **If Turbopack is found, immediately remove from package.json scripts**
+
+## Project Structure
+- **Components:** `src/components/` with subframe components in `src/components/subframe/`
+- **Pages:** `src/app/` following Next.js App Router conventions
+- **Database:** Supabase with proper RLS policies
+- **Scraping:** Node.js scripts in `scripts/` directory
+
+## Code Quality
+- **ESLint + Prettier** - format on save
+- **Type safety** - no `any` types, proper interfaces
+- **Performance** - use Next.js Image component, lazy loading for secondary content
+- **SEO** - proper metadata, semantic HTML, accessibility

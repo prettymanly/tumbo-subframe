@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎯 Tümbo - Children's Class Directory
 
-## Getting Started
+A public-facing class directory for children's activities that feels polished, loads fast, and is ready to integrate AI-powered recommendations in later phases.
 
-First, run the development server:
+## 🚀 Quick Start
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+- Supabase account and project
+
+### Installation
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Copy environment template:
+   ```bash
+   cp env.example .env.local
+   ```
+4. Add your Supabase credentials to `.env.local`
+5. Start development server:
+   ```bash
+   npm run dev
+   ```
+
+**⚠️ IMPORTANT:** Never use Turbopack flag. Always use standard Next.js dev server.
+
+## 🏗 Project Structure
+
+```
+src/
+├── app/                    # Next.js App Router pages
+├── components/
+│   ├── ui/               # shadcn/ui components
+│   └── subframe/         # Tümbo-specific components
+├── lib/
+│   └── supabase/         # Supabase client configuration
+scripts/
+├── schema.sql            # Database schema
+└── seed-data.sql         # Sample data for testing
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🗄 Database Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Create a new Supabase project
+2. Run the schema: `scripts/schema.sql`
+3. (Optional) Seed with sample data: `scripts/seed-data.sql`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🎨 Tech Stack
 
-## Learn More
+- **Frontend:** Next.js 15 + React 19, Tailwind CSS, shadcn/ui
+- **Backend:** Supabase (PostgreSQL + Auth + Storage)
+- **Styling:** Tailwind CSS with custom design tokens
+- **State Management:** React hooks + SWR for fetching
 
-To learn more about Next.js, take a look at the following resources:
+## 📱 Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### MVP (Phase 1)
+- [x] Public class directory with search and filters
+- [x] Class detail pages
+- [x] Provider profiles
+- [x] Basic CMS structure
+- [x] Scraping-ready backend
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Future Phases
+- [ ] AI-powered recommendations
+- [ ] User accounts and favorites
+- [ ] Advanced search and filtering
+- [ ] Mobile app
 
-## Deploy on Vercel
+## 🚀 Development
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Commands
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run lint` - Run ESLint
+- `npm run deploy` - Deploy to Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Adding Components
+```bash
+npx shadcn@latest add [component-name]
+```
+
+## 📊 Database Schema
+
+The database is designed with the following key entities:
+- **Providers** - Class providers and organizations
+- **Classes** - Individual class offerings
+- **Tags** - Categorization system (content, experience, philosophy, etc.)
+- **Sessions** - Class schedules and timing
+- **Collections** - Curated class groupings
+
+## 🔒 Security
+
+- Row Level Security (RLS) enabled on all tables
+- Anonymous read access to public catalog
+- User authentication required for personal data
+
+## 📈 Performance Goals
+
+- Landing → first class view: < 20 seconds
+- Lighthouse mobile score: > 90
+- SEO optimized for organic discovery
+
+## 🤝 Contributing
+
+1. Follow the established workflow in `docs/workflow.md`
+2. Use functional programming only (no OOP)
+3. Maintain TypeScript strict mode
+4. Test thoroughly before submitting
+
+## 📄 License
+
+This project is proprietary to Tümbo.
