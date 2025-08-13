@@ -9,6 +9,7 @@
  */
 
 import React from "react";
+import Link from "next/link";
 import * as SubframeUtils from "../utils";
 import { TopbarWithTabs } from "../components/TopbarWithTabs";
 import { TextField } from "../components/TextField";
@@ -61,11 +62,17 @@ const DefaultPageLayoutRoot = React.forwardRef<HTMLDivElement, DefaultPageLayout
           }
           leftSlot={
             <>
-              <img className="h-6 flex-none object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/y2rsnhq3mex4auk54aye.png" />
+              <Link href="/">
+                <img className="h-6 flex-none object-cover cursor-pointer" src="https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/y2rsnhq3mex4auk54aye.png" />
+              </Link>
               <div className="flex items-center gap-4 self-stretch">
                 <TopbarWithTabs.NavItem selected={true}>Ask Tümbo</TopbarWithTabs.NavItem>
-                <TopbarWithTabs.NavItem>Browse Classes</TopbarWithTabs.NavItem>
-                <TopbarWithTabs.NavItem>Curated Collections</TopbarWithTabs.NavItem>
+                <Link href="/classes" className="text-body-bold font-body-bold">
+                  <TopbarWithTabs.NavItem>Browse Classes</TopbarWithTabs.NavItem>
+                </Link>
+                <Link href="/collections" className="text-body-bold font-body-bold">
+                  <TopbarWithTabs.NavItem>Curated Collections</TopbarWithTabs.NavItem>
+                </Link>
               </div>
             </>
           }
