@@ -8,7 +8,6 @@ import React from "react";
 import * as SubframeUtils from "../utils";
 import * as SubframeCore from "@subframe/core";
 import { FeatherSearch } from "@subframe/core";
-// Suggestions are rendered inline to avoid DropdownMenu context requirements
 
 interface InputProps extends React.HTMLAttributes<HTMLDivElement> {
   label?: React.ReactNode;
@@ -45,6 +44,7 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(function Input(
               placeholder={placeholder}
               value={value}
               onChange={(e) => onChange?.(e.target.value)}
+              onClick={(e) => e.stopPropagation()}
             />
           </div>
         </div>
@@ -64,14 +64,14 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(function Input(
                     key={s}
                     type="button"
                     className="flex h-8 w-full cursor-pointer items-center gap-2 rounded-md px-3 text-left hover:bg-neutral-100 active:bg-neutral-50"
-                    onClick={() => onChange?.(s)}
+                    onClick={(e) => { e.stopPropagation(); onChange?.(s); }}
                   >
                     <span className="line-clamp-1 grow text-body font-body text-default-font">{s}</span>
                   </button>
                 ))}
               </div>
             ) : (
-              <div className="px-3 py-2 text-caption text-subtext-color">No suggestions</div>
+              <div className="px-3 py-2 text-caption text-subtext-color">Start typing to search…</div>
             )}
           </div>
         </SubframeCore.Popover.Content>
