@@ -56,7 +56,7 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(function Input(
           sideOffset={8}
           asChild={true}
         >
-          <div className="flex min-h-[192px] min-w-[320px] grow shrink-0 basis-0 flex-col items-start gap-1 rounded-md border border-solid border-neutral-border bg-default-background px-1 py-1 shadow-lg">
+          <div className="flex min-h-[192px] min-w-[320px] grow shrink-0 basis-0 flex-col items-start gap-1 rounded-md border border-solid border-neutral-border bg-white px-1 py-1 shadow-lg">
             {suggestions.length > 0 ? (
               <div className="flex w-full flex-col">
                 {suggestions.map((s) => (
@@ -156,7 +156,7 @@ const ListingsSearchRoot = React.forwardRef<
   return (
     <div
       className={SubframeUtils.twClassNames(
-        "group/70642323 flex items-center gap-2 rounded-full border border-solid border-neutral-border bg-default-background shadow-sm overflow-auto",
+        "group/70642323 flex items-center gap-2 rounded-full border border-solid border-neutral-border bg-white shadow-sm overflow-auto",
         { "h-auto w-full flex-row flex-nowrap gap-2": isMobile },
         className
       )}
