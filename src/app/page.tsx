@@ -77,30 +77,6 @@ function TumboHome() {
             </span>
           </div>
         </div>
-        <div className="flex w-full flex-col items-center justify-center gap-6 bg-default-background px-6 py-24">
-          <div className="flex w-full max-w-[1280px] grow shrink-0 basis-0 flex-wrap items-center justify-center gap-12">
-            <div className="flex grow shrink-0 basis-0 flex-col items-center justify-center gap-2 self-stretch rounded-lg">
-              <div className="flex h-144 w-full min-w-[240px] max-w-[576px] flex-none flex-col items-center justify-center gap-2 overflow-hidden rounded-lg">
-                <img
-                  className="w-full grow shrink-0 basis-0 object-cover"
-                  src="https://res.cloudinary.com/subframe/image/upload/v1724690133/uploads/302/tswlwr0qfwwhkgbjwplw.png"
-                />
-              </div>
-            </div>
-            <div className="flex min-w-[320px] grow shrink-0 basis-0 flex-col items-start justify-center gap-10 self-stretch">
-              <div className="flex max-w-[448px] flex-col items-start justify-center gap-4">
-                <span className="font-['Montserrat'] text-[30px] font-[700] leading-[34px] text-default-font -tracking-[0.025em]">
-                  Okay but wth is a Tümbo?
-                </span>
-                <span className="whitespace-pre-wrap font-['Montserrat'] text-[18px] font-[400] leading-[26px] text-subtext-color -tracking-[0.01em]">
-                  {
-                    "Good question. It's an enrichment class directory that tries very hard to offer personalised and thoughtfully curated classes for your kid, 'cause where got time?\n\nAs for the name, it's a mispelling of tumbuh which means growth(sapling) in Melayu."
-                  }
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
         <div className="flex w-full flex-col items-center gap-6 bg-default-background px-6 py-24">
           <span className="whitespace-pre-wrap text-heading-3 font-heading-3 text-default-font">
             {"How Tümbo works"}
