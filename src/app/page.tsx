@@ -23,7 +23,13 @@ function TumboHome() {
       <div className="flex w-full flex-col items-start bg-default-background">
         <div className="flex w-full flex-col items-center justify-center gap-8 bg-default-background px-6 pt-40 pb-24">
           <span className="max-w-[1024px] whitespace-pre-wrap font-['Lexend'] text-[95px] font-[900] leading-[84px] text-default-font text-center -tracking-[0.04em] mobile:font-['Montserrat'] mobile:text-[62px] mobile:font-[900] mobile:leading-[58px] mobile:tracking-normal">
-            {"The best classes\naren't always \nthe best classes."}
+            {"The best classes"}
+            <br />
+            {"aren't always"}
+            <br />
+            {"the "}
+            <em className="italic">best</em>
+            {" classes."}
           </span>
           <span className="max-w-[576px] whitespace-pre-wrap text-body font-body text-subtext-color text-center -tracking-[0.015em]">
             {
