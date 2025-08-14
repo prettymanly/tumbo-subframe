@@ -9,7 +9,6 @@
  */
 
 import React from "react";
-import Link from "next/link";
 import * as SubframeUtils from "../utils";
 import { TopbarWithTabs } from "../components/TopbarWithTabs";
 import { TextField } from "../components/TextField";
@@ -21,72 +20,94 @@ import { FeatherLogOut } from "@subframe/core";
 import * as SubframeCore from "@subframe/core";
 import { Avatar } from "../components/Avatar";
 
-interface DefaultPageLayoutRootProps extends React.HTMLAttributes<HTMLDivElement> {
+interface DefaultPageLayoutRootProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   className?: string;
 }
 
-const DefaultPageLayoutRoot = React.forwardRef<HTMLDivElement, DefaultPageLayoutRootProps>(
-  function DefaultPageLayoutRoot({ children, className, ...otherProps }: DefaultPageLayoutRootProps, ref) {
-    return (
-      <div
-        className={SubframeUtils.twClassNames(
-          "flex h-screen w-full flex-col items-center",
-          className
-        )}
-        ref={ref}
-        {...otherProps}
-      >
-        <TopbarWithTabs
-          className="mobile:hidden"
-          rightSlot={
-            <>
-              <TextField variant="filled" label="" helpText="" icon={<FeatherSearch />}>
-                <TextField.Input placeholder="Search" />
-              </TextField>
-              <SubframeCore.DropdownMenu.Root>
-                <SubframeCore.DropdownMenu.Trigger asChild={true}>
-                  <Avatar image="https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/fychrij7dzl8wgq2zjq9.avif">A</Avatar>
-                </SubframeCore.DropdownMenu.Trigger>
-                <SubframeCore.DropdownMenu.Portal>
-                  <SubframeCore.DropdownMenu.Content side="bottom" align="end" sideOffset={4} asChild={true}>
-                    <DropdownMenu>
-                      <DropdownMenu.DropdownItem icon={<FeatherUser />}>Profile</DropdownMenu.DropdownItem>
-                      <DropdownMenu.DropdownItem icon={<FeatherSettings />}>Settings</DropdownMenu.DropdownItem>
-                      <DropdownMenu.DropdownItem icon={<FeatherLogOut />}>Log out</DropdownMenu.DropdownItem>
-                    </DropdownMenu>
-                  </SubframeCore.DropdownMenu.Content>
-                </SubframeCore.DropdownMenu.Portal>
-              </SubframeCore.DropdownMenu.Root>
-            </>
-          }
-          leftSlot={
-            <>
-              <Link href="/">
-                <img className="h-6 flex-none object-cover cursor-pointer" src="https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/y2rsnhq3mex4auk54aye.png" />
-              </Link>
-              <div className="flex items-center gap-4 self-stretch">
-                <TopbarWithTabs.NavItem selected={true}>Ask Tümbo</TopbarWithTabs.NavItem>
-                <Link href="/classes" className="text-body-bold font-body-bold">
-                  <TopbarWithTabs.NavItem>Browse Classes</TopbarWithTabs.NavItem>
-                </Link>
-                <Link href="/collections" className="text-body-bold font-body-bold">
-                  <TopbarWithTabs.NavItem>Curated Collections</TopbarWithTabs.NavItem>
-                </Link>
-              </div>
-            </>
-          }
-        />
-        {children ? (
-          <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-4 overflow-y-auto bg-default-background">
-            <div className="w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-10 py-12">
-              {children}
+const DefaultPageLayoutRoot = React.forwardRef<
+  HTMLDivElement,
+  DefaultPageLayoutRootProps
+>(function DefaultPageLayoutRoot(
+  { children, className, ...otherProps }: DefaultPageLayoutRootProps,
+  ref
+) {
+  return (
+    <div
+      className={SubframeUtils.twClassNames(
+        "flex h-screen w-full flex-col items-center",
+        className
+      )}
+      ref={ref}
+      {...otherProps}
+    >
+      <TopbarWithTabs
+        className="mobile:hidden"
+        rightSlot={
+          <>
+            <TextField
+              variant="filled"
+              label=""
+              helpText=""
+              icon={<FeatherSearch />}
+            >
+              <TextField.Input placeholder="Search" />
+            </TextField>
+            <SubframeCore.DropdownMenu.Root>
+              <SubframeCore.DropdownMenu.Trigger asChild={true}>
+                <Avatar image="https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/fychrij7dzl8wgq2zjq9.avif">
+                  A
+                </Avatar>
+              </SubframeCore.DropdownMenu.Trigger>
+              <SubframeCore.DropdownMenu.Portal>
+                <SubframeCore.DropdownMenu.Content
+                  side="bottom"
+                  align="end"
+                  sideOffset={4}
+                  asChild={true}
+                >
+                  <DropdownMenu>
+                    <DropdownMenu.DropdownItem icon={<FeatherUser />}>
+                      Profile
+                    </DropdownMenu.DropdownItem>
+                    <DropdownMenu.DropdownItem icon={<FeatherSettings />}>
+                      Settings
+                    </DropdownMenu.DropdownItem>
+                    <DropdownMenu.DropdownItem icon={<FeatherLogOut />}>
+                      Log out
+                    </DropdownMenu.DropdownItem>
+                  </DropdownMenu>
+                </SubframeCore.DropdownMenu.Content>
+              </SubframeCore.DropdownMenu.Portal>
+            </SubframeCore.DropdownMenu.Root>
+          </>
+        }
+        leftSlot={
+          <>
+            <img
+              className="h-6 flex-none object-cover"
+              src="https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/y2rsnhq3mex4auk54aye.png"
+            />
+            <div className="flex items-center gap-4 self-stretch">
+              <TopbarWithTabs.NavItem selected={true}>
+                Ask Tümbo
+              </TopbarWithTabs.NavItem>
+              <TopbarWithTabs.NavItem>Browse Classes</TopbarWithTabs.NavItem>
+              <TopbarWithTabs.NavItem>
+                Curated Collections
+              </TopbarWithTabs.NavItem>
             </div>
-          </div>
-        ) : null}
-      </div>
-    );
-  }
-);
+          </>
+        }
+      />
+      {children ? (
+        <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-4 overflow-y-auto bg-default-background">
+          {children}
+        </div>
+      ) : null}
+    </div>
+  );
+});
 
 export const DefaultPageLayout = DefaultPageLayoutRoot;

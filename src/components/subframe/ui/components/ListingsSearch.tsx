@@ -9,7 +9,7 @@ import * as SubframeUtils from "../utils";
 import * as SubframeCore from "@subframe/core";
 import { FeatherSearch } from "@subframe/core";
 
-interface InputProps extends React.HTMLAttributes<HTMLDivElement> {
+interface InputProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   label?: React.ReactNode;
   value?: string;
   placeholder?: string;

@@ -25,16 +25,16 @@ function TumboHome() {
           <span className="max-w-[1024px] whitespace-pre-wrap font-['Lexend'] text-[95px] font-[900] leading-[84px] text-default-font text-center -tracking-[0.04em] mobile:font-['Montserrat'] mobile:text-[62px] mobile:font-[900] mobile:leading-[58px] mobile:tracking-normal">
             {"The best classes"}
             <br />
-            {"aren't always"}
+            {"aren&apos;t always"}
             <br />
             {"the "}
             <em className="italic">best</em>
             {" classes."}
           </span>
           <span className="max-w-[576px] whitespace-pre-wrap text-body font-body text-subtext-color text-center -tracking-[0.015em]">
-            {
-              "The perfect fit for your child might not have the biggest name, fanciest website, or the most trophies. Tümbo spots the hidden gems that align with how your child actually learns — the ones they'll stick with and love."
-            }
+             {
+               "The perfect fit for your child might not have the biggest name, fanciest website, or the most trophies. Tümbo spots the hidden gems that align with how your child actually learns — the ones they\'ll stick with and love."
+             }
           </span>
           <div className="flex w-full flex-col items-center justify-center gap-3 px-4 py-4">
             <div className="flex h-14 w-full max-w-[768px] flex-none items-center justify-center gap-2 rounded-full bg-neutral-100 px-2 py-2">
@@ -79,13 +79,13 @@ function TumboHome() {
               />
             </div>
             <span className="text-caption font-caption text-subtext-color">
-              Tell Tümbo about your kid. We'll do the rest.
+              Tell Tümbo about your kid. We&apos;ll do the rest.
             </span>
           </div>
         </div>
         <div className="flex w-full flex-col items-center gap-6 bg-default-background px-6 py-24">
           <span className="whitespace-pre-wrap text-heading-1 font-heading-1 text-default-font">
-            {"We scout for fit, so you're not lost in endless tabs."}
+            {"We scout for fit, so you&apos;re not lost in endless tabs."}
           </span>
           <img
             className="h-144 w-full max-w-[1280px] flex-none rounded-lg object-cover"
@@ -95,9 +95,9 @@ function TumboHome() {
             <div className="flex min-w-[240px] grow shrink-0 basis-0 items-center gap-4">
               <IconWithBackground size="x-large" icon={<FeatherLandmark />} />
               <span className="whitespace-pre-wrap font-['Montserrat'] text-[16px] font-[500] leading-[24px] text-default-font -tracking-[0.01em]">
-                {
-                  "Tell us what your kid's like.\nNot just age or postcode. we ask about personality, learning style, and what matters to your family.\n"
-                }
+                 {
+                   "Tell us what your kid\'s like.\nNot just age or postcode. we ask about personality, learning style, and what matters to your family.\n"
+                 }
               </span>
             </div>
             <div className="flex min-w-[240px] grow shrink-0 basis-0 items-center gap-4">
@@ -129,9 +129,9 @@ function TumboHome() {
                   Fewer tabs. Better answers.
                 </span>
                 <span className="whitespace-pre-wrap font-['Montserrat'] text-[18px] font-[400] leading-[26px] text-default-font -tracking-[0.01em]">
-                  {
-                    "You shouldn't need 12 browser tabs and a Telegram group just to find one good class. Tümbo filters the noise into a handful of thoughtful picks you can trust."
-                  }
+                 {
+                   "You shouldn\'t need 12 browser tabs and a Telegram group just to find one good class. Tümbo filters the noise into a handful of thoughtful picks you can trust."
+                 }
                 </span>
               </div>
             </div>
@@ -177,9 +177,9 @@ function TumboHome() {
                   Powered by real stories.
                 </span>
                 <span className="whitespace-pre-wrap font-['Montserrat'] text-[18px] font-[400] leading-[26px] text-subtext-color -tracking-[0.01em]">
-                  {
-                    "Our recommendations aren't bought. They're built from genuine parent reviews, provider insights, and our own quality checks."
-                  }
+                 {
+                   "Our recommendations aren\'t bought. They\'re built from genuine parent reviews, provider insights, and our own quality checks."
+                 }
                 </span>
               </div>
             </div>

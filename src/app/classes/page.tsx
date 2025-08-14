@@ -44,7 +44,7 @@ function ClassDirectoryPage() {
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                       <img
                         className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
-                        src="https://res.cloudinary.com/subframe/image/upload/v1723780751/uploads/302/cbaa1tfstfnmksus95et.png"
+                        src="/photos/classes/art_01.jpg"
                       />
                       <IconButton
                         className="absolute right-2 top-2"
@@ -75,7 +75,7 @@ function ClassDirectoryPage() {
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
-                      src="https://res.cloudinary.com/subframe/image/upload/v1723780719/uploads/302/lf4i2zybfw9xxl56w6ce.png"
+                      src="/photos/classes/art_02.jpg"
                     />
                     <IconButton
                       className="absolute right-2 top-2"
@@ -105,7 +105,7 @@ function ClassDirectoryPage() {
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
-                      src="https://res.cloudinary.com/subframe/image/upload/v1723780859/uploads/302/hh4s5xjmsigiehqkb1uh.png"
+                      src="/photos/classes/art_03.png"
                     />
                     <IconButton
                       className="absolute right-2 top-2"
@@ -146,7 +146,7 @@ function ClassDirectoryPage() {
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
-                      src="https://res.cloudinary.com/subframe/image/upload/v1723780730/uploads/302/bfoixbupgy9opiv7ljrb.png"
+                      src="/photos/classes/science_01.jpg"
                     />
                     <IconButton
                       className="absolute right-2 top-2"
@@ -172,7 +172,7 @@ function ClassDirectoryPage() {
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
-                      src="https://res.cloudinary.com/subframe/image/upload/v1723780779/uploads/302/rpnpvey9vgpe15ktp8j6.png"
+                      src="/photos/classes/coding_01.png"
                     />
                     <IconButton
                       className="absolute right-2 top-2"
@@ -201,7 +201,7 @@ function ClassDirectoryPage() {
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
-                      src="https://res.cloudinary.com/subframe/image/upload/v1723780624/uploads/302/sxocuez05safdpfaztiz.png"
+                      src="/photos/classes/robotics_01.png"
                     />
                     <IconButton
                       className="absolute right-2 top-2"
@@ -243,7 +243,7 @@ function ClassDirectoryPage() {
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
-                      src="https://res.cloudinary.com/subframe/image/upload/v1723780751/uploads/302/cbaa1tfstfnmksus95et.png"
+                      src="/photos/classes/drama_01.jpg"
                     />
                     <IconButton
                       className="absolute right-2 top-2"
@@ -274,7 +274,7 @@ function ClassDirectoryPage() {
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
-                      src="https://res.cloudinary.com/subframe/image/upload/v1723780719/uploads/302/lf4i2zybfw9xxl56w6ce.png"
+                      src="/photos/classes/drama_02.jpg"
                     />
                     <IconButton
                       className="absolute right-2 top-2"
@@ -305,7 +305,7 @@ function ClassDirectoryPage() {
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
-                      src="https://res.cloudinary.com/subframe/image/upload/v1723780859/uploads/302/hh4s5xjmsigiehqkb1uh.png"
+                      src="/photos/classes/drama_03.jpg"
                     />
                     <IconButton
                       className="absolute right-2 top-2"
@@ -347,7 +347,7 @@ function ClassDirectoryPage() {
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
-                      src="https://res.cloudinary.com/subframe/image/upload/v1723780730/uploads/302/bfoixbupgy9opiv7ljrb.png"
+                      src="/photos/classes/explore_01.jpg"
                     />
                     <IconButton
                       className="absolute right-2 top-2"
@@ -362,10 +362,10 @@ function ClassDirectoryPage() {
                     <span className="line-clamp-3 text-heading-3 font-heading-3 text-default-font">
                       Science Detectives
                     </span>
-                    <span className="text-body font-body text-subtext-color">
-                      Uncover the "why" behind everyday wonders through hands-on
-                      experiments.
-                    </span>
+                      <span className="text-body font-body text-subtext-color">
+                       Uncover the &quot;why&quot; behind everyday wonders through hands-on
+                       experiments.
+                      </span>
                     <div className="flex items-center gap-2">
                       <Badge variant="neutral">Science &amp; Discovery</Badge>
                       <Badge variant="neutral">Hands-on</Badge>
@@ -376,7 +376,7 @@ function ClassDirectoryPage() {
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
-                      src="https://res.cloudinary.com/subframe/image/upload/v1723780779/uploads/302/rpnpvey9vgpe15ktp8j6.png"
+                      src="/photos/classes/nature_01.jpg"
                     />
                     <IconButton
                       className="absolute right-2 top-2"
@@ -405,7 +405,7 @@ function ClassDirectoryPage() {
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
-                      src="https://res.cloudinary.com/subframe/image/upload/v1723780624/uploads/302/sxocuez05safdpfaztiz.png"
+                      src="/photos/classes/outdoor_01.jpg"
                     />
                     <IconButton
                       className="absolute right-2 top-2"
@@ -446,7 +446,7 @@ function ClassDirectoryPage() {
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
-                      src="https://res.cloudinary.com/subframe/image/upload/v1723780751/uploads/302/cbaa1tfstfnmksus95et.png"
+                      src="/photos/classes/sports_01.jpg"
                     />
                     <IconButton
                       className="absolute right-2 top-2"
@@ -477,7 +477,7 @@ function ClassDirectoryPage() {
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
-                      src="https://res.cloudinary.com/subframe/image/upload/v1723780719/uploads/302/rpnpvey9vgpe15ktp8j6.png"
+                      src="/photos/classes/play_01.jpg"
                     />
                     <IconButton
                       className="absolute right-2 top-2"
@@ -506,7 +506,7 @@ function ClassDirectoryPage() {
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
-                      src="https://res.cloudinary.com/subframe/image/upload/v1723780859/uploads/302/hh4s5xjmsigiehqkb1uh.png"
+                      src="/photos/classes/play_02.jpg"
                     />
                     <IconButton
                       className="absolute right-2 top-2"
