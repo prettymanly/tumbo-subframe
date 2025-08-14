@@ -8,16 +8,19 @@ import React from "react";
 import * as SubframeUtils from "../utils";
 import * as SubframeCore from "@subframe/core";
 import { FeatherSearch } from "@subframe/core";
+import { DropdownMenu } from "../components/DropdownMenu";
 
 interface InputProps extends React.HTMLAttributes<HTMLDivElement> {
   label?: React.ReactNode;
-  value?: React.ReactNode;
-  children?: React.ReactNode;
+  value?: string;
+  placeholder?: string;
+  onChange?: (next: string) => void;
+  suggestions?: string[];
   className?: string;
 }
 
 const Input = React.forwardRef<HTMLDivElement, InputProps>(function Input(
-  { label, value, children, className, ...otherProps }: InputProps,
+  { label, value = "", placeholder, onChange, suggestions = [], className, ...otherProps }: InputProps,
   ref
 ) {
   return (
@@ -37,11 +40,12 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(function Input(
                 {label}
               </span>
             ) : null}
-            {value ? (
-              <span className="line-clamp-1 w-full text-caption font-caption text-subtext-color">
-                {value}
-              </span>
-            ) : null}
+            <input
+              className="w-full bg-transparent outline-none text-caption font-caption text-subtext-color placeholder:text-subtext-color"
+              placeholder={placeholder}
+              value={value}
+              onChange={(e) => onChange?.(e.target.value)}
+            />
           </div>
         </div>
       </SubframeCore.Popover.Trigger>
@@ -53,10 +57,14 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(function Input(
           asChild={true}
         >
           <div className="flex min-h-[192px] min-w-[320px] grow shrink-0 basis-0 flex-col items-start gap-1 rounded-md border border-solid border-neutral-border bg-default-background px-3 py-3 shadow-lg">
-            {children ? (
-              <div className="flex w-full grow shrink-0 basis-0 flex-col items-center justify-center gap-2">
-                {children}
-              </div>
+            {suggestions.length > 0 ? (
+              <DropdownMenu>
+                {suggestions.map((s) => (
+                  <DropdownMenu.DropdownItem key={s} onClick={() => onChange?.(s)}>
+                    {s}
+                  </DropdownMenu.DropdownItem>
+                ))}
+              </DropdownMenu>
             ) : null}
           </div>
         </SubframeCore.Popover.Content>
@@ -98,6 +106,46 @@ const ListingsSearchRoot = React.forwardRef<
   { isMobile = false, className, ...otherProps }: ListingsSearchRootProps,
   ref
 ) {
+  const [location, setLocation] = React.useState("");
+  const [age, setAge] = React.useState("");
+  const [subject, setSubject] = React.useState("");
+  const [price, setPrice] = React.useState("");
+
+  const locationOptions = [
+    "All locations",
+    "Central",
+    "East",
+    "West",
+    "North",
+    "Online",
+  ];
+  const ageOptions = [
+    "All age groups",
+    "3-5",
+    "6-8",
+    "9-12",
+    "13-16",
+  ];
+  const subjectOptions = [
+    "All subjects",
+    "Art",
+    "STEM",
+    "Music",
+    "Sports",
+    "Coding",
+  ];
+  const priceOptions = [
+    "All price ranges",
+    "Free",
+    "< $50",
+    "$50 – $100",
+    "$100 – $200",
+    "> $200",
+  ];
+
+  const filterByQuery = (query: string, options: string[]) =>
+    options.filter((o) => o.toLowerCase().includes(query.trim().toLowerCase()));
+
   return (
     <div
       className={SubframeUtils.twClassNames(
@@ -113,7 +161,10 @@ const ListingsSearchRoot = React.forwardRef<
           "h-16 grow shrink-0 basis-0": isMobile,
         })}
         label="Locations"
-        value="All locations"
+        placeholder="All locations"
+        value={location}
+        onChange={setLocation}
+        suggestions={filterByQuery(location, locationOptions)}
       />
       <div
         className={SubframeUtils.twClassNames(
@@ -126,7 +177,10 @@ const ListingsSearchRoot = React.forwardRef<
           hidden: isMobile,
         })}
         label="Age Group"
-        value="All age groups"
+        placeholder="All age groups"
+        value={age}
+        onChange={setAge}
+        suggestions={filterByQuery(age, ageOptions)}
       />
       <div
         className={SubframeUtils.twClassNames(
@@ -139,7 +193,10 @@ const ListingsSearchRoot = React.forwardRef<
           hidden: isMobile,
         })}
         label="Subject"
-        value="All subjects"
+        placeholder="All subjects"
+        value={subject}
+        onChange={setSubject}
+        suggestions={filterByQuery(subject, subjectOptions)}
       />
       <div
         className={SubframeUtils.twClassNames(
@@ -152,7 +209,10 @@ const ListingsSearchRoot = React.forwardRef<
           hidden: isMobile,
         })}
         label="Price"
-        value="All price ranges"
+        placeholder="All price ranges"
+        value={price}
+        onChange={setPrice}
+        suggestions={filterByQuery(price, priceOptions)}
       />
       <div className="flex items-center gap-2 pr-2">
         <SearchButton />
