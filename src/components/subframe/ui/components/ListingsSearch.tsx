@@ -8,7 +8,7 @@ import React from "react";
 import * as SubframeUtils from "../utils";
 import * as SubframeCore from "@subframe/core";
 import { FeatherSearch } from "@subframe/core";
-import { DropdownMenu } from "../components/DropdownMenu";
+// Suggestions are rendered inline to avoid DropdownMenu context requirements
 
 interface InputProps extends React.HTMLAttributes<HTMLDivElement> {
   label?: React.ReactNode;
@@ -56,16 +56,23 @@ const Input = React.forwardRef<HTMLDivElement, InputProps>(function Input(
           sideOffset={8}
           asChild={true}
         >
-          <div className="flex min-h-[192px] min-w-[320px] grow shrink-0 basis-0 flex-col items-start gap-1 rounded-md border border-solid border-neutral-border bg-default-background px-3 py-3 shadow-lg">
+          <div className="flex min-h-[192px] min-w-[320px] grow shrink-0 basis-0 flex-col items-start gap-1 rounded-md border border-solid border-neutral-border bg-default-background px-1 py-1 shadow-lg">
             {suggestions.length > 0 ? (
-              <DropdownMenu>
+              <div className="flex w-full flex-col">
                 {suggestions.map((s) => (
-                  <DropdownMenu.DropdownItem key={s} onClick={() => onChange?.(s)}>
-                    {s}
-                  </DropdownMenu.DropdownItem>
+                  <button
+                    key={s}
+                    type="button"
+                    className="flex h-8 w-full cursor-pointer items-center gap-2 rounded-md px-3 text-left hover:bg-neutral-100 active:bg-neutral-50"
+                    onClick={() => onChange?.(s)}
+                  >
+                    <span className="line-clamp-1 grow text-body font-body text-default-font">{s}</span>
+                  </button>
                 ))}
-              </DropdownMenu>
-            ) : null}
+              </div>
+            ) : (
+              <div className="px-3 py-2 text-caption text-subtext-color">No suggestions</div>
+            )}
           </div>
         </SubframeCore.Popover.Content>
       </SubframeCore.Popover.Portal>
