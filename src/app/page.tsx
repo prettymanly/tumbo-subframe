@@ -14,22 +14,16 @@ import { FeatherLandmark } from "@subframe/core";
 import { IconWithBackground } from "@/components/subframe/ui/components/IconWithBackground";
 import { FeatherCheckCircle2 } from "@subframe/core";
 import { FeatherShield } from "@subframe/core";
-import { Button } from "@/components/subframe/ui/components/Button";
+import { Accordion } from "@/components/subframe/ui/components/Accordion";
 import { BoldFooter } from "@/components/subframe/ui/components/BoldFooter";
 
 function TumboHome() {
   return (
     <DefaultPageLayout>
-      <div className="flex w-full flex-col items-start bg-default-background">
+      <div className="flex w-full flex-col items-center justify-center bg-default-background">
         <div className="flex w-full flex-col items-center justify-center gap-8 bg-default-background px-6 pt-40 pb-24">
           <span className="max-w-[1024px] whitespace-pre-wrap font-['Lexend'] text-[95px] font-[900] leading-[84px] text-default-font text-center -tracking-[0.04em] mobile:font-['Montserrat'] mobile:text-[62px] mobile:font-[900] mobile:leading-[58px] mobile:tracking-normal">
-            {"The best classes"}
-            <br />
-            {"aren&apos;t always"}
-            <br />
-            {"the "}
-            <em className="italic">best</em>
-            {" classes."}
+            {"The best classes\naren't always \nthe best classes."}
           </span>
           <span className="max-w-[576px] whitespace-pre-wrap text-body font-body text-subtext-color text-center -tracking-[0.015em]">
              {
@@ -83,7 +77,34 @@ function TumboHome() {
             </span>
           </div>
         </div>
+        <div className="flex w-full flex-col items-center justify-center gap-6 bg-default-background px-6 py-24">
+          <div className="flex w-full max-w-[1280px] grow shrink-0 basis-0 flex-wrap items-center justify-center gap-12">
+            <div className="flex grow shrink-0 basis-0 flex-col items-center justify-center gap-2 self-stretch rounded-lg">
+              <div className="flex h-144 w-full min-w-[240px] max-w-[576px] flex-none flex-col items-center justify-center gap-2 overflow-hidden rounded-lg">
+                <img
+                  className="w-full grow shrink-0 basis-0 object-cover"
+                  src="https://res.cloudinary.com/subframe/image/upload/v1724690133/uploads/302/tswlwr0qfwwhkgbjwplw.png"
+                />
+              </div>
+            </div>
+            <div className="flex min-w-[320px] grow shrink-0 basis-0 flex-col items-start justify-center gap-10 self-stretch">
+              <div className="flex max-w-[448px] flex-col items-start justify-center gap-4">
+                <span className="font-['Montserrat'] text-[30px] font-[700] leading-[34px] text-default-font -tracking-[0.025em]">
+                  Okay but wth is a Tümbo?
+                </span>
+                <span className="whitespace-pre-wrap font-['Montserrat'] text-[18px] font-[400] leading-[26px] text-subtext-color -tracking-[0.01em]">
+                  {
+                    "Good question. It's an enrichment class directory that tries very hard to offer personalised and thoughtfully curated classes for your kid, 'cause where got time?\n\nAs for the name, it's a mispelling of tumbuh which means growth(sapling) in Melayu."
+                  }
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="flex w-full flex-col items-center gap-6 bg-default-background px-6 py-24">
+          <span className="whitespace-pre-wrap text-heading-3 font-heading-3 text-default-font">
+            {"How Tümbo works"}
+          </span>
           <span className="whitespace-pre-wrap text-heading-1 font-heading-1 text-default-font">
             {"We scout for fit, so you&apos;re not lost in endless tabs."}
           </span>
@@ -121,17 +142,35 @@ function TumboHome() {
             </div>
           </div>
         </div>
+        <div className="flex w-full flex-col items-center justify-center gap-4 px-12 py-12">
+          <span className="whitespace-pre-wrap text-heading-1 font-heading-1 text-default-font">
+            {"Every parent has a shortcut."}
+          </span>
+          <span className="w-full whitespace-pre-wrap text-body-bold font-body-bold text-default-font text-center -tracking-[0.01em]">
+            {
+              "Some call a friend, some trust a gut feeling, some open 12 tabs and wait for the answer to reveal itself. \nTümbo is your shortcut. Built to read the signals, spot the fit, and help you decide faster, with less noise."
+            }
+          </span>
+        </div>
+        <div className="flex w-full max-w-[1280px] flex-wrap items-center justify-center gap-12">
+          <div className="flex min-w-[240px] grow shrink-0 basis-0 items-center gap-4" />
+        </div>
         <div className="flex w-full flex-col items-center justify-center gap-2 px-6 py-24">
           <div className="flex w-full max-w-[1280px] grow shrink-0 basis-0 flex-wrap items-center justify-center gap-12">
             <div className="flex min-w-[320px] grow shrink-0 basis-0 flex-col items-center justify-center gap-10 self-stretch">
               <div className="flex flex-col items-start justify-center gap-4">
-                <span className="font-['Montserrat'] text-[30px] font-[700] leading-[34px] text-default-font -tracking-[0.025em]">
-                  Fewer tabs. Better answers.
-                </span>
-                <span className="whitespace-pre-wrap font-['Montserrat'] text-[18px] font-[400] leading-[26px] text-default-font -tracking-[0.01em]">
-                 {
-                   "You shouldn\'t need 12 browser tabs and a Telegram group just to find one good class. Tümbo filters the noise into a handful of thoughtful picks you can trust."
-                 }
+                <div className="flex flex-col items-start justify-center">
+                  <span className="text-heading-2 font-heading-2 text-default-font -tracking-[0.025em]">
+                    Everything in One Place, At a Glance
+                  </span>
+                  <span className="text-body-bold font-body-bold text-default-font -tracking-[0.025em]">
+                    Because parenting is not a full-time research job.
+                  </span>
+                </div>
+                <span className="whitespace-pre-wrap text-body font-body text-default-font -tracking-[0.01em]">
+                  {
+                    "Tired of bouncing between WhatsApp threads, forum rabbit holes, and that spreadsheet you swore you'd update? Tümbo puts every class in Singapore — yes, even the ones with tragic SEO — in one clean, searchable page. We read all the reviews (so you don't have to) and give you the TLDDR version: balanced, bite-sized, BS-free. So you can decide in minutes, not months."
+                  }
                 </span>
               </div>
             </div>
@@ -155,14 +194,19 @@ function TumboHome() {
                 />
               </div>
             </div>
-            <div className="flex min-w-[320px] grow shrink-0 basis-0 flex-col items-start justify-center gap-10 self-stretch">
-              <div className="flex max-w-[448px] flex-col items-start justify-center gap-4">
-                <span className="font-['Montserrat'] text-[30px] font-[700] leading-[34px] text-default-font -tracking-[0.025em]">
-                  Every class, tagged with what matters.
-                </span>
-                <span className="whitespace-pre-wrap font-['Montserrat'] text-[18px] font-[400] leading-[26px] text-subtext-color -tracking-[0.01em]">
+            <div className="flex min-w-[320px] grow shrink-0 basis-0 flex-col items-center justify-center gap-10 self-stretch">
+              <div className="flex flex-col items-start justify-center gap-4">
+                <div className="flex flex-col items-start justify-center">
+                  <span className="text-heading-2 font-heading-2 text-default-font -tracking-[0.025em]">
+                    Your Child's Growth, Mapped
+                  </span>
+                  <span className="text-body-bold font-body-bold text-default-font -tracking-[0.025em]">
+                    Finally, a profile that grows up with your kid.
+                  </span>
+                </div>
+                <span className="whitespace-pre-wrap text-body font-body text-default-font -tracking-[0.01em]">
                   {
-                    "Beyond subjects and schedules, we tag classes with the skills they build, the energy they require, and the teaching philosophy they follow, so you can make confident choices fast."
+                    "We don't stop at \"6 years old\" or \"likes art.\" We ask about how your kid warms up, focuses, and lights up. The result? A \"learning signature\" you can actually use — and a dashboard that quietly keeps track of their wins, wobbles, and growth spurts. Basically, a period tracker… but for childhood development."
                   }
                 </span>
               </div>
@@ -172,14 +216,19 @@ function TumboHome() {
         <div className="flex w-full flex-col items-center justify-center gap-6 bg-default-background px-6 py-24">
           <div className="flex w-full max-w-[1280px] grow shrink-0 basis-0 flex-wrap items-center justify-center gap-12">
             <div className="flex min-w-[320px] grow shrink-0 basis-0 flex-col items-start justify-center gap-10 self-stretch">
-              <div className="flex max-w-[448px] flex-col items-start justify-center gap-4">
-                <span className="font-['Montserrat'] text-[30px] font-[700] leading-[34px] text-default-font -tracking-[0.025em]">
-                  Powered by real stories.
-                </span>
-                <span className="whitespace-pre-wrap font-['Montserrat'] text-[18px] font-[400] leading-[26px] text-subtext-color -tracking-[0.01em]">
-                 {
-                   "Our recommendations aren\'t bought. They\'re built from genuine parent reviews, provider insights, and our own quality checks."
-                 }
+              <div className="flex flex-col items-start justify-center gap-4">
+                <div className="flex flex-col items-start justify-center">
+                  <span className="text-heading-2 font-heading-2 text-default-font -tracking-[0.025em]">
+                    Your Parent Group, Upgraded.
+                  </span>
+                  <span className="text-body-bold font-body-bold text-default-font -tracking-[0.025em]">
+                    More useful than the WhatsApp chat.
+                  </span>
+                </div>
+                <span className="whitespace-pre-wrap text-body font-body text-default-font -tracking-[0.01em]">
+                  {
+                    "The best intel isn't on Google — it's from parents who've already tried the class. Tümbo shows you who's going, lets you swap notes, and makes it stupid-easy to share recs with your partner or friends. And we'll tell you straight if something's sponsored. No guesswork. No drama."
+                  }
                 </span>
               </div>
             </div>
@@ -194,24 +243,120 @@ function TumboHome() {
           </div>
         </div>
         <div className="flex w-full grow shrink-0 basis-0 flex-col items-center justify-center gap-2 px-6 py-24">
-          <div className="flex w-full max-w-[1280px] flex-col items-center justify-center gap-8 rounded-[32px] bg-brand-900 px-6 pt-28 pb-16">
-            <div className="flex flex-col items-center justify-center gap-6 pt-12">
-              <span className="w-full max-w-[768px] whitespace-pre-wrap font-['Montserrat'] text-[72px] font-[900] leading-[68px] text-brand-300 text-center -tracking-[0.04em] mobile:font-['Montserrat'] mobile:text-[48px] mobile:font-[900] mobile:leading-[44px] mobile:tracking-normal">
-                {"Sign up to unlock even more"}
-              </span>
-              <span className="w-full max-w-[768px] whitespace-pre-wrap font-['Montserrat'] text-[20px] font-[500] leading-[28px] text-white text-center -tracking-[0.015em]">
-                {
-                  "Prefer to explore yourself? Access our growing library of enrichment programs — with detailed reviews, provider insights, and skills each class supports."
-                }
-              </span>
+          <div className="flex w-full flex-col items-center justify-center gap-12 bg-default-background px-4 py-32">
+            <div className="flex w-full flex-col items-center justify-center gap-12">
+              <div className="flex w-full max-w-[768px] flex-col items-center justify-center gap-2">
+                <span className="w-full font-['Inter'] text-[48px] font-[700] leading-[48px] text-default-font text-center -tracking-[0.035em]">
+                  FAQ
+                </span>
+                <span className="w-full whitespace-pre-wrap font-['Inter'] text-[24px] font-[500] leading-[32px] text-subtext-color text-center -tracking-[0.025em]">
+                  {"All your questions, answered.\n"}
+                </span>
+              </div>
+              <div className="flex w-full max-w-[576px] flex-col items-center justify-center gap-4">
+                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
+                  <Accordion
+                    trigger={
+                      <div className="flex w-full items-center gap-2 px-3 py-2">
+                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
+                          {"What is Subframe?\n"}
+                        </span>
+                        <Accordion.Chevron />
+                      </div>
+                    }
+                    defaultOpen={true}
+                  >
+                    <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
+                      <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
+                        {
+                          "Subframe is an AI-powered design-to-code tool featuring a drag-and-drop visual editor, component library, and hundreds of templates.\n"
+                        }
+                      </span>
+                    </div>
+                  </Accordion>
+                </div>
+                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
+                  <Accordion
+                    trigger={
+                      <div className="flex w-full items-center gap-2 px-3 py-2">
+                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
+                          {"What is Subframe?\n"}
+                        </span>
+                        <Accordion.Chevron />
+                      </div>
+                    }
+                  >
+                    <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
+                      <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
+                        {
+                          "Subframe is an AI-powered design-to-code tool featuring a drag-and-drop visual editor, component library, and hundreds of templates.\n"
+                        }
+                      </span>
+                    </div>
+                  </Accordion>
+                </div>
+                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
+                  <Accordion
+                    trigger={
+                      <div className="flex w-full items-center gap-2 px-3 py-2">
+                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
+                          {"What is Subframe?\n"}
+                        </span>
+                        <Accordion.Chevron />
+                      </div>
+                    }
+                  >
+                    <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
+                      <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
+                        {
+                          "Subframe is an AI-powered design-to-code tool featuring a drag-and-drop visual editor, component library, and hundreds of templates.\n"
+                        }
+                      </span>
+                    </div>
+                  </Accordion>
+                </div>
+                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
+                  <Accordion
+                    trigger={
+                      <div className="flex w-full items-center gap-2 px-3 py-2">
+                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
+                          {"What is Subframe?\n"}
+                        </span>
+                        <Accordion.Chevron />
+                      </div>
+                    }
+                  >
+                    <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
+                      <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
+                        {
+                          "Subframe is an AI-powered design-to-code tool featuring a drag-and-drop visual editor, component library, and hundreds of templates.\n"
+                        }
+                      </span>
+                    </div>
+                  </Accordion>
+                </div>
+                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
+                  <Accordion
+                    trigger={
+                      <div className="flex w-full items-center gap-2 px-3 py-2">
+                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
+                          {"What is Subframe?\n"}
+                        </span>
+                        <Accordion.Chevron />
+                      </div>
+                    }
+                  >
+                    <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
+                      <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
+                        {
+                          "Subframe is an AI-powered design-to-code tool featuring a drag-and-drop visual editor, component library, and hundreds of templates.\n"
+                        }
+                      </span>
+                    </div>
+                  </Accordion>
+                </div>
+              </div>
             </div>
-            <Button
-              variant="brand-secondary"
-              size="large"
-              onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
-            >
-              Register
-            </Button>
           </div>
         </div>
         <div className="flex w-full flex-col items-start">
