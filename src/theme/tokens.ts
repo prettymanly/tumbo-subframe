@@ -6,7 +6,7 @@ export const themeTokens = {
       'subtext-color': '#78716c',
       'neutral-border': '#e7e5e4',
       white: '#ffffff',
-      'default-background': '#ffffff',
+      'default-background': '#FDFBF7',
     },
     brand: {
       50: '#fafafa',

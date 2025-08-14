@@ -3,7 +3,7 @@
 /* Keep light touch globals to avoid fighting the Subframe preset */
 :root {
   --tumbo-text: #1f2937;
-  --tumbo-background: #ffffff;
+  --tumbo-background: #FDFBF7;
 }
 
 @layer base {

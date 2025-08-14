@@ -11,8 +11,8 @@ import Link from "next/link";
 function ClassDirectoryPage() {
   return (
     <DefaultPageLayout>
-      <div className="flex h-full w-full flex-col items-start">
-        <div className="flex w-full grow shrink-0 basis-0 flex-col items-center gap-8 bg-default-background px-12 py-12 overflow-auto">
+      <div className="flex w-full flex-col items-start gap-8">
+        <div className="flex w-full flex-col items-center gap-8">
           <div className="flex w-full max-w-[1024px] flex-col items-start gap-16">
             <div className="flex w-full flex-col items-start gap-7">
               <div className="flex w-full flex-col items-start gap-4">
