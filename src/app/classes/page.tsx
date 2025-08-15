@@ -117,13 +117,11 @@ function ClassDirectoryPage() {
                       className="h-60 w-full flex-none  object-cover"
                       src="/photos/classes/art_03.png"
                     />
-                    <IconButton
+                    <BookmarkButton
                       className="absolute right-2 top-2"
-                      variant="inverse"
-                      icon={<FeatherBookmark />}
-                      onClick={(
-                        event: React.MouseEvent<HTMLButtonElement>
-                      ) => {}}
+                      classId="clay-colour-studio"
+                      isBookmarked={bookmarkedClasses.has('clay-colour-studio')}
+                      onToggle={toggleBookmark}
                     />
                   </div>
                   <div className="flex w-full flex-col items-start gap-1 px-4 py-4">
