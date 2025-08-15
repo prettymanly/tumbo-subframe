@@ -164,7 +164,7 @@ function TumboHome() {
                 </div>
                 <span className="whitespace-pre-wrap text-body font-body text-default-font -tracking-[0.01em]">
                   {
-                    "Tired of bouncing between WhatsApp threads, forum rabbit holes, and that spreadsheet you swore you'd update? Tümbo puts every class in Singapore — yes, even the ones with tragic SEO — in one clean, searchable page. We read all the reviews (so you don't have to) and give you the TLDDR version: balanced, bite-sized, BS-free. So you can decide in minutes, not months."
+                    "Tired of bouncing between WhatsApp threads, forum rabbit holes, and that spreadsheet you swore you'd update?\n\nTümbo puts every class in Singapore — yes, even the ones with tragic SEO — in one clean, searchable page. We read all the reviews (so you don't have to) and give you the TLDR version: balanced, bite-sized, BS-free. Decide in minutes, not months."
                   }
                 </span>
               </div>
