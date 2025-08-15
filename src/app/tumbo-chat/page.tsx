@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { DefaultPageLayout } from "@/components/subframe/ui/layouts/DefaultPageLayout";
+import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { FeatherPenSquare } from "@subframe/core";
 import { IconButton } from "@/components/subframe/ui/components/IconButton";
 import { TextField } from "@/components/subframe/ui/components/TextField";
@@ -21,7 +21,7 @@ import { FeatherSend } from "@subframe/core";
 
 function MessengerChatInbox2() {
   return (
-    <DefaultPageLayout>
+    <ModernPageLayout>
       <div className="flex h-full w-full items-start bg-default-background mobile:flex-col mobile:flex-nowrap mobile:gap-0">
         <div className="flex max-w-[384px] grow shrink-0 basis-0 flex-col items-start self-stretch border-r border-solid border-neutral-border mobile:h-auto mobile:w-full mobile:flex-none">
           <div className="flex w-full flex-col items-center gap-1 px-4 pt-4 pb-2">
@@ -170,7 +170,7 @@ function MessengerChatInbox2() {
           </div>
         </div>
       </div>
-    </DefaultPageLayout>
+    </ModernPageLayout>
   );
 }
 

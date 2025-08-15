@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { DefaultPageLayout } from "@/components/subframe/ui/layouts/DefaultPageLayout";
+import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { Button } from "@/components/subframe/ui/components/Button";
 import { FeatherChevronDown, FeatherSearch, FeatherBookmark } from "@subframe/core";
 import { TextField } from "@/components/subframe/ui/components/TextField";
@@ -12,7 +12,7 @@ import { Badge } from "@/components/subframe/ui/components/Badge";
 
 function CuratedClasses() {
   return (
-    <DefaultPageLayout>
+    <ModernPageLayout>
       <div className="flex w-full flex-col items-start gap-8">
         <div className="flex w-full flex-col items-center gap-8">
           <div className="flex w-full max-w-[1024px] flex-col items-start gap-12 bg-default-background py-12">
@@ -195,7 +195,7 @@ function CuratedClasses() {
           </div>
         </div>
       </div>
-    </DefaultPageLayout>
+    </ModernPageLayout>
   );
 }
 

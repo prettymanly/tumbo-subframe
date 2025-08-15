@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { DefaultPageLayout } from "@/components/subframe/ui/layouts/DefaultPageLayout";
+import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { ListingsSearch } from "@/components/subframe/ui/components/ListingsSearch";
 import { FeatherBookmark } from "@subframe/core";
 import { IconButton } from "@/components/subframe/ui/components/IconButton";
@@ -10,7 +10,7 @@ import Link from "next/link";
 
 function ClassDirectoryPage() {
   return (
-    <DefaultPageLayout>
+    <ModernPageLayout>
       <div className="flex w-full flex-col items-start gap-8">
         <div className="flex w-full flex-col items-center gap-8">
           <div className="flex w-full max-w-[1024px] flex-col items-start gap-16">
@@ -544,7 +544,7 @@ function ClassDirectoryPage() {
           </div>
         </div>
       </div>
-    </DefaultPageLayout>
+    </ModernPageLayout>
   );
 }
 

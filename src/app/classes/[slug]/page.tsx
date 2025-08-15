@@ -1,5 +1,5 @@
 import React from "react";
-import { DefaultPageLayout } from "@/components/subframe/ui/layouts/DefaultPageLayout";
+import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { Button } from "@/components/subframe/ui/components/Button";
 import { FeatherPaintbrush } from "@subframe/core";
 import { LargeBadge } from "@/components/subframe/ui/components/LargeBadge";
@@ -32,7 +32,7 @@ async function ClassDetailPage({
   // For now, using static data as placeholder
   
   return (
-    <DefaultPageLayout>
+    <ModernPageLayout>
       <div className="flex w-full flex-col items-start gap-8">
         <div className="flex w-full flex-col items-center gap-8">
           <div className="flex w-full max-w-[1024px] flex-col items-start gap-4 bg-default-background py-12">
@@ -574,7 +574,7 @@ async function ClassDetailPage({
           </div>
         </div>
       </div>
-    </DefaultPageLayout>
+    </ModernPageLayout>
   );
 }
 

@@ -2,17 +2,15 @@
 
 import { Bell, User, Settings, LogOut, FileText } from "lucide-react"
 import Link from "next/link"
+import { useState } from "react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu"
 import {
   Popover,
@@ -28,48 +26,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
+import { useAuth } from "@/contexts/AuthContext"
+import { AuthModal } from "@/components/ui/auth-modal"
 
-// Navigation links array to be used in both desktop and mobile menus
+// Navigation links array - simple buttons only
 const navigationLinks = [
-  { href: "/", label: "Home" },
-  {
-    label: "Browse Classes",
-    submenu: true,
-    type: "description",
-    items: [
-      {
-        href: "/classes",
-        label: "All Classes",
-        description: "Browse our complete directory of enrichment classes.",
-      },
-      {
-        href: "/classes?category=art",
-        label: "Art & Creative",
-        description: "Painting, drawing, crafts and creative expression classes.",
-      },
-      {
-        href: "/classes?category=sports",
-        label: "Sports & Movement",
-        description: "Physical activities, sports and movement classes.",
-      },
-      {
-        href: "/classes?category=stem",
-        label: "STEM & Coding",
-        description: "Science, technology, engineering and math programs.",
-      },
-    ],
-  },
-  {
-    label: "Curated Collections",
-    submenu: true,
-    type: "simple",
-    items: [
-      { href: "/collections/shy-kids", label: "For Shy Kids" },
-      { href: "/collections/high-energy", label: "High Energy Kids" },
-      { href: "/collections/gentle-approach", label: "Gentle Approach" },
-      { href: "/collections/small-groups", label: "Small Groups" },
-    ],
-  },
+  { href: "/classes", label: "Browse Classes" },
+  { href: "/collections", label: "Curated Collections" },
   { href: "/tumbo-chat", label: "Ask Tümbo" },
 ]
 
@@ -132,13 +95,27 @@ function NotificationMenu() {
 
 // Custom UserMenu Component
 function UserMenu() {
+  const { user, logout } = useAuth()
+  
+  const handleLogout = () => {
+    logout()
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full opacity-80 hover:opacity-100 transition-opacity">
-          <div className="h-6 w-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-medium">
-            U
-          </div>
+          {user?.avatar ? (
+            <img 
+              src={user.avatar} 
+              alt={user.name || 'User'} 
+              className="h-6 w-6 rounded-full object-cover"
+            />
+          ) : (
+            <div className="h-6 w-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-medium">
+              {user?.name?.charAt(0) || 'U'}
+            </div>
+          )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
@@ -157,7 +134,7 @@ function UserMenu() {
           My Classes
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
           <LogOut className="mr-2 h-4 w-4" />
           Log out
         </DropdownMenuItem>
@@ -167,9 +144,25 @@ function UserMenu() {
 }
 
 export default function TumboNavbar() {
+  const { isAuthenticated, user, logout } = useAuth()
+  const [authModalOpen, setAuthModalOpen] = useState(false)
+  const [authMode, setAuthMode] = useState<'signin' | 'register'>('signin')
+
+  const openSignInModal = () => {
+    setAuthMode('signin')
+    setAuthModalOpen(true)
+  }
+
+  const openRegisterModal = () => {
+    setAuthMode('register')
+    setAuthModalOpen(true)
+  }
+
+  const homeUrl = isAuthenticated ? '/userdashboard' : '/'
+
   return (
-    <header className="border-b px-4 md:px-6">
-      <div className="flex h-16 items-center justify-between gap-4">
+    <header className="border-b w-full">
+      <div className="flex h-16 items-center justify-between gap-4 px-4 md:px-6 max-w-none w-full">
         {/* Left side */}
         <div className="flex items-center gap-2">
           {/* Mobile menu trigger */}
@@ -207,49 +200,16 @@ export default function TumboNavbar() {
                 </svg>
               </Button>
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-64 p-1 md:hidden">
+            <PopoverContent align="start" className="w-48 p-1 md:hidden">
               <NavigationMenu className="max-w-none *:w-full">
-                <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
+                <NavigationMenuList className="flex-col items-start gap-0">
                   {navigationLinks.map((link, index) => (
                     <NavigationMenuItem key={index} className="w-full">
-                      {link.submenu ? (
-                        <>
-                          <div className="text-muted-foreground px-2 py-1.5 text-xs font-medium">
-                            {link.label}
-                          </div>
-                          <ul>
-                            {link.items.map((item, itemIndex) => (
-                              <li key={itemIndex}>
-                                <NavigationMenuLink
-                                  href={item.href}
-                                  className="py-1.5"
-                                >
-                                  {item.label}
-                                </NavigationMenuLink>
-                              </li>
-                            ))}
-                          </ul>
-                        </>
-                      ) : (
-                        <NavigationMenuLink href={link.href} className="py-1.5">
+                      <NavigationMenuLink asChild>
+                        <Link href={link.href} className="block w-full py-2 px-3 text-sm hover:bg-accent rounded-md">
                           {link.label}
-                        </NavigationMenuLink>
-                      )}
-                      {/* Add separator between different types of items */}
-                      {index < navigationLinks.length - 1 &&
-                        ((!link.submenu &&
-                          navigationLinks[index + 1].submenu) ||
-                          (link.submenu &&
-                            !navigationLinks[index + 1].submenu) ||
-                          (link.submenu &&
-                            navigationLinks[index + 1].submenu &&
-                            link.type !== navigationLinks[index + 1].type)) && (
-                          <div
-                            role="separator"
-                            aria-orientation="horizontal"
-                            className="bg-border -mx-1 my-1 h-px w-full"
-                          />
-                        )}
+                        </Link>
+                      </NavigationMenuLink>
                     </NavigationMenuItem>
                   ))}
                 </NavigationMenuList>
@@ -258,7 +218,7 @@ export default function TumboNavbar() {
           </Popover>
           {/* Main nav */}
           <div className="flex items-center gap-6">
-            <Link href="/" className="text-primary hover:text-primary/90">
+            <Link href={homeUrl} className="text-primary hover:text-primary/90">
               <img
                 className="h-6 flex-none object-cover"
                 src="https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/y2rsnhq3mex4auk54aye.png"
@@ -267,88 +227,58 @@ export default function TumboNavbar() {
             </Link>
             {/* Navigation menu */}
             <div className="max-md:hidden">
-              <NavigationMenu>
-                <NavigationMenuList>
-                  {navigationLinks.map((link, index) => (
-                    <NavigationMenuItem key={index}>
-                      {link.submenu ? (
-                        <>
-                          <NavigationMenuTrigger className="text-muted-foreground hover:text-primary bg-transparent px-2 py-1.5 font-medium opacity-80 hover:opacity-100 transition-opacity">
-                            {link.label}
-                          </NavigationMenuTrigger>
-                          <NavigationMenuContent>
-                            <ul className={cn(
-                              "grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]",
-                              link.type === "description" && "md:grid-cols-1"
-                            )}>
-                              {link.items.map((item, itemIndex) => (
-                                <li key={itemIndex}>
-                                  <NavigationMenuLink asChild>
-                                    <Link
-                                      href={item.href}
-                                      className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
-                                    >
-                                      {/* Display label with description if present */}
-                                      {link.type === "description" && "description" in item && (
-                                        <>
-                                          <div className="text-sm font-medium leading-none">
-                                            {item.label}
-                                          </div>
-                                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                                            {item.description}
-                                          </p>
-                                        </>
-                                      )}
-
-                                      {/* Display simple label if simple type */}
-                                      {link.type === "simple" && (
-                                        <div className="text-sm font-medium leading-none">
-                                          {item.label}
-                                        </div>
-                                      )}
-                                    </Link>
-                                  </NavigationMenuLink>
-                                </li>
-                              ))}
-                            </ul>
-                          </NavigationMenuContent>
-                        </>
-                      ) : (
-                        <NavigationMenuLink asChild>
-                          <Link
-                            href={link.href}
-                            className="text-muted-foreground hover:text-primary py-1.5 px-2 font-medium opacity-80 hover:opacity-100 transition-opacity"
-                          >
-                            {link.label}
-                          </Link>
-                        </NavigationMenuLink>
-                      )}
-                    </NavigationMenuItem>
-                  ))}
-                </NavigationMenuList>
-                <NavigationMenuViewport />
-              </NavigationMenu>
+              <nav className="flex items-center gap-6">
+                {navigationLinks.map((link, index) => (
+                  <Link
+                    key={index}
+                    href={link.href}
+                    className="text-muted-foreground hover:text-primary py-1.5 px-2 font-medium opacity-80 hover:opacity-100 transition-opacity"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
             </div>
           </div>
         </div>
         {/* Right side */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2">
-            {/* Notification */}
-            <NotificationMenu />
-          </div>
-          {/* Auth buttons */}
-          <Button asChild variant="ghost" size="sm" className="text-sm opacity-80 hover:opacity-100 transition-opacity">
-            <Link href="/auth/signin">Sign In</Link>
-          </Button>
-          <Button asChild size="sm" className="text-sm opacity-80 hover:opacity-100 transition-opacity">
-            <Link href="/auth/signup">Get Started</Link>
-          </Button>
-          {/* User menu - hidden by default, can be shown when authenticated */}
-          <div className="hidden">
-            <UserMenu />
-          </div>
+          {isAuthenticated ? (
+            <>
+              {/* Authenticated state */}
+              <div className="flex items-center gap-2">
+                <NotificationMenu />
+              </div>
+              <UserMenu />
+            </>
+          ) : (
+            <>
+              {/* Unauthenticated state */}
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-sm opacity-80 hover:opacity-100 transition-opacity"
+                onClick={openSignInModal}
+              >
+                Sign In
+              </Button>
+              <Button 
+                size="sm" 
+                className="text-sm opacity-80 hover:opacity-100 transition-opacity"
+                onClick={openRegisterModal}
+              >
+                Register
+              </Button>
+            </>
+          )}
         </div>
+
+        {/* Auth Modal */}
+        <AuthModal 
+          isOpen={authModalOpen}
+          onClose={() => setAuthModalOpen(false)}
+          mode={authMode}
+        />
       </div>
     </header>
   )
