@@ -222,10 +222,10 @@ function TumboHome() {
           <div className="flex w-full flex-col items-center justify-center gap-12 bg-default-background px-4 py-32">
             <div className="flex w-full flex-col items-center justify-center gap-12">
               <div className="flex w-full max-w-[768px] flex-col items-center justify-center gap-2">
-                <span className="w-full font-['Inter'] text-[48px] font-[700] leading-[48px] text-default-font text-center -tracking-[0.035em]">
+                <span className="w-full text-heading-1 font-heading-1 text-default-font text-center">
                   FAQ
                 </span>
-                <span className="w-full whitespace-pre-wrap font-['Inter'] text-[24px] font-[500] leading-[32px] text-subtext-color text-center -tracking-[0.025em]">
+                <span className="w-full whitespace-pre-wrap text-heading-3 font-heading-3 text-subtext-color text-center">
                   {"Frequently Asked (and Sometimes Unasked) Questions\n"}
                 </span>
               </div>
@@ -234,7 +234,7 @@ function TumboHome() {
                   <Accordion
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
-                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
+                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap text-body-bold font-body-bold text-default-font">
                           {"Wth is a Tümbo, exactly?\n"}
                         </span>
                         <Accordion.Chevron />
@@ -243,7 +243,7 @@ function TumboHome() {
                     defaultOpen={true}
                   >
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
-                      <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
+                      <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
                         {
                           "An enrichment class directory that actually works for busy parents.\nWe pull in every class in Singapore, even the hidden gems with tragic SEO, and let you search them by what matters: teaching style, class vibe, and philosophy. No 12 tabs, no \"I'll update the spreadsheet later.\"\n\nAs for the name, it's a mispelling of tumbuh which means growth(sapling) in Melayu."
                         }
@@ -255,7 +255,7 @@ function TumboHome() {
                   <Accordion
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
-                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
+                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap text-body-bold font-body-bold text-default-font">
                           {"How does Tümbo know what's right for my child?\n"}
                         </span>
                         <Accordion.Chevron />
@@ -263,7 +263,7 @@ function TumboHome() {
                     }
                   >
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
-                      <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
+                      <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
                         {
                           "We ask the questions Google won't.\nA short onboarding builds your child's \"learning signature\" — the stuff beyond age and subject. From there, we can spot the classes they'll actually stick with."
                         }
@@ -275,7 +275,7 @@ function TumboHome() {
                   <Accordion
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
-                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
+                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap text-body-bold font-body-bold text-default-font">
                           {"What kind of info do I get about each class?\n"}
                         </span>
                         <Accordion.Chevron />
@@ -283,7 +283,7 @@ function TumboHome() {
                     }
                   >
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
-                      <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
+                      <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
                         {
                           "• Class name, location, schedule, and age range\n• Review summaries (TLDDR) from multiple sources — balanced and BS-free\n• Context you can't get from a flyer — like class vibe or teacher style"
                         }
@@ -295,7 +295,7 @@ function TumboHome() {
                   <Accordion
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
-                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
+                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap text-body-bold font-body-bold text-default-font">
                           {"How do I know I can trust the listings?\n"}
                         </span>
                         <Accordion.Chevron />
@@ -303,7 +303,7 @@ function TumboHome() {
                     }
                   >
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
-                      <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
+                      <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
                         {
                           "If a listing is sponsored, we'll say so. If it's editorially \"qualified,\" it's been vetted by a human (often a parent) and backed by aggregated reviews from multiple places."
                         }
@@ -315,7 +315,7 @@ function TumboHome() {
                   <Accordion
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
-                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
+                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap text-body-bold font-body-bold text-default-font">
                           {"Can I connect with other parents?\n"}
                         </span>
                         <Accordion.Chevron />
@@ -323,7 +323,7 @@ function TumboHome() {
                     }
                   >
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
-                      <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
+                      <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
                         {
                           "Yes. You'll be able to see who else is in or eyeing a class, swap notes, and share recs in a couple of taps."
                         }
@@ -335,7 +335,7 @@ function TumboHome() {
                   <Accordion
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
-                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
+                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap text-body-bold font-body-bold text-default-font">
                           {"Do I have to use the chat to get recommendations?\n"}
                         </span>
                         <Accordion.Chevron />
@@ -343,7 +343,7 @@ function TumboHome() {
                     }
                   >
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
-                      <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
+                      <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
                         {
                           "Nope. Browse like a directory, filter for what you want, or dig into our curated collections."
                         }
@@ -355,7 +355,7 @@ function TumboHome() {
                   <Accordion
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
-                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
+                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap text-body-bold font-body-bold text-default-font">
                           {"Does it work on my phone?\n"}
                         </span>
                         <Accordion.Chevron />
@@ -363,7 +363,7 @@ function TumboHome() {
                     }
                   >
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
-                      <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
+                      <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
                         {
                           "Of course. Most parents aren't hunting for a weekend art class on a desktop."
                         }
