@@ -4,6 +4,13 @@
 :root {
   --tumbo-text: #1f2937;
   --tumbo-background: #FDFBF7;
+  
+  /* shadcn/ui CSS variables for proper dialog styling */
+  --background: 255 255 255;
+  --foreground: 15 23 42;
+  --border: 226 232 240;
+  --ring: 15 23 42;
+  --muted-foreground: 100 116 139;
 }
 
 @layer base {
