@@ -64,10 +64,10 @@ function CuratedClassDetail() {
                 <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}} />
               </div>
               <div className="flex w-full flex-col items-start gap-1 px-4 py-4">
-                <span className="line-clamp-3 text-heading-3 font-heading-3 text-default-font">Story &amp; Sketch Club</span>
+                <span className="line-clamp-3 text-heading-3 font-heading-3 text-default-font">Story & Sketch Club</span>
                 <span className="text-body font-body text-subtext-color">Turn your favourite tales into illustrated masterpieces.</span>
                 <div className="flex items-center gap-2">
-                  <Badge variant="neutral">Creative Writing &amp; Art</Badge>
+                  <Badge variant="neutral">Creative Writing & Art</Badge>
                   <Badge variant="neutral">Narrative-based </Badge>
                 </div>
               </div>
@@ -78,10 +78,10 @@ function CuratedClassDetail() {
                 <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}} />
               </div>
               <div className="flex w-full flex-col items-start gap-1 px-4 py-4">
-                <span className="line-clamp-3 text-heading-3 font-heading-3 text-default-font">Clay &amp; Colour Studio</span>
+                <span className="line-clamp-3 text-heading-3 font-heading-3 text-default-font">Clay & Colour Studio</span>
                 <span className="text-body font-body text-subtext-color">For kids that find joy in shaping, smoothing, and painting their own creations.</span>
                 <div className="flex items-center gap-2">
-                  <Badge variant="neutral">Ceramics &amp; Painting</Badge>
+                  <Badge variant="neutral">Ceramics & Painting</Badge>
                   <Badge variant="neutral">Fine motor focus </Badge>
                 </div>
               </div>
@@ -96,7 +96,7 @@ function CuratedClassDetail() {
               <div className="flex w-full flex-col items-start gap-1 px-4 py-4">
                 <span className="line-clamp-3 text-heading-3 font-heading-3 text-default-font">Young Innovators Lab</span>
                 <span className="text-body font-body text-subtext-color">Prototype real solutions to real-world problems, kids style!</span>
-                <Badge variant="neutral">STEM &amp; Problem-Solving</Badge>
+                <Badge variant="neutral">STEM & Problem-Solving</Badge>
               </div>
             </div>
             <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm">
