@@ -79,7 +79,24 @@ const ClassCardRoot = React.forwardRef<HTMLDivElement, ClassCardRootProps>(
       </div>
     );
 
-    const containerDiv = (
+    if (href) {
+      return (
+        <Link href={href} className="block">
+          <div
+            className={SubframeUtils.twClassNames(
+              "flex flex-col items-start gap-2",
+              className
+            )}
+            ref={ref}
+            {...otherProps}
+          >
+            {cardContent}
+          </div>
+        </Link>
+      );
+    }
+
+    return (
       <div
         className={SubframeUtils.twClassNames(
           "flex flex-col items-start gap-2",
@@ -91,16 +108,6 @@ const ClassCardRoot = React.forwardRef<HTMLDivElement, ClassCardRootProps>(
         {cardContent}
       </div>
     );
-
-    if (href) {
-      return (
-        <Link href={href} className="block">
-          {containerDiv}
-        </Link>
-      );
-    }
-
-    return containerDiv;
   }
 );
 

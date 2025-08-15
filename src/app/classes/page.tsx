@@ -98,7 +98,7 @@ function ClassDirectoryPage() {
                   Recommended for Emma
                 </span>
                 <span className="text-body font-body text-default-font">
-                  Handpicked classes based on Emma's interests and
+                  Handpicked classes based on Emma&apos;s interests and
                   developmental stage
                 </span>
               </div>
