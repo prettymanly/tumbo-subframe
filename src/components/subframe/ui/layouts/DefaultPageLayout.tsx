@@ -19,6 +19,7 @@ import { FeatherSettings } from "@subframe/core";
 import { FeatherLogOut } from "@subframe/core";
 import * as SubframeCore from "@subframe/core";
 import { Avatar } from "../components/Avatar";
+import Link from "next/link";
 
 interface DefaultPageLayoutRootProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -85,18 +86,26 @@ const DefaultPageLayoutRoot = React.forwardRef<
         }
         leftSlot={
           <>
-            <img
-              className="h-6 flex-none object-cover"
-              src="https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/y2rsnhq3mex4auk54aye.png"
-            />
+            <Link href="/">
+              <img
+                className="h-6 flex-none object-cover cursor-pointer"
+                src="https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/y2rsnhq3mex4auk54aye.png"
+              />
+            </Link>
             <div className="flex items-center gap-4 self-stretch">
-              <TopbarWithTabs.NavItem selected={true}>
-                Ask Tümbo
-              </TopbarWithTabs.NavItem>
-              <TopbarWithTabs.NavItem>Browse Classes</TopbarWithTabs.NavItem>
-              <TopbarWithTabs.NavItem>
-                Curated Collections
-              </TopbarWithTabs.NavItem>
+              <Link href="/tumbo-chat">
+                <TopbarWithTabs.NavItem selected={true}>
+                  Ask Tümbo
+                </TopbarWithTabs.NavItem>
+              </Link>
+              <Link href="/classes">
+                <TopbarWithTabs.NavItem>Browse Classes</TopbarWithTabs.NavItem>
+              </Link>
+              <Link href="/collections">
+                <TopbarWithTabs.NavItem>
+                  Curated Collections
+                </TopbarWithTabs.NavItem>
+              </Link>
             </div>
           </>
         }
