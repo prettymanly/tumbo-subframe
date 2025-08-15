@@ -1,14 +1,28 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { ListingsSearch } from "@/components/subframe/ui/components/ListingsSearch";
-import { FeatherBookmark } from "@subframe/core";
-import { IconButton } from "@/components/subframe/ui/components/IconButton";
+import { BookmarkButton } from "@/components/ui/bookmark-button";
 import { Badge } from "@/components/subframe/ui/components/Badge";
 import Link from "next/link";
 
 function ClassDirectoryPage() {
+  // State to track bookmarked classes
+  const [bookmarkedClasses, setBookmarkedClasses] = useState<Set<string>>(new Set());
+  
+  const toggleBookmark = (classId: string) => {
+    setBookmarkedClasses(prev => {
+      const newBookmarks = new Set(prev);
+      if (newBookmarks.has(classId)) {
+        newBookmarks.delete(classId);
+      } else {
+        newBookmarks.add(classId);
+      }
+      return newBookmarks;
+    });
+  };
+
   return (
     <ModernPageLayout>
       <div className="flex w-full flex-col items-start gap-8">
@@ -43,16 +57,14 @@ function ClassDirectoryPage() {
                   <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm hover:shadow-lg transition-shadow cursor-pointer">
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                       <img
-                        className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
+                        className="h-60 w-full flex-none  object-cover"
                         src="/photos/classes/art_01.jpg"
                       />
-                      <IconButton
+                      <BookmarkButton
                         className="absolute right-2 top-2"
-                        variant="inverse"
-                        icon={<FeatherBookmark />}
-                        onClick={(
-                          event: React.MouseEvent<HTMLButtonElement>
-                        ) => {}}
+                        classId="creative-little-architects"
+                        isBookmarked={bookmarkedClasses.has('creative-little-architects')}
+                        onToggle={toggleBookmark}
                       />
                     </div>
                     <div className="flex w-full flex-col items-start gap-1 px-4 py-4">
@@ -74,16 +86,14 @@ function ClassDirectoryPage() {
                 <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
-                      className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
+                      className="h-60 w-full flex-none  object-cover"
                       src="/photos/classes/art_02.jpg"
                     />
-                    <IconButton
+                    <BookmarkButton
                       className="absolute right-2 top-2"
-                      variant="inverse"
-                      icon={<FeatherBookmark />}
-                      onClick={(
-                        event: React.MouseEvent<HTMLButtonElement>
-                      ) => {}}
+                      classId="story-sketch-club"
+                      isBookmarked={bookmarkedClasses.has('story-sketch-club')}
+                      onToggle={toggleBookmark}
                     />
                   </div>
                   <div className="flex w-full flex-col items-start gap-1 px-4 py-4">
@@ -104,7 +114,7 @@ function ClassDirectoryPage() {
                 <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
-                      className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
+                      className="h-60 w-full flex-none  object-cover"
                       src="/photos/classes/art_03.png"
                     />
                     <IconButton
@@ -145,7 +155,7 @@ function ClassDirectoryPage() {
                 <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
-                      className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
+                      className="h-60 w-full flex-none  object-cover"
                       src="/photos/classes/science_01.jpg"
                     />
                     <IconButton
@@ -171,7 +181,7 @@ function ClassDirectoryPage() {
                 <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
-                      className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
+                      className="h-60 w-full flex-none  object-cover"
                       src="/photos/classes/coding_01.png"
                     />
                     <IconButton
@@ -200,7 +210,7 @@ function ClassDirectoryPage() {
                 <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
-                      className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
+                      className="h-60 w-full flex-none  object-cover"
                       src="/photos/classes/robotics_01.png"
                     />
                     <IconButton
@@ -242,7 +252,7 @@ function ClassDirectoryPage() {
                 <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
-                      className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
+                      className="h-60 w-full flex-none  object-cover"
                       src="/photos/classes/drama_01.jpg"
                     />
                     <IconButton
@@ -273,7 +283,7 @@ function ClassDirectoryPage() {
                 <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
-                      className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
+                      className="h-60 w-full flex-none  object-cover"
                       src="/photos/classes/drama_02.jpg"
                     />
                     <IconButton
@@ -304,7 +314,7 @@ function ClassDirectoryPage() {
                 <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
-                      className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
+                      className="h-60 w-full flex-none  object-cover"
                       src="/photos/classes/drama_03.jpg"
                     />
                     <IconButton
@@ -346,7 +356,7 @@ function ClassDirectoryPage() {
                 <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
-                      className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
+                      className="h-60 w-full flex-none  object-cover"
                       src="/photos/classes/explore_01.jpg"
                     />
                     <IconButton
@@ -375,7 +385,7 @@ function ClassDirectoryPage() {
                 <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
-                      className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
+                      className="h-60 w-full flex-none  object-cover"
                       src="/photos/classes/nature_01.jpg"
                     />
                     <IconButton
@@ -404,7 +414,7 @@ function ClassDirectoryPage() {
                 <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
-                      className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
+                      className="h-60 w-full flex-none  object-cover"
                       src="/photos/classes/outdoor_01.jpg"
                     />
                     <IconButton
@@ -445,7 +455,7 @@ function ClassDirectoryPage() {
                 <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
-                      className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
+                      className="h-60 w-full flex-none  object-cover"
                       src="/photos/classes/sports_01.jpg"
                     />
                     <IconButton
@@ -476,7 +486,7 @@ function ClassDirectoryPage() {
                 <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
-                      className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
+                      className="h-60 w-full flex-none  object-cover"
                       src="/photos/classes/play_01.jpg"
                     />
                     <IconButton
@@ -505,7 +515,7 @@ function ClassDirectoryPage() {
                 <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
-                      className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
+                      className="h-60 w-full flex-none  object-cover"
                       src="/photos/classes/play_02.jpg"
                     />
                     <IconButton

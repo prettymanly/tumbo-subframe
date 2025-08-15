@@ -45,7 +45,7 @@ function CuratedClassDetail() {
           <div className="w-full items-start gap-4 grid grid-cols-3">
             <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
               <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
-                <img className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780751/uploads/302/cbaa1tfstfnmksus95et.png" />
+                <img className="h-60 w-full flex-none  object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780751/uploads/302/cbaa1tfstfnmksus95et.png" />
                 <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}} />
               </div>
               <div className="flex w-full flex-col items-start gap-1 px-4 py-4">
@@ -60,7 +60,7 @@ function CuratedClassDetail() {
             </div>
             <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
               <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
-                <img className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780719/uploads/302/lf4i2zybfw9xxl56w6ce.png" />
+                <img className="h-60 w-full flex-none  object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780719/uploads/302/lf4i2zybfw9xxl56w6ce.png" />
                 <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}} />
               </div>
               <div className="flex w-full flex-col items-start gap-1 px-4 py-4">
@@ -74,7 +74,7 @@ function CuratedClassDetail() {
             </div>
             <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
               <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
-                <img className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780859/uploads/302/hh4s5xjmsigiehqkb1uh.png" />
+                <img className="h-60 w-full flex-none  object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780859/uploads/302/hh4s5xjmsigiehqkb1uh.png" />
                 <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}} />
               </div>
               <div className="flex w-full flex-col items-start gap-1 px-4 py-4">
@@ -90,7 +90,7 @@ function CuratedClassDetail() {
           <div className="w-full items-start gap-4 grid grid-cols-3">
             <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
               <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
-                <img className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780730/uploads/302/bfoixbupgy9opiv7ljrb.png" />
+                <img className="h-60 w-full flex-none  object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780730/uploads/302/bfoixbupgy9opiv7ljrb.png" />
                 <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}} />
               </div>
               <div className="flex w-full flex-col items-start gap-1 px-4 py-4">
@@ -101,7 +101,7 @@ function CuratedClassDetail() {
             </div>
             <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
               <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
-                <img className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780779/uploads/302/rpnpvey9vgpe15ktp8j6.png" />
+                <img className="h-60 w-full flex-none  object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780779/uploads/302/rpnpvey9vgpe15ktp8j6.png" />
                 <IconButton className="absolute left-2 top-2" variant="inverse" icon={<FeatherBookmark />} onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}} />
               </div>
               <div className="flex w-full flex-col items-start gap-1 px-4 py-4">
@@ -115,7 +115,7 @@ function CuratedClassDetail() {
             </div>
             <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
               <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
-                <img className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780624/uploads/302/sxocuez05safdpfaztiz.png" />
+                <img className="h-60 w-full flex-none  object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780624/uploads/302/sxocuez05safdpfaztiz.png" />
                 <IconButton className="absolute left-2 top-2" variant="inverse" icon={<FeatherBookmark />} onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}} />
               </div>
               <div className="flex w-full flex-col items-start gap-1 px-4 py-4">
