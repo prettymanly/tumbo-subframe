@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { DefaultPageLayout } from "@/components/subframe/ui/layouts/DefaultPageLayout";
+import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { AnimatedTextField } from "@/components/AnimatedTextField";
 import { AnimatedSearchPlaceholder } from "@/components/AnimatedSearchPlaceholder";
 import { TextFieldUnstyled } from "@/components/subframe/ui/components/TextFieldUnstyled";
@@ -28,7 +28,7 @@ export default function AnimatedSearchDemoPage() {
   ];
 
   return (
-    <DefaultPageLayout>
+    <ModernPageLayout>
       <div className="flex w-full flex-col items-start gap-8 px-6 py-8">
         <div className="w-full max-w-[1200px] mx-auto space-y-12">
           
@@ -155,6 +155,6 @@ const phrases = [
 
         </div>
       </div>
-    </DefaultPageLayout>
+    </ModernPageLayout>
   );
 }

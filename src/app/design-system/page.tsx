@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { DefaultPageLayout } from "@/components/subframe/ui/layouts/DefaultPageLayout";
+import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { Button } from "@/components/subframe/ui/components/Button";
 import { IconButton } from "@/components/subframe/ui/components/IconButton";
 import { Badge } from "@/components/subframe/ui/components/Badge";
@@ -28,7 +28,7 @@ const componentUsage = {
   "Accordion": ["FAQ section", "Class detail expandable content"],
   "Avatar": ["User profiles", "Navigation", "Class reviews"],
   "Alert": ["Error states", "Notifications"],
-  "DefaultPageLayout": ["All pages", "Classes", "Collections", "Class detail"],
+  "ModernPageLayout": ["All pages", "Classes", "Collections", "Class detail"],
   "LargeBadge": ["Class detail features", "Collection detail categories"],
   "FilterBadge": ["Class detail amenities", "Filter options"],
   "Tags": ["Collections page tags", "Class detail tags"],
@@ -46,7 +46,7 @@ const componentUsage = {
 // Component categories
 const componentCategories = {
   "Foundation": ["Colors", "Typography", "Spacing", "Shadows"],
-  "Layout": ["DefaultPageLayout", "Grid", "Container"],
+  "Layout": ["ModernPageLayout", "Grid", "Container"],
   "Navigation": ["TopbarWithTabs", "BoldNavbar", "SidebarWithSections", "Breadcrumbs"],
   "Actions": ["Button", "IconButton", "LinkButton"],
   "Inputs": ["TextField", "TextFieldUnstyled", "TextArea", "Checkbox", "RadioGroup", "Select", "Switch", "Slider", "Calendar", "ListingsSearch"],
@@ -541,7 +541,7 @@ export default function DesignSystemPage() {
   );
 
   return (
-    <DefaultPageLayout>
+    <ModernPageLayout>
       <div className="flex w-full flex-col items-start gap-8 px-6 py-8">
         {/* Header */}
         <div className="w-full max-w-[1200px] mx-auto">
@@ -674,6 +674,6 @@ export default function DesignSystemPage() {
           )}
         </div>
       </div>
-    </DefaultPageLayout>
+    </ModernPageLayout>
   );
 }

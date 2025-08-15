@@ -161,7 +161,41 @@ export default function TumboNavbar() {
   const homeUrl = isAuthenticated ? '/userdashboard' : '/'
 
   return (
-    <header className="border-b w-full">
+    <>
+      {/* Temporary Debug Panel - Remove in production */}
+      {process.env.NODE_ENV !== 'production' && (
+        <div className="bg-yellow-100 border-b border-yellow-300 p-2 text-sm">
+          <div className="max-w-7xl mx-auto flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <span className="font-medium">🧪 Debug Panel:</span>
+              <span>Auth Status: {isAuthenticated ? '✅ Signed In' : '❌ Signed Out'}</span>
+              {user && <span>User: {user.name} ({user.email})</span>}
+            </div>
+            <div className="flex gap-2">
+              {isAuthenticated && (
+                <button 
+                  onClick={logout}
+                  className="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600"
+                >
+                  Force Logout
+                </button>
+              )}
+              <button 
+                onClick={() => {
+                  const authData = localStorage.getItem('tumbo_auth')
+                  console.log('Auth data:', authData)
+                  alert(`Auth data: ${authData || 'None'}`)
+                }}
+                className="bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600"
+              >
+                Check Storage
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      <header className="border-b w-full">
       <div className="flex h-16 items-center justify-between gap-4 px-4 md:px-6 max-w-none w-full">
         {/* Left side */}
         <div className="flex items-center gap-2">
@@ -281,5 +315,6 @@ export default function TumboNavbar() {
         />
       </div>
     </header>
+    </>
   )
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { DefaultPageLayout } from "@/components/subframe/ui/layouts/DefaultPageLayout";
+import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { FeatherArmchair, FeatherAntenna, FeatherAlarmSmoke, FeatherListFilter, FeatherArrowUpDown, FeatherSearch, FeatherBookmark } from "@subframe/core";
 import { LargeBadge } from "@/components/subframe/ui/components/LargeBadge";
 import { Button } from "@/components/subframe/ui/components/Button";
@@ -11,7 +11,7 @@ import { Badge } from "@/components/subframe/ui/components/Badge";
 
 function CuratedClassDetail() {
   return (
-    <DefaultPageLayout>
+    <ModernPageLayout>
       <div className="flex w-full flex-col items-start gap-8">
         <div className="flex w-full flex-col items-center gap-8">
           <div className="flex w-full max-w-[1024px] flex-col items-start gap-16">
@@ -127,11 +127,10 @@ function CuratedClassDetail() {
                 </div>
               </div>
             </div>
-            </div>
           </div>
         </div>
       </div>
-    </DefaultPageLayout>
+    </ModernPageLayout>
   );
 }
 
