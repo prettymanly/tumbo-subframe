@@ -73,7 +73,7 @@ function TumboHome() {
               />
             </div>
             <span className="text-caption font-caption text-subtext-color">
-              Tell Tümbo about your kid. We&apos;ll do the rest.
+              Tell Tümbo about your kid. We'll do the rest.
             </span>
           </div>
         </div>
@@ -82,7 +82,7 @@ function TumboHome() {
             {"How Tümbo works"}
           </span>
           <span className="whitespace-pre-wrap text-heading-1 font-heading-1 text-default-font">
-            {"We scout for fit, so you&apos;re not lost in endless tabs."}
+            {"We scout for fit, so you're not lost in endless tabs."}
           </span>
           <img
             className="h-144 w-full max-w-[1280px] flex-none rounded-lg object-cover"
