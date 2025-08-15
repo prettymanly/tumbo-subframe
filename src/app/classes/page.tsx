@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { ListingsSearch } from "@/components/subframe/ui/components/ListingsSearch";
-import { ClassCard } from "@/components/subframe/ui/components/ClassCard";
 
 function ClassDirectoryPage() {
   // State to track bookmarked classes
@@ -27,7 +27,7 @@ function ClassDirectoryPage() {
       id: "creative-little-architects",
       title: "Creative Little Architects",
       description: "Build whimsical cities from cardboard, clay, and imagination.",
-      image: "/photos/classes/art_01.jpg",
+      image: "https://res.cloudinary.com/subframe/image/upload/v1723780751/uploads/302/cbaa1tfstfnmksus95et.png",
       badges: ["Design", "Hands-on", "Play-based learning"],
       href: "/classes/creative-little-architects"
     },
@@ -35,7 +35,7 @@ function ClassDirectoryPage() {
       id: "story-sketch-club", 
       title: "Story & Sketch Club",
       description: "Turn your favourite tales into illustrated masterpieces.",
-      image: "/photos/classes/art_02.jpg",
+      image: "https://res.cloudinary.com/subframe/image/upload/v1723780719/uploads/302/lf4i2zybfw9xxl56w6ce.png",
       badges: ["Creative Writing & Art", "Narrative-based"],
       href: "/classes/story-sketch-club"
     },
@@ -43,7 +43,7 @@ function ClassDirectoryPage() {
       id: "clay-colour-studio",
       title: "Clay & Colour Studio", 
       description: "For kids that find joy in shaping, smoothing, and painting their own creations.",
-      image: "/photos/classes/art_03.png",
+      image: "https://res.cloudinary.com/subframe/image/upload/v1723780859/uploads/302/hh4s5xjmsigiehqkb1uh.png",
       badges: ["Ceramics & Painting", "Fine motor focus"],
       href: "/classes/clay-colour-studio"
     },
@@ -51,7 +51,7 @@ function ClassDirectoryPage() {
       id: "young-innovators-lab",
       title: "Young Innovators Lab",
       description: "Prototype real solutions to real-world problems, kids style!",
-      image: "/photos/classes/science_01.jpg",
+      image: "https://res.cloudinary.com/subframe/image/upload/v1723780730/uploads/302/bfoixbupgy9opiv7ljrb.png",
       badges: ["STEM & Problem-Solving"],
       href: "/classes/young-innovators-lab"
     },
@@ -59,7 +59,7 @@ function ClassDirectoryPage() {
       id: "kidtrepreneurs-market",
       title: "Kidtrepreneurs Market Day",
       description: "Create, price, and sell your own products at a mini market.",
-      image: "/photos/classes/play_01.jpg",
+      image: "https://res.cloudinary.com/subframe/image/upload/v1723780779/uploads/302/rpnpvey9vgpe15ktp8j6.png",
       badges: ["Entrepreneurship", "Interactive role-play"],
       href: "/classes/kidtrepreneurs-market"
     },
@@ -67,7 +67,7 @@ function ClassDirectoryPage() {
       id: "junior-community-reporters",
       title: "Junior Community Reporters",
       description: "For kids that want to ask questions, find answers, and share the story.",
-      image: "/photos/classes/explore_01.jpg",
+      image: "https://res.cloudinary.com/subframe/image/upload/v1723780624/uploads/302/sxocuez05safdpfaztiz.png",
       badges: ["Inquisitive storytellers", "Purpose-driven learning"],
       href: "/classes/junior-community-reporters"
     }
@@ -104,17 +104,34 @@ function ClassDirectoryPage() {
               </div>
               <div className="w-full items-start gap-4 grid grid-cols-3">
                 {classes.map((classItem) => (
-                  <ClassCard
-                    key={classItem.id}
-                    title={classItem.title}
-                    description={classItem.description}
-                    image={classItem.image}
-                    badges={classItem.badges}
-                    href={classItem.href}
-                    classId={classItem.id}
-                    isBookmarked={bookmarkedClasses.has(classItem.id)}
-                    onBookmarkToggle={toggleBookmark}
-                  />
+                  <Link key={classItem.id} href={classItem.href} className="block">
+                    <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm hover:shadow-lg transition-shadow cursor-pointer">
+                      <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
+                        <img className="h-60 w-full flex-none object-cover" src={classItem.image} />
+                        <button 
+                          className="absolute right-2 top-2 bg-white rounded-full p-2 shadow-sm hover:bg-gray-50"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleBookmark(classItem.id);
+                          }}
+                        >
+                          {bookmarkedClasses.has(classItem.id) ? '♥' : '♡'}
+                        </button>
+                      </div>
+                      <div className="flex w-full flex-col items-start gap-1 px-4 py-4">
+                        <span className="line-clamp-3 text-heading-3 font-heading-3 text-default-font">{classItem.title}</span>
+                        <span className="text-body font-body text-subtext-color">{classItem.description}</span>
+                        <div className="flex items-center gap-2">
+                          {classItem.badges.map((badge, index) => (
+                            <span key={index} className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">
+                              {badge}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>
