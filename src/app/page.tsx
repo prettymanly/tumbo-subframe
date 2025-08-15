@@ -46,7 +46,7 @@ function TumboHome() {
           </span>
           <span className="max-w-[576px] whitespace-pre-wrap text-body font-body text-subtext-color text-center -tracking-[0.015em]">
              {
-               "The perfect fit for your child might not have the biggest name, fanciest website, or the most trophies. Tümbo spots the hidden gems that align with how your child actually learns — the ones they\'ll stick with and love."
+               "The best classes aren't always the \"best\" classes. Tümbo finds hidden gems that match both your child's learning style and your family's values, rather than just the programs with the longest waitlists."
              }
           </span>
           <div className="flex w-full flex-col items-center justify-center gap-3 px-4 py-4">
