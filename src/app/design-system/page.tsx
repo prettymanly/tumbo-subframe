@@ -10,27 +10,30 @@ import { Tabs } from "@/components/subframe/ui/components/Tabs";
 import { Switch } from "@/components/subframe/ui/components/Switch";
 import { Alert } from "@/components/subframe/ui/components/Alert";
 import { Accordion } from "@/components/subframe/ui/components/Accordion";
+import { ListingsSearch } from "@/components/subframe/ui/components/ListingsSearch";
+import { LargeBadge } from "@/components/subframe/ui/components/LargeBadge";
+import { FilterBadge } from "@/components/subframe/ui/components/FilterBadge";
+import { Tags } from "@/components/subframe/ui/components/Tags";
+import { Avatar } from "@/components/subframe/ui/components/Avatar";
 import { FeatherSearch, FeatherFilter, FeatherEye, FeatherCode, FeatherSettings, FeatherPalette, FeatherBox, FeatherCheck } from "@subframe/core";
 import { themeTokens } from "@/theme/tokens";
 
 // Component usage tracking data
 const componentUsage = {
-  "Button": ["Home page hero", "Class cards", "Navigation", "Forms"],
-  "IconButton": ["Navigation bar", "Class cards", "Action buttons"],
-  "Badge": ["Class categories", "Status indicators"],
-  "TextField": ["Search bar", "Forms", "Filters"],
-  "ClassCard": ["Classes page", "Home recommendations"],
-  "Accordion": ["FAQ section", "Expandable content"],
-  "Avatar": ["User profiles", "Navigation"],
+  "Button": ["Home page hero", "Collections page filters", "Class detail actions", "Navigation"],
+  "IconButton": ["Navigation bar", "Class cards bookmark", "Collection cards bookmark", "Action buttons"],
+  "Badge": ["Class categories", "Collection status", "Status indicators", "Class detail tags"],
+  "TextField": ["Home page search", "Collections search", "Forms", "Filters"],
+  "ListingsSearch": ["Classes page search", "Browse classes"],
+  "Accordion": ["FAQ section", "Class detail expandable content"],
+  "Avatar": ["User profiles", "Navigation", "Class reviews"],
   "Alert": ["Error states", "Notifications"],
-  "DefaultPageLayout": ["All pages"],
-  "DropdownMenu": ["Navigation", "User menu", "Filters"],
-  "Dialog": ["Modals", "Confirmations"],
-  "Toast": ["Success messages", "Error notifications"],
+  "DefaultPageLayout": ["All pages", "Classes", "Collections", "Class detail"],
+  "LargeBadge": ["Class detail features", "Collection detail categories"],
+  "FilterBadge": ["Class detail amenities", "Filter options"],
+  "Tags": ["Collections page tags", "Class detail tags"],
+  "Switch": ["Settings", "Filter toggles"],
   "Progress": ["Loading states", "Form progress"],
-  "Switch": ["Settings", "Toggles"],
-  "Tabs": ["Content organization"],
-  "Slider": ["Range inputs", "Settings"],
   "Checkbox": ["Forms", "Multi-select"],
   "RadioGroup": ["Forms", "Single select"],
   "Select": ["Dropdowns", "Form inputs"],
@@ -46,8 +49,8 @@ const componentCategories = {
   "Layout": ["DefaultPageLayout", "Grid", "Container"],
   "Navigation": ["TopbarWithTabs", "BoldNavbar", "SidebarWithSections", "Breadcrumbs"],
   "Actions": ["Button", "IconButton", "LinkButton"],
-  "Inputs": ["TextField", "TextFieldUnstyled", "TextArea", "Checkbox", "RadioGroup", "Select", "Switch", "Slider", "Calendar"],
-  "Data Display": ["Table", "ClassCard", "Avatar", "Badge", "Tags", "Progress", "Stepper", "AreaChart", "BarChart", "LineChart", "PieChart"],
+  "Inputs": ["TextField", "TextFieldUnstyled", "TextArea", "Checkbox", "RadioGroup", "Select", "Switch", "Slider", "Calendar", "ListingsSearch"],
+  "Data Display": ["Table", "Avatar", "Badge", "LargeBadge", "FilterBadge", "Tags", "Progress", "Stepper", "AreaChart", "BarChart", "LineChart", "PieChart"],
   "Feedback": ["Alert", "Toast", "Loader", "SkeletonCircle", "SkeletonText"],
   "Overlay": ["Dialog", "FullscreenDialog", "Drawer", "DropdownMenu", "ContextMenu", "Tooltip"],
   "Content": ["Accordion", "Tabs", "ImageGallery", "TreeView"],
@@ -201,6 +204,210 @@ export default function DesignSystemPage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [showInUseOnly, setShowInUseOnly] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Get all available components
+  const allComponents = [
+    "Button", "IconButton", "Badge", "TextField", "ListingsSearch", "Accordion", 
+    "Avatar", "Alert", "LargeBadge", "FilterBadge", "Tags", "Switch", "Progress", 
+    "Checkbox", "RadioGroup", "Select", "TextArea", "Calendar", "Table", "Stepper"
+  ];
+
+  // Filter components based on current filters
+  const getFilteredComponents = () => {
+    let filtered = allComponents;
+
+    // Filter by search query
+    if (searchQuery) {
+      filtered = filtered.filter(component => 
+        component.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Filter by category
+    if (selectedCategory !== "All") {
+      const categoryComponents = componentCategories[selectedCategory] || [];
+      filtered = filtered.filter(component => 
+        categoryComponents.includes(component)
+      );
+    }
+
+    // Filter by usage (show only components in use)
+    if (showInUseOnly) {
+      filtered = filtered.filter(component => 
+        componentUsage[component] && componentUsage[component].length > 0
+      );
+    }
+
+    return filtered;
+  };
+
+  const filteredComponents = getFilteredComponents();
+
+  // Helper functions to render components dynamically
+  const renderComponent = (componentName: string) => {
+    switch (componentName) {
+      case "Button":
+        return (
+          <div className="flex gap-3">
+            <Button variant="brand-primary">Primary</Button>
+            <Button variant="brand-secondary">Secondary</Button>
+            <Button variant="neutral-primary">Neutral</Button>
+            <Button variant="destructive-primary">Destructive</Button>
+          </div>
+        );
+      case "IconButton":
+        return (
+          <div className="flex gap-3">
+            <IconButton icon={<FeatherSettings />} variant="brand-primary" />
+            <IconButton icon={<FeatherFilter />} variant="neutral-secondary" />
+            <IconButton icon={<FeatherSearch />} variant="neutral-tertiary" />
+          </div>
+        );
+      case "Badge":
+        return (
+          <div className="flex gap-3">
+            <Badge variant="brand">Primary</Badge>
+            <Badge variant="success">Success</Badge>
+            <Badge variant="warning">Warning</Badge>
+            <Badge variant="error">Error</Badge>
+          </div>
+        );
+      case "TextField":
+        return (
+          <div className="w-full max-w-sm">
+            <TextField
+              label="Email address"
+              placeholder="Enter your email"
+              icon={<FeatherSearch />}
+            >
+              <TextField.Input />
+            </TextField>
+          </div>
+        );
+      case "ListingsSearch":
+        return (
+          <div className="w-full max-w-md">
+            <ListingsSearch />
+          </div>
+        );
+      case "Alert":
+        return (
+          <div className="w-full max-w-lg">
+            <Alert
+              variant="success"
+              title="Success"
+              description="Your changes have been saved successfully."
+              icon={<FeatherCheck />}
+            />
+          </div>
+        );
+      case "Switch":
+        return (
+          <div className="flex items-center gap-4">
+            <Switch checked={false} />
+            <Switch checked={true} />
+            <Switch checked={false} disabled />
+          </div>
+        );
+      case "Avatar":
+        return (
+          <div className="flex items-center gap-3">
+            <Avatar>A</Avatar>
+            <Avatar size="large">B</Avatar>
+            <Avatar size="small">C</Avatar>
+          </div>
+        );
+      case "LargeBadge":
+        return (
+          <div className="flex gap-3">
+            <LargeBadge>Featured</LargeBadge>
+            <LargeBadge>Popular</LargeBadge>
+          </div>
+        );
+      case "FilterBadge":
+        return (
+          <div className="flex gap-3">
+            <FilterBadge label="Art" />
+            <FilterBadge label="STEM" count="12" />
+            <FilterBadge label="Music" selected />
+          </div>
+        );
+      case "Tags":
+        return (
+          <div className="flex gap-2">
+            <Tags variant="brand">Creative</Tags>
+            <Tags variant="success">Educational</Tags>
+            <Tags variant="warning">Fun</Tags>
+          </div>
+        );
+      case "Accordion":
+        return (
+          <div className="w-full max-w-lg">
+            <Accordion trigger={<div className="p-3">What is Tümbo?</div>}>
+              <div className="p-3">
+                Tümbo is an enrichment class directory for busy parents.
+              </div>
+            </Accordion>
+          </div>
+        );
+      default:
+        return <div className="p-4 text-center text-subtext-color">Component preview not available</div>;
+    }
+  };
+
+  const getComponentProps = (componentName: string) => {
+    switch (componentName) {
+      case "Button":
+        return { variant: "brand-primary", size: "medium" };
+      case "IconButton":
+        return { variant: "brand-primary", size: "medium" };
+      case "Badge":
+        return { variant: "brand" };
+      case "TextField":
+        return { placeholder: "Enter text...", variant: "default" };
+      case "Alert":
+        return { variant: "success", title: "Success" };
+      case "Switch":
+        return { checked: false };
+      default:
+        return {};
+    }
+  };
+
+  const getComponentStates = (componentName: string) => {
+    switch (componentName) {
+      case "Button":
+      case "IconButton":
+        return ["default", "hover", "active", "disabled"];
+      case "TextField":
+        return ["default", "focused", "error", "disabled"];
+      case "Switch":
+        return ["unchecked", "checked", "disabled"];
+      case "Alert":
+        return ["success", "error", "warning", "info"];
+      default:
+        return ["default"];
+    }
+  };
+
+  const getComponentTokens = (componentName: string) => {
+    switch (componentName) {
+      case "Button":
+        return ["brand-primary", "neutral-100", "text-heading-3", "shadow-sm"];
+      case "IconButton":
+        return ["brand-primary", "neutral-700", "shadow-sm"];
+      case "Badge":
+        return ["brand-100", "brand-800", "text-caption", "radius-sm"];
+      case "TextField":
+        return ["neutral-100", "neutral-border", "text-body", "radius-md"];
+      case "Alert":
+        return ["success-50", "success-600", "text-body", "radius-md"];
+      case "Switch":
+        return ["brand-primary", "neutral-300", "radius-full"];
+      default:
+        return ["neutral-100", "text-body"];
+    }
+  };
 
   // Foundation tokens section
   const FoundationSection = () => (
@@ -429,110 +636,38 @@ export default function DesignSystemPage() {
           {selectedCategory !== "Foundation" && (
             <div className="mt-6">
               <div className="space-y-8">
-                {/* Component Showcases */}
+                {/* Component Count */}
+                <div className="flex items-center justify-between">
+                  <span className="text-body font-body text-subtext-color">
+                    Showing {filteredComponents.length} of {allComponents.length} components
+                  </span>
+                  {filteredComponents.length === 0 && (
+                    <span className="text-body font-body text-subtext-color">
+                      No components match your filters. Try adjusting your search or category.
+                    </span>
+                  )}
+                </div>
+
+                {/* Dynamic Component Showcases */}
                 <div className="space-y-6">
-                  <ComponentShowcase
-                    name="Button"
-                    category="Actions"
-                    component={
-                      <div className="flex gap-3">
-                        <Button variant="brand-primary">Primary</Button>
-                        <Button variant="brand-secondary">Secondary</Button>
-                        <Button variant="neutral-primary">Neutral</Button>
-                        <Button variant="destructive-primary">Destructive</Button>
-                      </div>
-                    }
-                    props={{ variant: "brand-primary", size: "medium" }}
-                    states={["default", "hover", "active", "disabled", "loading"]}
-                    usage={componentUsage["Button"]}
-                    tokens={["brand-primary", "neutral-100", "text-heading-3", "shadow-sm"]}
-                  />
-
-                  <ComponentShowcase
-                    name="IconButton"
-                    category="Actions"
-                    component={
-                      <div className="flex gap-3">
-                        <IconButton icon={<FeatherSettings />} variant="brand-primary" />
-                        <IconButton icon={<FeatherFilter />} variant="neutral-secondary" />
-                        <IconButton icon={<FeatherSearch />} variant="neutral-tertiary" />
-                      </div>
-                    }
-                    props={{ variant: "brand-primary", size: "medium" }}
-                    states={["default", "hover", "active", "disabled"]}
-                    usage={componentUsage["IconButton"]}
-                    tokens={["brand-primary", "neutral-700", "shadow-sm"]}
-                  />
-
-                  <ComponentShowcase
-                    name="Badge"
-                    category="Data Display"
-                    component={
-                      <div className="flex gap-3">
-                        <Badge variant="brand-primary">Primary</Badge>
-                        <Badge variant="success">Success</Badge>
-                        <Badge variant="warning">Warning</Badge>
-                        <Badge variant="error">Error</Badge>
-                      </div>
-                    }
-                    props={{ variant: "brand-primary" }}
-                    usage={componentUsage["Badge"]}
-                    tokens={["brand-100", "brand-800", "text-caption", "radius-sm"]}
-                  />
-
-                  <ComponentShowcase
-                    name="TextField"
-                    category="Inputs"
-                    component={
-                      <div className="w-full max-w-sm">
-                        <TextField
-                          label="Email address"
-                          placeholder="Enter your email"
-                          icon={<FeatherSearch />}
-                        >
-                          <TextField.Input />
-                        </TextField>
-                      </div>
-                    }
-                    props={{ placeholder: "Enter text...", variant: "default" }}
-                    states={["default", "focused", "error", "disabled"]}
-                    usage={componentUsage["TextField"]}
-                    tokens={["neutral-100", "neutral-border", "text-body", "radius-md"]}
-                  />
-
-                  <ComponentShowcase
-                    name="Alert"
-                    category="Feedback"
-                    component={
-                      <div className="w-full max-w-lg">
-                        <Alert
-                          variant="success"
-                          title="Success"
-                          description="Your changes have been saved successfully."
-                          icon={<FeatherCheck />}
-                        />
-                      </div>
-                    }
-                    props={{ variant: "success", title: "Success" }}
-                    usage={componentUsage["Alert"]}
-                    tokens={["success-50", "success-600", "text-body", "radius-md"]}
-                  />
-
-                  <ComponentShowcase
-                    name="Switch"
-                    category="Inputs"
-                    component={
-                      <div className="flex items-center gap-4">
-                        <Switch checked={false} />
-                        <Switch checked={true} />
-                        <Switch checked={false} disabled />
-                      </div>
-                    }
-                    props={{ checked: false }}
-                    states={["unchecked", "checked", "disabled"]}
-                    usage={componentUsage["Switch"]}
-                    tokens={["brand-primary", "neutral-300", "radius-full"]}
-                  />
+                  {filteredComponents.map((componentName) => {
+                    const category = Object.keys(componentCategories).find(cat => 
+                      componentCategories[cat].includes(componentName)
+                    ) || "Other";
+                    
+                    return (
+                      <ComponentShowcase
+                        key={componentName}
+                        name={componentName}
+                        category={category}
+                        component={renderComponent(componentName)}
+                        props={getComponentProps(componentName)}
+                        states={getComponentStates(componentName)}
+                        usage={componentUsage[componentName] || []}
+                        tokens={getComponentTokens(componentName)}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             </div>

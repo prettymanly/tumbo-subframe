@@ -11,6 +11,7 @@ import { IconButton } from "@/components/subframe/ui/components/IconButton";
 import { TextFieldUnstyled } from "@/components/subframe/ui/components/TextFieldUnstyled";
 import { FeatherArrowUp } from "@subframe/core";
 import { FeatherLandmark } from "@subframe/core";
+import { useAnimatedPlaceholder } from "@/components/AnimatedSearchPlaceholder";
 import { IconWithBackground } from "@/components/subframe/ui/components/IconWithBackground";
 import { FeatherCheckCircle2 } from "@subframe/core";
 import { FeatherShield } from "@subframe/core";
@@ -18,6 +19,24 @@ import { Accordion } from "@/components/subframe/ui/components/Accordion";
 import { BoldFooter } from "@/components/subframe/ui/components/BoldFooter";
 
 function TumboHome() {
+  // Search phrases for animated placeholder
+  const searchPhrases = [
+    "Shy 6‑year‑old who loves dinosaurs",
+    "Weekend movement class near Bishan", 
+    "Gentle teacher, small groups",
+    "Prep for P1, without the stress",
+    "Hands‑on STEM, not lecture‑y",
+    "Creative exploration for a careful kid",
+    "Calm art studio near Novena",
+    "Nature‑based class, low noise"
+  ];
+
+  const animatedPlaceholder = useAnimatedPlaceholder(searchPhrases, {
+    typingSpeed: 80,
+    deletingSpeed: 40,
+    pauseTime: 3000
+  });
+
   return (
     <DefaultPageLayout>
       <div className="flex w-full flex-col items-center justify-center bg-default-background">
@@ -60,7 +79,7 @@ function TumboHome() {
               </SubframeCore.DropdownMenu.Root>
               <TextFieldUnstyled className="h-auto grow shrink-0 basis-0">
                 <TextFieldUnstyled.Input
-                  placeholder="Shy 6-year-old who loves dinosaurs"
+                  placeholder={animatedPlaceholder}
                   value=""
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {}}
                 />
