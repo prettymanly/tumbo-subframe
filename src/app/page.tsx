@@ -226,7 +226,7 @@ function TumboHome() {
                   FAQ
                 </span>
                 <span className="w-full whitespace-pre-wrap font-['Inter'] text-[24px] font-[500] leading-[32px] text-subtext-color text-center -tracking-[0.025em]">
-                  {"All your questions, answered.\n"}
+                  {"Frequently Asked (and Sometimes Unasked) Questions\n"}
                 </span>
               </div>
               <div className="flex w-full max-w-[576px] flex-col items-center justify-center gap-4">
@@ -235,7 +235,7 @@ function TumboHome() {
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
                         <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
-                          {"What is Subframe?\n"}
+                          {"Wth is a Tümbo, exactly?\n"}
                         </span>
                         <Accordion.Chevron />
                       </div>
@@ -245,7 +245,7 @@ function TumboHome() {
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
                       <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
                         {
-                          "Subframe is an AI-powered design-to-code tool featuring a drag-and-drop visual editor, component library, and hundreds of templates.\n"
+                          "An enrichment class directory that actually works for busy parents.\nWe pull in every class in Singapore, even the hidden gems with tragic SEO, and let you search them by what matters: teaching style, class vibe, and philosophy. No 12 tabs, no \"I'll update the spreadsheet later.\"\n\nAs for the name, it's a mispelling of tumbuh which means growth(sapling) in Melayu."
                         }
                       </span>
                     </div>
@@ -256,7 +256,7 @@ function TumboHome() {
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
                         <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
-                          {"What is Subframe?\n"}
+                          {"How does Tümbo know what's right for my child?\n"}
                         </span>
                         <Accordion.Chevron />
                       </div>
@@ -265,7 +265,7 @@ function TumboHome() {
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
                       <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
                         {
-                          "Subframe is an AI-powered design-to-code tool featuring a drag-and-drop visual editor, component library, and hundreds of templates.\n"
+                          "We ask the questions Google won't.\nA short onboarding builds your child's \"learning signature\" — the stuff beyond age and subject. From there, we can spot the classes they'll actually stick with."
                         }
                       </span>
                     </div>
@@ -276,7 +276,7 @@ function TumboHome() {
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
                         <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
-                          {"What is Subframe?\n"}
+                          {"What kind of info do I get about each class?\n"}
                         </span>
                         <Accordion.Chevron />
                       </div>
@@ -285,7 +285,7 @@ function TumboHome() {
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
                       <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
                         {
-                          "Subframe is an AI-powered design-to-code tool featuring a drag-and-drop visual editor, component library, and hundreds of templates.\n"
+                          "• Class name, location, schedule, and age range\n• Review summaries (TLDDR) from multiple sources — balanced and BS-free\n• Context you can't get from a flyer — like class vibe or teacher style"
                         }
                       </span>
                     </div>
@@ -296,7 +296,7 @@ function TumboHome() {
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
                         <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
-                          {"What is Subframe?\n"}
+                          {"How do I know I can trust the listings?\n"}
                         </span>
                         <Accordion.Chevron />
                       </div>
@@ -305,7 +305,7 @@ function TumboHome() {
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
                       <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
                         {
-                          "Subframe is an AI-powered design-to-code tool featuring a drag-and-drop visual editor, component library, and hundreds of templates.\n"
+                          "If a listing is sponsored, we'll say so. If it's editorially \"qualified,\" it's been vetted by a human (often a parent) and backed by aggregated reviews from multiple places."
                         }
                       </span>
                     </div>
@@ -316,7 +316,7 @@ function TumboHome() {
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
                         <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
-                          {"What is Subframe?\n"}
+                          {"Can I connect with other parents?\n"}
                         </span>
                         <Accordion.Chevron />
                       </div>
@@ -325,7 +325,47 @@ function TumboHome() {
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
                       <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
                         {
-                          "Subframe is an AI-powered design-to-code tool featuring a drag-and-drop visual editor, component library, and hundreds of templates.\n"
+                          "Yes. You'll be able to see who else is in or eyeing a class, swap notes, and share recs in a couple of taps."
+                        }
+                      </span>
+                    </div>
+                  </Accordion>
+                </div>
+                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
+                  <Accordion
+                    trigger={
+                      <div className="flex w-full items-center gap-2 px-3 py-2">
+                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
+                          {"Do I have to use the chat to get recommendations?\n"}
+                        </span>
+                        <Accordion.Chevron />
+                      </div>
+                    }
+                  >
+                    <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
+                      <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
+                        {
+                          "Nope. Browse like a directory, filter for what you want, or dig into our curated collections."
+                        }
+                      </span>
+                    </div>
+                  </Accordion>
+                </div>
+                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
+                  <Accordion
+                    trigger={
+                      <div className="flex w-full items-center gap-2 px-3 py-2">
+                        <span className="grow shrink-0 basis-0 whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-default-font -tracking-[0.01em]">
+                          {"Does it work on my phone?\n"}
+                        </span>
+                        <Accordion.Chevron />
+                      </div>
+                    }
+                  >
+                    <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
+                      <span className="w-full whitespace-pre-wrap font-['Inter'] text-[18px] font-[500] leading-[28px] text-subtext-color -tracking-[0.01em]">
+                        {
+                          "Of course. Most parents aren't hunting for a weekend art class on a desktop."
                         }
                       </span>
                     </div>
