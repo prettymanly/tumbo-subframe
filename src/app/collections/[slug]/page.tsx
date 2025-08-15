@@ -12,14 +12,16 @@ import { Badge } from "@/components/subframe/ui/components/Badge";
 function CuratedClassDetail() {
   return (
     <DefaultPageLayout>
-      <div className="container max-w-none flex h-full w-full flex-col items-start gap-6 bg-default-background py-12 overflow-auto">
-        <div className="flex w-full flex-col items-start gap-12">
-          <div className="flex w-full flex-col items-start gap-4 relative">
-            <img className="h-112 w-full flex-none rounded-md object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780577/uploads/302/hhmv6ey0yajkadnmcp0a.png" />
-          </div>
-          <span className="text-heading-1 font-heading-1 text-default-font">Curated Classes Detail</span>
-        </div>
-        <div className="flex w-full flex-col items-start gap-6">
+      <div className="flex w-full flex-col items-start gap-8">
+        <div className="flex w-full flex-col items-center gap-8">
+          <div className="flex w-full max-w-[1024px] flex-col items-start gap-16">
+            <div className="flex w-full flex-col items-start gap-12">
+              <div className="flex w-full flex-col items-start gap-4 relative">
+                <img className="h-112 w-full flex-none rounded-md object-cover" src="https://res.cloudinary.com/subframe/image/upload/v1723780577/uploads/302/hhmv6ey0yajkadnmcp0a.png" />
+              </div>
+              <span className="text-heading-1 font-heading-1 text-default-font">Curated Classes Detail</span>
+            </div>
+            <div className="flex w-full flex-col items-start gap-6">
           <div className="flex w-full flex-col items-start gap-2 px-1 py-1">
             <span className="text-heading-2 font-heading-2 text-default-font">About this collection</span>
             <span className="text-body font-body text-default-font">Description of this collection.</span>
@@ -124,6 +126,7 @@ function CuratedClassDetail() {
                   <Badge variant="neutral">Purpose-driven learning</Badge>
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>
