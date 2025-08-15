@@ -201,7 +201,7 @@ function TumboHome() {
                 </div>
                 <span className="whitespace-pre-wrap text-body font-body text-default-font -tracking-[0.01em]">
                   {
-                    "We don't stop at \"6 years old\" or \"likes art.\" We ask about how your kid warms up, focuses, and lights up. The result? A \"learning signature\" you can actually use — and a dashboard that quietly keeps track of their wins, wobbles, and growth spurts. Basically, a period tracker… but for childhood development."
+                    "We don't stop at \"6 years old\" or \"likes art.\" We dig into how your kid warms up, focuses, and lights up.\n\nThe result? A learning signature that actually guides decisions, plus a dashboard tracking their wins, wobbles, and growth spurts."
                   }
                 </span>
               </div>
@@ -222,7 +222,7 @@ function TumboHome() {
                 </div>
                 <span className="whitespace-pre-wrap text-body font-body text-default-font -tracking-[0.01em]">
                   {
-                    "The best intel isn't on Google — it's from parents who've already tried the class. Tümbo shows you who's going, lets you swap notes, and makes it stupid-easy to share recs with your partner or friends. And we'll tell you straight if something's sponsored. No guesswork. No drama."
+                    "The best intel isn't on Google. It's from parents who've already tried the class. Tümbo shows you who's going, lets you swap notes, and makes it stupid-easy to share recs with your partner or friends. And we'll tell you straight if something's sponsored.\n\nNo guesswork. No BS."
                   }
                 </span>
               </div>
