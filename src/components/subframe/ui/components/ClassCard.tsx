@@ -30,7 +30,7 @@ const ClassCardRoot = React.forwardRef<HTMLDivElement, ClassCardRootProps>(
         ref={ref}
         {...otherProps}
       >
-        <div className="flex w-full min-w-[240px] flex-col items-start gap-1 rounded-2xl bg-neutral-50">
+        <div className="flex w-full min-w-[240px] flex-col items-start gap-1 rounded-2xl bg-white">
           <div className="flex h-60 w-full flex-none flex-col items-center justify-center gap-24 overflow-hidden rounded-xl">
             <div className="flex w-full grow shrink-0 basis-0 flex-col items-center justify-center gap-24">
               <img

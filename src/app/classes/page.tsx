@@ -40,7 +40,7 @@ function ClassDirectoryPage() {
               </div>
               <div className="w-full items-start gap-4 grid grid-cols-3">
                 <Link href="/classes/creative-little-architects" className="block">
-                  <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm hover:shadow-lg transition-shadow cursor-pointer">
+                  <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm hover:shadow-lg transition-shadow cursor-pointer">
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                       <img
                         className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
@@ -71,7 +71,7 @@ function ClassDirectoryPage() {
                     </div>
                   </div>
                 </Link>
-                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
@@ -101,7 +101,7 @@ function ClassDirectoryPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
@@ -142,7 +142,7 @@ function ClassDirectoryPage() {
                 </span>
               </div>
               <div className="w-full items-start gap-4 grid grid-cols-3">
-                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
@@ -168,7 +168,7 @@ function ClassDirectoryPage() {
                     <Badge variant="neutral">STEM &amp; Problem-Solving</Badge>
                   </div>
                 </div>
-                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
@@ -197,7 +197,7 @@ function ClassDirectoryPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
@@ -239,7 +239,7 @@ function ClassDirectoryPage() {
                 </span>
               </div>
               <div className="w-full items-start gap-4 grid grid-cols-3">
-                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
@@ -270,7 +270,7 @@ function ClassDirectoryPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
@@ -301,7 +301,7 @@ function ClassDirectoryPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
@@ -343,7 +343,7 @@ function ClassDirectoryPage() {
                 </span>
               </div>
               <div className="w-full items-start gap-4 grid grid-cols-3">
-                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
@@ -372,7 +372,7 @@ function ClassDirectoryPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
@@ -401,7 +401,7 @@ function ClassDirectoryPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
@@ -442,7 +442,7 @@ function ClassDirectoryPage() {
                 </span>
               </div>
               <div className="w-full items-start gap-4 grid grid-cols-3">
-                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
@@ -473,7 +473,7 @@ function ClassDirectoryPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
@@ -502,7 +502,7 @@ function ClassDirectoryPage() {
                     </div>
                   </div>
                 </div>
-                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md border border-solid border-neutral-border bg-default-background shadow-sm">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
                     <img
                       className="h-60 w-full flex-none border-b border-solid border-neutral-border object-cover"
