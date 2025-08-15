@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { DefaultPageLayout } from "@/components/subframe/ui/layouts/DefaultPageLayout";
+import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { FeatherCloud } from "@subframe/core";
 import { DropdownMenu } from "@/components/subframe/ui/components/DropdownMenu";
 import { FeatherFilePlus2 } from "@subframe/core";
@@ -38,7 +38,7 @@ function TumboHome() {
   });
 
   return (
-    <DefaultPageLayout>
+    <ModernPageLayout>
       <div className="flex w-full flex-col items-center justify-center bg-default-background">
         <div className="flex w-full flex-col items-center justify-center gap-8 bg-default-background px-6 pt-40 pb-24">
           <span className="max-w-[1024px] whitespace-pre-wrap font-['Lexend'] text-[95px] font-[900] leading-[84px] text-default-font text-center -tracking-[0.04em] mobile:font-['Montserrat'] mobile:text-[62px] mobile:font-[900] mobile:leading-[58px] mobile:tracking-normal">
@@ -398,7 +398,7 @@ function TumboHome() {
           <BoldFooter />
         </div>
       </div>
-    </DefaultPageLayout>
+    </ModernPageLayout>
   );
 }
 
