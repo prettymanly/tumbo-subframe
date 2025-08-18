@@ -278,7 +278,8 @@ function ClassDirectoryPage() {
                     placeholder="Search"
                     value={searchQuery}
                     onChange={(e) => handleSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-gray-100 border-0 rounded-lg text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
+                    className="w-full pl-10 pr-4 py-3 border-0 rounded-full text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
+                    style={{ backgroundColor: '#F3F1ED' }}
                   />
                 </div>
                 
@@ -300,9 +301,23 @@ function ClassDirectoryPage() {
                     onClick={() => handleTagClick(tag.id)}
                     className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                       selectedTags.includes(tag.id)
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
+                        ? 'text-white'
+                        : 'text-gray-700 hover:text-gray-800'
                     }`}
+                    style={{
+                      backgroundColor: selectedTags.includes(tag.id) ? '#7E401A' : 'transparent',
+                      ':hover': selectedTags.includes(tag.id) ? {} : { backgroundColor: '#E2D6C7' }
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!selectedTags.includes(tag.id)) {
+                        e.currentTarget.style.backgroundColor = '#E2D6C7';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!selectedTags.includes(tag.id)) {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }
+                    }}
                     title={tag.description}
                   >
                     {tag.name}
@@ -316,9 +331,22 @@ function ClassDirectoryPage() {
                     onClick={() => handleTagClick(tag.id)}
                     className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                       selectedTags.includes(tag.id)
-                        ? 'bg-green-600 text-white'
-                        : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
+                        ? 'text-white'
+                        : 'text-gray-700 hover:text-gray-800'
                     }`}
+                    style={{
+                      backgroundColor: selectedTags.includes(tag.id) ? '#FF3C00' : 'transparent'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!selectedTags.includes(tag.id)) {
+                        e.currentTarget.style.backgroundColor = '#E2D6C7';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!selectedTags.includes(tag.id)) {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }
+                    }}
                     title={tag.description}
                   >
                     {tag.name}
@@ -332,9 +360,22 @@ function ClassDirectoryPage() {
                     onClick={() => handleTagClick(tag.id)}
                     className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                       selectedTags.includes(tag.id)
-                        ? 'bg-amber-600 text-white'
-                        : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
+                        ? 'text-white'
+                        : 'text-gray-700 hover:text-gray-800'
                     }`}
+                    style={{
+                      backgroundColor: selectedTags.includes(tag.id) ? '#F1B313' : 'transparent'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!selectedTags.includes(tag.id)) {
+                        e.currentTarget.style.backgroundColor = '#E2D6C7';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!selectedTags.includes(tag.id)) {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }
+                    }}
                     title={tag.description}
                   >
                     {tag.name}
@@ -348,9 +389,22 @@ function ClassDirectoryPage() {
                     onClick={() => handleTagClick(tag.id)}
                     className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                       selectedTags.includes(tag.id)
-                        ? 'bg-red-600 text-white'
-                        : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
+                        ? 'text-white'
+                        : 'text-gray-700 hover:text-gray-800'
                     }`}
+                    style={{
+                      backgroundColor: selectedTags.includes(tag.id) ? '#FF6966' : 'transparent'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!selectedTags.includes(tag.id)) {
+                        e.currentTarget.style.backgroundColor = '#E2D6C7';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!selectedTags.includes(tag.id)) {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }
+                    }}
                     title={tag.description}
                   >
                     {tag.name}

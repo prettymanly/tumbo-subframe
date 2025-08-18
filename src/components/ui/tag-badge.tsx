@@ -29,29 +29,37 @@ export const TagBadge: React.FC<TagBadgeProps> = ({
   const tagName = typeof tag === 'string' ? tag : tag.name || 'Unknown';
   const tagDescription = typeof tag === 'string' ? '' : (tag.description || '');
   
-  // Mock tag colors for now - will be replaced with real colors from Supabase
-  const getMockTagStyle = () => {
-    // Simple color scheme based on tag name for demo
+  // Category-specific colors for small tags (always active state)
+  const getTagStyle = () => {
     const tagLower = tagName.toLowerCase();
     
-    if (['music', 'dance', 'art', 'creative'].some(keyword => tagLower.includes(keyword))) {
-      return { backgroundColor: '#3b82f6', color: '#ffffff', borderColor: '#3b82f6' }; // Blue
-    } else if (['montessori', 'reggio', 'philosophy', 'values'].some(keyword => tagLower.includes(keyword))) {
-      return { backgroundColor: '#10b981', color: '#ffffff', borderColor: '#10b981' }; // Green
-    } else if (['small group', 'outdoor', 'high energy', 'collaborative'].some(keyword => tagLower.includes(keyword))) {
-      return { backgroundColor: '#f59e0b', color: '#ffffff', borderColor: '#f59e0b' }; // Amber
-    } else if (['confidence', 'leadership', 'creativity', 'problem-solving'].some(keyword => tagLower.includes(keyword))) {
-      return { backgroundColor: '#ef4444', color: '#ffffff', borderColor: '#ef4444' }; // Red
-    } else {
-      return { backgroundColor: '#6b7280', color: '#ffffff', borderColor: '#6b7280' }; // Gray default
+    // Content Tags - Brown (#7E401A)
+    if (['music', 'dance', 'art', 'creative', 'design', 'stem', 'tech', 'robotics', 'coding', 'science', 'math', 'language', 'writing', 'reading', 'sports'].some(keyword => tagLower.includes(keyword))) {
+      return { backgroundColor: '#7E401A', color: '#ffffff' };
+    } 
+    // Philosophy Tags - Red/Orange (#FF3C00)
+    else if (['montessori', 'reggio', 'waldorf', 'project-based', 'play-based', 'bilingual', 'cultural', 'heritage', 'philosophy', 'values', 'learning'].some(keyword => tagLower.includes(keyword))) {
+      return { backgroundColor: '#FF3C00', color: '#ffffff' };
+    } 
+    // Experience Tags - Yellow/Amber (#F1B313)
+    else if (['small group', 'large group', 'one-on-one', 'outdoor', 'tactile', 'messy', 'high energy', 'fast-paced', 'collaborative', 'competitive', 'hands-on'].some(keyword => tagLower.includes(keyword))) {
+      return { backgroundColor: '#F1B313', color: '#ffffff' };
+    } 
+    // Child Tags - Coral/Pink (#FF6966)
+    else if (['confidence', 'leadership', 'creativity', 'problem-solving', 'shy', 'outgoing', 'visual learner', 'kinesthetic', 'focus', 'communication'].some(keyword => tagLower.includes(keyword))) {
+      return { backgroundColor: '#FF6966', color: '#ffffff' };
+    } 
+    // Default to Content Tags color
+    else {
+      return { backgroundColor: '#7E401A', color: '#ffffff' };
     }
   };
 
-  const tagStyle = getMockTagStyle();
+  const tagStyle = getTagStyle();
 
   return (
     <span 
-      className={`px-2 py-1 rounded text-xs font-medium border ${className}`}
+      className={`px-2 py-1 rounded-full text-xs font-medium ${className}`}
       style={tagStyle}
       title={showTooltip && tagDescription ? tagDescription : undefined}
     >
@@ -62,31 +70,19 @@ export const TagBadge: React.FC<TagBadgeProps> = ({
 
 // Specialized badge components for different tag types
 export const ContentTagBadge: React.FC<{ tag: { id: string; name: string; description?: string } | string }> = ({ tag }) => (
-  <TagBadge 
-    tag={tag} 
-    className="bg-blue-100 text-blue-800 border-blue-200"
-  />
+  <TagBadge tag={tag} />
 );
 
 export const PhilosophyTagBadge: React.FC<{ tag: { id: string; name: string; description?: string } | string }> = ({ tag }) => (
-  <TagBadge 
-    tag={tag} 
-    className="bg-blue-100 text-blue-800 border-blue-200"
-  />
+  <TagBadge tag={tag} />
 );
 
 export const ExperienceTagBadge: React.FC<{ tag: { id: string; name: string; description?: string } | string }> = ({ tag }) => (
-  <TagBadge 
-    tag={tag} 
-    className="bg-blue-100 text-blue-800 border-blue-200"
-  />
+  <TagBadge tag={tag} />
 );
 
 export const ChildTagBadge: React.FC<{ tag: { id: string; name: string; description?: string } | string }> = ({ tag }) => (
-  <TagBadge 
-    tag={tag} 
-    className="bg-blue-100 text-blue-800 border-blue-200"
-  />
+  <TagBadge tag={tag} />
 );
 
 // Utility function to determine badge type based on tag name
