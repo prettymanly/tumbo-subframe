@@ -70,11 +70,41 @@ const ClassCardRoot = React.forwardRef<HTMLDivElement, ClassCardRootProps>(
           <span className="text-body font-body text-subtext-color">
             {description}
           </span>
-          <div className="flex items-center gap-2">
-            {badges.map((badge, index) => (
-              <Badge key={index} variant="neutral">{badge}</Badge>
-            ))}
-          </div>
+          {badges.length > 0 && (
+            <div className="flex items-center gap-2 mt-1 flex-wrap">
+              {badges.map((badge, index) => {
+                const tagLower = badge.toLowerCase();
+                
+                // Determine tag color based on content
+                let backgroundColor = '#7E401A'; // Default: Content Tags - Brown
+                if (['project-based', 'play-based', 'story-driven', 'imaginative', 'mindful', 'montessori', 'reggio', 'waldorf', 'bilingual', 'cultural', 'heritage', 'philosophy', 'values', 'learning'].some(keyword => tagLower.includes(keyword))) {
+                  backgroundColor = '#FF3C00'; // Philosophy Tags - Red/Orange
+                } else if (['hands-on', 'interactive', 'small group', 'large group', 'one-on-one', 'outdoor', 'tactile', 'messy', 'high energy', 'fast-paced', 'collaborative', 'competitive', 'immersive', 'sensory'].some(keyword => tagLower.includes(keyword))) {
+                  backgroundColor = '#F1B313'; // Experience Tags - Yellow/Amber
+                } else if (['fine motor', 'gross motor', 'confidence', 'leadership', 'creativity', 'problem-solving', 'shy', 'outgoing', 'visual learner', 'kinesthetic', 'focus', 'communication', 'critical thinking', 'social skills', 'emotional', 'self-expression'].some(keyword => tagLower.includes(keyword))) {
+                  backgroundColor = '#FF6966'; // Child Tags - Coral/Pink
+                }
+                
+                return (
+                  <span 
+                    key={index}
+                    className="px-3 py-1 rounded-full text-xs font-medium text-white"
+                    style={{
+                      backgroundColor: backgroundColor,
+                      border: 'none',
+                      fontSize: '12px',
+                      fontWeight: '500',
+                      borderRadius: '9999px',
+                      padding: '4px 12px'
+                    }}
+                    title={badge}
+                  >
+                    {badge}
+                  </span>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     );

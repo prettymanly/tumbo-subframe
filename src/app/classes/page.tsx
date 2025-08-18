@@ -3,7 +3,7 @@
 import React, { useState, useRef } from "react";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 
-import { ClassCard } from "@/components/ui/class-card";
+import { CustomClassCard } from "@/components/ui/class-card";
 // import { getCategoryTags, getTagsByType, searchClasses } from "@/lib/supabase/tags";
 // import { Tag, TagType, TAG_TYPES } from "@/lib/types/tags";
 
@@ -82,7 +82,7 @@ function ScrollableSection({ title, description, classes, bookmarkedClasses, tog
         >
           {classes.map((classItem) => (
             <div key={classItem.id} className="flex-none w-80">
-              <ClassCard
+              <CustomClassCard
                 id={classItem.id}
                 title={classItem.title}
                 description={classItem.description}

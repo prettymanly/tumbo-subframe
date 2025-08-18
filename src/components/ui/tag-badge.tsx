@@ -34,19 +34,19 @@ export const TagBadge: React.FC<TagBadgeProps> = ({
     const tagLower = tagName.toLowerCase();
     
     // Content Tags - Brown (#7E401A)
-    if (['music', 'dance', 'art', 'creative', 'design', 'stem', 'tech', 'robotics', 'coding', 'science', 'math', 'language', 'writing', 'reading', 'sports'].some(keyword => tagLower.includes(keyword))) {
+    if (['art', 'design', 'creative', 'visual', 'drawing', 'painting', 'sculpture', 'crafts', 'pottery', 'music', 'dance', 'stem', 'tech', 'robotics', 'coding', 'science', 'math', 'language', 'writing', 'reading', 'sports'].some(keyword => tagLower.includes(keyword))) {
       return { backgroundColor: '#7E401A', color: '#ffffff' };
     } 
     // Philosophy Tags - Red/Orange (#FF3C00)
-    else if (['montessori', 'reggio', 'waldorf', 'project-based', 'play-based', 'bilingual', 'cultural', 'heritage', 'philosophy', 'values', 'learning'].some(keyword => tagLower.includes(keyword))) {
+    else if (['project-based', 'play-based', 'story-driven', 'imaginative', 'mindful', 'montessori', 'reggio', 'waldorf', 'bilingual', 'cultural', 'heritage', 'philosophy', 'values', 'learning'].some(keyword => tagLower.includes(keyword))) {
       return { backgroundColor: '#FF3C00', color: '#ffffff' };
     } 
     // Experience Tags - Yellow/Amber (#F1B313)
-    else if (['small group', 'large group', 'one-on-one', 'outdoor', 'tactile', 'messy', 'high energy', 'fast-paced', 'collaborative', 'competitive', 'hands-on'].some(keyword => tagLower.includes(keyword))) {
+    else if (['hands-on', 'interactive', 'small group', 'large group', 'one-on-one', 'outdoor', 'tactile', 'messy', 'high energy', 'fast-paced', 'collaborative', 'competitive', 'immersive', 'sensory'].some(keyword => tagLower.includes(keyword))) {
       return { backgroundColor: '#F1B313', color: '#ffffff' };
     } 
     // Child Tags - Coral/Pink (#FF6966)
-    else if (['confidence', 'leadership', 'creativity', 'problem-solving', 'shy', 'outgoing', 'visual learner', 'kinesthetic', 'focus', 'communication'].some(keyword => tagLower.includes(keyword))) {
+    else if (['fine motor', 'gross motor', 'confidence', 'leadership', 'creativity', 'problem-solving', 'shy', 'outgoing', 'visual learner', 'kinesthetic', 'focus', 'communication', 'critical thinking', 'social skills', 'emotional', 'self-expression'].some(keyword => tagLower.includes(keyword))) {
       return { backgroundColor: '#FF6966', color: '#ffffff' };
     } 
     // Default to Content Tags color
@@ -59,11 +59,23 @@ export const TagBadge: React.FC<TagBadgeProps> = ({
 
   return (
     <span 
-      className={`px-2 py-1 rounded-full text-xs font-medium ${className}`}
-      style={tagStyle}
+      className={`px-3 py-1 rounded-full text-xs font-medium ${className}`}
+      style={{
+        ...tagStyle,
+        border: '3px solid red !important',
+        fontSize: '16px !important',
+        display: 'inline-block !important',
+        whiteSpace: 'nowrap !important',
+        borderRadius: '9999px !important',
+        padding: '8px 16px !important',
+        fontWeight: '700 !important',
+        lineHeight: '1 !important',
+        backgroundColor: '#00FF00 !important',
+        color: '#FF0000 !important'
+      }}
       title={showTooltip && tagDescription ? tagDescription : undefined}
     >
-      {tagName}
+      🚨🚨🚨 {tagName} 🚨🚨🚨
     </span>
   );
 };
@@ -90,22 +102,22 @@ export const getBadgeComponent = (tagName: string) => {
   const lowerTagName = tagName.toLowerCase();
   
   // Content tags
-  if (['art', 'design', 'music', 'dance', 'sports', 'stem', 'tech', 'robotics', 'coding', 'science', 'math', 'language', 'writing', 'reading'].some(keyword => lowerTagName.includes(keyword))) {
+  if (['music', 'dance', 'art', 'creative', 'design', 'stem', 'tech', 'robotics', 'coding', 'science', 'math', 'language', 'writing', 'reading', 'sports', 'pottery', 'painting', 'visual', 'drawing', 'sculpture', 'crafts'].some(keyword => lowerTagName.includes(keyword))) {
     return ContentTagBadge;
   }
   
   // Philosophy tags
-  if (['montessori', 'reggio', 'waldorf', 'project-based', 'play-based', 'bilingual', 'cultural', 'heritage', 'confidence', 'resilience', 'mindfulness'].some(keyword => lowerTagName.includes(keyword))) {
+  if (['montessori', 'reggio', 'waldorf', 'project-based', 'play-based', 'bilingual', 'cultural', 'heritage', 'philosophy', 'values', 'learning', 'story-driven', 'imaginative', 'mindful'].some(keyword => lowerTagName.includes(keyword))) {
     return PhilosophyTagBadge;
   }
   
   // Experience tags
-  if (['small group', 'large group', 'one-on-one', 'outdoor', 'tactile', 'messy', 'high energy', 'fast-paced', 'collaborative', 'competitive'].some(keyword => lowerTagName.includes(keyword))) {
+  if (['small group', 'large group', 'one-on-one', 'outdoor', 'tactile', 'messy', 'high energy', 'fast-paced', 'collaborative', 'competitive', 'hands-on', 'interactive', 'immersive', 'sensory'].some(keyword => lowerTagName.includes(keyword))) {
     return ExperienceTagBadge;
   }
   
   // Child tags
-  if (['shy', 'outgoing', 'visual learner', 'kinesthetic', 'confidence', 'focus', 'leadership', 'communication', 'problem-solving'].some(keyword => lowerTagName.includes(keyword))) {
+  if (['confidence', 'leadership', 'creativity', 'problem-solving', 'shy', 'outgoing', 'visual learner', 'kinesthetic', 'focus', 'communication', 'critical thinking', 'fine motor', 'gross motor', 'social skills', 'emotional', 'self-expression'].some(keyword => lowerTagName.includes(keyword))) {
     return ChildTagBadge;
   }
   
