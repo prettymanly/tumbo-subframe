@@ -31,9 +31,13 @@ import { AuthModal } from "@/components/ui/auth-modal"
 
 // Navigation links array - simple buttons only
 const navigationLinks = [
-  { href: "/classes", label: "Browse Classes" },
-  { href: "/collections", label: "Curated Collections" },
   { href: "/tumbo-chat", label: "Ask Tümbo" },
+]
+
+// Explore dropdown items
+const exploreItems = [
+  { href: "/classes", label: "Class Directory" },
+  { href: "/collections", label: "Curated Collections" },
 ]
 
 // Custom NotificationMenu Component
@@ -147,6 +151,7 @@ export default function TumboNavbar() {
   const { isAuthenticated, user, logout } = useAuth()
   const [authModalOpen, setAuthModalOpen] = useState(false)
   const [authMode, setAuthMode] = useState<'signin' | 'register'>('signin')
+  const [exploreOpen, setExploreOpen] = useState(false)
 
   const openSignInModal = () => {
     setAuthMode('signin')
@@ -237,6 +242,22 @@ export default function TumboNavbar() {
             <PopoverContent align="start" className="w-48 p-1 md:hidden">
               <NavigationMenu className="max-w-none *:w-full">
                 <NavigationMenuList className="flex-col items-start gap-0">
+                  {/* Explore section in mobile */}
+                  <NavigationMenuItem className="w-full">
+                    <div className="w-full py-2 px-3 text-sm font-medium text-muted-foreground">
+                      Explore
+                    </div>
+                    {exploreItems.map((item, index) => (
+                      <NavigationMenuItem key={index} className="w-full pl-4">
+                        <NavigationMenuLink asChild>
+                          <Link href={item.href} className="block w-full py-2 px-3 text-sm hover:bg-accent rounded-md">
+                            {item.label}
+                          </Link>
+                        </NavigationMenuLink>
+                      </NavigationMenuItem>
+                    ))}
+                  </NavigationMenuItem>
+                  
                   {navigationLinks.map((link, index) => (
                     <NavigationMenuItem key={index} className="w-full">
                       <NavigationMenuLink asChild>
@@ -271,6 +292,33 @@ export default function TumboNavbar() {
                     {link.label}
                   </Link>
                 ))}
+                
+                {/* Explore Dropdown */}
+                <div 
+                  className="relative"
+                  onMouseEnter={() => setExploreOpen(true)}
+                  onMouseLeave={() => setExploreOpen(false)}
+                >
+                  <Button 
+                    variant="ghost" 
+                    className="text-muted-foreground hover:text-primary py-1.5 px-2 font-medium opacity-80 hover:opacity-100 transition-opacity text-base"
+                  >
+                    Explore
+                  </Button>
+                  {exploreOpen && (
+                    <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-border rounded-md shadow-lg z-50">
+                      {exploreItems.map((item, index) => (
+                        <Link 
+                          key={index} 
+                          href={item.href} 
+                          className="block w-full px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground transition-colors first:rounded-t-md last:rounded-b-md"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </nav>
             </div>
           </div>

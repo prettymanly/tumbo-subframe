@@ -26,3 +26,6 @@ export function BookmarkButton({ classId, isBookmarked, onToggle, className }: B
     />
   );
 }
+
+
+

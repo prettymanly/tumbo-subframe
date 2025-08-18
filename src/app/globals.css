@@ -21,6 +21,15 @@
 /* Temporary font override: map hard-coded Montserrat utility to Lexend */
 .font-\[\'Montserrat\'\] { font-family: var(--font-lexend), system-ui, sans-serif !important; }
 
+/* Hide scrollbars for Netflix-style horizontal scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Ensure typography token utilities exist even if preset is skipped */
 @layer utilities {
   .text-heading-1 { font-size: 40px; line-height: 48px; font-weight: 700; letter-spacing: 0; }

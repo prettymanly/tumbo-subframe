@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { getBadgeComponent } from "./tag-badge";
 
 interface ClassCardProps {
   id: string;
@@ -70,15 +71,16 @@ export const ClassCard = React.memo(function ClassCard({
             {description}
           </span>
           {badges.length > 0 && (
-            <div className="flex items-center gap-2 mt-1">
-              {badges.map((badge, index) => (
-                <span 
-                  key={index} 
-                  className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs"
-                >
-                  {badge}
-                </span>
-              ))}
+            <div className="flex items-center gap-2 mt-1 flex-wrap">
+              {badges.map((badge, index) => {
+                const BadgeComponent = getBadgeComponent(badge);
+                return (
+                  <BadgeComponent 
+                    key={index} 
+                    tag={badge}
+                  />
+                );
+              })}
             </div>
           )}
         </div>
