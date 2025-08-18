@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
-import { ListingsSearch } from "@/components/subframe/ui/components/ListingsSearch";
+
 import { ClassCard } from "@/components/ui/class-card";
 // import { getCategoryTags, getTagsByType, searchClasses } from "@/lib/supabase/tags";
 // import { Tag, TagType, TAG_TYPES } from "@/lib/types/tags";
@@ -11,7 +11,14 @@ import { ClassCard } from "@/components/ui/class-card";
 interface ScrollableSectionProps {
   title: string;
   description: string;
-  classes: any[];
+  classes: Array<{
+    id: string;
+    title: string;
+    description: string;
+    image: string;
+    badges: string[];
+    href: string;
+  }>;
   bookmarkedClasses: Set<string>;
   toggleBookmark: (classId: string) => void;
   tags?: Tag[];
@@ -65,8 +72,8 @@ function ScrollableSection({ title, description, classes, bookmarkedClasses, tog
         </button>
         
         {/* Gradient overlays to fade content behind arrows */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-default-background to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-default-background to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-default-background to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-default-background to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
         
         <div 
           ref={scrollContainerRef}
@@ -242,25 +249,21 @@ function ClassDirectoryPage() {
 
   return (
     <ModernPageLayout>
-              <div className="flex w-full flex-col items-start gap-8">
-          <div className="flex w-full flex-col items-start gap-16">
-            <div className="flex w-full flex-col items-start gap-7 px-4 md:px-6 lg:px-10 py-12">
-              <div className="flex w-full flex-col items-start gap-4">
-                <span className="w-full text-heading-1 font-heading-1 text-default-font mobile:text-heading-1 mobile:font-heading-1">
-                  Browse All Classes
-                </span>
-                <span className="text-body font-body text-default-font">
-                  From art to STEM, browse curated enrichment classes with
-                  filters that make finding the right fit fast.
-                </span>
-              </div>
-                            <div className="flex w-full flex-col items-center justify-center gap-3 px-4 py-4">
-                <ListingsSearch />
-              </div>
-            </div>
+      {/* Page Structure:
+          - Header Section (title + search & filter elements)
+          - Content Section (all class card rows as subsections)
+      */}
+      <div className="flex w-full flex-col items-start gap-8">
+        <div className="flex w-full flex-col items-start gap-16">
+          {/* Header Section - Title + Search & Filter */}
+          <div className="flex w-full flex-col items-start gap-6 px-4 md:px-6 lg:px-10 py-12">
+            {/* Page Title */}
+            <span className="w-full text-heading-1 font-heading-1 text-default-font mobile:text-heading-1 mobile:font-heading-1">
+              Browse All Classes
+            </span>
             
-            {/* New Search and Filter Section */}
-            <div className="flex w-full flex-col items-start gap-4 px-4 md:px-6 lg:px-10">
+            {/* Search and Filter Elements */}
+            <div className="flex w-full flex-col items-start gap-4">
               {/* Search Bar and Filters Row */}
               <div className="flex w-full items-center gap-3">
                 {/* Search Bar */}
@@ -270,13 +273,13 @@ function ClassDirectoryPage() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                   </div>
-                                  <input
-                  type="text"
-                  placeholder="Search"
-                  value={searchQuery}
-                  onChange={(e) => handleSearch(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-100 border-0 rounded-lg text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
-                />
+                  <input
+                    type="text"
+                    placeholder="Search"
+                    value={searchQuery}
+                    onChange={(e) => handleSearch(e.target.value)}
+                    className="w-full pl-10 pr-4 py-3 bg-gray-100 border-0 rounded-lg text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
+                  />
                 </div>
                 
                 {/* Filters Button */}
@@ -355,34 +358,36 @@ function ClassDirectoryPage() {
                 ))}
               </div>
             </div>
-            
-            <div className="flex w-full flex-col items-start gap-12">
-              {/* Recommended for Emma Section */}
-              <ScrollableSection
-                title="Recommended for Emma"
-                description="Handpicked classes based on Emma's interests and developmental stage"
-                classes={classes.slice(0, 6)}
-                bookmarkedClasses={bookmarkedClasses}
-                toggleBookmark={toggleBookmark}
-              />
+          </div>
+          
+          {/* Content Section - All Class Card Rows */}
+          <div className="flex w-full flex-col items-start gap-12">
+            {/* Recommended for Emma Subsection */}
+            <ScrollableSection
+              title="Recommended for Emma"
+              description="Handpicked classes based on Emma's interests and developmental stage"
+              classes={classes.slice(0, 6)}
+              bookmarkedClasses={bookmarkedClasses}
+              toggleBookmark={toggleBookmark}
+            />
 
-              {/* Popular This Week Section */}
-              <ScrollableSection
-                title="Popular This Week"
-                description="Classes that other parents are loving right now"
-                classes={classes.slice(2, 8)}
-                bookmarkedClasses={bookmarkedClasses}
-                toggleBookmark={toggleBookmark}
-              />
+            {/* Popular This Week Subsection */}
+            <ScrollableSection
+              title="Popular This Week"
+              description="Classes that other parents are loving right now"
+              classes={classes.slice(2, 8)}
+              bookmarkedClasses={bookmarkedClasses}
+              toggleBookmark={toggleBookmark}
+            />
 
-              {/* All Classes Section */}
-              <ScrollableSection
-                title="All Classes"
-                description="Explore our complete collection of enrichment classes"
-                classes={classes}
-                bookmarkedClasses={bookmarkedClasses}
-                toggleBookmark={toggleBookmark}
-              />
+            {/* All Classes Subsection */}
+            <ScrollableSection
+              title="All Classes"
+              description="Explore our complete collection of enrichment classes"
+              classes={classes}
+              bookmarkedClasses={bookmarkedClasses}
+              toggleBookmark={toggleBookmark}
+            />
           </div>
         </div>
       </div>

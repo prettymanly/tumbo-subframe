@@ -109,7 +109,7 @@ function CuratedClasses() {
                   <div className="flex w-full flex-col items-start gap-2">
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2">
                       <span className="line-clamp-2 w-full text-heading-2 font-heading-2 text-default-font">Confidence in Disguise</span>
-                      <span className="line-clamp-2 w-full text-body font-body text-default-font">For kids who say "I can't" — until they forget they're trying.</span>
+                      <span className="line-clamp-2 w-full text-body font-body text-default-font">For kids who say &quot;I can&apos;t&quot; — until they forget they&apos;re trying.</span>
                       <div className="flex items-center gap-2">
                         <Tags>Confidence-building</Tags>
                         <Tags>Play-first</Tags>
@@ -145,7 +145,7 @@ function CuratedClasses() {
                   <div className="flex w-full flex-col items-start gap-2">
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2">
                       <span className="line-clamp-2 w-full text-heading-2 font-heading-2 text-default-font">Tiny Rebels, Big Hearts</span>
-                      <span className="line-clamp-2 w-full text-body font-body text-default-font">For kids who don't follow the rules — but follow curiosity.</span>
+                      <span className="line-clamp-2 w-full text-body font-body text-default-font">For kids who don&apos;t follow the rules — but follow curiosity.</span>
                       <div className="flex items-center gap-2">
                         <Tags>Autonomy</Tags>
                         <Tags>Curious minds</Tags>

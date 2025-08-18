@@ -42,7 +42,7 @@ function TumboHome() {
       <div className="flex w-full flex-col items-center justify-center bg-default-background">
         <div className="flex w-full flex-col items-center justify-center gap-8 bg-default-background px-6 pt-40 pb-24">
           <span className="max-w-[1024px] whitespace-pre-wrap font-['Lexend'] text-[95px] font-[900] leading-[84px] text-default-font text-center -tracking-[0.04em] mobile:font-['Montserrat'] mobile:text-[62px] mobile:font-[900] mobile:leading-[58px] mobile:tracking-normal">
-            The best classes{"\n"}aren't always {"\n"}the <em>best</em> classes.
+            The best classes{"\n"}aren&apos;t always {"\n"}the <em>best</em> classes.
           </span>
           <span className="max-w-[576px] whitespace-pre-wrap text-body font-body text-subtext-color text-center -tracking-[0.015em]">
              {
@@ -92,7 +92,7 @@ function TumboHome() {
               />
             </div>
             <span className="text-caption font-caption text-subtext-color">
-              Tell Tümbo about your kid. We'll do the rest.
+              Tell Tümbo about your kid. We&apos;ll do the rest.
             </span>
           </div>
         </div>
@@ -193,7 +193,7 @@ function TumboHome() {
               <div className="flex flex-col items-start justify-center gap-4">
                 <div className="flex flex-col items-start justify-center">
                   <span className="text-heading-2 font-heading-2 text-default-font -tracking-[0.025em]">
-                    Your Child's Growth, Mapped
+                    Your Child&apos;s Growth, Mapped
                   </span>
                   <span className="text-body-bold font-body-bold text-default-font -tracking-[0.025em]">
                     Finally, a profile that grows up with your kid.

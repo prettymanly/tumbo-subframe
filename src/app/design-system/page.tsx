@@ -61,7 +61,7 @@ interface ComponentShowcaseProps {
   name: string;
   category: string;
   component: React.ReactNode;
-  props?: Record<string, any>;
+  props?: Record<string, unknown>;
   states?: string[];
   usage: string[];
   tokens: string[];

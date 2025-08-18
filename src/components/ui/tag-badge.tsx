@@ -4,7 +4,7 @@ import React from "react";
 // import { Tag, TagType, getTagColor, getTagDisplayName } from "@/lib/types/tags";
 
 interface TagBadgeProps {
-  tag: any | string; // Using any for now until we have proper types
+  tag: { id: string; name: string; description?: string } | string;
   className?: string;
   showTooltip?: boolean;
 }
@@ -61,28 +61,28 @@ export const TagBadge: React.FC<TagBadgeProps> = ({
 };
 
 // Specialized badge components for different tag types
-export const ContentTagBadge: React.FC<{ tag: any | string }> = ({ tag }) => (
+export const ContentTagBadge: React.FC<{ tag: { id: string; name: string; description?: string } | string }> = ({ tag }) => (
   <TagBadge 
     tag={tag} 
     className="bg-blue-100 text-blue-800 border-blue-200"
   />
 );
 
-export const PhilosophyTagBadge: React.FC<{ tag: any | string }> = ({ tag }) => (
+export const PhilosophyTagBadge: React.FC<{ tag: { id: string; name: string; description?: string } | string }> = ({ tag }) => (
   <TagBadge 
     tag={tag} 
     className="bg-blue-100 text-blue-800 border-blue-200"
   />
 );
 
-export const ExperienceTagBadge: React.FC<{ tag: any | string }> = ({ tag }) => (
+export const ExperienceTagBadge: React.FC<{ tag: { id: string; name: string; description?: string } | string }> = ({ tag }) => (
   <TagBadge 
     tag={tag} 
     className="bg-blue-100 text-blue-800 border-blue-200"
   />
 );
 
-export const ChildTagBadge: React.FC<{ tag: any | string }> = ({ tag }) => (
+export const ChildTagBadge: React.FC<{ tag: { id: string; name: string; description?: string } | string }> = ({ tag }) => (
   <TagBadge 
     tag={tag} 
     className="bg-blue-100 text-blue-800 border-blue-200"

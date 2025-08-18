@@ -349,7 +349,7 @@ async function ClassDetailPage({
                                 Casual and kid-friendly with lots of natural light.
                                 Serves reliable brunch favourites, easy sandwiches,
                                 and decent coffee. Bonus: plenty of plug points if
-                                you're sneaking in a bit of work.
+                                you&apos;re sneaking in a bit of work.
                               </span>
                             </div>
                           </div>
