@@ -30,6 +30,15 @@
   display: none;
 }
 
+/* Additional scrollbar hiding for category tabs */
+.category-tabs-scroll {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+.category-tabs-scroll::-webkit-scrollbar {
+  display: none !important;
+}
+
 /* Ensure typography token utilities exist even if preset is skipped */
 @layer utilities {
   .text-heading-1 { font-size: 40px; line-height: 48px; font-weight: 700; letter-spacing: 0; }

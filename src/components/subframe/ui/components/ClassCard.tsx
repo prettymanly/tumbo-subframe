@@ -8,130 +8,59 @@
 
 import React from "react";
 import * as SubframeUtils from "../utils";
-import { FeatherBookmark } from "@subframe/core";
-import { Bookmark } from "lucide-react";
+import { FeatherHeart } from "@subframe/core";
 import { IconButton } from "./IconButton";
 import { Badge } from "./Badge";
-import Link from "next/link";
 
 interface ClassCardRootProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
-  title?: string;
-  description?: string;
-  image?: string;
-  badges?: string[];
-  href?: string;
-  classId?: string;
-  isBookmarked?: boolean;
-  onBookmarkToggle?: (classId: string) => void;
 }
 
 const ClassCardRoot = React.forwardRef<HTMLDivElement, ClassCardRootProps>(
   function ClassCardRoot(
-    { 
-      className, 
-      title = "Creative Little Artists",
-      description = "For kids becoming creators, not just consumers.",
-      image = "https://res.cloudinary.com/subframe/image/upload/v1722404911/uploads/302/uxswoalrzimh7g9ivtiq.webp",
-      badges = ["Creative Expression", "Growth Mindset"],
-      href,
-      classId,
-      isBookmarked = false,
-      onBookmarkToggle,
-      ...otherProps 
-    }: ClassCardRootProps,
+    { className, ...otherProps }: ClassCardRootProps,
     ref
   ) {
-    const cardContent = (
-      <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm hover:shadow-lg transition-shadow cursor-pointer">
-        <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
-          <img
-            className="h-60 w-full flex-none object-cover"
-            src={image}
-            alt={title}
-          />
-          {classId && onBookmarkToggle && (
-            <IconButton
-              className="absolute right-2 top-2"
-              variant="inverse"
-              icon={isBookmarked ? <Bookmark className="fill-current" /> : <FeatherBookmark />}
-              onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                event.preventDefault();
-                event.stopPropagation();
-                onBookmarkToggle(classId);
-              }}
-            />
-          )}
-        </div>
-        <div className="flex w-full flex-col items-start gap-1 px-4 py-4">
-          <span className="line-clamp-3 text-heading-3 font-heading-3 text-default-font">
-            {title}
-          </span>
-          <span className="text-body font-body text-subtext-color">
-            {description}
-          </span>
-          {badges.length > 0 && (
-            <div className="flex items-center gap-2 mt-1 flex-wrap">
-              {badges.map((badge, index) => {
-                const tagLower = badge.toLowerCase();
-                
-                // Determine tag color based on content
-                let backgroundColor = '#7E401A'; // Default: Content Tags - Brown
-                if (['project-based', 'play-based', 'story-driven', 'imaginative', 'mindful', 'montessori', 'reggio', 'waldorf', 'bilingual', 'cultural', 'heritage', 'philosophy', 'values', 'learning'].some(keyword => tagLower.includes(keyword))) {
-                  backgroundColor = '#FF3C00'; // Philosophy Tags - Red/Orange
-                } else if (['hands-on', 'interactive', 'small group', 'large group', 'one-on-one', 'outdoor', 'tactile', 'messy', 'high energy', 'fast-paced', 'collaborative', 'competitive', 'immersive', 'sensory'].some(keyword => tagLower.includes(keyword))) {
-                  backgroundColor = '#F1B313'; // Experience Tags - Yellow/Amber
-                } else if (['fine motor', 'gross motor', 'confidence', 'leadership', 'creativity', 'problem-solving', 'shy', 'outgoing', 'visual learner', 'kinesthetic', 'focus', 'communication', 'critical thinking', 'social skills', 'emotional', 'self-expression'].some(keyword => tagLower.includes(keyword))) {
-                  backgroundColor = '#FF6966'; // Child Tags - Coral/Pink
-                }
-                
-                return (
-                  <span 
-                    key={index}
-                    className="px-3 py-1 rounded-full text-xs font-medium text-white"
-                    style={{
-                      backgroundColor: backgroundColor,
-                      border: 'none',
-                      fontSize: '12px',
-                      fontWeight: '500',
-                      borderRadius: '9999px',
-                      padding: '4px 12px'
-                    }}
-                    title={badge}
-                  >
-                    {badge}
-                  </span>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      </div>
-    );
-
-    const containerClasses = `flex flex-col items-start gap-2 ${className || ''}`;
-
-    if (href) {
-      return (
-        <Link href={href} className="block">
-          <div
-            className={containerClasses}
-            ref={ref}
-            {...otherProps}
-          >
-            {cardContent}
-          </div>
-        </Link>
-      );
-    }
-
     return (
       <div
-        className={containerClasses}
+        className={SubframeUtils.twClassNames(
+          "flex flex-col items-start gap-2",
+          className
+        )}
         ref={ref}
         {...otherProps}
       >
-        {cardContent}
+        <div className="flex w-full min-w-[240px] flex-col items-start gap-1 rounded-2xl bg-neutral-50">
+          <div className="flex h-60 w-full flex-none flex-col items-center justify-center gap-24 overflow-hidden rounded-xl">
+            <div className="flex w-full grow shrink-0 basis-0 flex-col items-center justify-center gap-24">
+              <img
+                className="w-full grow shrink-0 basis-0 object-cover"
+                src="https://res.cloudinary.com/subframe/image/upload/v1722404911/uploads/302/uxswoalrzimh7g9ivtiq.webp"
+              />
+            </div>
+          </div>
+          <div className="flex w-full flex-col items-start gap-6">
+            <div className="flex w-full flex-col items-start gap-2 px-6 py-6">
+              <div className="flex w-full grow shrink-0 basis-0 items-start gap-2">
+                <span className="grow shrink-0 basis-0 font-['Inter'] text-[24px] font-[700] leading-[32px] text-default-font -tracking-[0.035em]">
+                  Creative Little Artists
+                </span>
+                <div className="flex flex-col items-center justify-center gap-2 self-stretch">
+                  <IconButton icon={<FeatherHeart />} />
+                </div>
+              </div>
+              <span className="w-full whitespace-pre-wrap font-['Inter'] text-[16px] font-[400] leading-[24px] text-subtext-color -tracking-[0.01em]">
+                {"For kids becoming creators, not just consumers."}
+              </span>
+              <div className="flex w-full items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Badge variant="neutral">Creative Expression</Badge>
+                  <Badge variant="neutral">Growth Mindset</Badge>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

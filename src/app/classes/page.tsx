@@ -2,8 +2,8 @@
 
 import React, { useState, useRef } from "react";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
-
 import { CustomClassCard } from "@/components/ui/class-card";
+import ClassFilterModal from "@/components/ui/class-filter-modal";
 // import { getCategoryTags, getTagsByType, searchClasses } from "@/lib/supabase/tags";
 // import { Tag, TagType, TAG_TYPES } from "@/lib/types/tags";
 
@@ -105,6 +105,7 @@ function ClassDirectoryPage() {
   const [bookmarkedClasses, setBookmarkedClasses] = useState<Set<string>>(new Set());
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filterModalOpen, setFilterModalOpen] = useState(false);
   
   // Mock category tags for now - will be replaced with real Supabase data
   const categoryTags = {
@@ -254,7 +255,7 @@ function ClassDirectoryPage() {
           - Content Section (all class card rows as subsections)
       */}
       <div className="flex w-full flex-col items-start gap-8">
-        <div className="flex w-full flex-col items-start gap-16">
+        <div className="flex w-full flex-col items-start" style={{ gap: '30px' }}>
           {/* Header Section - Title + Search & Filter */}
           <div className="flex w-full flex-col items-start gap-6 px-4 md:px-6 lg:px-10 py-12">
             {/* Page Title */}
@@ -266,6 +267,26 @@ function ClassDirectoryPage() {
             <div className="flex w-full flex-col items-start gap-4">
               {/* Search Bar and Filters Row */}
               <div className="flex w-full items-center gap-3">
+                {/* Filter Button */}
+                <button 
+                  className="flex items-center gap-2 px-4 py-3 bg-transparent rounded-full text-gray-700 transition-all duration-200" 
+                  style={{ border: '1.5px solid #F3F1ED' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = '#000000';
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = '#F3F1ED';
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                  }}
+                  onClick={() => setFilterModalOpen(true)}
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h18M7 8h10M9 13h6M11 18h2" />
+                  </svg>
+                  Filter
+                </button>
+                
                 {/* Search Bar */}
                 <div className="flex-1 relative">
                   <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
@@ -282,18 +303,10 @@ function ClassDirectoryPage() {
                     style={{ backgroundColor: '#F3F1ED' }}
                   />
                 </div>
-                
-                {/* Filters Button */}
-                <button className="flex items-center gap-2 px-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
-                  </svg>
-                  Filters
-                </button>
               </div>
               
               {/* Category Tabs */}
-              <div className="flex w-full items-center gap-2 overflow-x-auto">
+              <div className="flex w-full items-center gap-2 overflow-x-auto category-tabs-scroll">
                 {/* Content Tags */}
                 {categoryTags.content?.slice(0, 6).map((tag) => (
                   <button
@@ -445,6 +458,12 @@ function ClassDirectoryPage() {
           </div>
         </div>
       </div>
+      
+      {/* Filter Modal */}
+      <ClassFilterModal 
+        open={filterModalOpen} 
+        onOpenChange={setFilterModalOpen} 
+      />
     </ModernPageLayout>
   );
 }
