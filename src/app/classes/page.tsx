@@ -31,9 +31,18 @@ function ScrollableSection({ title, description, classes, bookmarkedClasses, tog
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current;
       const scrollAmount = 320; // Width of one card + gap
-      const newScrollLeft = scrollContainerRef.current.scrollLeft + (direction === 'right' ? scrollAmount : -scrollAmount);
-      scrollContainerRef.current.scrollTo({
+      let newScrollLeft = container.scrollLeft + (direction === 'right' ? scrollAmount : -scrollAmount);
+      
+      // Ensure we don't scroll beyond bounds
+      if (direction === 'right' && newScrollLeft > container.scrollWidth - container.clientWidth) {
+        newScrollLeft = container.scrollWidth - container.clientWidth;
+      } else if (direction === 'left' && newScrollLeft < 0) {
+        newScrollLeft = 0;
+      }
+      
+      container.scrollTo({
         left: newScrollLeft,
         behavior: 'smooth'
       });
@@ -50,52 +59,56 @@ function ScrollableSection({ title, description, classes, bookmarkedClasses, tog
           {description}
         </span>
       </div>
-      <div className="relative w-full group">
-        {/* Left Arrow - positioned at left edge of viewport */}
-        <button
-          onClick={() => scroll('left')}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-black/70 text-white opacity-0 group-hover:opacity-100 hover:bg-black/80 transition-all duration-200"
-          aria-label="Scroll left"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-        
-        {/* Right Arrow - positioned at right edge of viewport */}
-        <button
-          onClick={() => scroll('right')}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-black/70 text-white opacity-0 group-hover:opacity-100 hover:bg-black/80 transition-all duration-200"
-          aria-label="Scroll right"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
-        
-        {/* Gradient overlays to fade content behind arrows */}
-        <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-default-background to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-        <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-default-background to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
-        
-        <div 
-          ref={scrollContainerRef}
-          className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth px-4 md:px-6 lg:px-10"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {classes.map((classItem) => (
-            <div key={classItem.id} className="flex-none w-80">
-              <CustomClassCard
-                id={classItem.id}
-                title={classItem.title}
-                description={classItem.description}
-                image={classItem.image}
-                badges={classItem.badges}
-                href={classItem.href}
-                isBookmarked={bookmarkedClasses.has(classItem.id)}
-                onBookmarkToggle={toggleBookmark}
-              />
-            </div>
-          ))}
+      <div className="relative w-full">
+        {/* Scrollable Container with fixed width */}
+        <div className="relative w-full overflow-hidden">
+          {/* Left Arrow - positioned at left edge of container */}
+          <button
+            onClick={() => scroll('left')}
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-black/80 text-white opacity-100 hover:bg-black/90 transition-all duration-200 shadow-lg"
+            aria-label="Scroll left"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          
+          {/* Right Arrow - positioned at right edge of container */}
+          <button
+            onClick={() => scroll('right')}
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-black/80 text-white opacity-100 hover:bg-black/90 transition-all duration-200 shadow-lg"
+            aria-label="Scroll right"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+          
+          {/* Gradient overlays to fade content behind arrows */}
+          <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-default-background to-transparent z-10 pointer-events-none opacity-0 hover:opacity-100 transition-opacity duration-200"></div>
+          <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-default-background to-transparent z-10 pointer-events-none opacity-0 hover:opacity-100 transition-opacity duration-200"></div>
+          
+          {/* Scrollable content container */}
+          <div 
+            ref={scrollContainerRef}
+            className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth px-4 md:px-6 lg:px-10"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {classes.map((classItem) => (
+              <div key={classItem.id} className="flex-none w-80">
+                <CustomClassCard
+                  id={classItem.id}
+                  title={classItem.title}
+                  description={classItem.description}
+                  image={classItem.image}
+                  badges={classItem.badges}
+                  href={classItem.href}
+                  isBookmarked={bookmarkedClasses.has(classItem.id)}
+                  onBookmarkToggle={toggleBookmark}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
