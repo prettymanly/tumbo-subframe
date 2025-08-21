@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { CustomClassCard } from "@/components/ui/class-card";
-import ClassFilterModal from "@/components/ui/class-filter-modal";
+import ClassFilterSidebar, { FilterState } from "@/components/ui/class-filter-sidebar";
+import FilterChips from "@/components/ui/filter-chips";
 // import { getCategoryTags, getTagsByType, searchClasses } from "@/lib/supabase/tags";
 // import { Tag, TagType, TAG_TYPES } from "@/lib/types/tags";
 
@@ -21,7 +22,7 @@ interface ScrollableSectionProps {
   }>;
   bookmarkedClasses: Set<string>;
   toggleBookmark: (classId: string) => void;
-  tags?: Tag[];
+  tags?: any[];
 }
 
 function ScrollableSection({ title, description, classes, bookmarkedClasses, toggleBookmark }: ScrollableSectionProps) {
@@ -101,69 +102,6 @@ function ScrollableSection({ title, description, classes, bookmarkedClasses, tog
 }
 
 function ClassDirectoryPage() {
-  // State to track bookmarked classes
-  const [bookmarkedClasses, setBookmarkedClasses] = useState<Set<string>>(new Set());
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filterModalOpen, setFilterModalOpen] = useState(false);
-  
-  // Mock category tags for now - will be replaced with real Supabase data
-  const categoryTags = {
-    content: [
-      { id: "music", name: "Music", description: "Musical instruments and vocal training" },
-      { id: "dance", name: "Dance", description: "Various dance styles and movement" },
-      { id: "stem", name: "STEM & Tech", description: "Science, technology, engineering, and math" },
-      { id: "sports", name: "Sports", description: "Physical activities and athletic training" },
-      { id: "art", name: "Art & Design", description: "Creative arts and design projects" },
-      { id: "language", name: "Languages", description: "Foreign language learning" }
-    ],
-    philosophy: [
-      { id: "montessori", name: "Montessori", description: "Montessori-aligned learning approach" },
-      { id: "reggio", name: "Reggio Emilia", description: "Reggio Emilia inspired learning" },
-      { id: "project-based", name: "Project-Based", description: "Learning through hands-on projects" },
-      { id: "play-based", name: "Play-Based", description: "Learning through play and exploration" }
-    ],
-    experience: [
-      { id: "small-group", name: "Small Group", description: "Intimate learning environment" },
-      { id: "outdoor", name: "Outdoor", description: "Nature-based learning experiences" },
-      { id: "high-energy", name: "High Energy", description: "Active and movement-based activities" },
-      { id: "collaborative", name: "Collaborative", description: "Team-based learning experiences" }
-    ],
-    child: [
-      { id: "confidence", name: "Confidence Building", description: "Builds self-confidence and self-esteem" },
-      { id: "leadership", name: "Leadership", description: "Develops leadership and initiative skills" },
-      { id: "creativity", name: "Creative Expression", description: "Encourages creative thinking and expression" },
-      { id: "problem-solving", name: "Problem Solving", description: "Enhances critical thinking abilities" }
-    ]
-  };
-  
-  const toggleBookmark = (classId: string) => {
-    setBookmarkedClasses(prev => {
-      const newBookmarks = new Set(prev);
-      if (newBookmarks.has(classId)) {
-        newBookmarks.delete(classId);
-      } else {
-        newBookmarks.add(classId);
-      }
-      return newBookmarks;
-    });
-  };
-  
-  const handleTagClick = (tagId: string) => {
-    setSelectedTags(prev => {
-      if (prev.includes(tagId)) {
-        return prev.filter(id => id !== tagId);
-      } else {
-        return [...prev, tagId];
-      }
-    });
-  };
-  
-  const handleSearch = (query: string) => {
-    setSearchQuery(query);
-    // TODO: Implement real search with Supabase
-  };
-
   // Class data - in real app this would come from Supabase
   const classes = [
     {
@@ -234,7 +172,7 @@ function ClassDirectoryPage() {
       id: "drama-academy",
       title: "Drama Academy",
       description: "Express yourself through acting, improvisation, and storytelling.",
-      image: "/photos/classes/drama_01.jpg",
+      image: "/photos/classes/art_01.jpg",
       badges: ["Performing Arts", "Confidence Building", "Creative Expression", "Public Speaking"],
       href: "/classes/drama-academy"
     },
@@ -247,6 +185,274 @@ function ClassDirectoryPage() {
       href: "/classes/sports-champions"
     }
   ];
+
+  // State to track bookmarked classes
+  const [bookmarkedClasses, setBookmarkedClasses] = useState<Set<string>>(new Set());
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterSidebarOpen, setFilterSidebarOpen] = useState(false);
+  
+  // Filter state
+  const [currentFilters, setCurrentFilters] = useState<FilterState>({
+    locations: [],
+    ageRanges: [],
+    days: [],
+    timeSlots: [],
+    priceRanges: [],
+    contentTypes: [],
+    experienceStyles: [],
+    educationalPhilosophies: [],
+    personalityTraits: [],
+    searchTerms: []
+  });
+  
+  // Filtered classes based on current filters and search
+  const [filteredClasses, setFilteredClasses] = useState(classes);
+  
+  // Load filters from localStorage on mount
+  useEffect(() => {
+    const savedFilters = localStorage.getItem('tumbo-class-filters');
+    if (savedFilters) {
+      try {
+        const parsedFilters = JSON.parse(savedFilters);
+        setCurrentFilters(parsedFilters);
+      } catch (error) {
+        console.error('Error loading saved filters:', error);
+      }
+    }
+  }, []);
+
+  // Save filters to localStorage whenever they change (with debounce)
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      localStorage.setItem('tumbo-class-filters', JSON.stringify(currentFilters));
+    }, 300); // 300ms debounce
+    
+    return () => clearTimeout(timeoutId);
+  }, [currentFilters]);
+
+  // Filter classes based on current filters and search
+  useEffect(() => {
+    let filtered = [...classes];
+
+    // Apply search query
+    if (searchQuery.trim()) {
+      const searchLower = searchQuery.toLowerCase();
+      filtered = filtered.filter(classItem => 
+        classItem.title.toLowerCase().includes(searchLower) ||
+        classItem.description.toLowerCase().includes(searchLower) ||
+        classItem.badges.some(badge => badge.toLowerCase().includes(searchLower))
+      );
+    }
+
+    // Apply location filters
+    if (currentFilters.locations.length > 0) {
+      // This would integrate with real location data
+      // For now, we'll skip location filtering
+    }
+
+    // Apply age range filters
+    if (currentFilters.ageRanges.length > 0) {
+      // This would integrate with real age data
+      // For now, we'll skip age filtering
+    }
+
+    // Apply day filters
+    if (currentFilters.days.length > 0) {
+      // This would integrate with real schedule data
+      // For now, we'll skip day filtering
+    }
+
+    // Apply time slot filters
+    if (currentFilters.timeSlots.length > 0) {
+      // This would integrate with real time data
+      // For now, we'll skip time filtering
+    }
+
+    // Apply price filters
+    if (currentFilters.priceRanges.length > 0) {
+      // This would integrate with real price data
+      // For now, we'll skip price filtering
+    }
+
+    // Apply content type filters
+    if (currentFilters.contentTypes.length > 0) {
+      filtered = filtered.filter(classItem =>
+        currentFilters.contentTypes.some(contentType =>
+          classItem.badges.some(badge => 
+            badge.toLowerCase().includes(contentType.toLowerCase())
+          )
+        )
+      );
+    }
+
+    // Apply experience style filters
+    if (currentFilters.experienceStyles.length > 0) {
+      filtered = filtered.filter(classItem =>
+        currentFilters.experienceStyles.some(experience =>
+          classItem.badges.some(badge => 
+            badge.toLowerCase().includes(experience.toLowerCase())
+          )
+        )
+      );
+    }
+
+    // Apply educational philosophy filters
+    if (currentFilters.educationalPhilosophies.length > 0) {
+      filtered = filtered.filter(classItem =>
+        currentFilters.educationalPhilosophies.some(philosophy =>
+          classItem.badges.some(badge => 
+            badge.toLowerCase().includes(philosophy.toLowerCase())
+          )
+        )
+      );
+    }
+
+    // Apply personality trait filters
+    if (currentFilters.personalityTraits.length > 0) {
+      filtered = filtered.filter(classItem =>
+        currentFilters.personalityTraits.some(trait =>
+          classItem.badges.some(badge => 
+            badge.toLowerCase().includes(trait.toLowerCase())
+          )
+        )
+      );
+    }
+
+    setFilteredClasses(filtered);
+  }, [currentFilters, searchQuery, classes]);
+
+  // Mock category tags for now - will be replaced with real Supabase data
+  const categoryTags = {
+    content: [
+      { id: "music", name: "Music", description: "Musical instruments and vocal training" },
+      { id: "dance", name: "Dance", description: "Various dance styles and movement" },
+      { id: "stem", name: "STEM & Tech", description: "Science, technology, engineering, and math" },
+      { id: "sports", name: "Sports", description: "Physical activities and athletic training" },
+      { id: "art", name: "Art & Design", description: "Creative arts and design projects" },
+      { id: "language", name: "Languages", description: "Foreign language learning" }
+    ],
+    philosophy: [
+      { id: "montessori", name: "Montessori", description: "Montessori-aligned learning approach" },
+      { id: "reggio", name: "Reggio Emilia", description: "Reggio Emilia inspired learning" },
+      { id: "project-based", name: "Project-Based", description: "Learning through hands-on projects" },
+      { id: "play-based", name: "Play-Based", description: "Learning through play and exploration" }
+    ],
+    experience: [
+      { id: "small-group", name: "Small Group", description: "Intimate learning environment" },
+      { id: "outdoor", name: "Outdoor", description: "Nature-based learning experiences" },
+      { id: "high-energy", name: "High Energy", description: "Active and movement-based activities" },
+      { id: "collaborative", name: "Collaborative", description: "Team-based learning experiences" }
+    ],
+    child: [
+      { id: "confidence", name: "Confidence Building", description: "Builds self-confidence and self-esteem" },
+      { id: "leadership", name: "Leadership", description: "Develops leadership and initiative skills" },
+      { id: "creativity", name: "Creative Expression", description: "Encourages creative thinking and expression" },
+      { id: "problem-solving", name: "Problem Solving", description: "Enhances critical thinking abilities" }
+    ]
+  };
+  
+  const toggleBookmark = (classId: string) => {
+    setBookmarkedClasses(prev => {
+      const newBookmarks = new Set(prev);
+      if (newBookmarks.has(classId)) {
+        newBookmarks.delete(classId);
+      } else {
+        newBookmarks.add(classId);
+      }
+      return newBookmarks;
+    });
+  };
+  
+  const handleTagClick = (tagId: string) => {
+    // Find the tag to determine its type
+    let tagType: keyof FilterState | null = null;
+    let tagName = '';
+    
+    for (const [type, tags] of Object.entries(categoryTags)) {
+      const foundTag = tags.find(tag => tag.id === tagId);
+      if (foundTag) {
+        // Map category tag types to FilterState properties
+        switch (type) {
+          case 'content':
+            tagType = 'contentTypes';
+            break;
+          case 'philosophy':
+            tagType = 'educationalPhilosophies';
+            break;
+          case 'experience':
+            tagType = 'experienceStyles';
+            break;
+          case 'child':
+            tagType = 'personalityTraits';
+            break;
+        }
+        tagName = foundTag.name;
+        break;
+      }
+    }
+    
+    if (tagType) {
+      setCurrentFilters(prev => {
+        const currentArray = prev[tagType!] as string[];
+        const isSelected = currentArray.includes(tagName);
+        
+        if (isSelected) {
+          // Remove tag
+          return {
+            ...prev,
+            [tagType!]: currentArray.filter(item => item !== tagName)
+          };
+        } else {
+          // Add tag
+          return {
+            ...prev,
+            [tagType!]: [...currentArray, tagName]
+          };
+        }
+      });
+      
+      // Also update selectedTags for visual feedback
+      setSelectedTags(prev => {
+        if (prev.includes(tagId)) {
+          return prev.filter(id => id !== tagId);
+        } else {
+          return [...prev, tagId];
+        }
+      });
+    }
+  };
+  
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    
+    // Clear search terms from filters when search is cleared
+    if (!query.trim() && currentFilters.searchTerms.length > 0) {
+      setCurrentFilters(prev => ({
+        ...prev,
+        searchTerms: []
+      }));
+    }
+  };
+
+  // Memoize the filter change callback to prevent unnecessary re-renders
+  const handleFiltersChange = useCallback((newFilters: FilterState) => {
+    setCurrentFilters(newFilters);
+  }, []);
+
+  // Handle ESC key to close sidebar
+  useEffect(() => {
+    const handleEscKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && filterSidebarOpen) {
+        setFilterSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscKey);
+    return () => document.removeEventListener('keydown', handleEscKey);
+  }, [filterSidebarOpen]);
+
+
 
   return (
     <ModernPageLayout>
@@ -270,20 +476,30 @@ function ClassDirectoryPage() {
                 {/* Filter Button */}
                 <button 
                   className="flex items-center gap-2 px-4 py-3 bg-transparent rounded-full text-gray-700 transition-all duration-200" 
-                  style={{ border: '1.5px solid #F3F1ED' }}
+                  style={{ 
+                    border: filterSidebarOpen ? '1.5px solid #000000' : '1.5px solid #F3F1ED'
+                  }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = '#000000';
-                    e.currentTarget.style.backgroundColor = 'transparent';
+                    if (!filterSidebarOpen) {
+                      e.currentTarget.style.borderColor = '#000000';
+                    }
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = '#F3F1ED';
-                    e.currentTarget.style.backgroundColor = 'transparent';
+                    if (!filterSidebarOpen) {
+                      e.currentTarget.style.borderColor = '#F3F1ED';
+                    }
                   }}
-                  onClick={() => setFilterModalOpen(true)}
+                  onClick={() => setFilterSidebarOpen(!filterSidebarOpen)}
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h18M7 8h10M9 13h6M11 18h2" />
-                  </svg>
+                  {filterSidebarOpen ? (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h18M7 8h10M9 13h6M11 18h2" />
+                    </svg>
+                  )}
                   Filter
                 </button>
                 
@@ -427,42 +643,91 @@ function ClassDirectoryPage() {
             </div>
           </div>
           
+          {/* Filter Chips - Show when filters are active */}
+          <FilterChips
+            filters={currentFilters}
+            onRemoveFilter={(filterType, value) => {
+              setCurrentFilters(prev => ({
+                ...prev,
+                [filterType]: prev[filterType].filter(item => item !== value)
+              }));
+            }}
+            onClearAll={() => {
+              setCurrentFilters({
+                locations: [],
+                ageRanges: [],
+                days: [],
+                timeSlots: [],
+                priceRanges: [],
+                contentTypes: [],
+                experienceStyles: [],
+                educationalPhilosophies: [],
+                personalityTraits: [],
+                searchTerms: []
+              });
+              setSearchQuery("");
+            }}
+          />
+          
           {/* Content Section - All Class Card Rows */}
           <div className="flex w-full flex-col items-start gap-12">
-            {/* Recommended for Emma Subsection */}
-            <ScrollableSection
-              title="Recommended for Emma"
-              description="Handpicked classes based on Emma's interests and developmental stage"
-              classes={classes.slice(0, 6)}
-              bookmarkedClasses={bookmarkedClasses}
-              toggleBookmark={toggleBookmark}
-            />
-
-            {/* Popular This Week Subsection */}
-            <ScrollableSection
-              title="Popular This Week"
-              description="Classes that other parents are loving right now"
-              classes={classes.slice(2, 8)}
-              bookmarkedClasses={bookmarkedClasses}
-              toggleBookmark={toggleBookmark}
-            />
-
-            {/* All Classes Subsection */}
-            <ScrollableSection
-              title="All Classes"
-              description="Explore our complete collection of enrichment classes"
-              classes={classes}
-              bookmarkedClasses={bookmarkedClasses}
-              toggleBookmark={toggleBookmark}
-            />
+            {/* Show filtered results when filters are active, otherwise show original sections */}
+            {currentFilters.locations.length > 0 || 
+             currentFilters.ageRanges.length > 0 || 
+             currentFilters.days.length > 0 || 
+             currentFilters.timeSlots.length > 0 || 
+             currentFilters.priceRanges.length > 0 || 
+             currentFilters.contentTypes.length > 0 || 
+             currentFilters.experienceStyles.length > 0 || 
+             currentFilters.educationalPhilosophies.length > 0 || 
+             currentFilters.personalityTraits.length > 0 || 
+             currentFilters.searchTerms.length > 0 ? (
+              // Filtered Results Section
+              <ScrollableSection
+                title={`${filteredClasses.length} Class${filteredClasses.length !== 1 ? 'es' : ''} Found`}
+                description="Results based on your selected filters"
+                classes={filteredClasses}
+                bookmarkedClasses={bookmarkedClasses}
+                toggleBookmark={toggleBookmark}
+              />
+            ) : (
+              <>
+                {/* Recommended for Emma Subsection */}
+                <ScrollableSection
+                  title="Recommended for Emma"
+                  description="Handpicked classes based on Emma's interests and developmental stage"
+                  classes={classes.slice(0, 6)}
+                  bookmarkedClasses={bookmarkedClasses}
+                  toggleBookmark={toggleBookmark}
+                />
+                {/* Popular This Week Subsection */}
+                <ScrollableSection
+                  title="Popular This Week"
+                  description="Classes that other parents are loving right now"
+                  classes={classes.slice(2, 8)}
+                  bookmarkedClasses={bookmarkedClasses}
+                  toggleBookmark={toggleBookmark}
+                />
+                {/* All Classes Subsection */}
+                <ScrollableSection
+                  title="All Classes"
+                  description="Explore our complete collection of enrichment classes"
+                  classes={classes}
+                  bookmarkedClasses={bookmarkedClasses}
+                  toggleBookmark={toggleBookmark}
+                />
+              </>
+            )}
           </div>
         </div>
       </div>
       
-      {/* Filter Modal */}
-      <ClassFilterModal 
-        open={filterModalOpen} 
-        onOpenChange={setFilterModalOpen} 
+      {/* Filter Sidebar */}
+      <ClassFilterSidebar
+        open={filterSidebarOpen}
+        onOpenChange={setFilterSidebarOpen}
+        currentFilters={currentFilters}
+        onFiltersChange={handleFiltersChange}
       />
     </ModernPageLayout>
   );
