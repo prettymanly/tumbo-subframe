@@ -11,6 +11,20 @@
   --border: 226 232 240;
   --ring: 15 23 42;
   --muted-foreground: 100 116 139;
+  
+  /* Sidebar CSS variables */
+  --sidebar-background: 0 0% 98%;
+  --sidebar-foreground: 240 5.3% 26.1%;
+  --sidebar-primary: 240 5.9% 10%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4.8% 95.9%;
+  --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 217.2 91.2% 59.8%;
+  
+  /* Custom sidebar width */
+  --sidebar-width: 320px;
+  --sidebar-width-icon: 3rem;
 }
 
 @layer base {
@@ -37,6 +51,22 @@
 }
 .category-tabs-scroll::-webkit-scrollbar {
   display: none !important;
+}
+
+/* Custom sidebar width overrides */
+[data-sidebar="sidebar"] {
+  width: var(--sidebar-width) !important;
+  max-width: var(--sidebar-width) !important;
+}
+
+.group\/sidebar-wrapper {
+  --sidebar-width: 320px !important;
+  --sidebar-width-icon: 3rem !important;
+}
+
+/* Ensure content doesn't get pushed too far */
+.group\/sidebar-wrapper [data-variant="inset"] {
+  margin-left: 0 !important;
 }
 
 /* Ensure typography token utilities exist even if preset is skipped */

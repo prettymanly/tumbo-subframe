@@ -2,7 +2,19 @@
 
 import React from "react";
 import { X } from "lucide-react";
-import { FilterState } from "./class-filter-sidebar";
+
+export interface FilterState {
+  locations: string[];
+  ageRanges: string[];
+  days: string[];
+  timeSlots: string[];
+  priceRanges: string[];
+  contentTypes: string[];
+  experienceStyles: string[];
+  educationalPhilosophies: string[];
+  personalityTraits: string[];
+  searchTerms: string[];
+}
 
 interface FilterChipsProps {
   filters: FilterState;

@@ -3,7 +3,8 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { CustomClassCard } from "@/components/ui/class-card";
-import ClassFilterSidebar, { FilterState } from "@/components/ui/class-filter-sidebar";
+import ClassFilterSidebarIntegrated from "@/components/ui/class-filter-sidebar-integrated";
+import { FilterState } from "@/components/ui/filter-chips";
 import FilterChips from "@/components/ui/filter-chips";
 // import { getCategoryTags, getTagsByType, searchClasses } from "@/lib/supabase/tags";
 // import { Tag, TagType, TAG_TYPES } from "@/lib/types/tags";
@@ -320,7 +321,7 @@ function ClassDirectoryPage() {
     }
 
     setFilteredClasses(filtered);
-  }, [currentFilters, searchQuery, classes]);
+  }, [currentFilters, searchQuery]);
 
   // Mock category tags for now - will be replaced with real Supabase data
   const categoryTags = {
@@ -643,13 +644,27 @@ function ClassDirectoryPage() {
             </div>
           </div>
           
-          {/* Filter Chips - Show when filters are active */}
+
+          
+
+        </div>
+      </div>
+      
+      {/* Filter Sidebar */}
+      <ClassFilterSidebarIntegrated
+        open={filterSidebarOpen}
+        onOpenChange={setFilterSidebarOpen}
+        currentFilters={currentFilters}
+        onFiltersChange={handleFiltersChange}
+      >
+        <div className="flex w-full flex-col items-start gap-6">
+          {/* Filter Chips */}
           <FilterChips
             filters={currentFilters}
             onRemoveFilter={(filterType, value) => {
               setCurrentFilters(prev => ({
                 ...prev,
-                [filterType]: prev[filterType].filter(item => item !== value)
+                [filterType]: (prev[filterType] as string[]).filter(item => item !== value)
               }));
             }}
             onClearAll={() => {
@@ -665,13 +680,11 @@ function ClassDirectoryPage() {
                 personalityTraits: [],
                 searchTerms: []
               });
-              setSearchQuery("");
             }}
           />
-          
-          {/* Content Section - All Class Card Rows */}
-          <div className="flex w-full flex-col items-start gap-12">
-            {/* Show filtered results when filters are active, otherwise show original sections */}
+
+          {/* Content Section */}
+          <div className="flex w-full flex-col items-start gap-12" style={{ gap: '30px' }}>
             {currentFilters.locations.length > 0 || 
              currentFilters.ageRanges.length > 0 || 
              currentFilters.days.length > 0 || 
@@ -720,15 +733,7 @@ function ClassDirectoryPage() {
             )}
           </div>
         </div>
-      </div>
-      
-      {/* Filter Sidebar */}
-      <ClassFilterSidebar
-        open={filterSidebarOpen}
-        onOpenChange={setFilterSidebarOpen}
-        currentFilters={currentFilters}
-        onFiltersChange={handleFiltersChange}
-      />
+      </ClassFilterSidebarIntegrated>
     </ModernPageLayout>
   );
 }

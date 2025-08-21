@@ -48,12 +48,6 @@ function CollapsibleSection({ title, icon, children, defaultOpen = false }: Coll
 
 function ClassFilterSidebar({ open, onOpenChange, onFiltersChange, currentFilters }: ClassFilterSidebarProps) {
   const [filters, setFilters] = useState<FilterState>(currentFilters)
-  const [searchQueries, setSearchQueries] = useState({
-    contentTypes: "",
-    experienceStyles: "",
-    educationalPhilosophies: "",
-    personalityTraits: ""
-  })
   const isInitialMount = useRef(true)
 
   // Update parent when filters change
@@ -75,11 +69,6 @@ function ClassFilterSidebar({ open, onOpenChange, onFiltersChange, currentFilter
         return { ...prev, [filterKey]: [...currentArray, value] }
       }
     })
-  }
-
-  // Helper function to update filters
-  const updateFilter = (filterKey: keyof FilterState, newValue: string[]) => {
-    setFilters(prev => ({ ...prev, [filterKey]: newValue }))
   }
 
   // Helper function to get tag color
@@ -125,16 +114,10 @@ function ClassFilterSidebar({ open, onOpenChange, onFiltersChange, currentFilter
       searchTerms: []
     }
     setFilters(emptyFilters)
-    setSearchQueries({
-      contentTypes: "",
-      experienceStyles: "",
-      educationalPhilosophies: "",
-      personalityTraits: ""
-    })
   }
 
   // Render tag list with "See more" functionality
-  const renderTagList = (tags: string[], selectedTags: string[], setter: React.Dispatch<React.SetStateAction<string[]>>, maxVisible: number = 6) => {
+  const renderTagList = (tags: string[], selectedTags: string[], maxVisible: number = 6) => {
     const [showAll, setShowAll] = useState(false)
     const visibleTags = showAll ? tags : tags.slice(0, maxVisible)
     const hasMore = tags.length > maxVisible
@@ -145,7 +128,7 @@ function ClassFilterSidebar({ open, onOpenChange, onFiltersChange, currentFilter
           {visibleTags.map((tag) => (
             <button
               key={tag}
-              onClick={() => toggleSelection(selectedTags, tag, setter)}
+              onClick={() => toggleFilter('contentTypes', tag)}
               className={`px-3 py-2 rounded-full text-sm font-medium transition-all ${
                 selectedTags.includes(tag)
                   ? 'text-white'
@@ -230,7 +213,7 @@ function ClassFilterSidebar({ open, onOpenChange, onFiltersChange, currentFilter
                     <input
                       type="checkbox"
                       checked={filters.days.includes(day)}
-                                           onChange={() => toggleFilter('days', day)}
+                      onChange={() => toggleFilter('days', day)}
                       className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                     />
                     <span className="text-sm text-gray-700">{day.slice(0, 3)}</span>
@@ -246,7 +229,7 @@ function ClassFilterSidebar({ open, onOpenChange, onFiltersChange, currentFilter
                     <input
                       type="checkbox"
                       checked={filters.timeSlots.includes(timeSlot)}
-                                           onChange={() => toggleFilter('timeSlots', timeSlot)}
+                      onChange={() => toggleFilter('timeSlots', timeSlot)}
                       className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                     />
                     <span className="text-sm text-gray-700">{timeSlot}</span>
@@ -278,8 +261,7 @@ function ClassFilterSidebar({ open, onOpenChange, onFiltersChange, currentFilter
         <CollapsibleSection title="Content Type" icon={<Palette className="h-5 w-5 text-gray-500" />} defaultOpen={true}>
           {renderTagList(
             ['Music', 'Dance', 'STEM & Tech', 'Sports', 'Art & Design', 'Languages', 'Creative Writing', 'Visual Arts', 'Robotics', 'Coding', 'Science', 'Math'],
-            filters.contentTypes,
-            (newContentTypes) => updateFilter('contentTypes', newContentTypes)
+            filters.contentTypes
           )}
         </CollapsibleSection>
 
@@ -287,8 +269,7 @@ function ClassFilterSidebar({ open, onOpenChange, onFiltersChange, currentFilter
         <CollapsibleSection title="Experience Style" icon={<Zap className="h-5 w-5 text-gray-500" />} defaultOpen={true}>
           {renderTagList(
             ['Small Group', 'Outdoor', 'High Energy', 'Collaborative', 'One-on-One', 'Large Group', 'Tactile', 'Messy', 'Fast-Paced', 'Hands-on', 'Interactive', 'Immersive'],
-            filters.experienceStyles,
-            (newExperienceStyles) => setFilters(prev => ({ ...prev, experienceStyles: newExperienceStyles }))
+            filters.experienceStyles
           )}
         </CollapsibleSection>
 
@@ -296,8 +277,7 @@ function ClassFilterSidebar({ open, onOpenChange, onFiltersChange, currentFilter
         <CollapsibleSection title="Educational Philosophy" icon={<Brain className="h-5 w-5 text-gray-500" />} defaultOpen={true}>
           {renderTagList(
             ['Montessori', 'Reggio Emilia', 'Project-Based', 'Play-Based', 'Waldorf', 'IB-Inspired', 'STEM/STEAM', '21st-Century Skills', 'Bilingual', 'Cultural Heritage', 'Islamic Ethos', 'Christian Values'],
-            filters.educationalPhilosophies,
-            (newEducationalPhilosophies) => setFilters(prev => ({ ...prev, educationalPhilosophies: newEducationalPhilosophies }))
+            filters.educationalPhilosophies
           )}
         </CollapsibleSection>
 
@@ -305,8 +285,7 @@ function ClassFilterSidebar({ open, onOpenChange, onFiltersChange, currentFilter
         <CollapsibleSection title="Personality Fit" icon={<User className="h-5 w-5 text-gray-500" />} defaultOpen={true}>
           {renderTagList(
             ['Confidence Building', 'Leadership', 'Creative Expression', 'Problem Solving', 'Shy in Groups', 'Outgoing & Expressive', 'Visual Learner', 'Kinesthetic', 'Focus & Self-Regulation', 'Communication', 'Critical Thinking', 'Social Skills'],
-            filters.personalityTraits,
-            (newPersonalityTraits) => setFilters(prev => ({ ...prev, personalityTraits: newPersonalityTraits }))
+            filters.personalityTraits
           )}
         </CollapsibleSection>
       </div>
