@@ -297,7 +297,20 @@ export default function TumboNavbar() {
                 <div 
                   className="relative"
                   onMouseEnter={() => setExploreOpen(true)}
-                  onMouseLeave={() => setExploreOpen(false)}
+                  onMouseLeave={(e) => {
+                    // Check if we're moving to the dropdown menu
+                    const rect = e.currentTarget.getBoundingClientRect()
+                    const x = e.clientX
+                    const y = e.clientY
+                    
+                    // If moving down toward the dropdown, don't close it
+                    if (y > rect.bottom - 10) {
+                      return
+                    }
+                    
+                    // Add a small delay to prevent flickering
+                    setTimeout(() => setExploreOpen(false), 100)
+                  }}
                 >
                   <Button 
                     variant="ghost" 
@@ -306,7 +319,11 @@ export default function TumboNavbar() {
                     Explore
                   </Button>
                   {exploreOpen && (
-                    <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-border rounded-md shadow-lg z-50">
+                    <div 
+                      className="absolute top-full left-0 w-48 bg-white border border-border rounded-md shadow-lg z-50"
+                      onMouseEnter={() => setExploreOpen(true)}
+                      onMouseLeave={() => setExploreOpen(false)}
+                    >
                       {exploreItems.map((item, index) => (
                         <Link 
                           key={index} 

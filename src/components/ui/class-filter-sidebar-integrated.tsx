@@ -8,7 +8,7 @@ import {
   SidebarInset,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import ClassFilterSidebar from "./class-filter-sidebar-new"
+import ClassFilterSidebar from "./class-filter-sidebar"
 import { FilterState } from "./filter-chips"
 
 interface ClassFilterSidebarIntegratedProps {
@@ -45,3 +45,4 @@ export default function ClassFilterSidebarIntegrated({
     </SidebarProvider>
   )
 }
+
