@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
@@ -7,7 +9,7 @@ import { LargeBadge } from "@/components/subframe/ui/components/LargeBadge";
 import { FeatherHandMetal } from "@subframe/core";
 import { FeatherMountain } from "@subframe/core";
 import { Accordion } from "@/components/subframe/ui/components/Accordion";
-import { FilterBadge } from "@/components/subframe/ui/components/FilterBadge";
+import { WarmFilterBadge } from "@/components/ui/warm-filter-badge";
 import { FeatherBedDouble } from "@subframe/core";
 import { FeatherTv2 } from "@subframe/core";
 import { FeatherCigarette } from "@subframe/core";
@@ -19,17 +21,11 @@ import { Badge } from "@/components/subframe/ui/components/Badge";
 import { FeatherBookmark } from "@subframe/core";
 import { IconButton } from "@/components/subframe/ui/components/IconButton";
 import { Tags } from "@/components/subframe/ui/components/Tags";
-import { FeatherVerified } from "@subframe/core";
-import { FeatherHeart } from "@subframe/core";
+import { FavoritesButton } from "@/components/ui/favorites-button";
 import { FeatherFlag } from "@subframe/core";
 
-async function ClassDetailPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  // TODO: Fetch class data from Supabase using params.slug
+function ClassDetailPage() {
+  // TODO: Fetch class data from Supabase using useParams hook
   // For now, using static data as placeholder
   
   return (
@@ -134,10 +130,10 @@ async function ClassDetailPage({
                           {"Written based on these sources\n"}
                         </span>
                         <div className="flex items-center gap-2">
-                          <FilterBadge label="r/ParentingAdvice" count="3" />
-                          <FilterBadge label={"Family Connect SG\n"} count="3" />
-                          <FilterBadge label="Google" count="3" />
-                          <FilterBadge label="KiasuParents" count="3" />
+                          <WarmFilterBadge label="r/ParentingAdvice" count="3" />
+                          <WarmFilterBadge label={"Family Connect SG\n"} count="3" />
+                          <WarmFilterBadge label="Google" count="3" />
+                          <WarmFilterBadge label="KiasuParents" count="3" />
                         </div>
                       </div>
                       <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-300" />
@@ -253,7 +249,7 @@ async function ClassDetailPage({
                                     <FeatherStar className="text-monospace-body font-monospace-body text-default-font" />
                                     <FeatherStar className="text-monospace-body font-monospace-body text-default-font" />
                                   </div>
-                                  <Badge variant="neutral">
+                                  <Badge variant="neutral" className="bg-[#F3F1ED] border-[#F3F1ED] text-gray-700">
                                     5 Changi Business Park Central 1, #01-72/73
                                   </Badge>
                                 </div>
@@ -293,7 +289,7 @@ async function ClassDetailPage({
                                       <FeatherStar className="text-monospace-body font-monospace-body text-default-font" />
                                       <FeatherStar className="text-monospace-body font-monospace-body text-default-font" />
                                     </div>
-                                    <Badge variant="neutral">
+                                    <Badge variant="neutral" className="bg-[#F3F1ED] border-[#F3F1ED] text-gray-700">
                                       351 Cranwell Road
                                     </Badge>
                                   </div>
@@ -332,7 +328,7 @@ async function ClassDetailPage({
                                     <FeatherStar className="text-monospace-body font-monospace-body text-default-font" />
                                     <FeatherStar className="text-monospace-body font-monospace-body text-default-font" />
                                   </div>
-                                  <Badge variant="neutral">
+                                  <Badge variant="neutral" className="bg-[#F3F1ED] border-[#F3F1ED] text-gray-700">
                                     4 Changi Village Rd, #01-2090
                                   </Badge>
                                 </div>
@@ -372,7 +368,7 @@ async function ClassDetailPage({
                                       <FeatherStar className="text-monospace-body font-monospace-body text-default-font" />
                                       <FeatherStar className="text-monospace-body font-monospace-body text-default-font" />
                                     </div>
-                                    <Badge variant="neutral">
+                                    <Badge variant="neutral" className="bg-[#F3F1ED] border-[#F3F1ED] text-gray-700">
                                       02-24A, 5, Changi Business Park Central 1
                                     </Badge>
                                   </div>
@@ -490,81 +486,82 @@ async function ClassDetailPage({
                       </div>
                       <div className="flex w-full flex-col items-start gap-3">
                         <div className="flex w-full items-center justify-between">
-                          <span className="text-body font-body text-default-font">
+                          <span className="text-body font-medium text-[#B6AFA6]">
                             PRICE PER CLASS
                           </span>
-                          <span className="text-body font-body text-default-font">
+                          <span className="text-body font-semibold text-gray-900">
                             $25
                           </span>
                         </div>
                         <div className="flex w-full items-center justify-between">
-                          <span className="text-body font-body text-default-font">
+                          <span className="text-body font-medium text-[#B6AFA6]">
                             AGE GROUP
                           </span>
-                          <span className="text-body font-body text-default-font">
+                          <span className="text-body font-semibold text-gray-900">
                             3-6 years
                           </span>
                         </div>
                         <div className="flex w-full items-center justify-between">
-                          <span className="text-body font-body text-default-font">
+                          <span className="text-body font-medium text-[#B6AFA6]">
                             PRICE
                           </span>
-                          <span className="text-body font-body text-default-font">
+                          <span className="text-body font-semibold text-gray-900">
                             $38/class
                           </span>
                         </div>
                         <div className="flex w-full items-center justify-between">
-                          <span className="text-body font-body text-default-font">
+                          <span className="text-body font-medium text-[#B6AFA6]">
                             SCHEDULE
                           </span>
-                          <span className="whitespace-pre-wrap text-body font-body text-default-font text-right">
+                          <span className="whitespace-pre-wrap text-body font-semibold text-gray-900 text-right">
                             {
                               "Tuesdays 10:00 AM - 10:45 AM\nThursdays 2:30 PM - 3:15 PM\nSaturdays 9:00 AM - 9:45 AM"
                             }
                           </span>
                         </div>
                         <div className="flex w-full items-center justify-between">
-                          <span className="text-body font-body text-default-font">
+                          <span className="text-body font-medium text-[#B6AFA6]">
                             DURATION
                           </span>
-                          <span className="text-body font-body text-default-font">
+                          <span className="text-body font-semibold text-gray-900">
                             45 minutes
                           </span>
                         </div>
                         <div className="flex w-full items-center justify-between">
-                          <span className="text-body font-body text-default-font">
+                          <span className="text-body font-medium text-[#B6AFA6]">
                             GROUP SIZE
                           </span>
-                          <span className="text-body font-body text-default-font">
+                          <span className="text-body font-semibold text-gray-900">
                             6-8 children
                           </span>
                         </div>
                         <div className="flex w-full items-center justify-between">
-                          <span className="text-body font-body text-default-font">
+                          <span className="text-body font-medium text-[#B6AFA6]">
                             CONTACT
                           </span>
-                          <span className="text-body font-body text-default-font">
+                          <span className="text-body font-semibold text-gray-900">
                             +65 1234 5678
                           </span>
                         </div>
                         <div className="flex w-full items-center justify-between">
-                          <span className="text-body font-body text-default-font">
+                          <span className="text-body font-medium text-[#B6AFA6]">
                             WEBSITE
                           </span>
-                          <span className="text-body font-body text-default-font">
+                          <span className="text-body font-semibold text-gray-900">
                             website.com
                           </span>
                         </div>
                       </div>
                       <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-300" />
-                      <Button
-                        className="h-10 w-full flex-none"
-                        variant="brand-secondary"
-                        size="large"
-                        icon={<FeatherHeart />}
-                      >
-                        Add to Favorites
-                      </Button>
+                      <FavoritesButton
+                        classId="creative-little-architects"
+                        onToggleFavorite={async (classId, isFavorited) => {
+                          // TODO: Integrate with backend API
+                          console.log(`${isFavorited ? 'Added' : 'Removed'} ${classId} ${isFavorited ? 'to' : 'from'} favorites`);
+                          // Simulate API delay
+                          await new Promise(resolve => setTimeout(resolve, 800));
+                        }}
+                      />
                     </div>
                     <div className="flex flex-col items-center gap-2 w-full">
                       <Button
