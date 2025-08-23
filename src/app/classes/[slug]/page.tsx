@@ -224,11 +224,11 @@ function ClassDetailPage() {
                           {"Pulled from Google Maps"}
                         </span>
                         <div className="flex w-full items-center gap-2">
-                          <Button>Cafes</Button>
-                          <Button variant="brand-secondary">Gyms</Button>
-                          <Button variant="brand-secondary">Parks</Button>
-                          <Button variant="brand-secondary">Shopping</Button>
-                          <Button variant="brand-secondary">Libraries</Button>
+                          <button className="px-4 py-2 bg-transparent border-0 cursor-pointer font-bold text-[#FF4400] hover:text-[#1f2937] transition-colors duration-200">Cafes</button>
+                          <button className="px-4 py-2 bg-transparent border-0 cursor-pointer font-bold text-[#E2D6C7] hover:text-[#1f2937] transition-colors duration-200">Gyms</button>
+                          <button className="px-4 py-2 bg-transparent border-0 cursor-pointer font-bold text-[#E2D6C7] hover:text-[#1f2937] transition-colors duration-200">Parks</button>
+                          <button className="px-4 py-2 bg-transparent border-0 cursor-pointer font-bold text-[#E2D6C7] hover:text-[#1f2937] transition-colors duration-200">Shopping</button>
+                          <button className="px-4 py-2 bg-transparent border-0 cursor-pointer font-bold text-[#E2D6C7] hover:text-[#1f2937] transition-colors duration-200">Libraries</button>
                         </div>
                         <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-6">
                           <div className="flex w-full flex-col items-start gap-4 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
