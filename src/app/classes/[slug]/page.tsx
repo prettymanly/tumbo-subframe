@@ -22,7 +22,6 @@ import { FeatherBookmark } from "@subframe/core";
 import { IconButton } from "@/components/subframe/ui/components/IconButton";
 import { Tags } from "@/components/subframe/ui/components/Tags";
 import { FavoritesButton } from "@/components/ui/favorites-button";
-import { FeatherFlag } from "@subframe/core";
 
 function ClassDetailPage() {
   // TODO: Fetch class data from Supabase using useParams hook
@@ -563,19 +562,18 @@ function ClassDetailPage() {
                         }}
                       />
                     </div>
-                    <div className="flex flex-col items-center gap-2 w-full">
-                      <Button
-                        variant="neutral-tertiary"
-                        className="text-sm opacity-80"
+                    <div className="flex items-center justify-center gap-3 w-full">
+                      <button
+                        className="text-monospace-body font-monospace-body font-semibold text-[#E2D6C7] hover:text-gray-700 bg-transparent border-0 cursor-pointer transition-colors duration-200"
                       >
-                        Are you the business owner? Claim this page
-                      </Button>
-                      <Button
-                        variant="neutral-tertiary"
-                        icon={<FeatherFlag />}
+                        Claim this listing
+                      </button>
+                      <span className="text-[#E2D6C7] text-monospace-body font-monospace-body">|</span>
+                      <button
+                        className="text-monospace-caption font-monospace-caption font-normal text-[#E2D6C7] hover:text-gray-700 bg-transparent border-0 cursor-pointer transition-colors duration-200"
                       >
-                        Report this listing
-                      </Button>
+                        Report listing
+                      </button>
                     </div>
                   </div>
                 </div>
