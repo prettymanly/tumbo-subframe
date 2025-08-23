@@ -473,7 +473,7 @@ async function ClassDetailPage({
                         height={80}
                         className="absolute -right-6 top-8 w-20 h-auto z-20 max-md:hidden"
                       />
-                      <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-8 px-8 pt-12 pb-8">
+                      <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-8 pt-6 pb-8">
                         <div className="flex w-full items-center gap-6">
                           <Avatar
                             size="x-large"
@@ -481,26 +481,14 @@ async function ClassDetailPage({
                           >
                             A
                           </Avatar>
-                          <div className="flex grow shrink-0 basis-0 items-center gap-4">
-                            <div className="flex grow shrink-0 basis-0 flex-col items-start gap-1">
-                              <span className="text-heading-2 font-heading-2 text-default-font">
-                                Art Studio Kids
-                              </span>
-                              <div className="flex items-center gap-1 rounded-full bg-brand-100 pl-2 pr-3 py-1.5">
-                                <FeatherVerified className="text-heading-2 font-heading-2 text-brand-700" />
-                                <span className="whitespace-nowrap text-body-bold font-body-bold text-brand-700">
-                                  Verified
-                                </span>
-                              </div>
-                            </div>
+                          <div className="flex grow shrink-0 basis-0 items-center">
+                            <span className="text-heading-2 font-heading-2 text-default-font">
+                              Art Studio Kids
+                            </span>
                           </div>
                         </div>
-                        <div className="flex w-full items-center gap-2">
-                          <Button variant="brand-secondary" size="large">Follow</Button>
-                          <Button variant="brand-secondary" size="large">Website</Button>
-                        </div>
                       </div>
-                      <div className="flex w-full flex-col items-start gap-4">
+                      <div className="flex w-full flex-col items-start gap-3">
                         <div className="flex w-full items-center justify-between">
                           <span className="text-body font-body text-default-font">
                             PRICE PER CLASS
@@ -559,28 +547,39 @@ async function ClassDetailPage({
                             +65 1234 5678
                           </span>
                         </div>
+                        <div className="flex w-full items-center justify-between">
+                          <span className="text-body font-body text-default-font">
+                            WEBSITE
+                          </span>
+                          <span className="text-body font-body text-default-font">
+                            website.com
+                          </span>
+                        </div>
                       </div>
                       <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-300" />
                       <Button
                         className="h-10 w-full flex-none"
+                        variant="brand-secondary"
                         size="large"
                         icon={<FeatherHeart />}
                       >
                         Add to Favorites
                       </Button>
                     </div>
-                    <Button
-                      variant="neutral-tertiary"
-                      className="text-sm opacity-80"
-                    >
-                      Are you the business owner? Claim this page
-                    </Button>
-                    <Button
-                      variant="neutral-tertiary"
-                      icon={<FeatherFlag />}
-                    >
-                      Report this listing
-                    </Button>
+                    <div className="flex flex-col items-center gap-2 w-full">
+                      <Button
+                        variant="neutral-tertiary"
+                        className="text-sm opacity-80"
+                      >
+                        Are you the business owner? Claim this page
+                      </Button>
+                      <Button
+                        variant="neutral-tertiary"
+                        icon={<FeatherFlag />}
+                      >
+                        Report this listing
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
