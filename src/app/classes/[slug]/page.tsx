@@ -469,9 +469,9 @@ async function ClassDetailPage({
                       <Image 
                         src="/photos/illustrations/Class Detail Hand.png"
                         alt=""
-                        width={80}
-                        height={80}
-                        className="absolute -right-6 top-8 w-20 h-auto z-20 max-md:hidden"
+                        width={400}
+                        height={400}
+                        className="absolute right-[-20.1875rem] top-[1.125rem] w-[22.5rem] h-auto z-20 max-md:hidden"
                       />
                       <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-8 pt-6 pb-8">
                         <div className="flex w-full items-center gap-6">
