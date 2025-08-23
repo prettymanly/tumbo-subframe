@@ -2,16 +2,9 @@
 
 import React from "react";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
-import { FeatherCloud } from "@subframe/core";
-import { DropdownMenu } from "@/components/subframe/ui/components/DropdownMenu";
-import { FeatherFilePlus2 } from "@subframe/core";
-import * as SubframeCore from "@subframe/core";
-import { FeatherPaperclip } from "@subframe/core";
-import { IconButton } from "@/components/subframe/ui/components/IconButton";
-import { TextFieldUnstyled } from "@/components/subframe/ui/components/TextFieldUnstyled";
 import { FeatherArrowUp } from "@subframe/core";
 import { FeatherLandmark } from "@subframe/core";
-import { useAnimatedPlaceholder } from "@/components/AnimatedSearchPlaceholder";
+import { TextLoop } from "@/components/ui/text-loop";
 import { IconWithBackground } from "@/components/subframe/ui/components/IconWithBackground";
 import { FeatherCheckCircle2 } from "@subframe/core";
 import { FeatherShield } from "@subframe/core";
@@ -31,12 +24,6 @@ function TumboHome() {
     "Nature‑based class, low noise"
   ];
 
-  const animatedPlaceholder = useAnimatedPlaceholder(searchPhrases, {
-    typingSpeed: 80,
-    deletingSpeed: 40,
-    pauseTime: 3000
-  });
-
   return (
     <ModernPageLayout>
       <div className="flex w-full flex-col items-center justify-center bg-default-background">
@@ -50,46 +37,22 @@ function TumboHome() {
              }
           </span>
           <div className="flex w-full flex-col items-center justify-center gap-3 px-4 py-4">
-            <div className="flex h-14 w-full max-w-[768px] flex-none items-center justify-center gap-2 rounded-full bg-neutral-100 px-2 py-2">
-              <SubframeCore.DropdownMenu.Root>
-                <SubframeCore.DropdownMenu.Trigger asChild={true}>
-                  <IconButton
-                    size="large"
-                    icon={<FeatherPaperclip />}
-                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
-                  />
-                </SubframeCore.DropdownMenu.Trigger>
-                <SubframeCore.DropdownMenu.Portal>
-                  <SubframeCore.DropdownMenu.Content
-                    side="bottom"
-                    align="start"
-                    sideOffset={4}
-                    asChild={true}
-                  >
-                    <DropdownMenu>
-                      <DropdownMenu.DropdownItem icon={<FeatherCloud />}>
-                        Connect to Google Drive
-                      </DropdownMenu.DropdownItem>
-                      <DropdownMenu.DropdownItem icon={<FeatherFilePlus2 />}>
-                        Upload from computer
-                      </DropdownMenu.DropdownItem>
-                    </DropdownMenu>
-                  </SubframeCore.DropdownMenu.Content>
-                </SubframeCore.DropdownMenu.Portal>
-              </SubframeCore.DropdownMenu.Root>
-              <TextFieldUnstyled className="h-auto grow shrink-0 basis-0">
-                <TextFieldUnstyled.Input
-                  placeholder={animatedPlaceholder}
-                  value=""
-                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {}}
-                />
-              </TextFieldUnstyled>
-              <IconButton
+            <div className="flex h-14 w-full max-w-[768px] flex-none items-center justify-center gap-2 rounded-full px-2 py-2" style={{ backgroundColor: '#F3F1ED' }}>
+              <div className="h-auto grow shrink-0 basis-0 flex items-center pl-4">
+                <TextLoop interval={3} style={{ color: '#99A1AF' }}>
+                  {searchPhrases.map((text) => (
+                    <span key={text}>{text}</span>
+                  ))}
+                </TextLoop>
+              </div>
+              <button
                 disabled={true}
-                size="large"
-                icon={<FeatherArrowUp />}
-                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {}}
-              />
+                className="flex h-10 w-10 items-center justify-center rounded-full text-white transition-opacity hover:opacity-90"
+                style={{ backgroundColor: '#FF4400' }}
+                onClick={() => {}}
+              >
+                <FeatherArrowUp className="h-5 w-5 flex-shrink-0" style={{ marginLeft: '4px', strokeWidth: '1.5px' }} />
+              </button>
             </div>
             <span className="text-caption font-caption text-subtext-color">
               Tell Tümbo about your kid. We&apos;ll do the rest.

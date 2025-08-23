@@ -328,7 +328,13 @@ export default function TumboNavbar() {
                         <Link 
                           key={index} 
                           href={item.href} 
-                          className="block w-full px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground transition-colors first:rounded-t-md last:rounded-b-md"
+                          className="block w-full px-3 py-2 text-sm transition-colors first:rounded-t-md last:rounded-b-md"
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = '#E2D6C7'
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = ''
+                          }}
                         >
                           {item.label}
                         </Link>

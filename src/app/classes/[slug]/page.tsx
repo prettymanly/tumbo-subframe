@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { Button } from "@/components/subframe/ui/components/Button";
 import { FeatherPaintbrush } from "@subframe/core";
@@ -72,7 +73,7 @@ async function ClassDetailPage({
                 </div>
               </div>
               <div className="flex w-full flex-col items-start gap-12">
-                <div className="flex flex-wrap items-start gap-16">
+                <div className="flex flex-wrap items-start gap-16 mobile:flex-col">
                   <div className="flex grow shrink-0 basis-0 flex-col items-start gap-6">
                     <div className="flex flex-col items-start gap-10">
                       <div className="flex w-full flex-col items-start gap-8">
@@ -462,8 +463,16 @@ async function ClassDetailPage({
                       </div>
                     </div>
                   </div>
-                  <div className="flex min-w-[288px] max-w-[384px] grow shrink-0 basis-0 flex-col items-center gap-6 mobile:h-auto mobile:min-w-[288px] mobile:grow mobile:shrink-0 mobile:basis-0">
-                    <div className="flex w-full flex-col items-start gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6 shadow-lg">
+                  <div className="flex min-w-[288px] max-w-[384px] grow shrink-0 basis-0 flex-col items-start gap-6 mobile:h-auto mobile:min-w-[288px] mobile:grow mobile:shrink-0 mobile:basis-0 mobile:order-first sticky top-6 self-start max-md:static max-md:self-auto mt-[118px] max-md:mt-0">
+                    <div className="relative flex w-full flex-col items-start gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-6 py-6 shadow-lg">
+                      {/* Orange Hand holding the card */}
+                      <Image 
+                        src="/photos/illustrations/Class Detail Hand.png"
+                        alt=""
+                        width={80}
+                        height={80}
+                        className="absolute -right-6 top-8 w-20 h-auto z-20 max-md:hidden"
+                      />
                       <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-8 px-8 pt-12 pb-8">
                         <div className="flex w-full items-center gap-6">
                           <Avatar
@@ -487,8 +496,7 @@ async function ClassDetailPage({
                           </div>
                         </div>
                         <div className="flex w-full items-center gap-2">
-                          <Button size="large">Follow</Button>
-                          <Button variant="brand-secondary" size="large">Message</Button>
+                          <Button variant="brand-secondary" size="large">Follow</Button>
                           <Button variant="brand-secondary" size="large">Website</Button>
                         </div>
                       </div>
@@ -561,6 +569,12 @@ async function ClassDetailPage({
                         Add to Favorites
                       </Button>
                     </div>
+                    <Button
+                      variant="neutral-tertiary"
+                      className="text-sm opacity-80"
+                    >
+                      Are you the business owner? Claim this page
+                    </Button>
                     <Button
                       variant="neutral-tertiary"
                       icon={<FeatherFlag />}
