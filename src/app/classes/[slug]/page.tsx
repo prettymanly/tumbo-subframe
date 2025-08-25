@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { Button } from "@/components/subframe/ui/components/Button";
@@ -26,6 +26,40 @@ import { FavoritesButton } from "@/components/ui/favorites-button";
 function ClassDetailPage() {
   // TODO: Fetch class data from Supabase using useParams hook
   // For now, using static data as placeholder
+  
+  // Bookmark component for curated picks
+  const BookmarkButton = ({ className }: { className?: string }) => {
+    const [isBookmarked, setIsBookmarked] = useState(false);
+    
+    return (
+      <IconButton
+        className={className}
+        variant="inverse"
+        onClick={() => setIsBookmarked(!isBookmarked)}
+        icon={
+          isBookmarked ? (
+            // Filled bookmark with white stroke - custom SVG
+            <svg 
+              className="transition-all duration-200" 
+              width="20" 
+              height="20" 
+              viewBox="0 0 24 24" 
+            >
+              <path 
+                d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"
+                fill="#FF4400"
+                stroke="white"
+                strokeWidth="1.5"
+              />
+            </svg>
+          ) : (
+            // Outline bookmark
+            <FeatherBookmark className="transition-all duration-200 text-current" />
+          )
+        }
+      />
+    );
+  };
   
   return (
     <ModernPageLayout>
@@ -138,12 +172,20 @@ function ClassDetailPage() {
                       <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-300" />
                       <div className="flex flex-col items-start gap-6">
                         <span className="w-full whitespace-pre-wrap text-heading-2 font-heading-2 text-default-font">
-                          {"Why Emma Might Thrive Here\n"}
+                          {"Why "}
+                          <span className="text-[#FF4400]">Emma</span>
+                          {" Might Thrive Here\n"}
                         </span>
                         <span className="whitespace-pre-wrap text-body font-body text-default-font">
-                          {
-                            "There's something magical about how Emma approaches creative challenges — with that quiet focus and gentle persistence that tells you she's truly absorbing every detail. Her visual learning style means she'll thrive in an environment where she can see, touch, and transform materials with her own hands, building confidence through each colorful creation.\n\nPicture Emma with paint-covered fingers, completely absorbed as she watches colors blend and transform on paper. This hands-on exploration gives her the immediate, tactile feedback her curious mind craves, where every brushstroke teaches her something new about texture, color, and the joy of making something uniquely hers.\n\nThe gentle, growth-focused environment celebrates Emma's natural inclination to take her time and really understand her materials. Here, there's no rush to perfection — just the encouragement to explore, experiment, and discover her own creative voice through patient, loving guidance that honors her methodical approach.\n\nEmma's love for storytelling and building will find perfect expression through mixed media art projects that let her create visual narratives. She'll develop fine motor skills while exploring color theory and composition, learning techniques that will enhance her natural gift for seeing beauty in the world around her."
-                          }
+                          {"There's something magical about how "}
+                          <span className="text-[#FF4400]">Emma</span>
+                          {" approaches creative challenges — with that quiet focus and gentle persistence that tells you she's truly absorbing every detail. Her visual learning style means she'll thrive in an environment where she can see, touch, and transform materials with her own hands, building confidence through each colorful creation.\n\nPicture "}
+                          <span className="text-[#FF4400]">Emma</span>
+                          {" with paint-covered fingers, completely absorbed as she watches colors blend and transform on paper. This hands-on exploration gives her the immediate, tactile feedback her curious mind craves, where every brushstroke teaches her something new about texture, color, and the joy of making something uniquely hers.\n\nThe gentle, growth-focused environment celebrates "}
+                          <span className="text-[#FF4400]">Emma</span>
+                          {"'s natural inclination to take her time and really understand her materials. Here, there's no rush to perfection — just the encouragement to explore, experiment, and discover her own creative voice through patient, loving guidance that honors her methodical approach.\n\n"}
+                          <span className="text-[#FF4400]">Emma</span>
+                          {"'s love for storytelling and building will find perfect expression through mixed media art projects that let her create visual narratives. She'll develop fine motor skills while exploring color theory and composition, learning techniques that will enhance her natural gift for seeing beauty in the world around her."}
                         </span>
                       </div>
                       <div className="flex h-px w-full flex-none flex-col items-center gap-2 bg-neutral-300" />
@@ -398,11 +440,7 @@ function ClassDetailPage() {
                           </span>
                           <div className="flex w-full flex-col items-start gap-4 overflow-hidden">
                             <div className="flex w-full flex-col items-center justify-center gap-24 overflow-hidden rounded-md relative">
-                              <IconButton
-                                className="absolute right-2 top-2"
-                                variant="inverse"
-                                icon={<FeatherBookmark />}
-                              />
+                              <BookmarkButton className="absolute right-2 top-2" />
                               <img
                                 className="h-60 w-full flex-none object-cover"
                                 src="/photos/collections/Big Energy Gentle Guidance.png"
@@ -427,11 +465,7 @@ function ClassDetailPage() {
                           </div>
                           <div className="flex w-full flex-col items-start gap-4 overflow-hidden">
                             <div className="flex w-full flex-col items-center justify-center gap-24 overflow-hidden rounded-md relative">
-                              <IconButton
-                                className="absolute right-2 top-2"
-                                variant="inverse"
-                                icon={<FeatherBookmark />}
-                              />
+                              <BookmarkButton className="absolute right-2 top-2" />
                               <img
                                 className="h-60 w-full flex-none object-cover"
                                 src="/photos/collections/Quiet Kids Loud Ideas.png"
