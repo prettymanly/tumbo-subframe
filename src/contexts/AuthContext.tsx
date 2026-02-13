@@ -33,6 +33,7 @@ interface AuthContextType {
   logout: () => void
   switchChild: (childId: string) => void
   updateChild: (childId: string, updates: Partial<Child>) => void
+  updateProfile: (updates: { name?: string; avatar?: string }) => void
   loading: boolean
 }
 
@@ -191,6 +192,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  const updateProfile = (updates: { name?: string; avatar?: string }) => {
+    if (user) {
+      const updatedUser = { ...user, ...updates }
+      setUser(updatedUser)
+      localStorage.setItem('tumbo_auth', JSON.stringify({ user: updatedUser }))
+    }
+  }
+
   const currentChild = user?.children.find(child => child.id === user.currentChildId) || null
 
   const value: AuthContextType = {
@@ -204,6 +213,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     logout,
     switchChild,
     updateChild,
+    updateProfile,
     loading
   }
 

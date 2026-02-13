@@ -2,7 +2,8 @@
 
 import React from "react";
 import Link from "next/link";
-// import { TagBadge } from "./tag-badge";
+import Image from "next/image";
+import { TagPill } from "./tag-pill";
 
 interface ClassCardProps {
   id: string;
@@ -34,23 +35,25 @@ export const CustomClassCard = React.memo(function CustomClassCard({
   };
 
   return (
-    <Link href={href} className={`block ${className}`}>
-      <div className="flex grow shrink-0 basis-0 flex-col items-start overflow-hidden rounded-md bg-white shadow-sm hover:shadow-lg transition-shadow cursor-pointer">
-        <div className="flex w-full grow shrink-0 basis-0 flex-col items-start relative">
-          <img 
-            className="h-60 w-full flex-none object-cover" 
+    <Link href={href} className={`block h-full ${className}`}>
+      <div className="flex h-full flex-col items-start overflow-hidden rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer group/card relative">
+        {/* Image */}
+        <div className="w-full relative overflow-hidden">
+          <Image 
+            className="block h-52 w-full object-cover group-hover/card:scale-[1.03] transition-transform duration-500 ease-out" 
             src={image} 
             alt={title}
-            loading="lazy"
+            width={640}
+            height={208}
           />
           {onBookmarkToggle && (
             <button 
-              className="absolute right-2 top-2 bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-sm hover:bg-gray-50 transition-colors"
+              className="absolute right-2.5 top-2.5 bg-white/90 backdrop-blur-sm rounded-full w-8 h-8 flex items-center justify-center shadow-sm hover:bg-white hover:scale-110 transition-all duration-200 z-10"
               onClick={handleBookmarkClick}
               aria-label={isBookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
             >
               <svg 
-                className={`w-4 h-4 ${isBookmarked ? 'fill-current text-red-500' : 'stroke-current text-gray-600'}`}
+                className={`w-4 h-4 transition-colors duration-200 ${isBookmarked ? 'fill-current text-[var(--tumbo-orange)]' : 'stroke-current text-gray-500'}`}
                 viewBox="0 0 24 24" 
                 fill={isBookmarked ? "currentColor" : "none"}
                 stroke="currentColor" 
@@ -63,49 +66,31 @@ export const CustomClassCard = React.memo(function CustomClassCard({
             </button>
           )}
         </div>
-        <div className="flex w-full flex-col items-start gap-1 px-4 py-4">
-          <span className="line-clamp-3 text-heading-3 font-heading-3 text-default-font">
+
+        {/* Content */}
+        <div className="flex w-full flex-col items-start gap-1.5 px-4 pt-3.5 pb-4 flex-1">
+          <span className="line-clamp-2 text-heading-3 font-heading-3 text-default-font leading-snug">
             {title}
           </span>
-          <span className="text-body font-body text-subtext-color">
+          <span className="text-body font-body text-subtext-color line-clamp-2">
             {description}
           </span>
           {badges.length > 0 && (
-            <div className="flex items-center gap-2 mt-1 flex-wrap">
-              {badges.map((badge, index) => {
-                const tagLower = badge.toLowerCase();
-                
-                // Determine tag color based on content
-                let backgroundColor = '#7E401A'; // Default: Content Tags - Brown
-                if (['project-based', 'play-based', 'story-driven', 'imaginative', 'mindful', 'montessori', 'reggio', 'waldorf', 'bilingual', 'cultural', 'heritage', 'philosophy', 'values', 'learning'].some(keyword => tagLower.includes(keyword))) {
-                  backgroundColor = '#FF3C00'; // Philosophy Tags - Red/Orange
-                } else if (['hands-on', 'interactive', 'small group', 'large group', 'one-on-one', 'outdoor', 'tactile', 'messy', 'high energy', 'fast-paced', 'collaborative', 'competitive', 'immersive', 'sensory'].some(keyword => tagLower.includes(keyword))) {
-                  backgroundColor = '#F1B313'; // Experience Tags - Yellow/Amber
-                } else if (['fine motor', 'gross motor', 'confidence', 'leadership', 'creativity', 'problem-solving', 'shy', 'outgoing', 'visual learner', 'kinesthetic', 'focus', 'communication', 'critical thinking', 'social skills', 'emotional', 'self-expression'].some(keyword => tagLower.includes(keyword))) {
-                  backgroundColor = '#FF6966'; // Child Tags - Coral/Pink
-                }
-                
-                return (
-                  <span 
-                    key={index}
-                    className="px-3 py-1 rounded-full text-xs font-medium text-white"
-                    style={{
-                      backgroundColor: backgroundColor,
-                      border: 'none',
-                      fontSize: '12px',
-                      fontWeight: '500',
-                      borderRadius: '9999px',
-                      padding: '4px 12px'
-                    }}
-                    title={badge}
-                  >
-                    {badge}
-                  </span>
-                );
-              })}
+            <div className="flex items-center gap-1.5 mt-auto pt-2 flex-wrap">
+              {badges.slice(0, 3).map((badge, index) => (
+                <TagPill key={index} label={badge} size="sm" />
+              ))}
+              {badges.length > 3 && (
+                <span className="text-[11px] text-gray-400 font-medium">
+                  +{badges.length - 3}
+                </span>
+              )}
             </div>
           )}
         </div>
+
+        {/* Orange accent line — slides in on hover */}
+        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[var(--tumbo-orange)] scale-x-0 group-hover/card:scale-x-100 transition-transform duration-300 origin-left" />
       </div>
     </Link>
   );

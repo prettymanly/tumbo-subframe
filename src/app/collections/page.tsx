@@ -30,17 +30,17 @@ function CuratedClasses() {
                     <span className="text-caption font-caption text-subtext-color">36 collections</span>
                   </div>
                   <TextField className="h-auto w-72 flex-none" variant="filled" label="" helpText="" icon={<FeatherSearch />}>
-                    <TextField.Input placeholder="Search collections..." value="" />
+                    <TextField.Input placeholder="Search collections..." defaultValue="" />
                   </TextField>
                 </div>
               </div>
             </div>
             <span className="text-heading-2 font-heading-2 text-default-font">Recommended for Alex</span>
             <div className="flex w-full flex-wrap items-start gap-6 mobile:flex-col mobile:flex-wrap mobile:gap-6">
-              <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden">
+              <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden card-hover">
                 <Link href="/collections/big-energy-gentle-guidance" className="flex w-full flex-col items-center justify-center gap-24 overflow-hidden rounded-md relative">
-                  <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} />
-                  <img className="h-60 w-full flex-none object-cover" src="/photos/collections/Big Energy Gentle Guidance.png" />
+                  <IconButton className="absolute right-2 top-2 z-10" variant="inverse" icon={<FeatherBookmark />} />
+                  <img className="h-60 w-full flex-none object-cover photo-hover" src="/photos/collections/Big Energy Gentle Guidance.png" />
                 </Link>
                 <div className="flex w-full flex-col items-start gap-2">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2">
@@ -57,10 +57,10 @@ function CuratedClasses() {
                   </div>
                 </div>
               </div>
-              <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden">
+              <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden card-hover">
                 <Link href="/collections/quiet-kids-loud-ideas" className="flex w-full flex-col items-center justify-center gap-24 overflow-hidden rounded-md relative">
-                  <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} />
-                  <img className="h-60 w-full flex-none object-cover" src="/photos/collections/Quiet Kids Loud Ideas.png" />
+                  <IconButton className="absolute right-2 top-2 z-10" variant="inverse" icon={<FeatherBookmark />} />
+                  <img className="h-60 w-full flex-none object-cover photo-hover" src="/photos/collections/Quiet Kids Loud Ideas.png" />
                 </Link>
                 <div className="flex w-full flex-col items-start gap-2">
                   <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2">
@@ -84,10 +84,10 @@ function CuratedClasses() {
                 <span className="text-body font-body text-default-font">Explore additional curated collections tailored to different learning styles and interests</span>
               </div>
               <div className="flex w-full flex-wrap items-start gap-6">
-                <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden card-hover">
                   <div className="flex w-full flex-col items-center justify-center gap-24 overflow-hidden rounded-md relative">
-                    <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} />
-                    <img className="h-60 w-full flex-none object-cover" src="/photos/collections/When nothing holds their attention.png" />
+                    <IconButton className="absolute right-2 top-2 z-10" variant="inverse" icon={<FeatherBookmark />} />
+                    <img className="h-60 w-full flex-none object-cover photo-hover" src="/photos/collections/When nothing holds their attention.png" />
                   </div>
                   <div className="flex w-full flex-col items-start gap-2">
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2">
@@ -101,10 +101,10 @@ function CuratedClasses() {
                     </div>
                   </div>
                 </div>
-                <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden card-hover">
                   <div className="flex w-full flex-col items-center justify-center gap-24 overflow-hidden rounded-md relative">
-                    <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} />
-                    <img className="h-60 w-full flex-none object-cover" src="/photos/collections/Confidence in disguise.png" />
+                    <IconButton className="absolute right-2 top-2 z-10" variant="inverse" icon={<FeatherBookmark />} />
+                    <img className="h-60 w-full flex-none object-cover photo-hover" src="/photos/collections/Confidence in disguise.png" />
                   </div>
                   <div className="flex w-full flex-col items-start gap-2">
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2">
@@ -120,10 +120,10 @@ function CuratedClasses() {
                 </div>
               </div>
               <div className="flex w-full flex-wrap items-start gap-6">
-                <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden card-hover">
                   <div className="flex w-full flex-col items-center justify-center gap-24 overflow-hidden rounded-md relative">
-                    <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} />
-                    <img className="h-60 w-full flex-none object-cover" src="/photos/collections/Srong Feelings Soft Places.png" />
+                    <IconButton className="absolute right-2 top-2 z-10" variant="inverse" icon={<FeatherBookmark />} />
+                    <img className="h-60 w-full flex-none object-cover photo-hover" src="/photos/collections/Srong Feelings Soft Places.png" />
                   </div>
                   <div className="flex w-full flex-col items-start gap-2">
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2">
@@ -137,10 +137,10 @@ function CuratedClasses() {
                     </div>
                   </div>
                 </div>
-                <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden card-hover">
                   <div className="flex w-full flex-col items-center justify-center gap-24 overflow-hidden rounded-md relative">
-                    <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} />
-                    <img className="h-60 w-full flex-none object-cover" src="/photos/collections/tiny rebels big hearts.png" />
+                    <IconButton className="absolute right-2 top-2 z-10" variant="inverse" icon={<FeatherBookmark />} />
+                    <img className="h-60 w-full flex-none object-cover photo-hover" src="/photos/collections/tiny rebels big hearts.png" />
                   </div>
                   <div className="flex w-full flex-col items-start gap-2">
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2">
@@ -156,10 +156,10 @@ function CuratedClasses() {
                 </div>
               </div>
               <div className="flex w-full flex-wrap items-start gap-6">
-                <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden card-hover">
                   <div className="flex w-full flex-col items-center justify-center gap-24 overflow-hidden rounded-md relative">
-                    <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} />
-                    <img className="h-60 w-full flex-none object-cover" src="/photos/collections/Stories that make you brave.png" />
+                    <IconButton className="absolute right-2 top-2 z-10" variant="inverse" icon={<FeatherBookmark />} />
+                    <img className="h-60 w-full flex-none object-cover photo-hover" src="/photos/collections/Stories that make you brave.png" />
                   </div>
                   <div className="flex w-full flex-col items-start gap-2">
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2">
@@ -173,10 +173,10 @@ function CuratedClasses() {
                     </div>
                   </div>
                 </div>
-                <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden">
+                <div className="flex grow shrink-0 basis-0 flex-col items-start gap-4 overflow-hidden card-hover">
                   <div className="flex w-full flex-col items-center justify-center gap-24 overflow-hidden rounded-md relative">
-                    <IconButton className="absolute right-2 top-2" variant="inverse" icon={<FeatherBookmark />} />
-                    <img className="h-60 w-full flex-none object-cover" src="/photos/collections/wired for wonder.png" />
+                    <IconButton className="absolute right-2 top-2 z-10" variant="inverse" icon={<FeatherBookmark />} />
+                    <img className="h-60 w-full flex-none object-cover photo-hover" src="/photos/collections/wired for wonder.png" />
                   </div>
                   <div className="flex w-full flex-col items-start gap-2">
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2">

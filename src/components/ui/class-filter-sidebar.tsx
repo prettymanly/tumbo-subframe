@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState, useEffect, useRef } from "react"
-import { ChevronDown, ChevronRight, MapPin, Calendar, Clock, DollarSign, Palette, Zap, Brain, User, X } from "lucide-react"
 import { FilterState } from "./filter-chips"
 
 interface ClassFilterSidebarProps {
@@ -11,52 +10,148 @@ interface ClassFilterSidebarProps {
   currentFilters: FilterState
 }
 
-interface CollapsibleSectionProps {
-  title: string
-  icon: React.ReactNode
-  children: React.ReactNode
-  defaultOpen?: boolean
+// ── Icons (inline SVGs to avoid dependency) ──
+function IconX({ className = "w-5 h-5" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  )
 }
 
-function CollapsibleSection({ title, icon, children, defaultOpen = false }: CollapsibleSectionProps) {
+function IconChevron({ open, className = "w-4 h-4" }: { open: boolean; className?: string }) {
+  return (
+    <svg
+      className={`${className} transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      strokeWidth={2}
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+    </svg>
+  )
+}
+
+// ── Collapsible section ──
+function FilterSection({
+  title,
+  children,
+  defaultOpen = false,
+}: {
+  title: string
+  children: React.ReactNode
+  defaultOpen?: boolean
+}) {
   const [isOpen, setIsOpen] = useState(defaultOpen)
 
   return (
-    <div className="border-b border-gray-200 pb-4">
+    <div className="border-b border-neutral-100 last:border-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-between py-3 text-left hover:bg-gray-50 rounded-lg px-2 transition-colors"
+        className="flex w-full items-center justify-between py-3.5 text-left group"
       >
-        <div className="flex items-center gap-3">
-          {icon}
-          <span className="font-medium text-gray-900">{title}</span>
-        </div>
-        {isOpen ? (
-          <ChevronDown className="h-4 w-4 text-gray-500" />
-        ) : (
-          <ChevronRight className="h-4 w-4 text-gray-500" />
-        )}
+        <span className="text-[14px] font-semibold text-gray-800 group-hover:text-gray-900 transition-colors">
+          {title}
+        </span>
+        <IconChevron open={isOpen} className="w-4 h-4 text-gray-400" />
       </button>
-      {isOpen && (
-        <div className="mt-3 space-y-3">
-          {children}
-        </div>
-      )}
+      <div
+        className={`grid transition-all duration-200 ease-out ${
+          isOpen ? "grid-rows-[1fr] opacity-100 pb-4" : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden">{children}</div>
+      </div>
     </div>
   )
 }
 
-function ClassFilterSidebar({ open, onOpenChange, onFiltersChange, currentFilters }: ClassFilterSidebarProps) {
+// ── Custom checkbox ──
+function FilterCheckbox({
+  label,
+  checked,
+  onChange,
+}: {
+  label: string
+  checked: boolean
+  onChange: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onChange}
+      className="flex w-full items-center gap-2.5 py-1 cursor-pointer group text-left"
+    >
+      <div
+        className={`w-4 h-4 rounded border-[1.5px] flex items-center justify-center transition-all duration-150 ${
+          checked
+            ? "bg-[var(--tumbo-orange)] border-[var(--tumbo-orange)]"
+            : "border-gray-300 group-hover:border-gray-400"
+        }`}
+      >
+        {checked && (
+          <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        )}
+      </div>
+      <span className="text-[13px] text-gray-600 group-hover:text-gray-800 transition-colors select-none">
+        {label}
+      </span>
+    </button>
+  )
+}
+
+// ── Tag pill ──
+function FilterTag({
+  label,
+  selected,
+  color,
+  onClick,
+}: {
+  label: string
+  selected: boolean
+  color: string
+  onClick: () => void
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`px-3 py-1.5 rounded-full text-[12px] font-medium transition-all duration-150 ${
+        selected
+          ? "text-white shadow-sm"
+          : "text-gray-600 hover:text-gray-800 border border-neutral-200 hover:border-neutral-300 bg-white"
+      }`}
+      style={selected ? { backgroundColor: color } : undefined}
+    >
+      {label}
+    </button>
+  )
+}
+
+// ── Color mapping for tag categories ──
+const TAG_COLORS = {
+  content: "#7E401A",
+  philosophy: "#FF3C00",
+  experience: "#F1B313",
+  personality: "#FF6966",
+} as const
+
+function getTagColor(tagName: string, category: keyof typeof TAG_COLORS): string {
+  return TAG_COLORS[category]
+}
+
+// ── Main component ──
+export default function ClassFilterSidebar({
+  open,
+  onOpenChange,
+  onFiltersChange,
+  currentFilters,
+}: ClassFilterSidebarProps) {
   const [filters, setFilters] = useState<FilterState>(currentFilters)
-  const [searchQueries, setSearchQueries] = useState({
-    contentTypes: "",
-    experienceStyles: "",
-    educationalPhilosophies: "",
-    personalityTraits: ""
-  })
   const isInitialMount = useRef(true)
 
-  // Update parent when filters change
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false
@@ -65,54 +160,23 @@ function ClassFilterSidebar({ open, onOpenChange, onFiltersChange, currentFilter
     onFiltersChange(filters)
   }, [filters, onFiltersChange])
 
-  // Helper function to toggle selection in filters
   const toggleFilter = (filterKey: keyof FilterState, value: string) => {
-    setFilters(prev => {
-      const currentArray = prev[filterKey] as string[]
-      if (currentArray.includes(value)) {
-        return { ...prev, [filterKey]: currentArray.filter(item => item !== value) }
-      } else {
-        return { ...prev, [filterKey]: [...currentArray, value] }
+    setFilters((prev) => {
+      const arr = prev[filterKey] as string[]
+      return {
+        ...prev,
+        [filterKey]: arr.includes(value) ? arr.filter((i) => i !== value) : [...arr, value],
       }
     })
   }
 
-  // Helper function to update filters
-  const updateFilter = (filterKey: keyof FilterState, newValue: string[]) => {
-    setFilters(prev => ({ ...prev, [filterKey]: newValue }))
-  }
+  const activeCount = Object.values(filters).reduce(
+    (sum, arr) => sum + (Array.isArray(arr) ? arr.length : 0),
+    0
+  )
 
-  // Helper function to get tag color
-  const getTagColor = (tagName: string, isSelected: boolean) => {
-    if (!isSelected) return 'transparent'
-    
-    const tagLower = tagName.toLowerCase()
-    
-    // Content Tags - Brown (#7E401A)
-    if (['music', 'dance', 'art', 'creative', 'design', 'stem', 'tech', 'robotics', 'coding', 'science', 'math', 'language', 'writing', 'reading', 'sports', 'pottery', 'painting', 'visual', 'drawing', 'sculpture', 'crafts'].some(keyword => tagLower.includes(keyword))) {
-      return '#7E401A'
-    } 
-    // Philosophy Tags - Red/Orange (#FF3C00)
-    else if (['montessori', 'reggio', 'waldorf', 'project-based', 'play-based', 'bilingual', 'cultural', 'heritage', 'philosophy', 'values', 'learning', 'story-driven', 'imaginative', 'mindful'].some(keyword => tagLower.includes(keyword))) {
-      return '#FF3C00'
-    } 
-    // Experience Tags - Yellow/Amber (#F1B313)
-    else if (['small group', 'large group', 'one-on-one', 'outdoor', 'tactile', 'messy', 'high energy', 'fast-paced', 'collaborative', 'competitive', 'hands-on', 'interactive', 'immersive', 'sensory'].some(keyword => tagLower.includes(keyword))) {
-      return '#F1B313'
-    } 
-    // Child Tags - Coral/Pink (#FF6966)
-    else if (['confidence', 'leadership', 'creativity', 'problem-solving', 'shy', 'outgoing', 'visual learner', 'kinesthetic', 'focus', 'communication', 'critical thinking', 'fine motor', 'gross motor', 'social skills', 'emotional', 'self-expression'].some(keyword => tagLower.includes(keyword))) {
-      return '#FF6966'
-    } 
-    // Default to Content Tags color
-    else {
-      return '#7E401A'
-    }
-  }
-
-  // Clear all filters
-  const clearAllFilters = () => {
-    const emptyFilters: FilterState = {
+  const clearAll = () => {
+    setFilters({
       locations: [],
       ageRanges: [],
       days: [],
@@ -122,50 +186,46 @@ function ClassFilterSidebar({ open, onOpenChange, onFiltersChange, currentFilter
       experienceStyles: [],
       educationalPhilosophies: [],
       personalityTraits: [],
-      searchTerms: []
-    }
-    setFilters(emptyFilters)
-    setSearchQueries({
-      contentTypes: "",
-      experienceStyles: "",
-      educationalPhilosophies: "",
-      personalityTraits: ""
+      searchTerms: [],
     })
   }
 
-  // Render tag list with "See more" functionality
-  const renderTagList = (tags: string[], selectedTags: string[], setter: React.Dispatch<React.SetStateAction<string[]>>, maxVisible: number = 6) => {
+  // ── Tag list with "see more" ──
+  function TagList({
+    tags,
+    selected,
+    filterKey,
+    color,
+    max = 6,
+  }: {
+    tags: string[]
+    selected: string[]
+    filterKey: keyof FilterState
+    color: string
+    max?: number
+  }) {
     const [showAll, setShowAll] = useState(false)
-    const visibleTags = showAll ? tags : tags.slice(0, maxVisible)
-    const hasMore = tags.length > maxVisible
+    const visible = showAll ? tags : tags.slice(0, max)
 
     return (
-      <div className="space-y-2">
-        <div className="flex flex-wrap gap-2">
-          {visibleTags.map((tag) => (
-            <button
+      <div className="flex flex-col gap-2">
+        <div className="flex flex-wrap gap-1.5">
+          {visible.map((tag) => (
+            <FilterTag
               key={tag}
-              onClick={() => toggleSelection(selectedTags, tag, setter)}
-              className={`px-3 py-2 rounded-full text-sm font-medium transition-all ${
-                selectedTags.includes(tag)
-                  ? 'text-white'
-                  : 'text-gray-700 hover:text-gray-800'
-              }`}
-              style={{
-                backgroundColor: getTagColor(tag, selectedTags.includes(tag)),
-                border: selectedTags.includes(tag) ? 'none' : '1px solid #E2D6C7'
-              }}
-            >
-              {tag}
-            </button>
+              label={tag}
+              selected={selected.includes(tag)}
+              color={color}
+              onClick={() => toggleFilter(filterKey, tag)}
+            />
           ))}
         </div>
-        {hasMore && (
+        {tags.length > max && (
           <button
             onClick={() => setShowAll(!showAll)}
-            className="text-sm text-blue-600 hover:text-blue-800 font-medium"
+            className="text-[12px] font-medium text-gray-400 hover:text-[var(--tumbo-orange)] transition-colors self-start"
           >
-            {showAll ? 'See less' : `See ${tags.length - maxVisible} more`}
+            {showAll ? "Show less" : `+${tags.length - max} more`}
           </button>
         )}
       </div>
@@ -173,154 +233,170 @@ function ClassFilterSidebar({ open, onOpenChange, onFiltersChange, currentFilter
   }
 
   return (
-    <div className="w-full h-full bg-white p-6 overflow-y-auto">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-gray-900">Filter Classes</h2>
+    <div className="flex h-full flex-col">
+      {/* Header */}
+      <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
+        <div className="flex items-center gap-2.5">
+          <span className="text-[16px] font-bold text-gray-900">Filters</span>
+          {activeCount > 0 && (
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[var(--tumbo-orange)] text-white text-[11px] font-bold">
+              {activeCount}
+            </span>
+          )}
+        </div>
         <button
           onClick={() => onOpenChange(false)}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-1.5 rounded-lg hover:bg-neutral-100 transition-colors"
+          aria-label="Close filters"
         >
-          <X className="h-5 w-5 text-gray-500" />
+          <IconX className="w-5 h-5 text-gray-500" />
         </button>
       </div>
 
-      <div className="space-y-6">
-        {/* Location */}
-        <CollapsibleSection title="Location" icon={<MapPin className="h-5 w-5 text-gray-500" />} defaultOpen={true}>
-          <div className="space-y-2">
-            {['Central', 'East', 'West', 'North', 'South'].map((location) => (
-              <label key={location} className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={filters.locations.includes(location)}
-                  onChange={() => toggleFilter('locations', location)}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-                <span className="text-sm text-gray-700">{location}</span>
-              </label>
+      {/* Scrollable body */}
+      <div className="flex-1 overflow-y-auto px-5 py-2">
+        <FilterSection title="Location" defaultOpen>
+          <div className="flex flex-col gap-0.5">
+            {["Central", "East", "West", "North", "South"].map((loc) => (
+              <FilterCheckbox
+                key={loc}
+                label={loc}
+                checked={filters.locations.includes(loc)}
+                onChange={() => toggleFilter("locations", loc)}
+              />
             ))}
           </div>
-        </CollapsibleSection>
+        </FilterSection>
 
-        {/* Age Range */}
-        <CollapsibleSection title="Age Range" icon={<User className="h-5 w-5 text-gray-500" />} defaultOpen={true}>
-          <div className="space-y-2">
-            {['3-5 years', '6-8 years', '9-12 years', '13+ years'].map((ageRange) => (
-              <label key={ageRange} className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={filters.ageRanges.includes(ageRange)}
-                  onChange={() => toggleFilter('ageRanges', ageRange)}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-                <span className="text-sm text-gray-700">{ageRange}</span>
-              </label>
+        <FilterSection title="Age Range" defaultOpen>
+          <div className="flex flex-col gap-0.5">
+            {["3–5 years", "6–8 years", "9–12 years", "13+ years"].map((age) => (
+              <FilterCheckbox
+                key={age}
+                label={age}
+                checked={filters.ageRanges.includes(age)}
+                onChange={() => toggleFilter("ageRanges", age)}
+              />
             ))}
           </div>
-        </CollapsibleSection>
+        </FilterSection>
 
-        {/* Day & Time */}
-        <CollapsibleSection title="Day & Time" icon={<Calendar className="h-5 w-5 text-gray-500" />} defaultOpen={true}>
-          <div className="space-y-4">
-            <div>
-              <h4 className="font-medium text-gray-700 mb-2">Days</h4>
-              <div className="grid grid-cols-2 gap-2">
-                {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => (
-                  <label key={day} className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={filters.days.includes(day)}
-                                           onChange={() => toggleFilter('days', day)}
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                    <span className="text-sm text-gray-700">{day.slice(0, 3)}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h4 className="font-medium text-gray-700 mb-2">Time Slots</h4>
-              <div className="space-y-2">
-                {['Morning (9AM-12PM)', 'Afternoon (12PM-3PM)', 'Evening (3PM-6PM)', 'Late Evening (6PM+)'].map((timeSlot) => (
-                  <label key={timeSlot} className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={filters.timeSlots.includes(timeSlot)}
-                                           onChange={() => toggleFilter('timeSlots', timeSlot)}
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                    <span className="text-sm text-gray-700">{timeSlot}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          </div>
-        </CollapsibleSection>
-
-        {/* Price Range */}
-        <CollapsibleSection title="Price Range" icon={<DollarSign className="h-5 w-5 text-gray-500" />} defaultOpen={true}>
-          <div className="space-y-2">
-            {['Free', '$1-50', '$51-100', '$101-200', '$200+'].map((priceRange) => (
-              <label key={priceRange} className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  checked={filters.priceRanges.includes(priceRange)}
-                  onChange={() => toggleFilter('priceRanges', priceRange)}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+        <FilterSection title="Day">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-0.5">
+            {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map(
+              (day) => (
+                <FilterCheckbox
+                  key={day}
+                  label={day.slice(0, 3)}
+                  checked={filters.days.includes(day)}
+                  onChange={() => toggleFilter("days", day)}
                 />
-                <span className="text-sm text-gray-700">{priceRange}</span>
-              </label>
+              )
+            )}
+          </div>
+        </FilterSection>
+
+        <FilterSection title="Time">
+          <div className="flex flex-col gap-0.5">
+            {[
+              "Morning (9AM–12PM)",
+              "Afternoon (12PM–3PM)",
+              "Evening (3PM–6PM)",
+              "Late (6PM+)",
+            ].map((slot) => (
+              <FilterCheckbox
+                key={slot}
+                label={slot}
+                checked={filters.timeSlots.includes(slot)}
+                onChange={() => toggleFilter("timeSlots", slot)}
+              />
             ))}
           </div>
-        </CollapsibleSection>
+        </FilterSection>
 
-        {/* Content Type */}
-        <CollapsibleSection title="Content Type" icon={<Palette className="h-5 w-5 text-gray-500" />} defaultOpen={true}>
-          {renderTagList(
-            ['Music', 'Dance', 'STEM & Tech', 'Sports', 'Art & Design', 'Languages', 'Creative Writing', 'Visual Arts', 'Robotics', 'Coding', 'Science', 'Math'],
-            filters.contentTypes,
-            (newContentTypes) => updateFilter('contentTypes', newContentTypes)
-          )}
-        </CollapsibleSection>
+        <FilterSection title="Price Range">
+          <div className="flex flex-col gap-0.5">
+            {["Free", "$1–50", "$51–100", "$101–200", "$200+"].map((price) => (
+              <FilterCheckbox
+                key={price}
+                label={price}
+                checked={filters.priceRanges.includes(price)}
+                onChange={() => toggleFilter("priceRanges", price)}
+              />
+            ))}
+          </div>
+        </FilterSection>
 
-        {/* Experience Style */}
-        <CollapsibleSection title="Experience Style" icon={<Zap className="h-5 w-5 text-gray-500" />} defaultOpen={true}>
-          {renderTagList(
-            ['Small Group', 'Outdoor', 'High Energy', 'Collaborative', 'One-on-One', 'Large Group', 'Tactile', 'Messy', 'Fast-Paced', 'Hands-on', 'Interactive', 'Immersive'],
-            filters.experienceStyles,
-            (newExperienceStyles) => setFilters(prev => ({ ...prev, experienceStyles: newExperienceStyles }))
-          )}
-        </CollapsibleSection>
+        <FilterSection title="Content Type">
+          <TagList
+            tags={[
+              "Music", "Dance", "STEM & Tech", "Sports", "Art & Design",
+              "Languages", "Creative Writing", "Visual Arts", "Robotics",
+              "Coding", "Science", "Math",
+            ]}
+            selected={filters.contentTypes}
+            filterKey="contentTypes"
+            color={TAG_COLORS.content}
+          />
+        </FilterSection>
 
-        {/* Educational Philosophy */}
-        <CollapsibleSection title="Educational Philosophy" icon={<Brain className="h-5 w-5 text-gray-500" />} defaultOpen={true}>
-          {renderTagList(
-            ['Montessori', 'Reggio Emilia', 'Project-Based', 'Play-Based', 'Waldorf', 'IB-Inspired', 'STEM/STEAM', '21st-Century Skills', 'Bilingual', 'Cultural Heritage', 'Islamic Ethos', 'Christian Values'],
-            filters.educationalPhilosophies,
-            (newEducationalPhilosophies) => setFilters(prev => ({ ...prev, educationalPhilosophies: newEducationalPhilosophies }))
-          )}
-        </CollapsibleSection>
+        <FilterSection title="Experience Style">
+          <TagList
+            tags={[
+              "Small Group", "Outdoor", "High Energy", "Collaborative",
+              "One-on-One", "Large Group", "Tactile", "Hands-on",
+              "Interactive", "Immersive",
+            ]}
+            selected={filters.experienceStyles}
+            filterKey="experienceStyles"
+            color={TAG_COLORS.experience}
+          />
+        </FilterSection>
 
-        {/* Personality Fit */}
-        <CollapsibleSection title="Personality Fit" icon={<User className="h-5 w-5 text-gray-500" />} defaultOpen={true}>
-          {renderTagList(
-            ['Confidence Building', 'Leadership', 'Creative Expression', 'Problem Solving', 'Shy in Groups', 'Outgoing & Expressive', 'Visual Learner', 'Kinesthetic', 'Focus & Self-Regulation', 'Communication', 'Critical Thinking', 'Social Skills'],
-            filters.personalityTraits,
-            (newPersonalityTraits) => setFilters(prev => ({ ...prev, personalityTraits: newPersonalityTraits }))
-          )}
-        </CollapsibleSection>
+        <FilterSection title="Educational Philosophy">
+          <TagList
+            tags={[
+              "Montessori", "Reggio Emilia", "Project-Based", "Play-Based",
+              "Waldorf", "IB-Inspired", "STEM/STEAM", "Bilingual",
+              "Cultural Heritage",
+            ]}
+            selected={filters.educationalPhilosophies}
+            filterKey="educationalPhilosophies"
+            color={TAG_COLORS.philosophy}
+          />
+        </FilterSection>
+
+        <FilterSection title="Personality Fit">
+          <TagList
+            tags={[
+              "Confidence Building", "Leadership", "Creative Expression",
+              "Problem Solving", "Shy in Groups", "Visual Learner",
+              "Kinesthetic", "Focus & Self-Regulation", "Social Skills",
+            ]}
+            selected={filters.personalityTraits}
+            filterKey="personalityTraits"
+            color={TAG_COLORS.personality}
+          />
+        </FilterSection>
       </div>
 
-      <div className="mt-8 pt-6 border-t border-gray-200">
+      {/* Footer */}
+      <div className="px-5 py-4 border-t border-neutral-100 flex gap-3">
+        {activeCount > 0 && (
+          <button
+            onClick={clearAll}
+            className="flex-1 py-2.5 rounded-lg text-[13px] font-semibold text-gray-500 hover:text-gray-700 hover:bg-neutral-50 transition-colors"
+          >
+            Clear all
+          </button>
+        )}
         <button
-          onClick={clearAllFilters}
-          className="w-full py-3 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors font-medium"
+          onClick={() => onOpenChange(false)}
+          className="flex-1 py-2.5 rounded-lg text-[13px] font-semibold text-white bg-[var(--tumbo-orange)] hover:opacity-90 transition-opacity"
         >
-          Clear All Filters
+          {activeCount > 0 ? `Show results` : "Done"}
         </button>
       </div>
     </div>
   )
 }
-
-export default ClassFilterSidebar

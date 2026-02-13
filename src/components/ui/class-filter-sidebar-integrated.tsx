@@ -1,13 +1,6 @@
 "use client"
 
-import React from "react"
-import {
-  SidebarProvider,
-  Sidebar,
-  SidebarContent,
-  SidebarInset,
-  SidebarTrigger,
-} from "@/components/ui/sidebar"
+import React, { useEffect } from "react"
 import ClassFilterSidebar from "./class-filter-sidebar"
 import { FilterState } from "./filter-chips"
 
@@ -24,25 +17,48 @@ export default function ClassFilterSidebarIntegrated({
   onOpenChange,
   onFiltersChange,
   currentFilters,
-  children
+  children,
 }: ClassFilterSidebarIntegratedProps) {
+  // Lock body scroll when panel is open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = ""
+    }
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [open])
+
   return (
-    <SidebarProvider defaultOpen={false} open={open} onOpenChange={onOpenChange}>
-      <Sidebar side="left" variant="sidebar" collapsible="offcanvas">
-        <SidebarContent>
-          <ClassFilterSidebar
-            open={open}
-            onOpenChange={onOpenChange}
-            onFiltersChange={onFiltersChange}
-            currentFilters={currentFilters}
-          />
-        </SidebarContent>
-      </Sidebar>
-      
-      <SidebarInset>
-        {children}
-      </SidebarInset>
-    </SidebarProvider>
+    <div className="relative w-full min-w-0">
+      {/* Main content — always visible */}
+      <div className="w-full min-w-0 overflow-x-hidden">{children}</div>
+
+      {/* Backdrop overlay */}
+      <div
+        className={`fixed inset-0 z-40 bg-black/20 backdrop-blur-[2px] transition-opacity duration-300 ${
+          open
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+        onClick={() => onOpenChange(false)}
+      />
+
+      {/* Slide-over panel */}
+      <div
+        className={`fixed top-0 left-0 z-50 h-full w-[340px] max-w-[85vw] bg-white shadow-2xl shadow-black/10 transition-transform duration-300 ease-out ${
+          open ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <ClassFilterSidebar
+          open={open}
+          onOpenChange={onOpenChange}
+          onFiltersChange={onFiltersChange}
+          currentFilters={currentFilters}
+        />
+      </div>
+    </div>
   )
 }
-

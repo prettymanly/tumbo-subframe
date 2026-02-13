@@ -2,6 +2,7 @@
 
 import React from "react";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
+import { FadeInUp } from "@/components/ui/fade-in-up";
 import { FeatherPenSquare } from "@subframe/core";
 import { IconButton } from "@/components/subframe/ui/components/IconButton";
 import { TextField } from "@/components/subframe/ui/components/TextField";
@@ -94,46 +95,58 @@ function MessengerChatInbox2() {
                 src="https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/y2rsnhq3mex4auk54aye.png"
               />
               <div className="flex flex-wrap items-center justify-center gap-4">
-                <div className="flex w-40 flex-none flex-col items-start gap-4 self-stretch rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
-                  <FeatherPuzzle className="text-heading-3 font-heading-3 text-brand-700" />
-                  <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
-                    {"Which recent class felt like a perfect fit?\n"}
-                  </span>
-                </div>
-                <div className="flex w-40 flex-none flex-col items-start gap-4 self-stretch rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
-                  <FeatherTrees className="text-heading-3 font-heading-3 text-success-700" />
-                  <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
-                    {
-                      "If you could nurture just one trait in your child this year, what would it be?\n"
-                    }
-                  </span>
-                </div>
-                <div className="flex w-40 flex-none flex-col items-start gap-4 self-stretch rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
-                  <FeatherCrosshair className="text-heading-3 font-heading-3 text-warning-500" />
-                  <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
-                    {
-                      "Are you focusing more on skills for now or life-long interests?\n"
-                    }
-                  </span>
-                </div>
-                <div className="flex w-40 flex-none flex-col items-start gap-4 self-stretch rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
-                  <FeatherMap className="text-heading-3 font-heading-3 text-subtext-color" />
-                  <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
-                    {"Want to see what kids like yours are loving this month?"}
-                  </span>
-                </div>
-                <div className="flex w-40 flex-none flex-col items-start gap-4 self-stretch rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
-                  <FeatherMountain className="text-heading-3 font-heading-3 text-subtext-color" />
-                  <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
-                    {"Looking for holiday workshops?\n"}
-                  </span>
-                </div>
-                <div className="flex w-40 flex-none flex-col items-start gap-4 self-stretch rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
-                  <FeatherRainbow className="text-heading-3 font-heading-3 text-error-700" />
-                  <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
-                    {"Need rainy day activities nearby?\n"}
-                  </span>
-                </div>
+                <FadeInUp delay={0.05}>
+                  <div className="flex w-40 flex-none flex-col items-start gap-4 self-stretch rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm card-hover cursor-pointer">
+                    <FeatherPuzzle className="text-heading-3 font-heading-3 text-brand-700" />
+                    <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
+                      {"Which recent class felt like a perfect fit?\n"}
+                    </span>
+                  </div>
+                </FadeInUp>
+                <FadeInUp delay={0.1}>
+                  <div className="flex w-40 flex-none flex-col items-start gap-4 self-stretch rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm card-hover cursor-pointer">
+                    <FeatherTrees className="text-heading-3 font-heading-3 text-success-700" />
+                    <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
+                      {
+                        "If you could nurture just one trait in your child this year, what would it be?\n"
+                      }
+                    </span>
+                  </div>
+                </FadeInUp>
+                <FadeInUp delay={0.15}>
+                  <div className="flex w-40 flex-none flex-col items-start gap-4 self-stretch rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm card-hover cursor-pointer">
+                    <FeatherCrosshair className="text-heading-3 font-heading-3 text-warning-500" />
+                    <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
+                      {
+                        "Are you focusing more on skills for now or life-long interests?\n"
+                      }
+                    </span>
+                  </div>
+                </FadeInUp>
+                <FadeInUp delay={0.2}>
+                  <div className="flex w-40 flex-none flex-col items-start gap-4 self-stretch rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm card-hover cursor-pointer">
+                    <FeatherMap className="text-heading-3 font-heading-3 text-subtext-color" />
+                    <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
+                      {"Want to see what kids like yours are loving this month?"}
+                    </span>
+                  </div>
+                </FadeInUp>
+                <FadeInUp delay={0.25}>
+                  <div className="flex w-40 flex-none flex-col items-start gap-4 self-stretch rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm card-hover cursor-pointer">
+                    <FeatherMountain className="text-heading-3 font-heading-3 text-subtext-color" />
+                    <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
+                      {"Looking for holiday workshops?\n"}
+                    </span>
+                  </div>
+                </FadeInUp>
+                <FadeInUp delay={0.3}>
+                  <div className="flex w-40 flex-none flex-col items-start gap-4 self-stretch rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm card-hover cursor-pointer">
+                    <FeatherRainbow className="text-heading-3 font-heading-3 text-error-700" />
+                    <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
+                      {"Need rainy day activities nearby?\n"}
+                    </span>
+                  </div>
+                </FadeInUp>
               </div>
             </div>
           </div>

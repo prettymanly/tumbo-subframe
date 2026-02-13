@@ -1,7 +1,10 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
+import { FadeInUp } from "@/components/ui/fade-in-up";
 import { FeatherArrowUp } from "@subframe/core";
 import { FeatherLandmark } from "@subframe/core";
 import { TextLoop } from "@/components/ui/text-loop";
@@ -28,54 +31,63 @@ function TumboHome() {
     <ModernPageLayout>
       <div className="flex w-full flex-col items-center justify-center bg-default-background">
         <div className="flex w-full flex-col items-center justify-center gap-8 bg-default-background px-6 pt-40 pb-24">
-          <span className="max-w-[1024px] whitespace-pre-wrap font-['Lexend'] text-[95px] font-[900] leading-[84px] text-default-font text-center -tracking-[0.04em] mobile:font-['Montserrat'] mobile:text-[62px] mobile:font-[900] mobile:leading-[58px] mobile:tracking-normal">
-            The best classes{"\n"}aren&apos;t always {"\n"}the <em>best</em> classes.
-          </span>
-          <span className="max-w-[576px] whitespace-pre-wrap text-body font-body text-subtext-color text-center -tracking-[0.015em]">
-             {
-               "The best classes aren't always the \"best\" classes. Tümbo finds hidden gems that match both your child's learning style and your family's values, rather than just the programs with the longest waitlists."
-             }
-          </span>
-          <div className="flex w-full flex-col items-center justify-center gap-3 px-4 py-4">
-            <div className="flex h-14 w-full max-w-[768px] flex-none items-center justify-center gap-2 rounded-full px-2 py-2" style={{ backgroundColor: '#F3F1ED' }}>
-              <div className="h-auto grow shrink-0 basis-0 flex items-center pl-4">
-                <TextLoop interval={3} style={{ color: '#99A1AF' }}>
-                  {searchPhrases.map((text) => (
-                    <span key={text}>{text}</span>
-                  ))}
-                </TextLoop>
-              </div>
-              <button
-                disabled={true}
-                className="flex h-10 w-10 items-center justify-center rounded-full text-white transition-opacity hover:opacity-90"
-                style={{ backgroundColor: '#FF4400' }}
-                onClick={() => {}}
-              >
-                <FeatherArrowUp className="h-5 w-5 flex-shrink-0" style={{ marginLeft: '4px', strokeWidth: '1.5px' }} />
-              </button>
-            </div>
-            <span className="text-caption font-caption text-subtext-color">
-              Tell Tümbo about your kid. We&apos;ll do the rest.
+          <FadeInUp delay={0} duration={0.8} offset={40}>
+            <span className="max-w-[1024px] whitespace-pre-wrap font-['Lexend'] text-[95px] font-[900] leading-[84px] text-default-font text-center -tracking-[0.04em] mobile:font-['Montserrat'] mobile:text-[62px] mobile:font-[900] mobile:leading-[58px] mobile:tracking-normal">
+              The best classes{"\n"}aren&apos;t always {"\n"}the <em>best</em> classes.
             </span>
-          </div>
+          </FadeInUp>
+          <FadeInUp delay={0.15} duration={0.7}>
+            <span className="max-w-[576px] whitespace-pre-wrap text-body font-body text-subtext-color text-center -tracking-[0.015em]">
+               {
+                 "Tümbo surfaces the hidden gems that match your child's learning style and your family's values — not just the programs with the longest waitlists."
+               }
+            </span>
+          </FadeInUp>
+          <FadeInUp delay={0.3} duration={0.7}>
+            <div className="flex w-full flex-col items-center justify-center gap-3 px-4 py-4">
+              <Link
+                href="/classes"
+                className="flex h-14 w-full max-w-[768px] flex-none items-center justify-center gap-2 rounded-full bg-tumbo-cream px-2 py-2 no-underline hover:ring-2 hover:ring-[var(--tumbo-orange)]/20 transition-all duration-200 group/search"
+              >
+                <div className="h-auto grow shrink-0 basis-0 flex items-center pl-4">
+                  <TextLoop interval={3} className="text-tumbo-muted">
+                    {searchPhrases.map((text) => (
+                      <span key={text}>{text}</span>
+                    ))}
+                  </TextLoop>
+                </div>
+                <div
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-tumbo-orange text-white group-hover/search:scale-105 transition-transform duration-200"
+                >
+                  <FeatherArrowUp className="ml-1 h-5 w-5 flex-shrink-0" style={{ strokeWidth: '1.5px' }} />
+                </div>
+              </Link>
+              <span className="text-caption font-caption text-subtext-color">
+                Browse classes by learning style, location, and what matters to you.
+              </span>
+            </div>
+          </FadeInUp>
         </div>
-        <div className="flex w-full flex-col items-center gap-6 bg-default-background px-6 py-24">
+        <FadeInUp className="flex w-full flex-col items-center gap-6 bg-default-background px-6 py-24">
           <span className="whitespace-pre-wrap text-heading-3 font-heading-3 text-default-font">
             {"How Tümbo works"}
           </span>
           <span className="whitespace-pre-wrap text-heading-1 font-heading-1 text-default-font">
             {"We scout for fit, so you're not lost in endless tabs."}
           </span>
-          <img
+          <Image
             className="h-144 w-full max-w-[1280px] flex-none rounded-lg object-cover"
             src="https://res.cloudinary.com/subframe/image/upload/v1724690087/uploads/302/w2ra2yihpofsdy1h4uhy.png"
+            alt="How Tumbo works — class discovery flow"
+            width={1280}
+            height={576}
           />
           <div className="flex w-full max-w-[1280px] flex-wrap items-center justify-center gap-12">
             <div className="flex min-w-[240px] grow shrink-0 basis-0 items-center gap-4">
               <IconWithBackground size="x-large" icon={<FeatherLandmark />} />
               <span className="whitespace-pre-wrap font-['Montserrat'] text-[16px] font-[500] leading-[24px] text-default-font -tracking-[0.01em]">
                  {
-                   "Tell us what your kid\'s like.\nNot just age or postcode. we ask about personality, learning style, and what matters to your family.\n"
+                   "Filter by what matters.\nNot just age or postcode — search by personality, learning style, and what matters to your family.\n"
                  }
               </span>
             </div>
@@ -99,8 +111,8 @@ function TumboHome() {
               </span>
             </div>
           </div>
-        </div>
-        <div className="flex w-full flex-col items-center justify-center gap-4 px-12 py-12">
+        </FadeInUp>
+        <FadeInUp className="flex w-full flex-col items-center justify-center gap-4 px-12 py-12">
           <span className="whitespace-pre-wrap text-heading-1 font-heading-1 text-default-font">
             {"Every parent has a shortcut."}
           </span>
@@ -109,11 +121,11 @@ function TumboHome() {
               "Some call a friend, some trust a gut feeling, some open 12 tabs and wait for the answer to reveal itself. \nTümbo is your shortcut. Built to read the signals, spot the fit, and help you decide faster, with less noise."
             }
           </span>
-        </div>
+        </FadeInUp>
         <div className="flex w-full max-w-[1280px] flex-wrap items-center justify-center gap-12">
           <div className="flex min-w-[240px] grow shrink-0 basis-0 items-center gap-4" />
         </div>
-        <div className="flex w-full flex-col items-center justify-center gap-2 px-6 py-24">
+        <FadeInUp className="flex w-full flex-col items-center justify-center gap-2 px-6 py-24">
           <div className="flex w-full max-w-[1280px] grow shrink-0 basis-0 flex-wrap items-center justify-center gap-12">
             <div className="flex min-w-[320px] grow shrink-0 basis-0 flex-col items-center justify-center gap-10 self-stretch">
               <div className="flex flex-col items-start justify-center gap-4">
@@ -134,29 +146,40 @@ function TumboHome() {
             </div>
             <div className="flex grow shrink-0 basis-0 flex-col items-center justify-center gap-2 self-stretch">
               <div className="flex h-144 w-full min-w-[240px] max-w-[576px] flex-none flex-col items-center justify-center gap-2 overflow-hidden rounded-lg">
-                <img
+                <Image
                   className="w-full grow shrink-0 basis-0 object-cover"
                   src="https://res.cloudinary.com/subframe/image/upload/v1724705524/uploads/302/l5oq75rpdkq2kowa2xkj.png"
+                  alt="Everything in one place — Tumbo class directory"
+                  width={576}
+                  height={576}
                 />
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex w-full flex-col items-center justify-center gap-6 bg-default-background px-6 py-24">
+        </FadeInUp>
+        <FadeInUp className="flex w-full flex-col items-center justify-center gap-6 bg-default-background px-6 py-24">
           <div className="flex w-full max-w-[1280px] grow shrink-0 basis-0 flex-wrap items-center justify-center gap-12">
             <div className="flex grow shrink-0 basis-0 flex-col items-center justify-center gap-2 self-stretch rounded-lg">
               <div className="flex h-144 w-full min-w-[240px] max-w-[576px] flex-none flex-col items-center justify-center gap-2 overflow-hidden rounded-lg">
-                <img
+                <Image
                   className="w-full grow shrink-0 basis-0 object-cover"
                   src="https://res.cloudinary.com/subframe/image/upload/v1724690133/uploads/302/tswlwr0qfwwhkgbjwplw.png"
+                  alt="Your child's growth mapped — development tracking"
+                  width={576}
+                  height={576}
                 />
               </div>
             </div>
             <div className="flex min-w-[320px] grow shrink-0 basis-0 flex-col items-center justify-center gap-10 self-stretch">
               <div className="flex flex-col items-start justify-center gap-4">
-                <div className="flex flex-col items-start justify-center">
-                  <span className="text-heading-2 font-heading-2 text-default-font -tracking-[0.025em]">
-                    Your Child&apos;s Growth, Mapped
+                <div className="flex flex-col items-start justify-center gap-1">
+                  <span className="inline-flex items-center gap-2">
+                    <span className="text-heading-2 font-heading-2 text-default-font -tracking-[0.025em]">
+                      Your Child&apos;s Growth, Mapped
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full bg-[var(--tumbo-orange)]/10 text-[var(--tumbo-orange)] text-[10px] font-bold uppercase tracking-wider">
+                      Coming Soon
+                    </span>
                   </span>
                   <span className="text-body-bold font-body-bold text-default-font -tracking-[0.025em]">
                     Finally, a profile that grows up with your kid.
@@ -170,14 +193,19 @@ function TumboHome() {
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex w-full flex-col items-center justify-center gap-6 bg-default-background px-6 py-24">
+        </FadeInUp>
+        <FadeInUp className="flex w-full flex-col items-center justify-center gap-6 bg-default-background px-6 py-24">
           <div className="flex w-full max-w-[1280px] grow shrink-0 basis-0 flex-wrap items-center justify-center gap-12">
             <div className="flex min-w-[320px] grow shrink-0 basis-0 flex-col items-start justify-center gap-10 self-stretch">
               <div className="flex flex-col items-start justify-center gap-4">
-                <div className="flex flex-col items-start justify-center">
-                  <span className="text-heading-2 font-heading-2 text-default-font -tracking-[0.025em]">
-                    Your Parent Group, Upgraded.
+                <div className="flex flex-col items-start justify-center gap-1">
+                  <span className="inline-flex items-center gap-2">
+                    <span className="text-heading-2 font-heading-2 text-default-font -tracking-[0.025em]">
+                      Your Parent Group, Upgraded.
+                    </span>
+                    <span className="px-2 py-0.5 rounded-full bg-[var(--tumbo-orange)]/10 text-[var(--tumbo-orange)] text-[10px] font-bold uppercase tracking-wider">
+                      Coming Soon
+                    </span>
                   </span>
                   <span className="text-body-bold font-body-bold text-default-font -tracking-[0.025em]">
                     More useful than the WhatsApp chat.
@@ -192,15 +220,18 @@ function TumboHome() {
             </div>
             <div className="flex grow shrink-0 basis-0 flex-col items-center justify-center gap-2 self-stretch rounded-full">
               <div className="flex h-144 w-full min-w-[240px] max-w-[576px] flex-none flex-col items-center justify-center gap-2 overflow-hidden rounded-lg">
-                <img
+                <Image
                   className="w-full grow shrink-0 basis-0 object-cover"
                   src="https://res.cloudinary.com/subframe/image/upload/v1724690142/uploads/302/fbkapcq4o1zsq98df0t6.png"
+                  alt="Parent community — share recommendations with friends"
+                  width={576}
+                  height={576}
                 />
               </div>
             </div>
           </div>
-        </div>
-        <div className="flex w-full grow shrink-0 basis-0 flex-col items-center justify-center gap-2 px-6 py-24">
+        </FadeInUp>
+        <FadeInUp className="flex w-full grow shrink-0 basis-0 flex-col items-center justify-center gap-2 px-6 py-24">
           <div className="flex w-full flex-col items-center justify-center gap-12 bg-default-background px-4 py-32">
             <div className="flex w-full flex-col items-center justify-center gap-12">
               <div className="flex w-full max-w-[768px] flex-col items-center justify-center gap-2">
@@ -212,7 +243,7 @@ function TumboHome() {
                 </span>
               </div>
               <div className="flex w-full max-w-[576px] flex-col items-center justify-center gap-4">
-                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
+                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm hover:border-neutral-300 transition-colors duration-200">
                   <Accordion
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
@@ -233,7 +264,7 @@ function TumboHome() {
                     </div>
                   </Accordion>
                 </div>
-                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
+                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm hover:border-neutral-300 transition-colors duration-200">
                   <Accordion
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
@@ -247,13 +278,13 @@ function TumboHome() {
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
                       <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
                         {
-                          "We ask the questions Google won't.\nA short onboarding builds your child's \"learning signature\" — the stuff beyond age and subject. From there, we can spot the classes they'll actually stick with."
+                          "We tag every class with what actually matters — teaching style, class vibe, energy level, and philosophy. Browse and filter by what fits your child, not just what ranks on Google.\n\nSoon, a short onboarding will build your child's \"learning signature\" for personalised recs."
                         }
                       </span>
                     </div>
                   </Accordion>
                 </div>
-                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
+                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm hover:border-neutral-300 transition-colors duration-200">
                   <Accordion
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
@@ -273,7 +304,7 @@ function TumboHome() {
                     </div>
                   </Accordion>
                 </div>
-                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
+                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm hover:border-neutral-300 transition-colors duration-200">
                   <Accordion
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
@@ -293,7 +324,7 @@ function TumboHome() {
                     </div>
                   </Accordion>
                 </div>
-                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
+                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm hover:border-neutral-300 transition-colors duration-200">
                   <Accordion
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
@@ -307,13 +338,13 @@ function TumboHome() {
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
                       <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
                         {
-                          "Yes. You'll be able to see who else is in or eyeing a class, swap notes, and share recs in a couple of taps."
+                          "Soon. We're building parent community features — you'll be able to see who else is in or eyeing a class, swap notes, and share recs in a couple of taps."
                         }
                       </span>
                     </div>
                   </Accordion>
                 </div>
-                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
+                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm hover:border-neutral-300 transition-colors duration-200">
                   <Accordion
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
@@ -327,13 +358,13 @@ function TumboHome() {
                     <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-2 px-3 py-2">
                       <span className="w-full whitespace-pre-wrap text-body font-body text-subtext-color">
                         {
-                          "Nope. Browse like a directory, filter for what you want, or dig into our curated collections."
+                          "Nope. The chat is coming soon, but you don't need it. Browse the directory, filter by what matters — learning style, location, class vibe — and find your fit."
                         }
                       </span>
                     </div>
                   </Accordion>
                 </div>
-                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm">
+                <div className="flex w-full flex-col items-center justify-center gap-6 rounded-md border border-solid border-neutral-border bg-default-background px-4 py-4 shadow-sm hover:border-neutral-300 transition-colors duration-200">
                   <Accordion
                     trigger={
                       <div className="flex w-full items-center gap-2 px-3 py-2">
@@ -356,7 +387,7 @@ function TumboHome() {
               </div>
             </div>
           </div>
-        </div>
+        </FadeInUp>
         <div className="flex w-full flex-col items-start">
           <BoldFooter />
         </div>

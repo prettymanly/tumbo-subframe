@@ -4,6 +4,19 @@
 :root {
   --tumbo-text: #1f2937;
   --tumbo-background: #FDFBF7;
+
+  /* Tumbo semantic color tokens */
+  --tumbo-orange: #FF4400;
+  --tumbo-cream: #F3F1ED;
+  --tumbo-hover: #E2D6C7;
+  --tumbo-label: #B6AFA6;
+  --tumbo-muted: #99A1AF;
+  
+  /* Tag category active colors */
+  --tumbo-tag-content: #7E401A;
+  --tumbo-tag-philosophy: #FF3C00;
+  --tumbo-tag-experience: #F1B313;
+  --tumbo-tag-child: #FF6966;
   
   /* shadcn/ui CSS variables for proper dialog styling */
   --background: 255 255 255;
@@ -69,117 +82,29 @@
   margin-left: 0 !important;
 }
 
-/* Horizontal scroll container fixes */
-.overflow-hidden {
-  overflow: hidden !important;
-}
-
-/* Ensure scrollable sections stay within bounds */
-.group .overflow-x-auto {
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Make sure scroll arrows are always visible on hover */
-.group:hover .opacity-0 {
-  opacity: 1 !important;
-}
-
-/* Ensure horizontal scrolling stays within container */
-.overflow-x-auto {
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-}
-
-.overflow-x-auto::-webkit-scrollbar {
-  display: none !important;
-}
-
-/* Prevent body scroll when scrolling horizontally in containers */
-.group:has(.overflow-x-auto) {
+/* Horizontal scroll — scoped to Netflix-style sections only */
+.scroll-section {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
   overflow: hidden;
 }
 
-/* Ensure horizontal scrolling stays within container bounds */
-.overflow-x-auto {
-  scrollbar-width: none !important;
-  -ms-overflow-style: none !important;
-  max-width: 100% !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
+.scroll-section .overflow-x-auto {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.overflow-x-auto::-webkit-scrollbar {
-  display: none !important;
-}
-
-/* Ensure scroll arrows are always visible on hover */
-.group:hover .opacity-0 {
-  opacity: 1 !important;
-}
-
-/* Container width constraints for scrollable sections */
-.group .max-w-full {
-  max-width: 100% !important;
-  width: 100% !important;
-}
-
-/* Prevent horizontal overflow from affecting page layout */
-.group {
-  max-width: 100% !important;
-  overflow: hidden !important;
-}
-
-/* Specific styling for scrollable sections */
-.relative.w-full.overflow-hidden {
-  position: relative !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow: hidden !important;
-}
-
-/* Ensure the scrollable content stays within its container */
-.relative.w-full.overflow-hidden .overflow-x-auto {
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-}
-
-/* Ensure the main page container doesn't overflow */
-body, html {
-  max-width: 100% !important;
+.scroll-section .overflow-x-auto::-webkit-scrollbar {
+  display: none;
 }
 
 /* Prevent horizontal page scrolling */
-body {
-  width: 100% !important;
-  max-width: 100vw !important;
-}
-
-html {
-  width: 100% !important;
-  max-width: 100vw !important;
-}
-
-/* Ensure main content area doesn't overflow */
-main, #__next, .app {
-  max-width: 100% !important;
-}
-
-/* Container for scrollable sections */
-.group.overflow-hidden {
-  position: relative !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  overflow: hidden !important;
-}
-
-/* Ensure scrollable content stays within bounds */
-.group .overflow-x-auto {
-  position: relative !important;
-  width: 100% !important;
-  max-width: 100% !important;
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 /* Ensure typography token utilities exist even if preset is skipped */
@@ -191,4 +116,31 @@ main, #__next, .app {
   .text-body-bold { font-size: 16px; line-height: 24px; font-weight: 600; letter-spacing: 0; }
   .text-caption { font-size: 12px; line-height: 16px; font-weight: 400; letter-spacing: 0; }
   .text-caption-bold { font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0; }
+
+  /* Tumbo semantic color utilities */
+  .bg-tumbo-orange { background-color: var(--tumbo-orange); }
+  .bg-tumbo-cream { background-color: var(--tumbo-cream); }
+  .bg-tumbo-hover { background-color: var(--tumbo-hover); }
+  .text-tumbo-orange { color: var(--tumbo-orange); }
+  .text-tumbo-label { color: var(--tumbo-label); }
+  .text-tumbo-muted { color: var(--tumbo-muted); }
+  .border-tumbo-cream { border-color: var(--tumbo-cream); }
+  .hover\:bg-tumbo-hover:hover { background-color: var(--tumbo-hover); }
+  .hover\:text-tumbo-orange:hover { color: var(--tumbo-orange); }
+  .ring-tumbo-orange { --tw-ring-color: color-mix(in srgb, var(--tumbo-orange) 40%, transparent); }
+  .focus\:ring-tumbo-orange:focus { --tw-ring-color: color-mix(in srgb, var(--tumbo-orange) 40%, transparent); }
+
+  /* Card hover — shadow only, no scale/translate (keeps bookmarks clickable) */
+  .card-hover { transition: box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1); }
+  .card-hover:hover { box-shadow: 0px 8px 24px rgba(0,0,0,0.06); }
+
+  /* Photo hover zoom */
+  .photo-hover { transition: transform 0.5s cubic-bezier(0.25, 0.1, 0.25, 1); }
+  .photo-hover:hover { transform: scale(1.05); }
+
+  /* Tag category active states */
+  .bg-tumbo-tag-content { background-color: var(--tumbo-tag-content); }
+  .bg-tumbo-tag-philosophy { background-color: var(--tumbo-tag-philosophy); }
+  .bg-tumbo-tag-experience { background-color: var(--tumbo-tag-experience); }
+  .bg-tumbo-tag-child { background-color: var(--tumbo-tag-child); }
 }

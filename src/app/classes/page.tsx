@@ -6,109 +6,181 @@ import { CustomClassCard } from "@/components/ui/class-card";
 import ClassFilterSidebarIntegrated from "@/components/ui/class-filter-sidebar-integrated";
 import { FilterState } from "@/components/ui/filter-chips";
 import FilterChips from "@/components/ui/filter-chips";
-// import { getCategoryTags, getTagsByType, searchClasses } from "@/lib/supabase/tags";
-// import { Tag, TagType, TAG_TYPES } from "@/lib/types/tags";
+import { supabaseBrowser } from "@/lib/supabase/client";
 
-// Netflix-style scrollable section component
+// ── Scrollable section with View All toggle ──
+interface ClassItem {
+  id: string;
+  title: string;
+  description: string;
+  image: string;
+  badges: string[];
+  href: string;
+}
+
 interface ScrollableSectionProps {
   title: string;
   description: string;
-  classes: Array<{
-    id: string;
-    title: string;
-    description: string;
-    image: string;
-    badges: string[];
-    href: string;
-  }>;
+  classes: ClassItem[];
   bookmarkedClasses: Set<string>;
   toggleBookmark: (classId: string) => void;
   tags?: any[];
+  sectionId: string;
+  expanded: boolean;
+  onToggleExpand: (id: string | null) => void;
 }
 
-function ScrollableSection({ title, description, classes, bookmarkedClasses, toggleBookmark }: ScrollableSectionProps) {
+function ScrollableSection({
+  title,
+  description,
+  classes,
+  bookmarkedClasses,
+  toggleBookmark,
+  sectionId,
+  expanded,
+  onToggleExpand,
+}: ScrollableSectionProps) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [showLeftArrow, setShowLeftArrow] = useState(false);
+  const [showRightArrow, setShowRightArrow] = useState(true);
 
-  const scroll = (direction: 'left' | 'right') => {
+  // Track scroll position to show/hide arrows
+  const updateArrows = useCallback(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    setShowLeftArrow(el.scrollLeft > 10);
+    setShowRightArrow(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    updateArrows();
+    el.addEventListener("scroll", updateArrows, { passive: true });
+    return () => el.removeEventListener("scroll", updateArrows);
+  }, [updateArrows, expanded]);
+
+  const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current;
-      const scrollAmount = 320; // Width of one card + gap
-      let newScrollLeft = container.scrollLeft + (direction === 'right' ? scrollAmount : -scrollAmount);
-      
-      // Ensure we don't scroll beyond bounds
-      if (direction === 'right' && newScrollLeft > container.scrollWidth - container.clientWidth) {
-        newScrollLeft = container.scrollWidth - container.clientWidth;
-      } else if (direction === 'left' && newScrollLeft < 0) {
-        newScrollLeft = 0;
-      }
-      
-      container.scrollTo({
-        left: newScrollLeft,
-        behavior: 'smooth'
+      const scrollAmount = 300;
+      container.scrollBy({
+        left: direction === "right" ? scrollAmount : -scrollAmount,
+        behavior: "smooth",
       });
     }
   };
 
-  return (
-    <div className="flex w-full flex-col items-start gap-6">
-      <div className="flex flex-col items-start gap-2 px-4 md:px-6 lg:px-10">
-        <span className="text-heading-2 font-heading-2 text-default-font">
-          {title}
-        </span>
-        <span className="text-body font-body text-default-font">
-          {description}
-        </span>
-      </div>
-      <div className="relative w-full">
-        {/* Scrollable Container with fixed width */}
-        <div className="relative w-full overflow-hidden">
-          {/* Left Arrow - positioned at left edge of container */}
+  // ── Expanded grid view ──
+  if (expanded) {
+    return (
+      <div className="flex w-full flex-col items-start gap-5">
+        <div className="flex w-full items-end justify-between px-4 md:px-6 lg:px-10">
+          <div className="flex flex-col items-start gap-1">
+            <span className="text-heading-2 font-heading-2 text-default-font">
+              {title}
+            </span>
+            <span className="text-body font-body text-subtext-color">
+              {description}
+            </span>
+          </div>
           <button
-            onClick={() => scroll('left')}
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-black/80 text-white opacity-100 hover:bg-black/90 transition-all duration-200 shadow-lg"
+            onClick={() => onToggleExpand(null)}
+            className="text-[13px] font-semibold text-gray-400 hover:text-gray-700 transition-colors duration-200 whitespace-nowrap pb-0.5"
+          >
+            ← Back to all
+          </button>
+        </div>
+        <div className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 md:px-6 lg:px-10">
+          {classes.map((classItem) => (
+            <CustomClassCard
+              key={classItem.id}
+              id={classItem.id}
+              title={classItem.title}
+              description={classItem.description}
+              image={classItem.image}
+              badges={classItem.badges}
+              href={classItem.href}
+              isBookmarked={bookmarkedClasses.has(classItem.id)}
+              onBookmarkToggle={toggleBookmark}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  // ── Scrollable row view ──
+  return (
+    <div className="flex w-full flex-col items-start gap-5 min-w-0">
+      {/* Header */}
+      <div className="flex w-full items-end justify-between px-4 md:px-6 lg:px-10">
+        <div className="flex flex-col items-start gap-1">
+          <span className="text-heading-2 font-heading-2 text-default-font">
+            {title}
+          </span>
+          <span className="text-body font-body text-subtext-color">
+            {description}
+          </span>
+        </div>
+        <button
+          onClick={() => onToggleExpand(sectionId)}
+          className="text-[13px] font-semibold text-gray-400 hover:text-[var(--tumbo-orange)] transition-colors duration-200 whitespace-nowrap pb-0.5"
+        >
+          View all →
+        </button>
+      </div>
+
+      {/* Scrollable row — clip-x prevents page-level scroll, visible-y keeps shadows */}
+      <div
+        className="relative w-full min-w-0"
+        style={{ overflowX: "clip", overflowY: "visible" }}
+      >
+        {/* Left arrow */}
+        {showLeftArrow && (
+          <button
+            onClick={() => scroll("left")}
+            className="absolute left-3 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm text-gray-700 hover:bg-white transition-all duration-200 shadow-md ring-1 ring-black/[0.04]"
             aria-label="Scroll left"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          
-          {/* Right Arrow - positioned at right edge of container */}
+        )}
+
+        {/* Right arrow */}
+        {showRightArrow && (
           <button
-            onClick={() => scroll('right')}
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 flex h-12 w-12 items-center justify-center rounded-full bg-black/80 text-white opacity-100 hover:bg-black/90 transition-all duration-200 shadow-lg"
+            onClick={() => scroll("right")}
+            className="absolute right-3 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 backdrop-blur-sm text-gray-700 hover:bg-white transition-all duration-200 shadow-md ring-1 ring-black/[0.04]"
             aria-label="Scroll right"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </button>
-          
-          {/* Gradient overlays to fade content behind arrows */}
-          <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-default-background to-transparent z-10 pointer-events-none opacity-0 hover:opacity-100 transition-opacity duration-200"></div>
-          <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-default-background to-transparent z-10 pointer-events-none opacity-0 hover:opacity-100 transition-opacity duration-200"></div>
-          
-          {/* Scrollable content container */}
-          <div 
-            ref={scrollContainerRef}
-            className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth px-4 md:px-6 lg:px-10"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          >
-            {classes.map((classItem) => (
-              <div key={classItem.id} className="flex-none w-80">
-                <CustomClassCard
-                  id={classItem.id}
-                  title={classItem.title}
-                  description={classItem.description}
-                  image={classItem.image}
-                  badges={classItem.badges}
-                  href={classItem.href}
-                  isBookmarked={bookmarkedClasses.has(classItem.id)}
-                  onBookmarkToggle={toggleBookmark}
-                />
-              </div>
-            ))}
-          </div>
+        )}
+
+        {/* Cards scroller — py-3 gives shadow room */}
+        <div
+          ref={scrollContainerRef}
+          className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth px-4 md:px-6 lg:px-10 py-3 items-stretch"
+        >
+          {classes.map((classItem) => (
+            <div key={classItem.id} className="flex-none w-72">
+              <CustomClassCard
+                id={classItem.id}
+                title={classItem.title}
+                description={classItem.description}
+                image={classItem.image}
+                badges={classItem.badges}
+                href={classItem.href}
+                isBookmarked={bookmarkedClasses.has(classItem.id)}
+                onBookmarkToggle={toggleBookmark}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -116,7 +188,24 @@ function ScrollableSection({ title, description, classes, bookmarkedClasses, tog
 }
 
 function ClassDirectoryPage() {
-  // Class data - in real app this would come from Supabase
+  // Real-time stats from Supabase
+  const [stats, setStats] = useState<{ classes: number; providers: number } | null>(null);
+  useEffect(() => {
+    async function fetchStats() {
+      const supabase = supabaseBrowser();
+      const [classRes, providerRes] = await Promise.all([
+        supabase.from("classes").select("id", { count: "exact", head: true }),
+        supabase.from("providers").select("id", { count: "exact", head: true }),
+      ]);
+      setStats({
+        classes: classRes.count || 0,
+        providers: providerRes.count || 0,
+      });
+    }
+    fetchStats();
+  }, []);
+
+  // Class data — mock for now, will be replaced with Supabase in Step 2
   const classes = [
     {
       id: "creative-little-architects",
@@ -200,11 +289,12 @@ function ClassDirectoryPage() {
     }
   ];
 
-  // State to track bookmarked classes
+  // State to track bookmarked classes + expanded section
   const [bookmarkedClasses, setBookmarkedClasses] = useState<Set<string>>(new Set());
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSidebarOpen, setFilterSidebarOpen] = useState(false);
+  const [expandedSection, setExpandedSection] = useState<string | null>(null);
   
   // Filter state
   const [currentFilters, setCurrentFilters] = useState<FilterState>({
@@ -475,13 +565,21 @@ function ClassDirectoryPage() {
           - Content Section (all class card rows as subsections)
       */}
       <div className="flex w-full flex-col items-start gap-8">
-        <div className="flex w-full flex-col items-start" style={{ gap: '30px' }}>
+        <div className="flex w-full flex-col items-start gap-8">
           {/* Header Section - Title + Search & Filter */}
           <div className="flex w-full flex-col items-start gap-6 px-4 md:px-6 lg:px-10 py-12">
-            {/* Page Title */}
-            <span className="w-full text-heading-1 font-heading-1 text-default-font mobile:text-heading-1 mobile:font-heading-1">
-              Browse All Classes
-            </span>
+            {/* Page Title + Stats */}
+            <div className="flex w-full items-end justify-between gap-4">
+              <span className="text-heading-1 font-heading-1 text-default-font">
+                Browse All Classes
+              </span>
+              {stats && (
+                <span className="text-[13px] text-gray-400 whitespace-nowrap pb-1">
+                  {stats.classes.toLocaleString()} classes from{" "}
+                  {stats.providers.toLocaleString()} providers
+                </span>
+              )}
+            </div>
             
             {/* Search and Filter Elements */}
             <div className="flex w-full flex-col items-start gap-4">
@@ -489,20 +587,11 @@ function ClassDirectoryPage() {
               <div className="flex w-full items-center gap-3">
                 {/* Filter Button */}
                 <button 
-                  className="flex items-center gap-2 px-4 py-3 bg-transparent rounded-full text-gray-700 transition-all duration-200" 
-                  style={{ 
-                    border: filterSidebarOpen ? '1.5px solid #000000' : '1.5px solid #F3F1ED'
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!filterSidebarOpen) {
-                      e.currentTarget.style.borderColor = '#000000';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!filterSidebarOpen) {
-                      e.currentTarget.style.borderColor = '#F3F1ED';
-                    }
-                  }}
+                  className={`flex items-center gap-2 px-4 py-3 bg-transparent rounded-full text-gray-700 transition-all duration-200 border-[1.5px] ${
+                    filterSidebarOpen 
+                      ? 'border-black' 
+                      : 'border-tumbo-cream hover:border-black'
+                  }`}
                   onClick={() => setFilterSidebarOpen(!filterSidebarOpen)}
                 >
                   {filterSidebarOpen ? (
@@ -529,8 +618,7 @@ function ClassDirectoryPage() {
                     placeholder="Search"
                     value={searchQuery}
                     onChange={(e) => handleSearch(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 border-0 rounded-full text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
-                    style={{ backgroundColor: '#F3F1ED' }}
+                    className="w-full pl-10 pr-4 py-3 border-0 rounded-full bg-tumbo-cream text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-tumbo-orange focus:bg-white transition-all"
                   />
                 </div>
               </div>
@@ -544,23 +632,9 @@ function ClassDirectoryPage() {
                     onClick={() => handleTagClick(tag.id)}
                     className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                       selectedTags.includes(tag.id)
-                        ? 'text-white'
-                        : 'text-gray-700 hover:text-gray-800'
+                        ? 'bg-tumbo-tag-content text-white'
+                        : 'text-gray-700 hover:bg-tumbo-hover hover:text-gray-800'
                     }`}
-                    style={{
-                      backgroundColor: selectedTags.includes(tag.id) ? '#7E401A' : 'transparent',
-                      ':hover': selectedTags.includes(tag.id) ? {} : { backgroundColor: '#E2D6C7' }
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!selectedTags.includes(tag.id)) {
-                        e.currentTarget.style.backgroundColor = '#E2D6C7';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!selectedTags.includes(tag.id)) {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                      }
-                    }}
                     title={tag.description}
                   >
                     {tag.name}
@@ -574,22 +648,9 @@ function ClassDirectoryPage() {
                     onClick={() => handleTagClick(tag.id)}
                     className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                       selectedTags.includes(tag.id)
-                        ? 'text-white'
-                        : 'text-gray-700 hover:text-gray-800'
+                        ? 'bg-tumbo-tag-philosophy text-white'
+                        : 'text-gray-700 hover:bg-tumbo-hover hover:text-gray-800'
                     }`}
-                    style={{
-                      backgroundColor: selectedTags.includes(tag.id) ? '#FF3C00' : 'transparent'
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!selectedTags.includes(tag.id)) {
-                        e.currentTarget.style.backgroundColor = '#E2D6C7';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!selectedTags.includes(tag.id)) {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                      }
-                    }}
                     title={tag.description}
                   >
                     {tag.name}
@@ -603,22 +664,9 @@ function ClassDirectoryPage() {
                     onClick={() => handleTagClick(tag.id)}
                     className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                       selectedTags.includes(tag.id)
-                        ? 'text-white'
-                        : 'text-gray-700 hover:text-gray-800'
+                        ? 'bg-tumbo-tag-experience text-white'
+                        : 'text-gray-700 hover:bg-tumbo-hover hover:text-gray-800'
                     }`}
-                    style={{
-                      backgroundColor: selectedTags.includes(tag.id) ? '#F1B313' : 'transparent'
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!selectedTags.includes(tag.id)) {
-                        e.currentTarget.style.backgroundColor = '#E2D6C7';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!selectedTags.includes(tag.id)) {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                      }
-                    }}
                     title={tag.description}
                   >
                     {tag.name}
@@ -632,22 +680,9 @@ function ClassDirectoryPage() {
                     onClick={() => handleTagClick(tag.id)}
                     className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
                       selectedTags.includes(tag.id)
-                        ? 'text-white'
-                        : 'text-gray-700 hover:text-gray-800'
+                        ? 'bg-tumbo-tag-child text-white'
+                        : 'text-gray-700 hover:bg-tumbo-hover hover:text-gray-800'
                     }`}
-                    style={{
-                      backgroundColor: selectedTags.includes(tag.id) ? '#FF6966' : 'transparent'
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!selectedTags.includes(tag.id)) {
-                        e.currentTarget.style.backgroundColor = '#E2D6C7';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!selectedTags.includes(tag.id)) {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                      }
-                    }}
                     title={tag.description}
                   >
                     {tag.name}
@@ -670,7 +705,7 @@ function ClassDirectoryPage() {
         currentFilters={currentFilters}
         onFiltersChange={handleFiltersChange}
       >
-        <div className="flex w-full flex-col items-start gap-6">
+        <div className="flex w-full min-w-0 flex-col items-start gap-6">
           {/* Filter Chips */}
           <FilterChips
             filters={currentFilters}
@@ -697,7 +732,7 @@ function ClassDirectoryPage() {
           />
 
           {/* Content Section */}
-          <div className="flex w-full flex-col items-start gap-12" style={{ gap: '30px' }}>
+          <div className="flex w-full min-w-0 flex-col items-start gap-8">
             {currentFilters.locations.length > 0 || 
              currentFilters.ageRanges.length > 0 || 
              currentFilters.days.length > 0 || 
@@ -708,40 +743,89 @@ function ClassDirectoryPage() {
              currentFilters.educationalPhilosophies.length > 0 || 
              currentFilters.personalityTraits.length > 0 || 
              currentFilters.searchTerms.length > 0 ? (
-              // Filtered Results Section
-              <ScrollableSection
-                title={`${filteredClasses.length} Class${filteredClasses.length !== 1 ? 'es' : ''} Found`}
-                description="Results based on your selected filters"
-                classes={filteredClasses}
-                bookmarkedClasses={bookmarkedClasses}
-                toggleBookmark={toggleBookmark}
-              />
+              filteredClasses.length > 0 ? (
+                // Filtered Results Section
+                <ScrollableSection
+                  title={`${filteredClasses.length} Class${filteredClasses.length !== 1 ? 'es' : ''} Found`}
+                  description="Results based on your selected filters"
+                  classes={filteredClasses}
+                  bookmarkedClasses={bookmarkedClasses}
+                  toggleBookmark={toggleBookmark}
+                  sectionId="filtered"
+                  expanded={expandedSection === "filtered"}
+                  onToggleExpand={setExpandedSection}
+                />
+              ) : (
+                // Empty State
+                <div className="flex w-full flex-col items-center justify-center gap-4 py-20 px-4">
+                  <span className="text-heading-2 font-heading-2 text-default-font">
+                    No classes found
+                  </span>
+                  <span className="text-body font-body text-tumbo-muted text-center max-w-md">
+                    We couldn&apos;t find any classes matching your filters. Try broadening your search or removing some filters.
+                  </span>
+                  <button
+                    onClick={() => {
+                      setCurrentFilters({
+                        locations: [],
+                        ageRanges: [],
+                        days: [],
+                        timeSlots: [],
+                        priceRanges: [],
+                        contentTypes: [],
+                        experienceStyles: [],
+                        educationalPhilosophies: [],
+                        personalityTraits: [],
+                        searchTerms: []
+                      });
+                      setSelectedTags([]);
+                      setSearchQuery("");
+                    }}
+                    className="mt-2 px-6 py-3 rounded-full bg-tumbo-orange text-white font-medium hover:opacity-90 transition-opacity"
+                  >
+                    Clear all filters
+                  </button>
+                </div>
+              )
             ) : (
               <>
-                {/* Recommended for Emma Subsection */}
-                <ScrollableSection
-                  title="Recommended for Emma"
-                  description="Handpicked classes based on Emma's interests and developmental stage"
-                  classes={classes.slice(0, 6)}
-                  bookmarkedClasses={bookmarkedClasses}
-                  toggleBookmark={toggleBookmark}
-                />
-                {/* Popular This Week Subsection */}
-                <ScrollableSection
-                  title="Popular This Week"
-                  description="Classes that other parents are loving right now"
-                  classes={classes.slice(2, 8)}
-                  bookmarkedClasses={bookmarkedClasses}
-                  toggleBookmark={toggleBookmark}
-                />
-                {/* All Classes Subsection */}
-                <ScrollableSection
-                  title="All Classes"
-                  description="Explore our complete collection of enrichment classes"
-                  classes={classes}
-                  bookmarkedClasses={bookmarkedClasses}
-                  toggleBookmark={toggleBookmark}
-                />
+                {/* When a section is expanded, only show that section */}
+                {(!expandedSection || expandedSection === "recommended") && (
+                  <ScrollableSection
+                    title="Recommended for Emma"
+                    description="Handpicked classes based on Emma's interests and developmental stage"
+                    classes={classes.slice(0, 6)}
+                    bookmarkedClasses={bookmarkedClasses}
+                    toggleBookmark={toggleBookmark}
+                    sectionId="recommended"
+                    expanded={expandedSection === "recommended"}
+                    onToggleExpand={setExpandedSection}
+                  />
+                )}
+                {(!expandedSection || expandedSection === "popular") && (
+                  <ScrollableSection
+                    title="Popular This Week"
+                    description="Classes that other parents are loving right now"
+                    classes={classes.slice(2, 8)}
+                    bookmarkedClasses={bookmarkedClasses}
+                    toggleBookmark={toggleBookmark}
+                    sectionId="popular"
+                    expanded={expandedSection === "popular"}
+                    onToggleExpand={setExpandedSection}
+                  />
+                )}
+                {(!expandedSection || expandedSection === "all") && (
+                  <ScrollableSection
+                    title="All Classes"
+                    description="Explore our complete collection of enrichment classes"
+                    classes={classes}
+                    bookmarkedClasses={bookmarkedClasses}
+                    toggleBookmark={toggleBookmark}
+                    sectionId="all"
+                    expanded={expandedSection === "all"}
+                    onToggleExpand={setExpandedSection}
+                  />
+                )}
               </>
             )}
           </div>

@@ -1,391 +1,309 @@
 "use client"
 
-import { Bell, User, Settings, LogOut, FileText } from "lucide-react"
 import Link from "next/link"
-import { useState } from "react"
-
+import { useState, useRef, useEffect } from "react"
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
 import { useAuth } from "@/contexts/AuthContext"
 import { AuthModal } from "@/components/ui/auth-modal"
-
-// Navigation links array - simple buttons only
-const navigationLinks = [
-  { href: "/tumbo-chat", label: "Ask Tümbo" },
-]
-
-// Explore dropdown items
-const exploreItems = [
-  { href: "/classes", label: "Class Directory" },
-  { href: "/collections", label: "Curated Collections" },
-]
-
-// Custom NotificationMenu Component
-function NotificationMenu() {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8 relative opacity-80 hover:opacity-100 transition-opacity">
-          <Bell className="h-4 w-4" />
-          <Badge 
-            variant="destructive" 
-            className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 text-xs flex items-center justify-center"
-          >
-            3
-          </Badge>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-80">
-        <DropdownMenuLabel className="flex items-center justify-between">
-          Notifications
-          <Badge variant="secondary" className="ml-2">3 new</Badge>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="flex-col items-start p-3">
-          <div className="flex w-full items-center justify-between">
-            <span className="font-medium">New class recommendation</span>
-            <span className="text-xs text-muted-foreground">2m ago</span>
-          </div>
-          <span className="text-sm text-muted-foreground mt-1">
-            We found 3 perfect matches for your child in Bishan
-          </span>
-        </DropdownMenuItem>
-        <DropdownMenuItem className="flex-col items-start p-3">
-          <div className="flex w-full items-center justify-between">
-            <span className="font-medium">Class starting soon</span>
-            <span className="text-xs text-muted-foreground">1h ago</span>
-          </div>
-          <span className="text-sm text-muted-foreground mt-1">
-            Creative Little Architects starts this Saturday
-          </span>
-        </DropdownMenuItem>
-        <DropdownMenuItem className="flex-col items-start p-3">
-          <div className="flex w-full items-center justify-between">
-            <span className="font-medium">Welcome to Tümbo!</span>
-            <span className="text-xs text-muted-foreground">3h ago</span>
-          </div>
-          <span className="text-sm text-muted-foreground mt-1">
-            Complete your child&apos;s profile for better recommendations
-          </span>
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="justify-center text-center">
-          View all notifications
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
-
-// Custom UserMenu Component
-function UserMenu() {
-  const { user, logout } = useAuth()
-  
-  const handleLogout = () => {
-    logout()
-  }
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full opacity-80 hover:opacity-100 transition-opacity">
-          {user?.avatar ? (
-            <img 
-              src={user.avatar} 
-              alt={user.name || 'User'} 
-              className="h-6 w-6 rounded-full object-cover"
-            />
-          ) : (
-            <div className="h-6 w-6 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs font-medium">
-              {user?.name?.charAt(0) || 'U'}
-            </div>
-          )}
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <User className="mr-2 h-4 w-4" />
-          Profile
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Settings className="mr-2 h-4 w-4" />
-          Settings
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <FileText className="mr-2 h-4 w-4" />
-          My Classes
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout}>
-          <LogOut className="mr-2 h-4 w-4" />
-          Log out
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
 
 export default function TumboNavbar() {
   const { isAuthenticated, user, logout } = useAuth()
   const [authModalOpen, setAuthModalOpen] = useState(false)
-  const [authMode, setAuthMode] = useState<'signin' | 'register'>('signin')
-  const [exploreOpen, setExploreOpen] = useState(false)
+  const [authMode, setAuthMode] = useState<"signin" | "register">("signin")
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [comingSoonToast, setComingSoonToast] = useState(false)
 
-  const openSignInModal = () => {
-    setAuthMode('signin')
-    setAuthModalOpen(true)
-  }
+  const userMenuRef = useRef<HTMLDivElement>(null)
+  const comingSoonRef = useRef<HTMLDivElement>(null)
 
-  const openRegisterModal = () => {
-    setAuthMode('register')
-    setAuthModalOpen(true)
-  }
+  // Scroll-aware frosted glass effect
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20)
+    window.addEventListener("scroll", handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
-  const homeUrl = isAuthenticated ? '/userdashboard' : '/'
+  // Close dropdowns on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node))
+        setUserMenuOpen(false)
+      if (comingSoonRef.current && !comingSoonRef.current.contains(e.target as Node))
+        setComingSoonToast(false)
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => document.removeEventListener("mousedown", handleClickOutside)
+  }, [])
+
+  const homeUrl = isAuthenticated ? "/userdashboard" : "/"
 
   return (
     <>
-      {/* Temporary Debug Panel - Remove in production */}
-      {process.env.NODE_ENV !== 'production' && (
-        <div className="bg-yellow-100 border-b border-yellow-300 p-2 text-sm">
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <span className="font-medium">🧪 Debug Panel:</span>
-              <span>Auth Status: {isAuthenticated ? '✅ Signed In' : '❌ Signed Out'}</span>
-              {user && <span>User: {user.name} ({user.email})</span>}
-            </div>
-            <div className="flex gap-2">
-              {isAuthenticated && (
-                <button 
-                  onClick={logout}
-                  className="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600"
-                >
-                  Force Logout
-                </button>
-              )}
-              <button 
-                onClick={() => {
-                  const authData = localStorage.getItem('tumbo_auth')
-                  console.log('Auth data:', authData)
-                  alert(`Auth data: ${authData || 'None'}`)
-                }}
-                className="bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600"
-              >
-                Check Storage
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-      
-      <header className="border-b w-full">
-      <div className="flex h-16 items-center justify-between gap-4 px-4 md:px-6 max-w-none w-full">
-        {/* Left side */}
-        <div className="flex items-center gap-2">
-          {/* Mobile menu trigger */}
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                className="group h-8 w-8 md:hidden opacity-80 hover:opacity-100 transition-opacity"
-                variant="ghost"
-                size="icon"
-              >
-                <svg
-                  className="pointer-events-none"
-                  width={16}
-                  height={16}
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M4 12L20 12"
-                    className="origin-center -translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-x-0 group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[315deg]"
-                  />
-                  <path
-                    d="M4 12H20"
-                    className="origin-center transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.8)] group-aria-expanded:rotate-45"
-                  />
-                  <path
-                    d="M4 12H20"
-                    className="origin-center translate-y-[7px] transition-all duration-300 ease-[cubic-bezier(.5,.85,.25,1.1)] group-aria-expanded:translate-y-0 group-aria-expanded:rotate-[135deg]"
-                  />
-                </svg>
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent align="start" className="w-48 p-1 md:hidden">
-              <NavigationMenu className="max-w-none *:w-full">
-                <NavigationMenuList className="flex-col items-start gap-0">
-                  {/* Explore section in mobile */}
-                  <NavigationMenuItem className="w-full">
-                    <div className="w-full py-2 px-3 text-sm font-medium text-muted-foreground">
-                      Explore
-                    </div>
-                    {exploreItems.map((item, index) => (
-                      <NavigationMenuItem key={index} className="w-full pl-4">
-                        <NavigationMenuLink asChild>
-                          <Link href={item.href} className="block w-full py-2 px-3 text-sm hover:bg-accent rounded-md">
-                            {item.label}
-                          </Link>
-                        </NavigationMenuLink>
-                      </NavigationMenuItem>
-                    ))}
-                  </NavigationMenuItem>
-                  
-                  {navigationLinks.map((link, index) => (
-                    <NavigationMenuItem key={index} className="w-full">
-                      <NavigationMenuLink asChild>
-                        <Link href={link.href} className="block w-full py-2 px-3 text-sm hover:bg-accent rounded-md">
-                          {link.label}
-                        </Link>
-                      </NavigationMenuLink>
-                    </NavigationMenuItem>
-                  ))}
-                </NavigationMenuList>
-              </NavigationMenu>
-            </PopoverContent>
-          </Popover>
-          {/* Main nav */}
-          <div className="flex items-center gap-6">
-            <Link href={homeUrl} className="text-primary hover:text-primary/90">
+      <header
+        className={cn(
+          "w-full sticky top-0 z-50 transition-all duration-300",
+          scrolled
+            ? "bg-white/80 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.04)] border-b border-neutral-200/50"
+            : "bg-[var(--tumbo-background)] border-b border-transparent"
+        )}
+      >
+        <nav className="flex h-14 items-center justify-between px-5 md:px-8 max-w-[1440px] mx-auto w-full">
+          {/* ── Left: Logo + nav links ── */}
+          <div className="flex items-center gap-8">
+            <Link href={homeUrl} className="flex-shrink-0">
               <img
-                className="h-6 flex-none object-cover"
+                className="h-5 object-contain"
                 src="https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/y2rsnhq3mex4auk54aye.png"
-                alt="Tümbo logo"
+                alt="Tümbo"
               />
             </Link>
-            {/* Navigation menu */}
-            <div className="max-md:hidden">
-              <nav className="flex items-center gap-6">
-                {navigationLinks.map((link, index) => (
-                  <Link
-                    key={index}
-                    href={link.href}
-                    className="text-muted-foreground hover:text-primary py-1.5 px-2 font-medium opacity-80 hover:opacity-100 transition-opacity"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-                
-                {/* Explore Dropdown */}
-                <div 
-                  className="relative"
-                  onMouseEnter={() => setExploreOpen(true)}
-                  onMouseLeave={(e) => {
-                    // Check if we're moving to the dropdown menu
-                    const rect = e.currentTarget.getBoundingClientRect()
-                    const x = e.clientX
-                    const y = e.clientY
-                    
-                    // If moving down toward the dropdown, don't close it
-                    if (y > rect.bottom - 10) {
-                      return
-                    }
-                    
-                    // Add a small delay to prevent flickering
-                    setTimeout(() => setExploreOpen(false), 100)
+
+            {/* Desktop links — flat, no dropdown */}
+            <div className="hidden md:flex items-center gap-1">
+              <Link
+                href="/classes"
+                className="relative px-3 py-2 text-[14px] font-medium text-gray-500 hover:text-gray-900 transition-colors duration-200 group"
+              >
+                Classes
+                <span className="absolute bottom-0.5 left-3 right-3 h-[1.5px] bg-[var(--tumbo-orange)] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-full" />
+              </Link>
+
+              <Link
+                href="/providers"
+                className="relative px-3 py-2 text-[14px] font-medium text-gray-500 hover:text-gray-900 transition-colors duration-200 group"
+              >
+                Providers
+                <span className="absolute bottom-0.5 left-3 right-3 h-[1.5px] bg-[var(--tumbo-orange)] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-full" />
+              </Link>
+
+              {/* Ask Tümbo — coming soon teaser */}
+              <div ref={comingSoonRef} className="relative">
+                <button
+                  onClick={() => {
+                    setComingSoonToast(!comingSoonToast)
                   }}
+                  className="relative flex items-center gap-1.5 px-3 py-2 text-[14px] font-medium text-gray-400 hover:text-gray-500 transition-colors duration-200 bg-transparent border-0 cursor-pointer"
                 >
-                  <Button 
-                    variant="ghost" 
-                    className="text-muted-foreground hover:text-primary py-1.5 px-2 font-medium opacity-80 hover:opacity-100 transition-opacity text-base"
-                  >
-                    Explore
-                  </Button>
-                  {exploreOpen && (
-                    <div 
-                      className="absolute top-full left-0 w-48 bg-white border border-border rounded-md shadow-lg z-50"
-                      onMouseEnter={() => setExploreOpen(true)}
-                      onMouseLeave={() => setExploreOpen(false)}
-                    >
-                      {exploreItems.map((item, index) => (
-                        <Link 
-                          key={index} 
-                          href={item.href} 
-                          className="block w-full px-3 py-2 text-sm transition-colors first:rounded-t-md last:rounded-b-md"
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.backgroundColor = '#E2D6C7'
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.backgroundColor = ''
-                          }}
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
-                    </div>
+                  Ask Tümbo
+                  <span className="px-1.5 py-[1px] rounded-full bg-[var(--tumbo-orange)]/10 text-[var(--tumbo-orange)] text-[9px] font-bold uppercase tracking-wider leading-none">
+                    Soon
+                  </span>
+                </button>
+
+                {/* Coming soon popover */}
+                <div
+                  className={cn(
+                    "absolute top-full left-1/2 -translate-x-1/2 mt-2 w-64 rounded-xl bg-white p-4 shadow-lg shadow-black/[0.08] ring-1 ring-black/[0.05] transition-all duration-200 origin-top z-50",
+                    comingSoonToast
+                      ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+                      : "opacity-0 scale-[0.97] -translate-y-1 pointer-events-none"
                   )}
+                >
+                  <p className="text-[13px] font-semibold text-gray-900 mb-1">Coming Soon</p>
+                  <p className="text-[12px] text-gray-400 leading-relaxed">
+                    Our AI assistant will help you find the perfect class for your child. For now, browse our class directory.
+                  </p>
+                  <Link
+                    href="/classes"
+                    className="inline-block mt-2.5 text-[12px] font-semibold text-[var(--tumbo-orange)] hover:underline"
+                    onClick={() => setComingSoonToast(false)}
+                  >
+                    Browse classes →
+                  </Link>
                 </div>
-              </nav>
+              </div>
             </div>
           </div>
-        </div>
-        {/* Right side */}
-        <div className="flex items-center gap-2">
-          {isAuthenticated ? (
-            <>
-              {/* Authenticated state */}
-              <div className="flex items-center gap-2">
-                <NotificationMenu />
-              </div>
-              <UserMenu />
-            </>
-          ) : (
-            <>
-              {/* Unauthenticated state */}
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="text-sm opacity-80 hover:opacity-100 transition-opacity"
-                onClick={openSignInModal}
-              >
-                Sign In
-              </Button>
-              <Button 
-                size="sm" 
-                className="text-sm opacity-80 hover:opacity-100 transition-opacity"
-                onClick={openRegisterModal}
-              >
-                Register
-              </Button>
-            </>
-          )}
-        </div>
 
-        {/* Auth Modal */}
-        <AuthModal 
-          isOpen={authModalOpen}
-          onClose={() => setAuthModalOpen(false)}
-          mode={authMode}
-        />
-      </div>
-    </header>
+          {/* ── Right: Auth / User ── */}
+          <div className="flex items-center gap-2">
+            {isAuthenticated ? (
+              <>
+                {/* Notification bell */}
+                <button className="relative p-2 text-gray-400 hover:text-gray-600 transition-colors duration-200">
+                  <svg
+                    className="w-[18px] h-[18px]"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
+                    />
+                  </svg>
+                  <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-[var(--tumbo-orange)] rounded-full" />
+                </button>
+
+                {/* User avatar → dashboard */}
+                <div ref={userMenuRef} className="relative">
+                  <button
+                    className="w-8 h-8 rounded-full bg-neutral-100 flex items-center justify-center text-xs font-semibold text-gray-500 hover:ring-2 hover:ring-neutral-200 transition-all duration-200 overflow-hidden"
+                    onClick={() => setUserMenuOpen(!userMenuOpen)}
+                  >
+                    {user?.avatar ? (
+                      <img
+                        src={user.avatar}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      user?.name?.charAt(0)?.toUpperCase() || "U"
+                    )}
+                  </button>
+
+                  {/* User dropdown */}
+                  <div
+                    className={cn(
+                      "absolute top-full right-0 mt-2 w-52 rounded-xl bg-white p-1.5 shadow-lg shadow-black/[0.08] ring-1 ring-black/[0.05] transition-all duration-150 origin-top-right",
+                      userMenuOpen
+                        ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+                        : "opacity-0 scale-[0.97] -translate-y-1 pointer-events-none"
+                    )}
+                  >
+                    {user && (
+                      <div className="px-3 py-2 mb-1">
+                        <p className="text-[13px] font-semibold text-gray-900 truncate">
+                          {user.name}
+                        </p>
+                        <p className="text-[12px] text-gray-400 truncate">
+                          {user.email}
+                        </p>
+                      </div>
+                    )}
+                    <div className="h-px bg-neutral-100 mx-1 mb-1" />
+                    <Link
+                      href="/userdashboard"
+                      className="flex w-full items-center gap-2 px-3 py-2 rounded-lg text-[13px] text-gray-600 hover:bg-neutral-50 hover:text-gray-900 transition-colors duration-150 no-underline"
+                      onClick={() => setUserMenuOpen(false)}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z" />
+                      </svg>
+                      Saved Classes
+                    </Link>
+                    <div className="h-px bg-neutral-100 mx-1 my-1" />
+                    <button
+                      onClick={() => {
+                        logout()
+                        setUserMenuOpen(false)
+                      }}
+                      className="flex w-full items-center gap-2 px-3 py-2 rounded-lg text-[13px] text-gray-600 hover:bg-red-50 hover:text-red-600 transition-colors duration-150 bg-transparent border-0 cursor-pointer text-left"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                      </svg>
+                      Sign out
+                    </button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <button
+                  className="px-3 py-1.5 text-[14px] font-medium text-gray-500 hover:text-gray-900 transition-colors duration-200 bg-transparent border-0 cursor-pointer"
+                  onClick={() => {
+                    setAuthMode("signin")
+                    setAuthModalOpen(true)
+                  }}
+                >
+                  Sign in
+                </button>
+                <button
+                  className="px-4 py-1.5 text-[14px] font-medium text-white bg-gray-900 hover:bg-gray-800 rounded-full transition-colors duration-200 border-0 cursor-pointer"
+                  onClick={() => {
+                    setAuthMode("register")
+                    setAuthModalOpen(true)
+                  }}
+                >
+                  Register
+                </button>
+              </>
+            )}
+
+            {/* Mobile menu toggle */}
+            <button
+              className="md:hidden p-2 text-gray-500 hover:text-gray-900 transition-colors duration-200 bg-transparent border-0 cursor-pointer"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+              >
+                {mobileMenuOpen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3.75 9h16.5m-16.5 6.75h16.5"
+                  />
+                )}
+              </svg>
+            </button>
+          </div>
+        </nav>
+
+        {/* Mobile slide-down menu */}
+        <div
+          className={cn(
+            "md:hidden border-t border-neutral-100 bg-white/95 backdrop-blur-xl overflow-hidden transition-all duration-200",
+            mobileMenuOpen ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
+          )}
+        >
+          <div className="px-5 py-3 flex flex-col gap-0.5">
+            <Link
+              href="/classes"
+              className="px-3 py-2.5 text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-neutral-50 rounded-lg transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Classes
+            </Link>
+            <Link
+              href="/providers"
+              className="px-3 py-2.5 text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-neutral-50 rounded-lg transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Providers
+            </Link>
+            <div className="px-3 py-2.5 flex items-center gap-2">
+              <span className="text-[14px] font-medium text-gray-300">
+                Ask Tümbo
+              </span>
+              <span className="px-1.5 py-[1px] rounded-full bg-[var(--tumbo-orange)]/10 text-[var(--tumbo-orange)] text-[9px] font-bold uppercase tracking-wider leading-none">
+                Soon
+              </span>
+            </div>
+            <div className="h-px bg-neutral-100 mx-3 my-1" />
+            <Link
+              href="/business"
+              className="px-3 py-2.5 text-[13px] font-medium text-gray-400 hover:text-gray-600 rounded-lg transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              For Businesses →
+            </Link>
+          </div>
+        </div>
+      </header>
+
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        mode={authMode}
+      />
     </>
   )
 }
