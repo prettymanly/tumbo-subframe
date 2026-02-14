@@ -272,6 +272,7 @@ export default function ClassDetailPage() {
   const [claimOpen, setClaimOpen] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [nearbyClasses, setNearbyClasses] = useState<DBClass[]>([]);
 
   // ── Fetch class + provider from Supabase ──
   useEffect(() => {
@@ -301,6 +302,21 @@ export default function ClassDetailPage() {
           .eq("id", classData.provider_id)
           .single();
         setProvider(providerData || null);
+      }
+
+      // Fetch nearby / related classes
+      // Strategy: same category, different class, with a photo and location, limit 6
+      if (classData.category) {
+        const { data: nearby } = await supabase
+          .from("classes")
+          .select("id, name, category, photo_url, location, google_rating, vibe_line, provider_id")
+          .eq("is_placeholder", false)
+          .eq("category", classData.category)
+          .neq("id", classData.id)
+          .not("photo_url", "is", null)
+          .not("location", "is", null)
+          .limit(6);
+        setNearbyClasses(nearby || []);
       }
 
       setLoading(false);
@@ -384,9 +400,17 @@ export default function ClassDetailPage() {
 
               {/* Title + Tags */}
               <div className="flex w-full flex-col items-start gap-4">
-                <h1 className="w-full text-heading-1 font-heading-1 text-default-font">{cls.name}</h1>
+                {/* Provider name — secondary hierarchy */}
+                {provider && (
+                  <Link href={`/providers/${provider.id}`} className="text-[13px] font-medium text-gray-400 hover:text-[var(--tumbo-orange)] transition-colors">
+                    {provider.name}
+                  </Link>
+                )}
+                <h1 className="w-full text-heading-1 font-heading-1 text-default-font -mt-2">{cls.name}</h1>
                 {cls.vibe_line && (
-                  <p className="text-[16px] text-gray-500 italic">{cls.vibe_line}</p>
+                  <p className="text-[16px] text-gray-500 italic">
+                    {cls.vibe_line.charAt(0).toUpperCase() + cls.vibe_line.slice(1)}
+                  </p>
                 )}
                 <div className="flex items-center gap-2 flex-wrap">
                   {cls.category && <TagPill label={cls.category} category="content" size="md" />}
@@ -453,6 +477,44 @@ export default function ClassDetailPage() {
                       {contentSources?.outcomes && <SourceNote sources={contentSources.outcomes} />}
                     </FadeInUp>
                   )}
+
+                  {/* In the neighbourhood */}
+                  {nearbyClasses.length > 0 && (
+                    <FadeInUp as="div" className="flex w-full flex-col items-start gap-5">
+                      <h2 className="text-heading-2 font-heading-2 text-default-font">In the neighbourhood</h2>
+                      <p className="text-[14px] text-gray-500 -mt-2">Other {cls.category?.toLowerCase()} classes you might like</p>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full">
+                        {nearbyClasses.map((nc) => (
+                          <Link key={nc.id} href={`/classes/${nc.id}`} className="group flex flex-col gap-2.5 rounded-lg border border-[var(--tumbo-hover)] bg-white overflow-hidden hover:shadow-md transition-shadow duration-200">
+                            <div className="w-full h-32 overflow-hidden">
+                              <img
+                                src={nc.photo_url || "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&q=60"}
+                                alt={nc.name}
+                                className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-300"
+                              />
+                            </div>
+                            <div className="flex flex-col gap-1 px-3 pb-3">
+                              <span className="text-[13px] font-semibold text-gray-900 line-clamp-2 leading-tight group-hover:text-[var(--tumbo-orange)] transition-colors">{nc.name}</span>
+                              {nc.vibe_line && (
+                                <span className="text-[11px] text-gray-400 italic line-clamp-1">{nc.vibe_line}</span>
+                              )}
+                              <div className="flex items-center gap-2 mt-0.5">
+                                {nc.google_rating && (
+                                  <span className="flex items-center gap-0.5 text-[11px] text-[var(--tumbo-orange)] font-medium">
+                                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
+                                    {nc.google_rating.toFixed(1)}
+                                  </span>
+                                )}
+                                {nc.location && (
+                                  <span className="text-[11px] text-gray-400 truncate">{nc.location.split(",")[0]}</span>
+                                )}
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </FadeInUp>
+                  )}
                 </div>
 
                 {/* Right column — info card */}
@@ -471,16 +533,16 @@ export default function ClassDetailPage() {
                     {provider && (
                       <Link
                         href={`/providers/${provider.id}`}
-                        className="flex w-full items-center gap-4 p-4 rounded-lg hover:bg-[var(--tumbo-cream)] transition-colors group/provider -mx-2"
+                        className="flex w-full items-center gap-3 p-3 rounded-lg hover:bg-[var(--tumbo-cream)] transition-colors group/provider -mx-1 overflow-hidden"
                       >
-                        <div className="w-12 h-12 rounded-full bg-[var(--tumbo-cream)] flex items-center justify-center text-[18px] font-bold text-gray-600 flex-shrink-0">
+                        <div className="w-10 h-10 rounded-full bg-[var(--tumbo-cream)] flex items-center justify-center text-[16px] font-bold text-gray-600 flex-shrink-0">
                           {provider.name.charAt(0)}
                         </div>
-                        <div className="flex flex-col items-start gap-0.5 min-w-0">
-                          <span className="text-[16px] font-semibold text-gray-900 group-hover/provider:text-[var(--tumbo-orange)] transition-colors truncate">
+                        <div className="flex flex-col items-start gap-0.5 min-w-0 overflow-hidden">
+                          <span className="text-[14px] font-semibold text-gray-900 group-hover/provider:text-[var(--tumbo-orange)] transition-colors truncate w-full">
                             {provider.name}
                           </span>
-                          <span className="text-[12px] text-gray-400 group-hover/provider:text-gray-500 transition-colors">
+                          <span className="text-[11px] text-gray-400 group-hover/provider:text-gray-500 transition-colors">
                             View provider page →
                           </span>
                         </div>
