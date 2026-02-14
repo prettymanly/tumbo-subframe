@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { TagPill, TagCategory } from "./tag-pill";
 
 export interface BadgeItem {
@@ -66,14 +65,13 @@ export const CustomClassCard = React.memo(function CustomClassCard({
   return (
     <Link href={href} className={`block h-full ${className}`}>
       <div className="flex h-full flex-col items-start overflow-hidden rounded-lg bg-white shadow-sm hover:shadow-md transition-shadow duration-300 cursor-pointer group/card relative">
-        {/* Image */}
-        <div className="w-full relative overflow-hidden">
-          <Image 
+        {/* Image — use native img to avoid Vercel image proxy issues with Google CDN */}
+        <div className="w-full relative overflow-hidden bg-[var(--tumbo-cream)]">
+          <img 
             className="block h-52 w-full object-cover group-hover/card:scale-[1.03] transition-transform duration-500 ease-out" 
             src={image} 
             alt={title}
-            width={640}
-            height={208}
+            loading="lazy"
           />
           {onBookmarkToggle && (
             <button 
