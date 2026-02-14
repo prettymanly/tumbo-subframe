@@ -519,7 +519,7 @@ export default function ClassDetailPage() {
 
                 {/* Right column — info card */}
                 <div className="flex min-w-[288px] max-w-[384px] grow shrink-0 basis-0 flex-col items-start gap-6 mobile:min-w-full mobile:order-first sticky top-6 self-start max-md:static max-md:self-auto">
-                  <div className="relative flex w-full flex-col items-start gap-6 rounded-lg border border-[var(--tumbo-hover)] bg-white px-6 py-6 shadow-lg">
+                  <div className="relative flex w-full flex-col items-start gap-6 rounded-lg border border-[var(--tumbo-hover)] bg-white px-6 py-6 shadow-lg overflow-hidden">
                     {/* Decorative hand illustration — original PNG */}
                     <img
                       src="/photos/illustrations/Class Detail Hand.png"
@@ -533,13 +533,13 @@ export default function ClassDetailPage() {
                     {provider && (
                       <Link
                         href={`/providers/${provider.id}`}
-                        className="flex w-full items-center gap-3 p-3 rounded-lg hover:bg-[var(--tumbo-cream)] transition-colors group/provider -mx-1 overflow-hidden"
+                        className="flex w-full items-center gap-3 p-3 rounded-lg hover:bg-[var(--tumbo-cream)] transition-colors group/provider overflow-hidden"
                       >
                         <div className="w-10 h-10 rounded-full bg-[var(--tumbo-cream)] flex items-center justify-center text-[16px] font-bold text-gray-600 flex-shrink-0">
                           {provider.name.charAt(0)}
                         </div>
-                        <div className="flex flex-col items-start gap-0.5 min-w-0 overflow-hidden">
-                          <span className="text-[14px] font-semibold text-gray-900 group-hover/provider:text-[var(--tumbo-orange)] transition-colors truncate w-full">
+                        <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                          <span className="text-[14px] font-semibold text-gray-900 group-hover/provider:text-[var(--tumbo-orange)] transition-colors truncate block">
                             {provider.name}
                           </span>
                           <span className="text-[11px] text-gray-400 group-hover/provider:text-gray-500 transition-colors">
