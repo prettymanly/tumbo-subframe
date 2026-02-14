@@ -397,7 +397,7 @@ export function AuthModal({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="h-11 w-full rounded-lg bg-gray-900 text-white text-[14px] font-semibold hover:bg-gray-800 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed border-0 cursor-pointer flex items-center justify-center gap-2"
+            className="h-11 w-full rounded-lg bg-[var(--tumbo-orange)] text-white text-[14px] font-semibold hover:opacity-90 active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed border-0 cursor-pointer flex items-center justify-center gap-2"
           >
             {loading ? (
               <>

@@ -349,7 +349,7 @@ function EditProfileModal({
             type="button"
             onClick={handleSave}
             disabled={!name.trim()}
-            className="flex-1 h-10 rounded-lg bg-gray-900 text-[14px] font-semibold text-white hover:bg-gray-800 active:scale-[0.98] transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer border-0"
+            className="flex-1 h-10 rounded-lg bg-[var(--tumbo-orange)] text-[14px] font-semibold text-white hover:opacity-90 active:scale-[0.98] transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer border-0"
           >
             Save
           </button>
@@ -393,7 +393,7 @@ export default function UserDashboard() {
             </p>
             <Link
               href="/classes"
-              className="mt-2 px-5 py-2.5 rounded-full bg-gray-900 text-white text-[14px] font-medium hover:bg-gray-800 transition-colors no-underline"
+              className="mt-2 px-5 py-2.5 rounded-full bg-[var(--tumbo-orange)] text-white text-[14px] font-medium hover:opacity-90 transition-opacity no-underline"
             >
               Browse classes
             </Link>
@@ -631,7 +631,7 @@ export default function UserDashboard() {
                   </div>
                   <Link
                     href="/classes"
-                    className="mt-1 px-4 py-2 rounded-full bg-gray-900 text-white text-[13px] font-medium hover:bg-gray-800 transition-colors no-underline"
+                    className="mt-1 px-4 py-2 rounded-full bg-[var(--tumbo-orange)] text-white text-[13px] font-medium hover:opacity-90 transition-opacity no-underline"
                   >
                     Browse classes
                   </Link>

@@ -111,7 +111,7 @@ function EditableField({
       <div className="flex items-center gap-2">
         <span className="text-[12px] font-medium text-gray-500">{label}</span>
         {shared && (
-          <span className="flex items-center gap-1 text-[10px] font-semibold text-amber-600">
+          <span className="flex items-center gap-1 text-[10px] font-semibold text-[var(--tumbo-orange)]">
             <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
             </svg>
@@ -138,7 +138,7 @@ function EditableField({
           />
           <button
             onClick={() => setEditing(false)}
-            className="px-3 py-1.5 rounded-lg bg-gray-900 text-white text-[12px] font-semibold hover:bg-gray-800 transition-colors border-0 cursor-pointer"
+            className="px-3 py-1.5 rounded-lg bg-[var(--tumbo-orange)] text-white text-[12px] font-semibold hover:opacity-90 transition-opacity border-0 cursor-pointer"
           >
             Save
           </button>
@@ -339,7 +339,7 @@ export default function BusinessDashboard() {
                   {MOCK_CLASSES.length}
                 </span>
               </div>
-              <button className="px-3 py-1.5 rounded-lg bg-gray-900 text-white text-[12px] font-semibold hover:bg-gray-800 transition-colors border-0 cursor-pointer">
+              <button className="px-3 py-1.5 rounded-lg bg-[var(--tumbo-orange)] text-white text-[12px] font-semibold hover:opacity-90 transition-opacity border-0 cursor-pointer">
                 + Add class
               </button>
             </div>
@@ -356,7 +356,7 @@ export default function BusinessDashboard() {
                         {cls.name}
                       </span>
                       {cls.status === "draft" && (
-                        <span className="px-1.5 py-[1px] rounded-full bg-amber-50 text-amber-600 text-[9px] font-bold uppercase tracking-wider">
+                        <span className="px-1.5 py-[1px] rounded-full bg-[var(--tumbo-cream)] text-[var(--tumbo-orange)] text-[9px] font-bold uppercase tracking-wider">
                           Draft
                         </span>
                       )}

@@ -24,9 +24,9 @@ const WarmFilterBadgeRoot = React.forwardRef<HTMLDivElement, WarmFilterBadgeRoot
     return (
       <div
         className={SubframeUtils.twClassNames(
-          "group/9f379f68 flex cursor-pointer items-center overflow-hidden rounded-md border border-solid border-neutral-border px-1 py-1 hover:bg-amber-50",
+          "group/9f379f68 flex cursor-pointer items-center overflow-hidden rounded-md border border-solid border-neutral-border px-1 py-1 hover:bg-[var(--tumbo-cream)]",
           {
-            "border border-solid border-amber-200 bg-amber-50 hover:bg-amber-100":
+            "border border-solid border-[var(--tumbo-hover)] bg-[var(--tumbo-cream)] hover:bg-[var(--tumbo-hover)]":
               selected,
           },
           className
@@ -39,7 +39,7 @@ const WarmFilterBadgeRoot = React.forwardRef<HTMLDivElement, WarmFilterBadgeRoot
             <span
               className={SubframeUtils.twClassNames(
                 "text-caption-bold font-caption-bold text-default-font",
-                { "text-amber-800": selected }
+                { "text-[var(--tumbo-orange)]": selected }
               )}
             >
               {label}

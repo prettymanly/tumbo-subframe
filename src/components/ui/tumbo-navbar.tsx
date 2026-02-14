@@ -215,7 +215,7 @@ export default function TumboNavbar() {
                   Sign in
                 </button>
                 <button
-                  className="px-4 py-1.5 text-[14px] font-medium text-white bg-gray-900 hover:bg-gray-800 rounded-full transition-colors duration-200 border-0 cursor-pointer"
+                  className="px-4 py-1.5 text-[14px] font-medium text-white bg-[var(--tumbo-orange)] hover:opacity-90 rounded-full transition-opacity duration-200 border-0 cursor-pointer"
                   onClick={() => {
                     setAuthMode("register")
                     setAuthModalOpen(true)

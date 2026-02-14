@@ -3,23 +3,51 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { TagPill } from "./tag-pill";
+import { TagPill, TagCategory } from "./tag-pill";
+
+export interface BadgeItem {
+  label: string;
+  category?: TagCategory;
+}
 
 interface ClassCardProps {
   id: string;
   title: string;
+  providerName?: string;
   description: string;
   image: string;
-  badges: string[];
+  badges: BadgeItem[];
   href: string;
   isBookmarked?: boolean;
   onBookmarkToggle?: (classId: string) => void;
   className?: string;
 }
 
+/** Strip redundant provider prefix from class name (e.g. "Abrakadoodle — Doodlers" → "Doodlers") */
+function cleanTitle(title: string, providerName?: string): string {
+  if (!providerName) return title;
+  // Common separators: " — ", " - ", " – ", ": "
+  const separators = [" — ", " – ", " - ", ": "];
+  for (const sep of separators) {
+    if (title.includes(sep)) {
+      const [prefix, ...rest] = title.split(sep);
+      // If the prefix matches (or is contained in) the provider name, strip it
+      if (
+        prefix.trim().toLowerCase() === providerName.trim().toLowerCase() ||
+        providerName.trim().toLowerCase().startsWith(prefix.trim().toLowerCase())
+      ) {
+        return rest.join(sep).trim();
+      }
+    }
+  }
+  // If the entire title equals the provider name, just return it as is
+  return title;
+}
+
 export const CustomClassCard = React.memo(function CustomClassCard({
   id,
   title,
+  providerName,
   description,
   image,
   badges,
@@ -28,6 +56,7 @@ export const CustomClassCard = React.memo(function CustomClassCard({
   onBookmarkToggle,
   className = "",
 }: ClassCardProps) {
+  const displayTitle = cleanTitle(title, providerName);
   const handleBookmarkClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -69,20 +98,25 @@ export const CustomClassCard = React.memo(function CustomClassCard({
 
         {/* Content */}
         <div className="flex w-full flex-col items-start gap-1.5 px-4 pt-3.5 pb-4 flex-1">
+          {providerName && (
+            <span className="text-[11px] font-medium text-gray-400 uppercase tracking-wider leading-tight">
+              {providerName}
+            </span>
+          )}
           <span className="line-clamp-2 text-heading-3 font-heading-3 text-default-font leading-snug">
-            {title}
+            {displayTitle}
           </span>
           <span className="text-body font-body text-subtext-color line-clamp-2">
             {description}
           </span>
           {badges.length > 0 && (
             <div className="flex items-center gap-1.5 mt-auto pt-2 flex-wrap">
-              {badges.slice(0, 3).map((badge, index) => (
-                <TagPill key={index} label={badge} size="sm" />
+              {badges.slice(0, 4).map((badge, index) => (
+                <TagPill key={index} label={badge.label} category={badge.category} size="sm" />
               ))}
-              {badges.length > 3 && (
+              {badges.length > 4 && (
                 <span className="text-[11px] text-gray-400 font-medium">
-                  +{badges.length - 3}
+                  +{badges.length - 4}
                 </span>
               )}
             </div>

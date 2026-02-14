@@ -108,7 +108,7 @@ export default function BusinessLandingPage() {
             </button>
             <button
               onClick={() => { setAuthMode("register"); setSubmitted(false) }}
-              className="px-4 py-1.5 text-[14px] font-medium text-white bg-gray-900 hover:bg-gray-800 rounded-full transition-colors border-0 cursor-pointer"
+              className="px-4 py-1.5 text-[14px] font-medium text-white bg-[var(--tumbo-orange)] hover:opacity-90 rounded-full transition-opacity border-0 cursor-pointer"
             >
               Claim your listing
             </button>
@@ -135,7 +135,7 @@ export default function BusinessLandingPage() {
             <div className="mt-8 flex items-center justify-center gap-3">
               <button
                 onClick={() => { setAuthMode("register"); setSubmitted(false) }}
-                className="px-6 py-3 text-[15px] font-semibold text-white bg-gray-900 hover:bg-gray-800 rounded-full transition-colors border-0 cursor-pointer"
+                className="px-6 py-3 text-[15px] font-semibold text-white bg-[var(--tumbo-orange)] hover:opacity-90 rounded-full transition-opacity border-0 cursor-pointer"
               >
                 Claim your listing — free
               </button>
@@ -222,7 +222,7 @@ export default function BusinessLandingPage() {
                       row.editable === true
                         ? "text-emerald-600"
                         : row.editable === "shared"
-                        ? "text-amber-600"
+                        ? "text-[var(--tumbo-orange)]"
                         : "text-gray-400"
                     }`}
                   >
@@ -249,7 +249,7 @@ export default function BusinessLandingPage() {
                 <span className="w-2 h-2 rounded-full bg-emerald-500" /> You control
               </span>
               <span className="flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-amber-500" /> Shared (you edit, we review)
+                <span className="w-2 h-2 rounded-full bg-[var(--tumbo-orange)]" /> Shared (you edit, we review)
               </span>
               <span className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-gray-300" /> Tümbo editorial
@@ -358,7 +358,7 @@ export default function BusinessLandingPage() {
                   </div>
                   <button
                     onClick={() => setAuthMode(null)}
-                    className="mt-2 px-5 py-2.5 rounded-full bg-gray-900 text-white text-[14px] font-medium hover:bg-gray-800 transition-colors border-0 cursor-pointer"
+                    className="mt-2 px-5 py-2.5 rounded-full bg-[var(--tumbo-orange)] text-white text-[14px] font-medium hover:opacity-90 transition-opacity border-0 cursor-pointer"
                   >
                     Got it
                   </button>
@@ -450,7 +450,7 @@ export default function BusinessLandingPage() {
 
                   <button
                     type="submit"
-                    className="h-11 w-full rounded-lg bg-gray-900 text-white text-[14px] font-semibold hover:bg-gray-800 active:scale-[0.98] transition-all border-0 cursor-pointer mt-1"
+                    className="h-11 w-full rounded-lg bg-[var(--tumbo-orange)] text-white text-[14px] font-semibold hover:opacity-90 active:scale-[0.98] transition-all border-0 cursor-pointer mt-1"
                   >
                     {authMode === "login" ? "Sign in" : "Claim my listing"}
                   </button>

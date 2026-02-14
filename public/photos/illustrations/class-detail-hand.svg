@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" fill="none">
+  <!-- Tumbo hand illustration — warm, organic, editorial -->
+  <defs>
+    <linearGradient id="skin" x1="80" y1="20" x2="260" y2="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF6B35"/>
+      <stop offset="60%" stop-color="#FF4400"/>
+      <stop offset="100%" stop-color="#E03D00"/>
+    </linearGradient>
+    <linearGradient id="shadow" x1="160" y1="0" x2="160" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#CC3500" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#CC3500" stop-opacity="0.3"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Palm base -->
+  <path d="M80 340 C60 330, 45 300, 48 270 C50 250, 55 230, 60 210 C62 200, 58 185, 55 170 L55 170 C55 160, 58 148, 65 140 C72 132, 85 128, 95 130 L95 130 C98 115, 105 95, 115 80 C120 70, 130 62, 142 60 C154 58, 165 64, 170 75 L172 80 C178 60, 188 40, 202 28 C212 20, 226 18, 238 24 C250 30, 255 45, 252 62 L248 85 C258 55, 272 32, 288 28 C300 25, 310 35, 312 50 C314 65, 308 88, 298 112 C290 132, 278 155, 268 172 C260 186, 250 200, 240 212 C228 226, 212 240, 198 252 C180 268, 158 280, 135 290 C115 298, 95 305, 80 340 Z"
+    fill="url(#skin)"/>
+
+  <!-- Shadow overlay for depth -->
+  <path d="M80 340 C60 330, 45 300, 48 270 C50 250, 55 230, 60 210 C62 200, 58 185, 55 170 L55 170 C55 160, 58 148, 65 140 C72 132, 85 128, 95 130 L95 130 C98 115, 105 95, 115 80 C120 70, 130 62, 142 60 C154 58, 165 64, 170 75 L172 80 C178 60, 188 40, 202 28 C212 20, 226 18, 238 24 C250 30, 255 45, 252 62 L248 85 C258 55, 272 32, 288 28 C300 25, 310 35, 312 50 C314 65, 308 88, 298 112 C290 132, 278 155, 268 172 C260 186, 250 200, 240 212 C228 226, 212 240, 198 252 C180 268, 158 280, 135 290 C115 298, 95 305, 80 340 Z"
+    fill="url(#shadow)"/>
+
+  <!-- Finger separations -->
+  <path d="M95 130 C100 118, 108 105, 115 95" stroke="#E03D00" stroke-width="1.5" stroke-linecap="round" opacity="0.3" fill="none"/>
+  <path d="M170 78 C174 68, 180 58, 188 48" stroke="#E03D00" stroke-width="1.5" stroke-linecap="round" opacity="0.3" fill="none"/>
+  <path d="M248 85 C252 72, 258 58, 265 48" stroke="#E03D00" stroke-width="1.5" stroke-linecap="round" opacity="0.25" fill="none"/>
+
+  <!-- Knuckle highlights -->
+  <ellipse cx="142" cy="62" rx="6" ry="3" fill="#FF8B55" opacity="0.35"/>
+  <ellipse cx="202" cy="30" rx="6" ry="3" fill="#FF8B55" opacity="0.35"/>
+  <ellipse cx="288" cy="30" rx="5" ry="2.5" fill="#FF8B55" opacity="0.3"/>
+
+  <!-- Palm crease lines -->
+  <path d="M75 200 C100 192, 135 190, 170 200" stroke="#E03D00" stroke-width="1.2" stroke-linecap="round" opacity="0.2" fill="none"/>
+  <path d="M68 225 C95 218, 125 216, 155 222" stroke="#E03D00" stroke-width="1" stroke-linecap="round" opacity="0.15" fill="none"/>
+
+  <!-- Thumb -->
+  <path d="M55 170 C45 180, 35 195, 30 215 C26 232, 30 248, 42 258 C52 266, 68 262, 72 248 C76 235, 70 218, 60 210"
+    fill="url(#skin)"/>
+  <path d="M55 170 C45 180, 35 195, 30 215 C26 232, 30 248, 42 258 C52 266, 68 262, 72 248 C76 235, 70 218, 60 210"
+    fill="url(#shadow)" opacity="0.5"/>
+</svg>

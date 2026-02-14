@@ -317,7 +317,7 @@ function ProvidersDirectoryPage() {
               <div className="flex items-center gap-3">
                 <Link
                   href="/contact"
-                  className="px-6 py-2.5 rounded-full bg-gray-900 text-white text-[14px] font-medium hover:bg-gray-800 transition-colors"
+                  className="px-6 py-2.5 rounded-full bg-[var(--tumbo-orange)] text-white text-[14px] font-medium hover:opacity-90 transition-opacity"
                 >
                   Claim your listing
                 </Link>
