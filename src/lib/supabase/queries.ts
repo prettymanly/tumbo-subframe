@@ -49,6 +49,15 @@ export function visibleClassesQuery(supabase: SupabaseClientLike) {
 /**
  * Fetches ALL visible classes, paginating past PostgREST's max-rows cap.
  * Use this in any context that needs the full dataset (rails, browse grid, etc.).
+ *
+ * WHY PAGINATION IS REQUIRED:
+ * Supabase PostgREST enforces a server-side `max-rows` limit (default 1000).
+ * This cap is applied AFTER the client-side `.limit()` — meaning
+ * `.limit(10000)` still returns at most 1000 rows. The only way to retrieve
+ * more is to paginate with `.range(start, end)` in PAGE_SIZE chunks.
+ *
+ * If this function is removed or replaced with a single query, the
+ * /classes page will silently show only ~940 providers instead of ~1179.
  */
 export async function fetchAllVisibleClasses<T = Record<string, unknown>>(
   supabase: SupabaseClientLike,
@@ -56,6 +65,7 @@ export async function fetchAllVisibleClasses<T = Record<string, unknown>>(
 ): Promise<T[]> {
   const allRows: T[] = [];
   let from = 0;
+  let pages = 0;
   while (true) {
     const { data } = await supabase
       .from("classes")
@@ -65,9 +75,21 @@ export async function fetchAllVisibleClasses<T = Record<string, unknown>>(
       .range(from, from + PAGE_SIZE - 1);
     if (!data || data.length === 0) break;
     allRows.push(...(data as T[]));
+    pages++;
     if (data.length < PAGE_SIZE) break;
     from += PAGE_SIZE;
   }
+
+  // Dev-mode regression guard: warn if pagination was needed.
+  // If this fires, PostgREST max-rows is still capping results.
+  // If it never fires despite growing data, the cap may have been raised.
+  if (process.env.NODE_ENV === "development" && pages > 1) {
+    console.warn(
+      `[fetchAllVisibleClasses] Pagination required: ${pages} pages, ${allRows.length} total rows. ` +
+      `PostgREST max-rows is still capping at ${PAGE_SIZE}.`
+    );
+  }
+
   return allRows;
 }
 
