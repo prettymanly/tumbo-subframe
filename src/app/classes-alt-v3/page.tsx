@@ -621,15 +621,19 @@ function ClassDirectoryV3Page() {
 
   return (
     <div className="min-h-screen w-full flex flex-col bg-[var(--v3-bg)]">
+      {/* Override nested overflow-x-hidden that creates a scroll trap */}
+      <style>{`.v3-scroll-fix > .relative > .overflow-x-hidden { overflow: clip !important; }`}</style>
       <TumboNavbar />
-      <ClassFilterSidebarIntegrated
-        open={filterSidebarOpen}
-        onOpenChange={setFilterSidebarOpen}
-        currentFilters={currentFilters}
-        onFiltersChange={handleFiltersChange}
-      >
-        {mainContent}
-      </ClassFilterSidebarIntegrated>
+      <div className="v3-scroll-fix">
+        <ClassFilterSidebarIntegrated
+          open={filterSidebarOpen}
+          onOpenChange={setFilterSidebarOpen}
+          currentFilters={currentFilters}
+          onFiltersChange={handleFiltersChange}
+        >
+          {mainContent}
+        </ClassFilterSidebarIntegrated>
+      </div>
     </div>
   );
 }
