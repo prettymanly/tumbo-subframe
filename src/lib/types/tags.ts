@@ -337,8 +337,10 @@ export interface TopTag {
   count: number;
 }
 
-const MAX_TAGS = 16;
-const MIN_PER_GROUP = 3;
+const MAX_TAGS = 12;
+const MIN_PER_GROUP: Record<string, number> = {
+  child: 3, experience: 3, philosophy: 2, content: 2,
+};
 
 /** Explicit dimension ordering for the tag row. */
 const DIMENSION_ORDER: TopTag["dimension"][] = [
@@ -398,14 +400,15 @@ export function getTopTags(
   const allTags = [...freq.values()].sort(topTagSort);
 
   // 3. Guarantee MIN_PER_GROUP per dimension (take top-frequency within each).
-  //    If a dimension has fewer than MIN_PER_GROUP tags in the dataset,
+  //    If a dimension has fewer than its minimum in the dataset,
   //    it simply gets fewer — no injection of labels cards wouldn't show.
   const picked = new Set<string>();
   for (const dim of DIMENSION_ORDER) {
+    const min = MIN_PER_GROUP[dim] ?? 2;
     let count = 0;
     for (const t of allTags) {
       if (t.dimension !== dim) continue;
-      if (count >= MIN_PER_GROUP) break;
+      if (count >= min) break;
       picked.add(`${t.dimension}::${t.label}`);
       count++;
     }

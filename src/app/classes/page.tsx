@@ -286,11 +286,33 @@ function ClassDirectoryPage() {
     }
   }, [showFilteredGrid, loadAllClasses]);
 
-  // ── Top tags for the tag row (computed from loaded dataset) ──
-  const topTags: TagRowItem[] = useMemo(() => {
+  // ── Top tags for the hero tag row ──
+  // Fast path: fetched from /api/tags/top immediately on mount (~200ms).
+  // Fallback: computed client-side once allClasses finishes loading.
+  const [fastTags, setFastTags] = useState<TagRowItem[]>([]);
+
+  useEffect(() => {
+    const t0 = performance.now();
+    fetch(`/api/tags/top?seed=${seed || 0}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.tags?.length > 0) {
+          setFastTags(data.tags);
+          if (process.env.NODE_ENV === "development") {
+            console.log(`[top-tags] API responded in ${(performance.now() - t0).toFixed(0)}ms, ${data.tags.length} tags`);
+          }
+        }
+      })
+      .catch(() => {});
+  }, [seed]);
+
+  // Client-side fallback (once full dataset loads, overrides fast tags for filtering consistency)
+  const computedTags: TagRowItem[] = useMemo(() => {
     if (allClasses.length === 0) return [];
     return getTopTags(allClasses, selectDisplayTags);
   }, [allClasses]);
+
+  const topTags = computedTags.length > 0 ? computedTags : fastTags;
 
   // ── Filtered classes ──
   const filteredClasses = useMemo(() => {
@@ -399,8 +421,6 @@ function ClassDirectoryPage() {
     <div className="flex w-full flex-col items-start gap-2">
       <HeroSection
         classCount={totalClasses}
-        activeChipId={activeChipId}
-        onChipToggle={handleChipToggle}
         searchQuery={searchQuery}
         onSearchChange={handleSearchChange}
         onFilterClick={handleFilterClick}
