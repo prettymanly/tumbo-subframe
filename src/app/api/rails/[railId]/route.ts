@@ -11,7 +11,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createServer } from "@/lib/supabase/server";
-import { visibleClassesQuery } from "@/lib/supabase/queries";
+import { fetchAllVisibleClasses } from "@/lib/supabase/queries";
 import { RAIL_MAP } from "@/lib/rails/config";
 import { buildRail, buildSerendipityRail } from "@/lib/rails/build-rail";
 import type { ScoringContext, RailApiResponse } from "@/lib/rails/types";
@@ -28,12 +28,10 @@ async function getClassPool() {
   }
 
   const supabase = createServer();
-  const [classRes, providerRes] = await Promise.all([
-    visibleClassesQuery(supabase).limit(10000),
+  const [classes, providerRes] = await Promise.all([
+    fetchAllVisibleClasses<DBClass>(supabase),
     supabase.from("providers").select("id, name").limit(10000),
   ]);
-
-  const classes = (classRes.data ?? []) as DBClass[];
   const providers: Record<string, { name: string }> = {};
   for (const p of (providerRes.data ?? []) as Provider[]) {
     providers[p.id] = { name: p.name };
