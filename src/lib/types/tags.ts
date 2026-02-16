@@ -318,6 +318,116 @@ export function deriveContextualTags(cls: DBClass): DerivedTag[] {
   return tags.slice(0, 3);
 }
 
+// ── Top tags for the /classes tag row ──
+// Derives frequency-ranked tags from the loaded dataset using the SAME
+// selectDisplayTags pipeline that cards use. This ensures the tag row
+// and the card badges are always in sync — one pipeline, one truth.
+//
+// INVARIANT: getTopTags counts ONLY what selectDisplayTags would emit.
+//   It never injects labels that cards wouldn't show.
+//   If a dimension has fewer than MIN_PER_GROUP tags in the dataset,
+//   it gets fewer — no padding with hardcoded fallbacks.
+//
+// Sort order: dimension (child → experience → philosophy → content)
+//   → frequency desc → label asc (deterministic across reloads).
+
+export interface TopTag {
+  label: string;
+  dimension: "content" | "philosophy" | "experience" | "child";
+  count: number;
+}
+
+const MAX_TAGS = 16;
+const MIN_PER_GROUP = 3;
+
+/** Explicit dimension ordering for the tag row. */
+const DIMENSION_ORDER: TopTag["dimension"][] = [
+  "child", "experience", "philosophy", "content",
+];
+const DIMENSION_RANK: Record<string, number> = Object.fromEntries(
+  DIMENSION_ORDER.map((d, i) => [d, i])
+);
+
+/**
+ * Deterministic sort comparator for TopTag[].
+ * 1. Dimension order (child → experience → philosophy → content)
+ * 2. Frequency desc
+ * 3. Label asc (stable tie-break)
+ */
+function topTagSort(a: TopTag, b: TopTag): number {
+  const dimDiff = (DIMENSION_RANK[a.dimension] ?? 99) - (DIMENSION_RANK[b.dimension] ?? 99);
+  if (dimDiff !== 0) return dimDiff;
+  const freqDiff = b.count - a.count;
+  if (freqDiff !== 0) return freqDiff;
+  return a.label.localeCompare(b.label);
+}
+
+/**
+ * Compute the top N tags across a set of classes for the tag row.
+ *
+ * selectDisplayTagsFn MUST be the warm-tags selectDisplayTags function —
+ * passed as a parameter to avoid a circular import (warm-tags imports
+ * from this file). This ensures we count exactly what cards display:
+ * warm-mapped labels, suppressed taxonomy stripped, same priority order.
+ */
+export function getTopTags(
+  classes: DBClass[],
+  selectDisplayTagsFn: (cls: DBClass) => { label: string; dimension: string }[]
+): TopTag[] {
+  // 1. Count frequency of each (label, dimension) pair across all classes.
+  //    Each class contributes at most once per tag (dedup within class).
+  const freq = new Map<string, TopTag>();
+  for (const cls of classes) {
+    const tags = selectDisplayTagsFn(cls);
+    for (const t of tags) {
+      const key = `${t.dimension}::${t.label}`;
+      const existing = freq.get(key);
+      if (existing) {
+        existing.count++;
+      } else {
+        freq.set(key, {
+          label: t.label,
+          dimension: t.dimension as TopTag["dimension"],
+          count: 1,
+        });
+      }
+    }
+  }
+
+  // 2. Sort all candidates by the deterministic comparator.
+  const allTags = [...freq.values()].sort(topTagSort);
+
+  // 3. Guarantee MIN_PER_GROUP per dimension (take top-frequency within each).
+  //    If a dimension has fewer than MIN_PER_GROUP tags in the dataset,
+  //    it simply gets fewer — no injection of labels cards wouldn't show.
+  const picked = new Set<string>();
+  for (const dim of DIMENSION_ORDER) {
+    let count = 0;
+    for (const t of allTags) {
+      if (t.dimension !== dim) continue;
+      if (count >= MIN_PER_GROUP) break;
+      picked.add(`${t.dimension}::${t.label}`);
+      count++;
+    }
+  }
+
+  // 4. Fill remaining slots by global sort order (respects dimension grouping).
+  for (const t of allTags) {
+    if (picked.size >= MAX_TAGS) break;
+    const key = `${t.dimension}::${t.label}`;
+    if (!picked.has(key)) {
+      picked.add(key);
+    }
+  }
+
+  // 5. Build final array in deterministic order.
+  const result: TopTag[] = allTags.filter(
+    (t) => picked.has(`${t.dimension}::${t.label}`)
+  );
+
+  return result;
+}
+
 // ── Category colors for tags ──
 export const CATEGORY_COLORS: Record<string, string> = {
   Art: "bg-tumbo-tag-content",

@@ -2,29 +2,14 @@
 
 import React, { useRef } from "react";
 import { INTENT_CHIPS } from "@/lib/rails/config";
+import { TagPill } from "./tag-pill";
+import type { TagCategory } from "./tag-pill";
 
-// ── Scrollable tag rows — warm, clickable labels ──
-// Each tag maps to one or more DB categories (case-insensitive contains)
-export const TAG_ROWS = [
-  { label: "Art & Design", keywords: ["Art", "Animation studio", "Pottery"] },
-  { label: "Music", keywords: ["Music"] },
-  { label: "Dance & Movement", keywords: ["Dance", "Gymnastics"] },
-  { label: "Swimming", keywords: ["Swimming"] },
-  { label: "Sports", keywords: ["Sports", "Football", "Archery"] },
-  { label: "Drama & Theatre", keywords: ["Drama", "Performing arts"] },
-  { label: "Coding & Tech", keywords: ["Coding", "Computer", "Brain Training"] },
-  { label: "Martial Arts", keywords: ["Martial Arts"] },
-  { label: "Languages", keywords: ["Languages", "English", "Chinese", "Malay"] },
-  { label: "Science & STEM", keywords: ["Science", "Mathematics", "Coding", "Brain Training"] },
-  { label: "Enrichment", keywords: ["Enrichment", "Learning center", "Education center", "Tutoring", "Tuition"] },
-  { label: "Cooking", keywords: ["Cooking"] },
-  { label: "Holiday Camp", keywords: ["Holiday Camp", "Children's camp"] },
-  { label: "Outdoor & Nature", keywords: ["Rock Climbing", "Farm", "Nature", "Bicycle"] },
-  { label: "Yoga & Mindfulness", keywords: ["Yoga", "Meditation", "Wellness"] },
-  { label: "Special Needs", keywords: ["Special Needs", "Speech pathologist", "Occupational"] },
-  { label: "Life Skills", keywords: ["Life Skills", "Financial Literacy"] },
-  { label: "Chess & Strategy", keywords: ["Chess"] },
-] as const;
+// ── Tag row item (computed by page from loaded data) ──
+export interface TagRowItem {
+  label: string;
+  dimension: "content" | "philosophy" | "experience" | "child";
+}
 
 interface HeroSectionProps {
   classCount: number;
@@ -34,8 +19,10 @@ interface HeroSectionProps {
   onSearchChange: (query: string) => void;
   onFilterClick: () => void;
   filterSidebarOpen: boolean;
-  onTagClick: (tagLabel: string) => void;
+  /** Taxonomy tags derived from loaded dataset */
+  tags: TagRowItem[];
   activeTag: string | null;
+  onTagClick: (tagLabel: string) => void;
 }
 
 export function HeroSection({
@@ -46,8 +33,9 @@ export function HeroSection({
   onSearchChange,
   onFilterClick,
   filterSidebarOpen,
-  onTagClick,
+  tags,
   activeTag,
+  onTagClick,
 }: HeroSectionProps) {
   const tagScrollRef = useRef<HTMLDivElement>(null);
 
@@ -114,31 +102,46 @@ export function HeroSection({
         })}
       </div>
 
-      {/* Scrollable tag row */}
-      <div className="w-full -mx-4 md:-mx-6 lg:-mx-10">
-        <div
-          ref={tagScrollRef}
-          className="flex gap-2 overflow-x-auto scrollbar-hide scroll-smooth px-4 md:px-6 lg:px-10 pb-1"
-          style={{ WebkitOverflowScrolling: "touch" }}
-        >
-          {TAG_ROWS.map((tag) => {
-            const isActive = activeTag === tag.label;
-            return (
+      {/* Scrollable tag row — taxonomy tags from loaded dataset */}
+      {tags.length > 0 && (
+        <div className="w-full -mx-4 md:-mx-6 lg:-mx-10">
+          <div
+            ref={tagScrollRef}
+            className="flex items-center gap-2 overflow-x-auto scrollbar-hide scroll-smooth px-4 md:px-6 lg:px-10 pb-1"
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
+            {/* Clear affordance — visible only when a tag is active */}
+            {activeTag && (
               <button
-                key={tag.label}
-                onClick={() => onTagClick(isActive ? "" : tag.label)}
-                className={`flex-shrink-0 rounded-full px-3 md:px-3.5 py-1 md:py-1.5 text-[11px] md:text-[12px] font-medium transition-all duration-150 whitespace-nowrap ${
-                  isActive
-                    ? "bg-gray-800 text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
+                onClick={() => onTagClick("")}
+                className="flex-shrink-0 inline-flex items-center gap-1 rounded-full px-2.5 py-[3px] text-[11px] font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-400"
+                type="button"
+                aria-label="Clear tag filter"
               >
-                {tag.label}
+                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+                Clear
               </button>
-            );
-          })}
+            )}
+            {tags.map((tag) => {
+              const isSelected = activeTag === tag.label;
+              return (
+                <TagPill
+                  key={tag.label}
+                  label={tag.label}
+                  category={tag.dimension as TagCategory}
+                  size="sm"
+                  variant="outline"
+                  selected={isSelected}
+                  onClick={() => onTagClick(isSelected ? "" : tag.label)}
+                  className="flex-shrink-0"
+                />
+              );
+            })}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Class count */}
       {classCount > 0 && (

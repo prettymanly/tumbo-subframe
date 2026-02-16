@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
-import { HeroSection, TAG_ROWS } from "@/components/ui/hero-section";
+import { HeroSection } from "@/components/ui/hero-section";
+import type { TagRowItem } from "@/components/ui/hero-section";
 import { RailSection, RailSkeleton } from "@/components/ui/rail-section";
 import { RailLoader } from "@/components/ui/rail-loader";
 import { CollectionStrip } from "@/components/ui/collection-strip";
@@ -11,7 +12,7 @@ import ClassFilterSidebarIntegrated from "@/components/ui/class-filter-sidebar-i
 import { FilterState } from "@/components/ui/filter-chips";
 import FilterChips from "@/components/ui/filter-chips";
 import { CustomClassCard, BadgeItem } from "@/components/ui/class-card";
-import { DBClass, Provider } from "@/lib/types/tags";
+import { DBClass, Provider, getTopTags } from "@/lib/types/tags";
 import { RAIL_ORDER, RAIL_MAP } from "@/lib/rails/config";
 import { selectDisplayTags } from "@/lib/rails/warm-tags";
 import type { RailApiResponse } from "@/lib/rails/types";
@@ -285,21 +286,20 @@ function ClassDirectoryPage() {
     }
   }, [showFilteredGrid, loadAllClasses]);
 
+  // ── Top tags for the tag row (computed from loaded dataset) ──
+  const topTags: TagRowItem[] = useMemo(() => {
+    if (allClasses.length === 0) return [];
+    return getTopTags(allClasses, selectDisplayTags);
+  }, [allClasses]);
+
   // ── Filtered classes ──
   const filteredClasses = useMemo(() => {
     return allClasses.filter((cls) => {
-      // Tag filter — match against keyword list
+      // Tag filter — match against the same warm tags shown on cards
       if (activeTag) {
-        const tagDef = TAG_ROWS.find((t) => t.label === activeTag);
-        if (tagDef) {
-          const cat = (cls.category ?? "").toLowerCase();
-          const name = (cls.name ?? "").toLowerCase();
-          const desc = (cls.description ?? "").toLowerCase();
-          const matchesTag = tagDef.keywords.some(
-            (kw) => cat.includes(kw.toLowerCase()) || name.includes(kw.toLowerCase()) || desc.includes(kw.toLowerCase())
-          );
-          if (!matchesTag) return false;
-        }
+        const cardTags = selectDisplayTags(cls);
+        const matchesTag = cardTags.some((t) => t.label === activeTag);
+        if (!matchesTag) return false;
       }
       // Search
       if (searchQuery.trim()) {
@@ -405,6 +405,9 @@ function ClassDirectoryPage() {
         onSearchChange={handleSearchChange}
         onFilterClick={handleFilterClick}
         filterSidebarOpen={filterSidebarOpen}
+        tags={topTags}
+        activeTag={activeTag}
+        onTagClick={handleTagClick}
       />
 
       {/* Active filter chips */}

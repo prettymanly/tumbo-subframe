@@ -92,28 +92,57 @@ interface TagPillProps {
   category?: TagCategory;
   /** "sm" for cards, "md" for detail pages */
   size?: "sm" | "md";
+  /** "filled" (default) for card badges, "outline" for selectable tag rows */
+  variant?: "filled" | "outline";
+  /** Whether this pill is in selected state (outline variant toggles to filled) */
+  selected?: boolean;
+  /** Click handler — makes the pill a button */
+  onClick?: () => void;
   className?: string;
 }
 
-export function TagPill({ label, category, size = "sm", className = "" }: TagPillProps) {
+export function TagPill({
+  label,
+  category,
+  size = "sm",
+  variant = "filled",
+  selected = false,
+  onClick,
+  className = "",
+}: TagPillProps) {
   const cat = category ?? classifyTag(label);
   const color = TAG_COLORS[cat];
   const Icon = CATEGORY_ICONS[cat];
   const iconSize = size === "sm" ? 10 : 13;
 
+  const isOutline = variant === "outline" && !selected;
+
+  const sizeClasses =
+    size === "sm"
+      ? "px-2 py-[3px] text-[11px]"
+      : "px-3 py-1.5 text-[12px] gap-1.5";
+
+  const colorStyles: React.CSSProperties = isOutline
+    ? { borderColor: color, color, backgroundColor: "transparent" }
+    : { backgroundColor: color, borderColor: color, color: "#fff" };
+
+  const interactiveClasses = onClick
+    ? "cursor-pointer transition-all duration-150 active:scale-[0.97] hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-current"
+    : "";
+
+  const Tag = onClick ? "button" : "span";
+
   return (
-    <span
-      className={`inline-flex items-center gap-1 rounded-full text-white font-medium whitespace-nowrap ${
-        size === "sm"
-          ? "px-2 py-[3px] text-[11px]"
-          : "px-3 py-1.5 text-[12px] gap-1.5"
-      } ${className}`}
-      style={{ backgroundColor: color }}
+    <Tag
+      className={`inline-flex items-center gap-1 rounded-full font-medium whitespace-nowrap border-[1.5px] ${sizeClasses} ${interactiveClasses} ${className}`}
+      style={colorStyles}
       title={label}
+      onClick={onClick}
+      {...(onClick ? { type: "button" as const, "aria-pressed": selected } : {})}
     >
       <Icon size={iconSize} />
       {label}
-    </span>
+    </Tag>
   );
 }
 
