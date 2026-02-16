@@ -29,8 +29,8 @@ async function getClassPool() {
 
   const supabase = createServer();
   const [classRes, providerRes] = await Promise.all([
-    visibleClassesQuery(supabase),
-    supabase.from("providers").select("id, name"),
+    visibleClassesQuery(supabase).limit(10000),
+    supabase.from("providers").select("id, name").limit(10000),
   ]);
 
   const classes = (classRes.data ?? []) as DBClass[];

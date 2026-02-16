@@ -260,7 +260,8 @@ function ClassDirectoryPage() {
     const supabase = supabaseBrowser();
     const [classRes, providerRes] = await Promise.all([
       visibleClassesQuery(supabase)
-        .order("google_rating", { ascending: false }),
+        .order("google_rating", { ascending: false })
+        .limit(10000),
       supabase.from("providers").select("*"),
     ]);
     setAllClasses(deduplicateByProvider(classRes.data || []));
