@@ -1,20 +1,23 @@
 "use client";
 
+// ── /classes — production discovery page ──
+// Architecture: NO client-side full-dataset fetch.
+// - Rails: /api/rails/* (already paginated)
+// - Tag row: /api/tags/top (fast, cached)
+// - Browse grid: /api/classes/browse (paginated, server-side filtering)
+// - Search/filter: same browse API with query params
+
 import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { HeroSection } from "@/components/ui/hero-section";
 import type { TagRowItem } from "@/components/ui/hero-section";
 import { RailSection, RailSkeleton } from "@/components/ui/rail-section";
 import { RailLoader } from "@/components/ui/rail-loader";
-import { CollectionStrip } from "@/components/ui/collection-strip";
-import { SectionDivider } from "@/components/ui/section-divider";
 import ClassFilterSidebarIntegrated from "@/components/ui/class-filter-sidebar-integrated";
 import { FilterState } from "@/components/ui/filter-chips";
 import FilterChips from "@/components/ui/filter-chips";
 import { CustomClassCard, BadgeItem } from "@/components/ui/class-card";
-import { DBClass, Provider, getTopTags } from "@/lib/types/tags";
 import { RAIL_ORDER, RAIL_MAP } from "@/lib/rails/config";
-import { selectDisplayTags } from "@/lib/rails/warm-tags";
 import type { RailApiResponse } from "@/lib/rails/types";
 import type { TagCategory } from "@/components/ui/tag-pill";
 
@@ -50,16 +53,27 @@ async function fetchRail(
   }
 }
 
-// ── Category fallback images ──
-const CATEGORY_IMAGES: Record<string, string> = {
-  Art: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&q=70",
-  Dance: "https://images.unsplash.com/photo-1547153760-18fc86324498?w=400&q=70",
-  Music: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&q=70",
-  Swimming: "https://images.unsplash.com/photo-1560089000-7433a4ebbd64?w=400&q=70",
-  Cooking: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&q=70",
-};
-function getClassImage(cls: DBClass): string {
-  return cls.photo_url || CATEGORY_IMAGES[cls.category || ""] || CATEGORY_IMAGES.Art;
+// ── Browse API response shape ──
+interface BrowseCardItem {
+  id: string;
+  title: string;
+  providerName?: string;
+  description: string;
+  image: string;
+  badges: { label: string; category: string }[];
+  href: string;
+  category?: string;
+  ageMin?: number;
+  ageMax?: number;
+  vibeLine?: string;
+}
+
+interface BrowseResponse {
+  items: BrowseCardItem[];
+  total: number;
+  offset: number;
+  limit: number;
+  hasMore: boolean;
 }
 
 // ── Responsive ──
@@ -75,37 +89,7 @@ function useIsMobile(): boolean {
   return mobile;
 }
 
-// ── Deduplicate classes by provider_id (client-side) ──
-// Collapse ingestion-artifact category splits into one card per provider.
-// Keeps the row with the longest description + highest rating.
-function deduplicateByProvider(classes: DBClass[]): DBClass[] {
-  const best = new Map<string, DBClass>();
-  for (const cls of classes) {
-    const key = cls.provider_id ?? cls.id;
-    const existing = best.get(key);
-    if (!existing || qualityScore(cls) > qualityScore(existing)) {
-      best.set(key, cls);
-    }
-  }
-  return Array.from(best.values());
-}
-
-function qualityScore(cls: DBClass): number {
-  let s = 0;
-  if (cls.description) s += Math.min(cls.description.length, 500);
-  if (cls.summary) s += 100;
-  if (cls.vibe_line) s += 50;
-  if (cls.google_rating) s += cls.google_rating * 20;
-  if (cls.review_count) s += Math.min(cls.review_count, 50);
-  if (cls.age_min != null) s += 30;
-  if (cls.photo_url) s += 40;
-  return s;
-}
-
-// ── Infinite scroll batch size ──
-const INFINITE_BATCH = 20;
-
-// ── Sentinel component — self-contained IntersectionObserver ──
+// ── Infinite scroll sentinel ──
 function InfiniteScrollSentinel({ onLoadMore }: { onLoadMore: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
   const onLoadMoreRef = useRef(onLoadMore);
@@ -115,11 +99,7 @@ function InfiniteScrollSentinel({ onLoadMore }: { onLoadMore: () => void }) {
     const el = ref.current;
     if (!el) return;
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          onLoadMoreRef.current();
-        }
-      },
+      ([entry]) => { if (entry.isIntersecting) onLoadMoreRef.current(); },
       { rootMargin: "600px 0px" }
     );
     observer.observe(el);
@@ -133,6 +113,9 @@ function InfiniteScrollSentinel({ onLoadMore }: { onLoadMore: () => void }) {
   );
 }
 
+// ── Browse page size ──
+const BROWSE_PAGE = 24;
+
 // ── Main page component ──
 function ClassDirectoryPage() {
   const isMobile = useIsMobile();
@@ -142,18 +125,16 @@ function ClassDirectoryPage() {
   const [railData, setRailData] = useState<Record<string, RailApiResponse>>({});
   const [bookmarkedClasses, setBookmarkedClasses] = useState<Set<string>>(new Set());
   const [totalClasses, setTotalClasses] = useState(0);
-  const [activeChipId, setActiveChipId] = useState<string | null>(null);
 
   // ── Refs for stable callback identities ──
   const railDataRef = useRef(railData);
   railDataRef.current = railData;
   const shownIdsRef = useRef<string[]>([]);
   const loadingRef = useRef<Set<string>>(new Set());
-  const activeChipRef = useRef(activeChipId);
-  activeChipRef.current = activeChipId;
 
   // ── Search / filter / sidebar state ──
   const [searchQuery, setSearchQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [filterSidebarOpen, setFilterSidebarOpen] = useState(false);
   const [activeTag, setActiveTag] = useState<string | null>(null);
   const [currentFilters, setCurrentFilters] = useState<FilterState>({
@@ -162,14 +143,15 @@ function ClassDirectoryPage() {
     educationalPhilosophies: [], personalityTraits: [], searchTerms: [],
   });
 
-  // ── Browse all dataset (lazy-loaded on first search/filter/scroll-to-bottom) ──
-  const [allClasses, setAllClasses] = useState<DBClass[]>([]);
-  const [providerMap, setProviderMap] = useState<Record<string, Provider>>({});
+  // ── Browse grid state (server-side paginated) ──
+  const [browseItems, setBrowseItems] = useState<BrowseCardItem[]>([]);
+  const [browseTotal, setBrowseTotal] = useState(0);
+  const [browseHasMore, setBrowseHasMore] = useState(false);
   const [browseLoading, setBrowseLoading] = useState(false);
-  const allClassesLoadedRef = useRef(false);
+  const browseAbortRef = useRef<AbortController | null>(null);
 
-  // ── Infinite scroll state ──
-  const [infiniteCount, setInfiniteCount] = useState(INFINITE_BATCH);
+  // ── Top tags (fast path from API) ──
+  const [topTags, setTopTags] = useState<TagRowItem[]>([]);
 
   // ── Initialize seed on mount ──
   useEffect(() => { setSeed(getSessionSeed()); }, []);
@@ -192,6 +174,15 @@ function ClassDirectoryPage() {
     });
   }, []);
 
+  // ── Fetch top tags on mount (fast path) ──
+  useEffect(() => {
+    if (seed === 0) return;
+    fetch(`/api/tags/top?seed=${seed}`)
+      .then((r) => r.json())
+      .then((data) => { if (data.tags?.length > 0) setTopTags(data.tags); })
+      .catch(() => {});
+  }, [seed]);
+
   // ── Fetch a rail ──
   const seedRef = useRef(seed);
   seedRef.current = seed;
@@ -201,7 +192,7 @@ function ClassDirectoryPage() {
     loadingRef.current.add(railId);
     setRailData((prev) => ({ ...prev }));
 
-    const data = await fetchRail(railId, seedRef.current, shownIdsRef.current, activeChipRef.current);
+    const data = await fetchRail(railId, seedRef.current, shownIdsRef.current);
     loadingRef.current.delete(railId);
 
     if (data) {
@@ -229,161 +220,99 @@ function ClassDirectoryPage() {
       .catch(() => {});
   }, []);
 
-  // ── Chip toggle: re-fetch loaded rails ──
-  const handleChipToggle = useCallback(async (chipId: string | null) => {
-    setActiveChipId(chipId);
-    activeChipRef.current = chipId;
+  // ── Debounce search query (300ms) — input updates instantly, API call debounced ──
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedQuery(searchQuery), 300);
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
-    const loadedRailIds = Object.keys(railDataRef.current);
-    if (loadedRailIds.length === 0) return;
-    shownIdsRef.current = [];
+  // ── Browse API fetcher ──
+  const fetchBrowse = useCallback(async (offset: number, append: boolean) => {
+    // Abort any in-flight browse request
+    browseAbortRef.current?.abort();
+    const controller = new AbortController();
+    browseAbortRef.current = controller;
 
-    const refetched: Record<string, RailApiResponse> = {};
-    const results = await Promise.all(
-      loadedRailIds.map((rid) => fetchRail(rid, seedRef.current, [], chipId))
-    );
-
-    for (let i = 0; i < loadedRailIds.length; i++) {
-      const data = results[i];
-      if (data) {
-        refetched[loadedRailIds[i]] = data;
-        shownIdsRef.current.push(...data.items.map((item) => item.id));
-      }
-    }
-    setRailData(refetched);
-  }, []);
-
-  // ── Lazy-load all classes for search/filter/infinite scroll ──
-  const loadAllClasses = useCallback(async () => {
-    if (allClassesLoadedRef.current || browseLoading) return;
-    allClassesLoadedRef.current = true;
     setBrowseLoading(true);
-    const { supabaseBrowser } = await import("@/lib/supabase/client");
-    const { fetchAllVisibleClasses } = await import("@/lib/supabase/queries");
-    const supabase = supabaseBrowser();
-    const [allVisible, providerRes] = await Promise.all([
-      fetchAllVisibleClasses(supabase),
-      supabase.from("providers").select("*"),
-    ]);
-    setAllClasses(deduplicateByProvider(allVisible as DBClass[]));
-    const pMap: Record<string, Provider> = {};
-    for (const p of providerRes.data || []) pMap[p.id] = p;
-    setProviderMap(pMap);
-    setBrowseLoading(false);
-  }, [browseLoading]);
+    try {
+      const params = new URLSearchParams({
+        offset: String(offset),
+        limit: String(BROWSE_PAGE),
+      });
+      if (debouncedQuery.trim()) params.set("q", debouncedQuery.trim());
+      if (activeTag) params.set("tag", activeTag);
+
+      // Map sidebar filters to API params
+      if (currentFilters.ageRanges.length > 0) {
+        const range = currentFilters.ageRanges[0];
+        const match = range.match(/(\d+)/);
+        if (match) params.set("age", range.replace(/[^\d-]/g, "").replace(/years?/i, ""));
+      }
+      if (currentFilters.priceRanges.length > 0) {
+        const range = currentFilters.priceRanges[0];
+        if (range === "Under $30") params.set("price", "under30");
+        else if (range === "$30-$50") params.set("price", "30-50");
+        else if (range === "$50-$80") params.set("price", "50-80");
+        else if (range === "Over $80") params.set("price", "over80");
+      }
+
+      // Exclude IDs already shown in rails (only for non-filtered browse)
+      if (!searchQuery.trim() && !activeTag && shownIdsRef.current.length > 0) {
+        params.set("exclude", shownIdsRef.current.join(","));
+      }
+
+      const res = await fetch(`/api/classes/browse?${params.toString()}`, {
+        signal: controller.signal,
+      });
+      if (!res.ok) throw new Error("Browse API error");
+      const data: BrowseResponse = await res.json();
+
+      if (append) {
+        setBrowseItems((prev) => [...prev, ...data.items]);
+      } else {
+        setBrowseItems(data.items);
+      }
+      setBrowseTotal(data.total);
+      setBrowseHasMore(data.hasMore);
+    } catch (e) {
+      if ((e as Error).name !== "AbortError") {
+        console.error("[browse]", e);
+      }
+    } finally {
+      setBrowseLoading(false);
+    }
+  }, [debouncedQuery, activeTag, currentFilters.ageRanges, currentFilters.priceRanges]);
 
   // ── Determine if we're in search/filter mode ──
-  const isSearchActive = searchQuery.trim().length > 0 || activeTag !== null;
+  const isSearchActive = debouncedQuery.trim().length > 0 || activeTag !== null;
   const hasActiveFilters = Object.values(currentFilters).some(
     (v) => Array.isArray(v) && v.length > 0
   );
   const showFilteredGrid = isSearchActive || hasActiveFilters;
 
-  // ── Load all classes when search/filter/tag activates ──
+  // ── Fetch browse results when search/filter/tag changes ──
   useEffect(() => {
-    if (showFilteredGrid && !allClassesLoadedRef.current) {
-      loadAllClasses();
+    if (showFilteredGrid) {
+      fetchBrowse(0, false);
     }
-  }, [showFilteredGrid, loadAllClasses]);
+  }, [showFilteredGrid, debouncedQuery, activeTag, currentFilters, fetchBrowse]);
 
-  // ── Top tags for the hero tag row ──
-  // Fast path: fetched from /api/tags/top immediately on mount (~200ms).
-  // Fallback: computed client-side once allClasses finishes loading.
-  const [fastTags, setFastTags] = useState<TagRowItem[]>([]);
-
-  useEffect(() => {
-    const t0 = performance.now();
-    fetch(`/api/tags/top?seed=${seed || 0}`)
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.tags?.length > 0) {
-          setFastTags(data.tags);
-          if (process.env.NODE_ENV === "development") {
-            console.log(`[top-tags] API responded in ${(performance.now() - t0).toFixed(0)}ms, ${data.tags.length} tags`);
-          }
-        }
-      })
-      .catch(() => {});
-  }, [seed]);
-
-  // Client-side fallback (once full dataset loads, overrides fast tags for filtering consistency)
-  const computedTags: TagRowItem[] = useMemo(() => {
-    if (allClasses.length === 0) return [];
-    return getTopTags(allClasses, selectDisplayTags);
-  }, [allClasses]);
-
-  const topTags = computedTags.length > 0 ? computedTags : fastTags;
-
-  // ── Filtered classes ──
-  const filteredClasses = useMemo(() => {
-    return allClasses.filter((cls) => {
-      // Tag filter — match against the same warm tags shown on cards
-      if (activeTag) {
-        const cardTags = selectDisplayTags(cls);
-        const matchesTag = cardTags.some((t) => t.label === activeTag);
-        if (!matchesTag) return false;
-      }
-      // Search
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const match =
-          cls.name.toLowerCase().includes(q) ||
-          (cls.description || "").toLowerCase().includes(q) ||
-          (cls.category || "").toLowerCase().includes(q) ||
-          (cls.vibe_line || "").toLowerCase().includes(q);
-        if (!match) return false;
-      }
-      // Price filter
-      if (currentFilters.priceRanges.length > 0 && cls.price) {
-        const matchesPrice = currentFilters.priceRanges.some((range) => {
-          if (range === "Under $30") return cls.price! < 30;
-          if (range === "$30-$50") return cls.price! >= 30 && cls.price! <= 50;
-          if (range === "$50-$80") return cls.price! > 50 && cls.price! <= 80;
-          if (range === "Over $80") return cls.price! > 80;
-          return true;
-        });
-        if (!matchesPrice) return false;
-      }
-      // Age filter
-      if (currentFilters.ageRanges.length > 0) {
-        const matchesAge = currentFilters.ageRanges.some((range) => {
-          if (range === "0-2 years" && cls.age_min != null) return cls.age_min <= 2;
-          if (range === "3-5 years") return (cls.age_min ?? 99) <= 5 && (cls.age_max ?? 0) >= 3;
-          if (range === "6-8 years") return (cls.age_min ?? 99) <= 8 && (cls.age_max ?? 0) >= 6;
-          if (range === "9-12 years") return (cls.age_min ?? 99) <= 12 && (cls.age_max ?? 0) >= 9;
-          if (range === "13+ years" && cls.age_max != null) return cls.age_max >= 13;
-          return true;
-        });
-        if (!matchesAge) return false;
-      }
-      return true;
-    });
-  }, [allClasses, searchQuery, activeTag, currentFilters.priceRanges, currentFilters.ageRanges]);
-
-  const toBrowseBadges = useCallback((cls: DBClass): BadgeItem[] => {
-    return selectDisplayTags(cls).map((t) => ({ label: t.label, category: t.dimension as TagCategory }));
-  }, []);
-
-  // ── Infinite scroll: load more when bottom sentinel enters viewport ──
+  // ── Fetch "More to explore" grid when all rails are loaded ──
   const allRailsLoaded = RAIL_ORDER.every((rid) => railData[rid]);
+  const browseTriggeredRef = useRef(false);
 
-  // When all rails are loaded and user hasn't searched, lazy-load the full dataset for infinite scroll
   useEffect(() => {
-    if (allRailsLoaded && !allClassesLoadedRef.current && !showFilteredGrid) {
-      loadAllClasses();
+    if (allRailsLoaded && !showFilteredGrid && !browseTriggeredRef.current) {
+      browseTriggeredRef.current = true;
+      fetchBrowse(0, false);
     }
-  }, [allRailsLoaded, showFilteredGrid, loadAllClasses]);
+  }, [allRailsLoaded, showFilteredGrid, fetchBrowse]);
 
+  // ── Load more browse results ──
   const handleLoadMore = useCallback(() => {
-    setInfiniteCount((prev) => prev + INFINITE_BATCH);
-  }, []);
-
-  // ── Classes for the infinite grid (exclude already shown in rails) ──
-  const infiniteClasses = useMemo(() => {
-    if (allClasses.length === 0) return [];
-    const shownSet = new Set(shownIdsRef.current);
-    return allClasses.filter((cls) => !shownSet.has(cls.id));
-  }, [allClasses]);
+    if (browseLoading || !browseHasMore) return;
+    fetchBrowse(browseItems.length, true);
+  }, [browseLoading, browseHasMore, browseItems.length, fetchBrowse]);
 
   // ── Filter handlers ──
   const handleFiltersChange = useCallback((f: FilterState) => setCurrentFilters(f), []);
@@ -395,25 +324,46 @@ function ClassDirectoryPage() {
 
   const handleTagClick = useCallback((tagValue: string) => {
     setActiveTag(tagValue || null);
-    // Reset infinite count when tag changes
-    setInfiniteCount(INFINITE_BATCH);
+    setBrowseItems([]);
+    setBrowseTotal(0);
   }, []);
 
   const handleSearchChange = useCallback((query: string) => {
     setSearchQuery(query);
-    setInfiniteCount(INFINITE_BATCH);
   }, []);
 
   // ── Escape key handler ──
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        if (filterSidebarOpen) setFilterSidebarOpen(false);
-      }
+      if (e.key === "Escape" && filterSidebarOpen) setFilterSidebarOpen(false);
     };
     document.addEventListener("keydown", handleEsc);
     return () => document.removeEventListener("keydown", handleEsc);
   }, [filterSidebarOpen]);
+
+  // ── Render a browse card item ──
+  const renderBrowseCard = useCallback(
+    (item: BrowseCardItem, priority = false) => (
+      <CustomClassCard
+        key={item.id}
+        id={item.id}
+        title={item.title}
+        providerName={item.providerName}
+        description={item.description}
+        image={item.image}
+        badges={item.badges.map((b) => ({ label: b.label, category: b.category as TagCategory }))}
+        href={item.href}
+        isBookmarked={bookmarkedClasses.has(item.id)}
+        onBookmarkToggle={toggleBookmark}
+        category={item.category}
+        ageMin={item.ageMin}
+        ageMax={item.ageMax}
+        vibeLine={item.vibeLine}
+        priority={priority}
+      />
+    ),
+    [bookmarkedClasses, toggleBookmark]
+  );
 
   // ──────────────────── RENDER ────────────────────
 
@@ -459,14 +409,14 @@ function ClassDirectoryPage() {
         <div className="flex w-full flex-col items-start gap-4 pb-12">
           <div className="px-4 md:px-6 lg:px-10">
             <p className="text-[13px] text-gray-400">
-              {browseLoading ? "Loading..." : `${filteredClasses.length} classes found`}
+              {browseLoading && browseItems.length === 0 ? "Loading..." : `${browseTotal} classes found`}
             </p>
           </div>
-          {browseLoading ? (
+          {browseLoading && browseItems.length === 0 ? (
             <div className="flex w-full flex-col gap-8">
               {[1, 2].map((i) => <RailSkeleton key={i} />)}
             </div>
-          ) : filteredClasses.length === 0 ? (
+          ) : browseItems.length === 0 ? (
             <div className="flex w-full flex-col items-center justify-center gap-4 py-16 px-4">
               <span className="text-heading-2 font-heading-2 text-default-font">No classes found</span>
               <span className="text-body font-body text-subtext-color text-center max-w-md">
@@ -475,30 +425,10 @@ function ClassDirectoryPage() {
             </div>
           ) : (
             <div className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 px-4 md:px-6 lg:px-10">
-              {filteredClasses.slice(0, infiniteCount).map((cls) => (
-                <CustomClassCard
-                  key={cls.id}
-                  id={cls.id}
-                  title={cls.name}
-                  providerName={cls.provider_id ? providerMap[cls.provider_id]?.name : undefined}
-                  description={cls.summary || cls.vibe_line || cls.description || ""}
-                  image={getClassImage(cls)}
-                  badges={toBrowseBadges(cls)}
-                  href={`/classes/${cls.id}`}
-                  isBookmarked={bookmarkedClasses.has(cls.id)}
-                  onBookmarkToggle={toggleBookmark}
-                  category={cls.category ?? undefined}
-                  ageMin={cls.age_min ?? undefined}
-                  ageMax={cls.age_max ?? undefined}
-                  vibeLine={cls.vibe_line ?? undefined}
-                />
-              ))}
+              {browseItems.map((item) => renderBrowseCard(item))}
             </div>
           )}
-          {/* Infinite scroll sentinel */}
-          {filteredClasses.length > infiniteCount && (
-            <InfiniteScrollSentinel onLoadMore={handleLoadMore} />
-          )}
+          {browseHasMore && <InfiniteScrollSentinel onLoadMore={handleLoadMore} />}
         </div>
       ) : (
         /* ── Rails (discovery mode) ── */
@@ -559,43 +489,23 @@ function ClassDirectoryPage() {
             })}
           </div>
 
-          {/* ── Infinite scroll grid after all rails ── */}
+          {/* ── "More to explore" — paginated from browse API ── */}
           {allRailsLoaded && (
             <div className="flex w-full flex-col items-start gap-4 pb-12">
               <div className="px-4 md:px-6 lg:px-10">
                 <h2 className="text-[16px] md:text-heading-2 font-semibold text-default-font">More to explore</h2>
                 <p className="text-[12px] md:text-[13px] text-gray-400 mt-1">Keep scrolling — we&apos;ll load more as you go</p>
               </div>
-              {browseLoading ? (
+              {browseLoading && browseItems.length === 0 ? (
                 <div className="flex w-full items-center justify-center py-8">
                   <div className="h-6 w-6 animate-spin rounded-full border-2 border-gray-300 border-t-[var(--tumbo-orange)]" />
                 </div>
-              ) : infiniteClasses.length > 0 ? (
+              ) : browseItems.length > 0 ? (
                 <div className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 px-4 md:px-6 lg:px-10">
-                  {infiniteClasses.slice(0, infiniteCount).map((cls) => (
-                    <CustomClassCard
-                      key={cls.id}
-                      id={cls.id}
-                      title={cls.name}
-                      providerName={cls.provider_id ? providerMap[cls.provider_id]?.name : undefined}
-                      description={cls.summary || cls.vibe_line || cls.description || ""}
-                      image={getClassImage(cls)}
-                      badges={toBrowseBadges(cls)}
-                      href={`/classes/${cls.id}`}
-                      isBookmarked={bookmarkedClasses.has(cls.id)}
-                      onBookmarkToggle={toggleBookmark}
-                      category={cls.category ?? undefined}
-                      ageMin={cls.age_min ?? undefined}
-                      ageMax={cls.age_max ?? undefined}
-                      vibeLine={cls.vibe_line ?? undefined}
-                    />
-                  ))}
+                  {browseItems.map((item) => renderBrowseCard(item))}
                 </div>
               ) : null}
-              {/* Infinite scroll sentinel */}
-              {infiniteClasses.length > infiniteCount && (
-                <InfiniteScrollSentinel onLoadMore={handleLoadMore} />
-              )}
+              {browseHasMore && <InfiniteScrollSentinel onLoadMore={handleLoadMore} />}
             </div>
           )}
         </>

@@ -17,9 +17,22 @@ import { buildRail, buildSerendipityRail } from "@/lib/rails/build-rail";
 import type { ScoringContext, RailApiResponse } from "@/lib/rails/types";
 import type { DBClass, Provider } from "@/lib/types/tags";
 
-// Cache the class pool in memory for 60s to avoid hitting Supabase on every rail request
+// Only the columns needed for scoring + card building.
+// ⚠️  DO NOT add raw_reviews here — it is ~20 MB across all rows and caused
+//    the original perf regression (28 MB payload, 6–9s cold loads).
+//    Also excluded: discovered_from (~1 MB), source, and other unused blobs.
+const RAIL_SELECT = [
+  "id", "name", "provider_id", "summary", "vibe_line", "description",
+  "typical_child_profile", "not_ideal_for", "outcome_expectations",
+  "category", "age_min", "age_max", "photo_url", "google_rating",
+  "review_count", "updated_at", "created_at", "schedule", "location",
+  "is_placeholder", "hidden_from_directory", "price",
+].join(",");
+
+// Cache the class pool in memory for 5 min to avoid hitting Supabase on every rail request.
+// Previous 60s TTL meant cold hits every minute (6-9s each).
 let classCache: { classes: DBClass[]; providers: Record<string, { name: string }>; ts: number } | null = null;
-const CACHE_TTL_MS = 60_000;
+const CACHE_TTL_MS = 300_000;
 
 async function getClassPool() {
   const now = Date.now();
@@ -29,7 +42,7 @@ async function getClassPool() {
 
   const supabase = createServer();
   const [classes, providerRes] = await Promise.all([
-    fetchAllVisibleClasses<DBClass>(supabase),
+    fetchAllVisibleClasses<DBClass>(supabase, RAIL_SELECT),
     supabase.from("providers").select("id, name").limit(10000),
   ]);
   const providers: Record<string, { name: string }> = {};
