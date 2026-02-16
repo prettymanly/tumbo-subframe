@@ -90,8 +90,8 @@ interface TagPillProps {
   label: string;
   /** Override automatic classification */
   category?: TagCategory;
-  /** "sm" for cards, "md" for detail pages */
-  size?: "sm" | "md";
+  /** "sm" for card badges, "md" for detail pages, "hero" for hero tag row */
+  size?: "sm" | "md" | "hero";
   /** "filled" (default) for card badges, "outline" for selectable tag rows */
   variant?: "filled" | "outline";
   /** Whether this pill is in selected state (outline variant toggles to filled) */
@@ -100,6 +100,12 @@ interface TagPillProps {
   onClick?: () => void;
   className?: string;
 }
+
+const SIZE_CONFIG = {
+  sm:   { classes: "px-2 py-[3px] text-[11px]",          icon: 10 },
+  md:   { classes: "px-3 py-1.5 text-[12px] gap-1.5",    icon: 13 },
+  hero: { classes: "px-3 py-[5px] text-[13px] gap-1.5",  icon: 12 },
+} as const;
 
 export function TagPill({
   label,
@@ -113,14 +119,9 @@ export function TagPill({
   const cat = category ?? classifyTag(label);
   const color = TAG_COLORS[cat];
   const Icon = CATEGORY_ICONS[cat];
-  const iconSize = size === "sm" ? 10 : 13;
+  const { classes: sizeClasses, icon: iconSize } = SIZE_CONFIG[size];
 
   const isOutline = variant === "outline" && !selected;
-
-  const sizeClasses =
-    size === "sm"
-      ? "px-2 py-[3px] text-[11px]"
-      : "px-3 py-1.5 text-[12px] gap-1.5";
 
   const colorStyles: React.CSSProperties = isOutline
     ? { borderColor: color, color, backgroundColor: "transparent" }
