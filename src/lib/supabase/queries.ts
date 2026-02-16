@@ -51,11 +51,14 @@ export async function visibleClassesCount(
 ): Promise<number> {
   // Count distinct providers (each provider_id = one card after dedup)
   // plus any classes without a provider_id (should be 0 for visible set)
+  // Supabase default limit is 1000 — we need all rows for an accurate count.
+  // Fetch only the provider_id column with a generous limit.
   const { data } = await supabase
     .from("classes")
     .select("provider_id")
     .eq("is_placeholder", false)
-    .eq("hidden_from_directory", false);
+    .eq("hidden_from_directory", false)
+    .limit(10000);
   if (!data) return 0;
   const uniqueProviders = new Set(
     (data as { provider_id: string | null }[]).map((r) => r.provider_id ?? r)

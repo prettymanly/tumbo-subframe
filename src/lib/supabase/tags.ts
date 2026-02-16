@@ -11,7 +11,8 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 /** Fetch all enriched (non-placeholder, not hidden) classes */
 export async function getEnrichedClasses(): Promise<DBClass[]> {
   const { data, error } = await visibleClassesQuery(supabase)
-    .order("name", { ascending: true });
+    .order("name", { ascending: true })
+    .limit(10000);
 
   if (error) {
     console.error("Error fetching enriched classes:", error);
