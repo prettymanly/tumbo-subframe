@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { DBClass, Provider } from "../types/tags";
-import { visibleClassesQuery, visibleClassesCount } from "./queries";
+import { visibleClassesQuery, visibleClassesCount, fetchAllVisibleClasses } from "./queries";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -10,15 +10,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 /** Fetch all enriched (non-placeholder, not hidden) classes */
 export async function getEnrichedClasses(): Promise<DBClass[]> {
-  const { data, error } = await visibleClassesQuery(supabase)
-    .order("name", { ascending: true })
-    .limit(10000);
-
-  if (error) {
-    console.error("Error fetching enriched classes:", error);
-    return [];
-  }
-  return data || [];
+  return fetchAllVisibleClasses<DBClass>(supabase);
 }
 
 /** Fetch a single class by ID, with provider data joined */
@@ -105,11 +97,10 @@ export async function getProviderById(
 export async function getProvidersWithClasses(): Promise<
   (Provider & { class_count: number })[]
 > {
-  // Get unique provider_ids from visible classes
-  const { data: classes } = await visibleClassesQuery(supabase)
-    .not("provider_id", "is", null);
+  // Get unique provider_ids from visible classes (paginated to avoid 1000-row cap)
+  const classes = await fetchAllVisibleClasses<DBClass>(supabase);
 
-  if (!classes || classes.length === 0) return [];
+  if (classes.length === 0) return [];
 
   const providerIds = [...new Set(classes.map((c) => c.provider_id))];
   const countMap: Record<string, number> = {};
@@ -155,9 +146,8 @@ export async function getStats(): Promise<{
 
 /** Get distinct categories from enriched classes */
 export async function getCategories(): Promise<string[]> {
-  const { data } = await visibleClassesQuery(supabase)
-    .not("category", "is", null);
-
-  if (!data) return [];
-  return [...new Set(data.map((c) => c.category as string))].sort();
+  const classes = await fetchAllVisibleClasses<DBClass>(supabase);
+  return [...new Set(
+    classes.map((c) => c.category).filter((c): c is string => c != null)
+  )].sort();
 }

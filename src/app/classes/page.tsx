@@ -5,6 +5,8 @@ import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { HeroSection, TAG_ROWS } from "@/components/ui/hero-section";
 import { RailSection, RailSkeleton } from "@/components/ui/rail-section";
 import { RailLoader } from "@/components/ui/rail-loader";
+import { CollectionStrip } from "@/components/ui/collection-strip";
+import { SectionDivider } from "@/components/ui/section-divider";
 import ClassFilterSidebarIntegrated from "@/components/ui/class-filter-sidebar-integrated";
 import { FilterState } from "@/components/ui/filter-chips";
 import FilterChips from "@/components/ui/filter-chips";
@@ -256,15 +258,13 @@ function ClassDirectoryPage() {
     allClassesLoadedRef.current = true;
     setBrowseLoading(true);
     const { supabaseBrowser } = await import("@/lib/supabase/client");
-    const { visibleClassesQuery } = await import("@/lib/supabase/queries");
+    const { fetchAllVisibleClasses } = await import("@/lib/supabase/queries");
     const supabase = supabaseBrowser();
-    const [classRes, providerRes] = await Promise.all([
-      visibleClassesQuery(supabase)
-        .order("google_rating", { ascending: false })
-        .limit(10000),
+    const [allVisible, providerRes] = await Promise.all([
+      fetchAllVisibleClasses(supabase),
       supabase.from("providers").select("*"),
     ]);
-    setAllClasses(deduplicateByProvider(classRes.data || []));
+    setAllClasses(deduplicateByProvider(allVisible as DBClass[]));
     const pMap: Record<string, Provider> = {};
     for (const p of providerRes.data || []) pMap[p.id] = p;
     setProviderMap(pMap);
@@ -405,8 +405,6 @@ function ClassDirectoryPage() {
         onSearchChange={handleSearchChange}
         onFilterClick={handleFilterClick}
         filterSidebarOpen={filterSidebarOpen}
-        onTagClick={handleTagClick}
-        activeTag={activeTag}
       />
 
       {/* Active filter chips */}

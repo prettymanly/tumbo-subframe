@@ -14,6 +14,9 @@
  *
  * If you need to add a new visibility column (e.g., listing_eligibility),
  * add it here once and all consumers inherit it.
+ *
+ * NOTE: PostgREST has a server-side max-rows cap (default 1000).
+ * Use fetchAllVisibleClasses() when you need the full dataset.
  */
 
 // The project does not use generated Supabase types, so all clients are
@@ -21,9 +24,14 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type SupabaseClientLike = { from: (...args: any[]) => any };
 
+const PAGE_SIZE = 1000;
+
 /**
  * Returns a query builder scoped to visible classes only.
  * Chain additional filters, ordering, etc. on the returned builder.
+ *
+ * IMPORTANT: PostgREST caps results at 1000 rows by default.
+ * If you need ALL rows, use fetchAllVisibleClasses() instead.
  *
  * @example
  *   const { data } = await visibleClassesQuery(supabase)
@@ -39,29 +47,42 @@ export function visibleClassesQuery(supabase: SupabaseClientLike) {
 }
 
 /**
+ * Fetches ALL visible classes, paginating past PostgREST's max-rows cap.
+ * Use this in any context that needs the full dataset (rails, browse grid, etc.).
+ */
+export async function fetchAllVisibleClasses<T = Record<string, unknown>>(
+  supabase: SupabaseClientLike,
+  select = "*"
+): Promise<T[]> {
+  const allRows: T[] = [];
+  let from = 0;
+  while (true) {
+    const { data } = await supabase
+      .from("classes")
+      .select(select)
+      .eq("is_placeholder", false)
+      .eq("hidden_from_directory", false)
+      .range(from, from + PAGE_SIZE - 1);
+    if (!data || data.length === 0) break;
+    allRows.push(...(data as T[]));
+    if (data.length < PAGE_SIZE) break;
+    from += PAGE_SIZE;
+  }
+  return allRows;
+}
+
+/**
  * Returns the count of visible listings after provider deduplication.
  * Since many providers have multiple class rows (category splits from ingestion),
  * this counts distinct provider_ids to reflect the actual card count in the UI.
- *
- * @example
- *   const count = await visibleClassesCount(supabase);
  */
 export async function visibleClassesCount(
   supabase: SupabaseClientLike
 ): Promise<number> {
-  // Count distinct providers (each provider_id = one card after dedup)
-  // plus any classes without a provider_id (should be 0 for visible set)
-  // Supabase default limit is 1000 — we need all rows for an accurate count.
-  // Fetch only the provider_id column with a generous limit.
-  const { data } = await supabase
-    .from("classes")
-    .select("provider_id")
-    .eq("is_placeholder", false)
-    .eq("hidden_from_directory", false)
-    .limit(10000);
-  if (!data) return 0;
-  const uniqueProviders = new Set(
-    (data as { provider_id: string | null }[]).map((r) => r.provider_id ?? r)
+  const rows = await fetchAllVisibleClasses<{ provider_id: string | null }>(
+    supabase,
+    "provider_id"
   );
+  const uniqueProviders = new Set(rows.map((r) => r.provider_id ?? r));
   return uniqueProviders.size;
 }
