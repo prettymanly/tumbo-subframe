@@ -25,6 +25,41 @@ import { selectDisplayTags } from "./warm-tags";
 import { CHIP_MAP } from "./config";
 import type { IntentChipId } from "./config";
 
+// ── Deduplicate classes by provider_id ──
+// Many providers have multiple class rows (category splits from ingestion).
+// Keep the best representative per provider: prefer the row with the longest
+// description, highest rating, and most complete data.
+export function deduplicateByProvider(classes: DBClass[]): DBClass[] {
+  const bestByProvider = new Map<string, DBClass>();
+
+  for (const cls of classes) {
+    const pid = cls.provider_id;
+    if (!pid) {
+      // No provider — keep as-is (keyed by class id)
+      bestByProvider.set(`__no_provider_${cls.id}`, cls);
+      continue;
+    }
+    const existing = bestByProvider.get(pid);
+    if (!existing || classQuality(cls) > classQuality(existing)) {
+      bestByProvider.set(pid, cls);
+    }
+  }
+
+  return Array.from(bestByProvider.values());
+}
+
+function classQuality(cls: DBClass): number {
+  let score = 0;
+  if (cls.description) score += Math.min(cls.description.length, 500);
+  if (cls.summary) score += 100;
+  if (cls.vibe_line) score += 50;
+  if (cls.google_rating) score += cls.google_rating * 20;
+  if (cls.review_count) score += Math.min(cls.review_count, 50);
+  if (cls.age_min != null) score += 30;
+  if (cls.photo_url) score += 40;
+  return score;
+}
+
 // ── Resolve chip signals from context ──
 function resolveChipSignals(ctx: ScoringContext): { chipSignals: string[]; chipCategories: string[] } {
   if (!ctx.activeChipId) return { chipSignals: [], chipCategories: [] };
@@ -74,6 +109,9 @@ function toCardItem(
     tags,
     href: `/classes/${cls.id}`,
     category: cls.category ?? undefined,
+    ageMin: cls.age_min ?? undefined,
+    ageMax: cls.age_max ?? undefined,
+    vibeLine: cls.vibe_line ?? undefined,
   };
 }
 
@@ -101,8 +139,11 @@ export function buildRail(
   // 1. Filter out excluded IDs + hidden/placeholder classes
   //    Belt-and-suspenders: the API layer should already enforce visibility,
   //    but we double-check here to prevent leaks if called from a new context.
-  let pool = allClasses.filter(
-    (c) => !ctx.excludeIds.has(c.id) && !c.is_placeholder && c.hidden_from_directory !== true
+  //    Then deduplicate by provider to collapse category-split ingestion artifacts.
+  let pool = deduplicateByProvider(
+    allClasses.filter(
+      (c) => !ctx.excludeIds.has(c.id) && !c.is_placeholder && c.hidden_from_directory !== true
+    )
   );
 
   // 2. For intent rails, pre-filter to classes with at least *some* signal match
@@ -182,8 +223,10 @@ export function buildSerendipityRail(
   ctx: ScoringContext,
   providerMap: Record<string, { name: string }>
 ): { items: RailCardItem[]; shownIds: string[] } {
-  const pool = allClasses.filter(
-    (c) => !ctx.excludeIds.has(c.id) && !c.is_placeholder && c.hidden_from_directory !== true
+  const pool = deduplicateByProvider(
+    allClasses.filter(
+      (c) => !ctx.excludeIds.has(c.id) && !c.is_placeholder && c.hidden_from_directory !== true
+    )
   );
 
   const now = new Date();

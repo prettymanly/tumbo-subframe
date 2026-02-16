@@ -39,7 +39,9 @@ export function visibleClassesQuery(supabase: SupabaseClientLike) {
 }
 
 /**
- * Returns a HEAD-only count of visible classes (no row data transferred).
+ * Returns the count of visible listings after provider deduplication.
+ * Since many providers have multiple class rows (category splits from ingestion),
+ * this counts distinct provider_ids to reflect the actual card count in the UI.
  *
  * @example
  *   const count = await visibleClassesCount(supabase);
@@ -47,10 +49,16 @@ export function visibleClassesQuery(supabase: SupabaseClientLike) {
 export async function visibleClassesCount(
   supabase: SupabaseClientLike
 ): Promise<number> {
-  const { count } = await supabase
+  // Count distinct providers (each provider_id = one card after dedup)
+  // plus any classes without a provider_id (should be 0 for visible set)
+  const { data } = await supabase
     .from("classes")
-    .select("id", { count: "exact", head: true })
+    .select("provider_id")
     .eq("is_placeholder", false)
     .eq("hidden_from_directory", false);
-  return count ?? 0;
+  if (!data) return 0;
+  const uniqueProviders = new Set(
+    (data as { provider_id: string | null }[]).map((r) => r.provider_id ?? r)
+  );
+  return uniqueProviders.size;
 }

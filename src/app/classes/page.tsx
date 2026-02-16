@@ -72,6 +72,33 @@ function useIsMobile(): boolean {
   return mobile;
 }
 
+// ── Deduplicate classes by provider_id (client-side) ──
+// Collapse ingestion-artifact category splits into one card per provider.
+// Keeps the row with the longest description + highest rating.
+function deduplicateByProvider(classes: DBClass[]): DBClass[] {
+  const best = new Map<string, DBClass>();
+  for (const cls of classes) {
+    const key = cls.provider_id ?? cls.id;
+    const existing = best.get(key);
+    if (!existing || qualityScore(cls) > qualityScore(existing)) {
+      best.set(key, cls);
+    }
+  }
+  return Array.from(best.values());
+}
+
+function qualityScore(cls: DBClass): number {
+  let s = 0;
+  if (cls.description) s += Math.min(cls.description.length, 500);
+  if (cls.summary) s += 100;
+  if (cls.vibe_line) s += 50;
+  if (cls.google_rating) s += cls.google_rating * 20;
+  if (cls.review_count) s += Math.min(cls.review_count, 50);
+  if (cls.age_min != null) s += 30;
+  if (cls.photo_url) s += 40;
+  return s;
+}
+
 // ── Infinite scroll batch size ──
 const INFINITE_BATCH = 20;
 
@@ -236,7 +263,7 @@ function ClassDirectoryPage() {
         .order("google_rating", { ascending: false }),
       supabase.from("providers").select("*"),
     ]);
-    setAllClasses(classRes.data || []);
+    setAllClasses(deduplicateByProvider(classRes.data || []));
     const pMap: Record<string, Provider> = {};
     for (const p of providerRes.data || []) pMap[p.id] = p;
     setProviderMap(pMap);
@@ -438,6 +465,10 @@ function ClassDirectoryPage() {
                   href={`/classes/${cls.id}`}
                   isBookmarked={bookmarkedClasses.has(cls.id)}
                   onBookmarkToggle={toggleBookmark}
+                  category={cls.category ?? undefined}
+                  ageMin={cls.age_min ?? undefined}
+                  ageMax={cls.age_max ?? undefined}
+                  vibeLine={cls.vibe_line ?? undefined}
                 />
               ))}
             </div>
@@ -531,6 +562,10 @@ function ClassDirectoryPage() {
                       href={`/classes/${cls.id}`}
                       isBookmarked={bookmarkedClasses.has(cls.id)}
                       onBookmarkToggle={toggleBookmark}
+                      category={cls.category ?? undefined}
+                      ageMin={cls.age_min ?? undefined}
+                      ageMax={cls.age_max ?? undefined}
+                      vibeLine={cls.vibe_line ?? undefined}
                     />
                   ))}
                 </div>

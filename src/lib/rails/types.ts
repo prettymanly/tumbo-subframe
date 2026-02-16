@@ -31,6 +31,9 @@ export interface RailCardItem {
   tags: WarmTag[];
   href: string;
   category?: string;
+  ageMin?: number;
+  ageMax?: number;
+  vibeLine?: string;
 }
 
 // ── Scoring weights for a rail ──
