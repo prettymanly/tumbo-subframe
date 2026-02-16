@@ -72,6 +72,14 @@ export default function TumboNavbar() {
               </Link>
 
               <Link
+                href="/classes-alt"
+                className="relative px-3 py-2 text-[14px] font-medium text-gray-500 hover:text-gray-900 transition-colors duration-200 group"
+              >
+                New Discovery
+                <span className="absolute bottom-0.5 left-3 right-3 h-[1.5px] bg-[var(--tumbo-orange)] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-full" />
+              </Link>
+
+              <Link
                 href="/providers"
                 className="relative px-3 py-2 text-[14px] font-medium text-gray-500 hover:text-gray-900 transition-colors duration-200 group"
               >
@@ -261,7 +269,7 @@ export default function TumboNavbar() {
         <div
           className={cn(
             "md:hidden border-t border-neutral-100 bg-white/95 backdrop-blur-xl overflow-hidden transition-all duration-200",
-            mobileMenuOpen ? "max-h-60 opacity-100" : "max-h-0 opacity-0"
+            mobileMenuOpen ? "max-h-72 opacity-100" : "max-h-0 opacity-0"
           )}
         >
           <div className="px-5 py-3 flex flex-col gap-0.5">
@@ -271,6 +279,13 @@ export default function TumboNavbar() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Classes
+            </Link>
+            <Link
+              href="/classes-alt"
+              className="px-3 py-2.5 text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-neutral-50 rounded-lg transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              New Discovery
             </Link>
             <Link
               href="/providers"

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import { INTENT_CHIPS } from "@/lib/rails/config";
 
 // ── Scrollable tag rows — warm, clickable labels ──
@@ -34,8 +34,6 @@ interface HeroSectionProps {
   onSearchChange: (query: string) => void;
   onFilterClick: () => void;
   filterSidebarOpen: boolean;
-  onTagClick: (tagLabel: string) => void;
-  activeTag: string | null;
 }
 
 export function HeroSection({
@@ -46,25 +44,22 @@ export function HeroSection({
   onSearchChange,
   onFilterClick,
   filterSidebarOpen,
-  onTagClick,
-  activeTag,
 }: HeroSectionProps) {
-  const tagScrollRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section className="flex w-full flex-col items-start gap-4 md:gap-5 px-4 md:px-6 lg:px-10 pt-6 md:pt-8 pb-2 md:pb-4">
-      {/* Headline */}
-      <div className="flex w-full flex-col items-start gap-1 md:gap-1.5 max-w-2xl">
-        <h1 className="text-[22px] md:text-heading-1 font-heading-1 text-default-font leading-tight">
+    <section className="flex w-full flex-col items-start gap-5 md:gap-6 px-4 md:px-6 lg:px-10 pt-10 md:pt-14 pb-6 md:pb-8">
+      {/* Headline — editorial scale */}
+      <div className="flex w-full flex-col items-start gap-1.5 md:gap-2 max-w-3xl">
+        <h1 className="text-[26px] md:text-[36px] lg:text-[40px] font-heading-1 text-default-font leading-[1.15] tracking-tight">
           Find the right class for your child
         </h1>
-        <p className="text-[13px] md:text-body font-body text-subtext-color leading-relaxed">
+        <p className="text-[14px] md:text-[16px] font-body text-subtext-color leading-relaxed">
           Curated activities across Singapore — from creative play to deep focus.
         </p>
       </div>
 
       {/* Filter button + search bar */}
-      <div className="flex w-full items-center gap-2.5 md:gap-3">
+      <div className="flex w-full items-center gap-2.5 md:gap-3 max-w-2xl">
         <button
           onClick={onFilterClick}
           className={`flex items-center gap-1.5 md:gap-2 px-3.5 md:px-4 py-2.5 md:py-3 rounded-full text-[13px] md:text-sm font-medium transition-all duration-200 border-[1.5px] flex-shrink-0 ${
@@ -114,35 +109,9 @@ export function HeroSection({
         })}
       </div>
 
-      {/* Scrollable tag row */}
-      <div className="w-full -mx-4 md:-mx-6 lg:-mx-10">
-        <div
-          ref={tagScrollRef}
-          className="flex gap-2 overflow-x-auto scrollbar-hide scroll-smooth px-4 md:px-6 lg:px-10 pb-1"
-          style={{ WebkitOverflowScrolling: "touch" }}
-        >
-          {TAG_ROWS.map((tag) => {
-            const isActive = activeTag === tag.label;
-            return (
-              <button
-                key={tag.label}
-                onClick={() => onTagClick(isActive ? "" : tag.label)}
-                className={`flex-shrink-0 rounded-full px-3 md:px-3.5 py-1 md:py-1.5 text-[11px] md:text-[12px] font-medium transition-all duration-150 whitespace-nowrap ${
-                  isActive
-                    ? "bg-gray-800 text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                }`}
-              >
-                {tag.label}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Class count */}
+      {/* Class count — quiet, demoted */}
       {classCount > 0 && (
-        <p className="text-[11px] md:text-[12px] text-gray-400 -mt-1">
+        <p className="text-[11px] md:text-[12px] text-gray-400 -mt-2">
           {classCount} classes to explore
         </p>
       )}
