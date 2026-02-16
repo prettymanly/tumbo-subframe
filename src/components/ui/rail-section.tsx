@@ -190,6 +190,10 @@ export const RailSection = React.memo(function RailSection({
                 isBookmarked={bookmarkedClasses.has(item.id)}
                 onBookmarkToggle={onBookmarkToggle}
                 priority={isFirstRail && i < 2}
+                category={item.category}
+                ageMin={item.ageMin}
+                ageMax={item.ageMax}
+                vibeLine={item.vibeLine}
               />
             </div>
           ))}
