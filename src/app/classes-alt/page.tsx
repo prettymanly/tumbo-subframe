@@ -1,20 +1,26 @@
 "use client";
 
-// ── /classes — production discovery page ──
-// Consumes shared data/state hook. Render-only — no query logic here.
+// ── /classes-alt — experimental editorial discovery layout ──
+// Consumes the SAME shared hook as /classes. Differs only in presentation:
+//   • Rail 1 uses layout="grid" (desktop 3-col grid, mobile rail)
+//   • Zone dividers between content zones
+//   • CollectionStrip navigation between Rails 4 and 5
+//   • Editorial dividers around serendipity rail
 
 import React from "react";
 import { ModernPageLayout } from "@/components/ui/modern-page-layout";
 import { HeroSection } from "@/components/ui/hero-section";
 import { RailSection, RailSkeleton } from "@/components/ui/rail-section";
 import { RailLoader } from "@/components/ui/rail-loader";
+import { CollectionStrip } from "@/components/ui/collection-strip";
+import { SectionDivider } from "@/components/ui/section-divider";
 import ClassFilterSidebarIntegrated from "@/components/ui/class-filter-sidebar-integrated";
 import FilterChips from "@/components/ui/filter-chips";
 import { CustomClassCard } from "@/components/ui/class-card";
 import { RAIL_ORDER, RAIL_MAP } from "@/lib/rails/config";
-import { useClassDirectory, getClassImage, InfiniteScrollSentinel } from "./_hooks/useClassDirectory";
+import { useClassDirectory, getClassImage, InfiniteScrollSentinel } from "@/app/classes/_hooks/useClassDirectory";
 
-function ClassDirectoryPage() {
+function ClassDirectoryAltPage() {
   const {
     isMobile,
     totalClasses,
@@ -133,32 +139,57 @@ function ClassDirectoryPage() {
           )}
         </div>
       ) : (
-        /* ── Rails (discovery mode) ── */
+        /* ── Rails (discovery mode) — editorial zone layout ── */
         <>
-          <div className="flex w-full flex-col items-start gap-6 md:gap-8 pb-4">
+          <div className="flex w-full flex-col items-start pb-4">
             {RAIL_ORDER.map((railId, index) => {
               const data = railData[railId];
               const loading = isRailLoading(railId) || loadingRef.current.has(railId);
               const railConfig = RAIL_MAP[railId];
               const density = railConfig?.density ?? "standard";
+              const isFirstRail = index === 0;
+              const isSerendipity = railConfig?.isSerendipity === true;
               const renderCount = isMobile
                 ? (railConfig?.renderCount.mobile ?? 3)
                 : (railConfig?.renderCount.desktop ?? 6);
 
+              // ── Zone dividers + collection strip insertion ──
+              // After Rail 1 (featured): standard divider before Rail 2
+              // Before Rail 5 (index 4): divider → CollectionStrip → divider
+              // Before serendipity rail: editorial (thicker) divider
+              const zoneBreakBefore = (
+                <>
+                  {index === 1 && <SectionDivider />}
+                  {index === 4 && (
+                    <>
+                      <SectionDivider />
+                      <CollectionStrip />
+                      <SectionDivider />
+                    </>
+                  )}
+                  {isSerendipity && <SectionDivider variant="editorial" />}
+                </>
+              );
+
               if (data && data.items.length > 0) {
                 return (
                   <React.Fragment key={railId}>
-                    <RailSection
-                      railId={data.railId}
-                      header={data.header}
-                      subheader={data.subheader}
-                      items={data.items}
-                      bookmarkedClasses={bookmarkedClasses}
-                      onBookmarkToggle={toggleBookmark}
-                      initialRenderCount={renderCount}
-                      isFirstRail={index === 0}
-                      density={density}
-                    />
+                    {zoneBreakBefore}
+                    <div className={isFirstRail ? "" : "mt-6 md:mt-8"}>
+                      <RailSection
+                        railId={data.railId}
+                        header={data.header}
+                        subheader={data.subheader}
+                        items={data.items}
+                        bookmarkedClasses={bookmarkedClasses}
+                        onBookmarkToggle={toggleBookmark}
+                        initialRenderCount={renderCount}
+                        isFirstRail={isFirstRail}
+                        density={density}
+                        layout={isFirstRail ? "grid" : "rail"}
+                      />
+                    </div>
+                    {isSerendipity && <SectionDivider variant="editorial" />}
                     {index + 1 < RAIL_ORDER.length && !railData[RAIL_ORDER[index + 1]] && (
                       <RailLoader
                         railId={RAIL_ORDER[index + 1]}
@@ -169,21 +200,36 @@ function ClassDirectoryPage() {
                 );
               }
 
-              if (loading) return <RailSkeleton key={railId} />;
+              if (loading) {
+                return (
+                  <React.Fragment key={railId}>
+                    {zoneBreakBefore}
+                    <div className={isFirstRail ? "" : "mt-6 md:mt-8"}>
+                      <RailSkeleton layout={isFirstRail ? "grid" : "rail"} />
+                    </div>
+                  </React.Fragment>
+                );
+              }
 
               if (index === 1 && !data) {
                 return (
-                  <RailLoader key={railId} railId={railId} onVisible={() => loadRail(railId)} rootMargin="400px 0px">
-                    <RailSkeleton />
-                  </RailLoader>
+                  <React.Fragment key={railId}>
+                    {zoneBreakBefore}
+                    <RailLoader railId={railId} onVisible={() => loadRail(railId)} rootMargin="400px 0px">
+                      <div className="mt-6 md:mt-8"><RailSkeleton /></div>
+                    </RailLoader>
+                  </React.Fragment>
                 );
               }
 
               if (index > 0 && railData[RAIL_ORDER[index - 1]]) {
                 return (
-                  <RailLoader key={railId} railId={railId} onVisible={() => loadRail(railId)}>
-                    <RailSkeleton />
-                  </RailLoader>
+                  <React.Fragment key={railId}>
+                    {zoneBreakBefore}
+                    <RailLoader railId={railId} onVisible={() => loadRail(railId)}>
+                      <div className="mt-6 md:mt-8"><RailSkeleton /></div>
+                    </RailLoader>
+                  </React.Fragment>
                 );
               }
 
@@ -194,6 +240,7 @@ function ClassDirectoryPage() {
           {/* ── Infinite scroll grid after all rails ── */}
           {allRailsLoaded && (
             <div className="flex w-full flex-col items-start gap-4 pb-12">
+              <SectionDivider />
               <div className="px-4 md:px-6 lg:px-10">
                 <h2 className="text-[16px] md:text-heading-2 font-semibold text-default-font">More to explore</h2>
                 <p className="text-[12px] md:text-[13px] text-gray-400 mt-1">Keep scrolling — we&apos;ll load more as you go</p>
@@ -249,4 +296,4 @@ function ClassDirectoryPage() {
   );
 }
 
-export default ClassDirectoryPage;
+export default ClassDirectoryAltPage;
