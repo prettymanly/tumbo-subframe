@@ -80,6 +80,14 @@ export default function TumboNavbar() {
               </Link>
 
               <Link
+                href="/classes-alt-v3"
+                className="relative px-3 py-2 text-[14px] font-medium text-gray-500 hover:text-gray-900 transition-colors duration-200 group"
+              >
+                Classes V3
+                <span className="absolute bottom-0.5 left-3 right-3 h-[1.5px] bg-[var(--tumbo-orange)] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-full" />
+              </Link>
+
+              <Link
                 href="/providers"
                 className="relative px-3 py-2 text-[14px] font-medium text-gray-500 hover:text-gray-900 transition-colors duration-200 group"
               >
@@ -286,6 +294,13 @@ export default function TumboNavbar() {
               onClick={() => setMobileMenuOpen(false)}
             >
               Classes V2
+            </Link>
+            <Link
+              href="/classes-alt-v3"
+              className="px-3 py-2.5 text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-neutral-50 rounded-lg transition-colors"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Classes V3
             </Link>
             <Link
               href="/providers"
