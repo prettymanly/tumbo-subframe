@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { DBClass, Provider } from "../types/tags";
+import { visibleClassesQuery, visibleClassesCount } from "./queries";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
@@ -9,11 +10,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 /** Fetch all enriched (non-placeholder, not hidden) classes */
 export async function getEnrichedClasses(): Promise<DBClass[]> {
-  const { data, error } = await supabase
-    .from("classes")
-    .select("*")
-    .eq("is_placeholder", false)
-    .eq("hidden_from_directory", false)
+  const { data, error } = await visibleClassesQuery(supabase)
     .order("name", { ascending: true });
 
   if (error) {
@@ -58,12 +55,8 @@ export async function getClassById(
 export async function getClassesByCategory(
   category: string
 ): Promise<DBClass[]> {
-  const { data, error } = await supabase
-    .from("classes")
-    .select("*")
+  const { data, error } = await visibleClassesQuery(supabase)
     .eq("category", category)
-    .eq("is_placeholder", false)
-    .eq("hidden_from_directory", false)
     .order("google_rating", { ascending: false });
 
   if (error) {
@@ -77,12 +70,8 @@ export async function getClassesByCategory(
 export async function getClassesByProvider(
   providerId: string
 ): Promise<DBClass[]> {
-  const { data, error } = await supabase
-    .from("classes")
-    .select("*")
+  const { data, error } = await visibleClassesQuery(supabase)
     .eq("provider_id", providerId)
-    .eq("is_placeholder", false)
-    .eq("hidden_from_directory", false)
     .order("name", { ascending: true });
 
   if (error) {
@@ -115,11 +104,8 @@ export async function getProviderById(
 export async function getProvidersWithClasses(): Promise<
   (Provider & { class_count: number })[]
 > {
-  // Get unique provider_ids from enriched classes
-  const { data: classes } = await supabase
-    .from("classes")
-    .select("provider_id")
-    .eq("is_placeholder", false)
+  // Get unique provider_ids from visible classes
+  const { data: classes } = await visibleClassesQuery(supabase)
     .not("provider_id", "is", null);
 
   if (!classes || classes.length === 0) return [];
@@ -153,30 +139,22 @@ export async function getStats(): Promise<{
   providers: number;
   enriched: number;
 }> {
-  const [classRes, providerRes, enrichedRes] = await Promise.all([
+  const [classRes, providerRes, enrichedCount] = await Promise.all([
     supabase.from("classes").select("id", { count: "exact", head: true }),
     supabase.from("providers").select("id", { count: "exact", head: true }),
-    supabase
-      .from("classes")
-      .select("id", { count: "exact", head: true })
-      .eq("is_placeholder", false)
-      .eq("hidden_from_directory", false),
+    visibleClassesCount(supabase),
   ]);
 
   return {
     classes: classRes.count || 0,
     providers: providerRes.count || 0,
-    enriched: enrichedRes.count || 0,
+    enriched: enrichedCount,
   };
 }
 
 /** Get distinct categories from enriched classes */
 export async function getCategories(): Promise<string[]> {
-  const { data } = await supabase
-    .from("classes")
-    .select("category")
-    .eq("is_placeholder", false)
-    .eq("hidden_from_directory", false)
+  const { data } = await visibleClassesQuery(supabase)
     .not("category", "is", null);
 
   if (!data) return [];

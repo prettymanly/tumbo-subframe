@@ -99,8 +99,10 @@ export function buildRail(
   providerMap: Record<string, { name: string }>
 ): { items: RailCardItem[]; shownIds: string[] } {
   // 1. Filter out excluded IDs + hidden/placeholder classes
+  //    Belt-and-suspenders: the API layer should already enforce visibility,
+  //    but we double-check here to prevent leaks if called from a new context.
   let pool = allClasses.filter(
-    (c) => !ctx.excludeIds.has(c.id) && !c.is_placeholder
+    (c) => !ctx.excludeIds.has(c.id) && !c.is_placeholder && c.hidden_from_directory !== true
   );
 
   // 2. For intent rails, pre-filter to classes with at least *some* signal match
@@ -181,7 +183,7 @@ export function buildSerendipityRail(
   providerMap: Record<string, { name: string }>
 ): { items: RailCardItem[]; shownIds: string[] } {
   const pool = allClasses.filter(
-    (c) => !ctx.excludeIds.has(c.id) && !c.is_placeholder
+    (c) => !ctx.excludeIds.has(c.id) && !c.is_placeholder && c.hidden_from_directory !== true
   );
 
   const now = new Date();

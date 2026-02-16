@@ -11,6 +11,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createServer } from "@/lib/supabase/server";
+import { visibleClassesQuery } from "@/lib/supabase/queries";
 import { RAIL_MAP } from "@/lib/rails/config";
 import { buildRail, buildSerendipityRail } from "@/lib/rails/build-rail";
 import type { ScoringContext, RailApiResponse } from "@/lib/rails/types";
@@ -28,10 +29,7 @@ async function getClassPool() {
 
   const supabase = createServer();
   const [classRes, providerRes] = await Promise.all([
-    supabase
-      .from("classes")
-      .select("*")
-      .eq("is_placeholder", false),
+    visibleClassesQuery(supabase),
     supabase.from("providers").select("id, name"),
   ]);
 

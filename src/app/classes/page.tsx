@@ -229,10 +229,10 @@ function ClassDirectoryPage() {
     allClassesLoadedRef.current = true;
     setBrowseLoading(true);
     const { supabaseBrowser } = await import("@/lib/supabase/client");
+    const { visibleClassesQuery } = await import("@/lib/supabase/queries");
     const supabase = supabaseBrowser();
     const [classRes, providerRes] = await Promise.all([
-      supabase.from("classes").select("*")
-        .eq("is_placeholder", false)
+      visibleClassesQuery(supabase)
         .order("google_rating", { ascending: false }),
       supabase.from("providers").select("*"),
     ]);

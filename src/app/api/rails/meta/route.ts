@@ -4,6 +4,7 @@
 
 import { NextResponse } from "next/server";
 import { createServer } from "@/lib/supabase/server";
+import { visibleClassesCount } from "@/lib/supabase/queries";
 import { RAIL_ORDER } from "@/lib/rails/config";
 
 export async function GET() {
@@ -18,15 +19,11 @@ export async function GET() {
     dailySeed = (dailySeed * 31 + dateStr.charCodeAt(i)) & 0x7fffffff;
   }
 
-  // Fetch class count (lightweight HEAD query, cached at CDN level)
+  // Fetch visible class count (lightweight HEAD query, cached at CDN level)
   let totalClasses = 0;
   try {
     const supabase = createServer();
-    const { count } = await supabase
-      .from("classes")
-      .select("id", { count: "exact", head: true })
-      .eq("is_placeholder", false);
-    totalClasses = count ?? 0;
+    totalClasses = await visibleClassesCount(supabase);
   } catch {
     // Non-critical — page works without count
   }
