@@ -6,7 +6,7 @@
 // Same data pipeline as /classes-alt. Zero backend changes.
 
 import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { ModernPageLayout } from "@/components/ui/modern-page-layout";
+import TumboNavbar from "@/components/ui/tumbo-navbar";
 import { V3Hero } from "@/components/ui/v3-hero";
 import { V3TaxonomyStrip } from "@/components/ui/v3-taxonomy-strip";
 import { V3Card } from "@/components/ui/v3-card";
@@ -620,7 +620,8 @@ function ClassDirectoryV3Page() {
   );
 
   return (
-    <ModernPageLayout>
+    <div className="min-h-screen w-full flex flex-col bg-[var(--v3-bg)]">
+      <TumboNavbar />
       <ClassFilterSidebarIntegrated
         open={filterSidebarOpen}
         onOpenChange={setFilterSidebarOpen}
@@ -629,7 +630,7 @@ function ClassDirectoryV3Page() {
       >
         {mainContent}
       </ClassFilterSidebarIntegrated>
-    </ModernPageLayout>
+    </div>
   );
 }
 
