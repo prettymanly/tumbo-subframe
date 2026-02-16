@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss'
+import plugin from 'tailwindcss/plugin'
 import themeTokens from './src/theme/tokens'
 
 const config: Config = {
@@ -45,7 +46,13 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    // hover-hover: variant — only applies hover styles on devices with a real pointer.
+    // Prevents GPU-heavy hover transforms from running on mobile touch devices.
+    plugin(function ({ addVariant }) {
+      addVariant('hover-hover', '@media (hover: hover) and (pointer: fine)')
+    }),
+  ],
 }
 
 export default config

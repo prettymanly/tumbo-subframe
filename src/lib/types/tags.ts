@@ -24,6 +24,9 @@ export interface GooglePlacesData {
   google_place_id?: string;
   google_rating?: number;       // Provider-level rating (e.g. 4.7)
   google_review_count?: number; // Total reviews on Google
+  google_address?: string;      // Address from Google Places
+  google_website?: string;      // Official website from Google Places
+  google_phone?: string;        // Phone number from Google Places
   google_reviews_raw?: GoogleReview[]; // All reviews before class assignment
   google_photos?: string[];     // Photo URLs from Google
   fetched_at?: string;          // ISO timestamp of last fetch
@@ -70,6 +73,7 @@ export interface DBClass {
   not_ideal_for?: string;
   outcome_expectations?: string;
   is_placeholder: boolean;
+  hidden_from_directory?: boolean;
   discovered_from?: string;
   created_at: string;
   updated_at: string;

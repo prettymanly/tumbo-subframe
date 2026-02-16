@@ -7,12 +7,13 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 // ── Classes ──
 
-/** Fetch all enriched (non-placeholder) classes */
+/** Fetch all enriched (non-placeholder, not hidden) classes */
 export async function getEnrichedClasses(): Promise<DBClass[]> {
   const { data, error } = await supabase
     .from("classes")
     .select("*")
     .eq("is_placeholder", false)
+    .eq("hidden_from_directory", false)
     .order("name", { ascending: true });
 
   if (error) {
@@ -37,6 +38,7 @@ export async function getClassById(
     console.error("Error fetching class:", clsErr);
     return null;
   }
+  if (cls.hidden_from_directory) return null;
 
   // Fetch provider if linked
   if (cls.provider_id) {
@@ -61,6 +63,7 @@ export async function getClassesByCategory(
     .select("*")
     .eq("category", category)
     .eq("is_placeholder", false)
+    .eq("hidden_from_directory", false)
     .order("google_rating", { ascending: false });
 
   if (error) {
@@ -79,6 +82,7 @@ export async function getClassesByProvider(
     .select("*")
     .eq("provider_id", providerId)
     .eq("is_placeholder", false)
+    .eq("hidden_from_directory", false)
     .order("name", { ascending: true });
 
   if (error) {
@@ -155,7 +159,8 @@ export async function getStats(): Promise<{
     supabase
       .from("classes")
       .select("id", { count: "exact", head: true })
-      .eq("is_placeholder", false),
+      .eq("is_placeholder", false)
+      .eq("hidden_from_directory", false),
   ]);
 
   return {
@@ -171,6 +176,7 @@ export async function getCategories(): Promise<string[]> {
     .from("classes")
     .select("category")
     .eq("is_placeholder", false)
+    .eq("hidden_from_directory", false)
     .not("category", "is", null);
 
   if (!data) return [];

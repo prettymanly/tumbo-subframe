@@ -35,3 +35,8 @@
 - **Type safety** - no `any` types, proper interfaces
 - **Performance** - use Next.js Image component, lazy loading for secondary content
 - **SEO** - proper metadata, semantic HTML, accessibility
+
+## Cost & paid APIs (mandatory)
+- **Cost disclosure:** Before adding or running scripts that call paid external APIs (Google Places, OpenAI, Outscraper, etc.), document estimated cost and scale in the script header and in `docs/COST_AND_API_RULES.md`. Never run unbounded "all providers" or "all rows" without an explicit flag (e.g. `--all`) or `--limit=N`; default must be safe (e.g. require `--limit` or refuse).
+- **No recurring data pulls:** Do not add cron jobs, Vercel cron, or scheduled runs for paid APIs without explicit user approval and a cost cap. One-off terminal runs are allowed; recurring automation is not unless approved.
+- See **docs/COST_AND_API_RULES.md** for what caused the ~$900 Google bill and red-flag rules.

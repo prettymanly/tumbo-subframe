@@ -1,0 +1,5392 @@
+[
+  {
+    "id": "80d2ae68-3af1-4cea-9798-eebfbf259d57",
+    "name": "TMG Golf Academy",
+    "category": "Sports"
+  },
+  {
+    "id": "d8440085-53b7-435f-a0ea-6ac17559ed50",
+    "name": "Education center at 1ST Aid & Healthcare P/L",
+    "category": "Education center"
+  },
+  {
+    "id": "de368e85-8d46-405b-b99c-41171e18e7a9",
+    "name": "Education center at 3House Kindergarten",
+    "category": "Education center"
+  },
+  {
+    "id": "d99abb26-6df7-44ff-a2a3-444eaf71dacf",
+    "name": "Grasio Sports Silat School - Bukit Batok CC",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "20ff3162-787a-4772-9433-8f2e67902aa0",
+    "name": "Training provider at Absolute Kinetics Consultancy - HQ Office",
+    "category": "Training provider"
+  },
+  {
+    "id": "31304f3b-708d-4b3b-94b6-c1d77f5f1401",
+    "name": "Hindi by Genuine Solution Guru Singapore",
+    "category": "Languages"
+  },
+  {
+    "id": "cef500c0-1ef7-4699-839f-ecf4ec707496",
+    "name": "Education center at Advanced Tuition Pte Ltd",
+    "category": "Education center"
+  },
+  {
+    "id": "ad88b582-fd11-4dc5-9f92-206484a66529",
+    "name": "Training provider at Advanced Learning Singapore",
+    "category": "Training provider"
+  },
+  {
+    "id": "fbc586a9-7813-4507-a0f8-c21d0942f8c4",
+    "name": "Education center at Agape Learning Lab",
+    "category": "Education center"
+  },
+  {
+    "id": "81e43d21-3823-406d-a0a8-f8e90fc30c78",
+    "name": "Education center at AGrader Learning Centre (Clementi) - English, Math, Creative Writing, Science Tuition Centre Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "01e7b844-854a-43b3-9506-5a9bc08fb75e",
+    "name": "Education center at AGrader Learning Centre - Buangkok",
+    "category": "Education center"
+  },
+  {
+    "id": "489f089a-41aa-4bfd-ab09-d151349fbf4a",
+    "name": "Education center at AGrader Learning Centre (Hougang) - English, Math, Creative Writing, Chinese, Science Tuition Centre Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "b67ad6fa-395a-4733-b59a-11720aec2b79",
+    "name": "Our Tampines Hub",
+    "category": "Sports"
+  },
+  {
+    "id": "c1f43b92-5ccb-4bd4-8148-ba325a297862",
+    "name": "Tuition at Ai Zi Learning Centre",
+    "category": "Tuition"
+  },
+  {
+    "id": "d2203b75-bc4c-4cb0-b4d9-d8fb1192a5ae",
+    "name": "Learning center at AGrader Learning Centre (Yishun Northpoint City) - English, Math, Creative Writing, Chinese, Science Tuition Centre Singapore",
+    "category": "Learning center"
+  },
+  {
+    "id": "f13092c3-ec09-4646-86dc-1de5987289e3",
+    "name": "Coaching center at Airdroz Development",
+    "category": "Coaching center"
+  },
+  {
+    "id": "968f6926-2cde-4e9c-bf18-274828fcadf3",
+    "name": "Preschool at Lorna Whiston Preschool (Canberra)",
+    "category": "Preschool"
+  },
+  {
+    "id": "79e78593-6a44-46ec-8404-a260ab6a446b",
+    "name": "Education center at AGrader Learning Centre (Tiong Bahru) - English, Math, Creative Writing, Chinese, Science Tuition Centre Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "647ac9e3-3bb6-44b9-835d-c1d45a46f157",
+    "name": "Life Skills at Alphagen Learning",
+    "category": "Life Skills"
+  },
+  {
+    "id": "77d57207-2666-4e73-a4e6-ea4f07837654",
+    "name": "Education center at Andalus Corporation Pte Ltd (Yishun 2 Branch)",
+    "category": "Education center"
+  },
+  {
+    "id": "270e61bf-1d5c-4c14-8d2e-bb02c9f149db",
+    "name": "Education center at Animals and Us Academy",
+    "category": "Education center"
+  },
+  {
+    "id": "9d8705f5-3667-49ae-8e72-46caa5388e50",
+    "name": "Brain Training at Alphagen Learning",
+    "category": "Brain Training"
+  },
+  {
+    "id": "2960140d-57ce-42f7-81c6-e47ad969a05b",
+    "name": "Life Skills at UMA Mental Arithmetic Learning Centre",
+    "category": "Life Skills"
+  },
+  {
+    "id": "46018788-1d5d-4a75-bb28-57f8ae02920e",
+    "name": "Stamford Football Academy Singapore",
+    "category": "Football"
+  },
+  {
+    "id": "e12ab0cf-bff3-4533-a8d7-8787130e95de",
+    "name": "Psychotherapist at Tree of Life Play Therapy Singapore",
+    "category": "Psychotherapist"
+  },
+  {
+    "id": "4af8d2e6-7bd5-41d7-916a-ee69c4a60cd5",
+    "name": "Body Vocal Ballet Academy",
+    "category": "Dance"
+  },
+  {
+    "id": "3640ea52-843d-48c0-ba87-e60f92e077eb",
+    "name": "EMC Learning Centre",
+    "category": "Science"
+  },
+  {
+    "id": "ea0a7dcf-81ad-4bd6-a57c-756f91fdc979",
+    "name": "Education center at Arty Learning @ Hougang | Enrichment Classes for Kids",
+    "category": "Education center"
+  },
+  {
+    "id": "8ff37a91-967f-4382-aaf2-657d6f601c02",
+    "name": "Learning center at Ascend Learning Centre",
+    "category": "Learning center"
+  },
+  {
+    "id": "d2a10c04-9731-481f-ba4d-17cf8652f95a",
+    "name": "Catholic Kindergarten",
+    "category": "Religious Education"
+  },
+  {
+    "id": "2612a67d-4105-45d8-8a1a-b5833547aaa3",
+    "name": "Tuition at Ascend Learning Centre",
+    "category": "Tuition"
+  },
+  {
+    "id": "938ca62f-ac55-4c24-81b6-008257d23d75",
+    "name": "Education center at Aspire Hub @ Rochester Mall",
+    "category": "Education center"
+  },
+  {
+    "id": "7db5c050-ffa8-4d4e-b65a-3f25ed891dd7",
+    "name": "Education center at Aspire Hub @ PLQ Mall",
+    "category": "Education center"
+  },
+  {
+    "id": "902ca171-816e-4dd9-8631-7d4bc8391b20",
+    "name": "Education center at Aspire Hub @ Nex",
+    "category": "Education center"
+  },
+  {
+    "id": "3b4c5b68-34a2-4f00-bca7-7a27356a094f",
+    "name": "Education center at Aspire Hub @ Hillion Mall",
+    "category": "Education center"
+  },
+  {
+    "id": "ddd7f8eb-062b-47c5-b963-fe5c7594290a",
+    "name": "Tutoring service at Aspen Learning Centre (East Gate Branch)",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "275df0f2-cd5c-4b48-9247-0c71e5b426e3",
+    "name": "A2G Music — Instrumental Lessons",
+    "category": "Music"
+  },
+  {
+    "id": "28fdcd62-6ee1-468f-a3e2-359562bb40de",
+    "name": "Coronation Music School",
+    "category": "Music"
+  },
+  {
+    "id": "9b09bd20-0db1-4bd9-8566-375c8a48c825",
+    "name": "Gosh! Kids | Photography, Art & Overseas Programmes for Kids",
+    "category": "Art"
+  },
+  {
+    "id": "372aa182-1453-4b68-9be4-49b6310d13cf",
+    "name": "Preschool at Nurtured Nest",
+    "category": "Preschool"
+  },
+  {
+    "id": "d1803724-3a3a-4b22-a7c1-8d16570c59fa",
+    "name": "Education center at Aureus Academy at Great World",
+    "category": "Education center"
+  },
+  {
+    "id": "4d31158f-d0a9-43a4-93ef-2d5c5ff241ec",
+    "name": "Education center at Aureus Academy at Woodleigh",
+    "category": "Education center"
+  },
+  {
+    "id": "c63c2c31-77e0-44bd-9db8-75b311374aa1",
+    "name": "Training centre at Basic Military Training Centre",
+    "category": "Training centre"
+  },
+  {
+    "id": "4945d987-f750-4b9c-90c7-3ec2b9530b42",
+    "name": "Chantilly Culinary Studio",
+    "category": "Cooking"
+  },
+  {
+    "id": "2513f420-4509-4f00-a5d4-8f7c15889d9b",
+    "name": "Buddy Planet Education Centre",
+    "category": "Chinese"
+  },
+  {
+    "id": "bc6d0304-60c0-4646-9159-a492edc3854c",
+    "name": "Barça Academy Singapore",
+    "category": "Football"
+  },
+  {
+    "id": "c8491664-0bbd-4e8e-8d56-357bde7a529d",
+    "name": "Education center at A2G Music Centre (Gek Poh)",
+    "category": "Education center"
+  },
+  {
+    "id": "32021df3-bec0-46a0-9c73-d36f0963e1ca",
+    "name": "Education center at Bespoke Learning Centre (Yishun Khatib) - Student Care Tuition Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "33fa791f-2991-4454-b73f-2ee634556fc5",
+    "name": "Buddhist and Pali College of Singapore",
+    "category": "Religious Education"
+  },
+  {
+    "id": "58bfbc00-686c-4438-84cb-fe733fad9bb1",
+    "name": "Coaching center at Bike Control",
+    "category": "Coaching center"
+  },
+  {
+    "id": "c62347c0-2659-4081-ad59-eb7c0c012bf2",
+    "name": "Kumon Learning Centre - Toa Payoh Central (Maths, English and Chinese Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "0c0782aa-7800-4a80-921d-5f228bc6a7ae",
+    "name": "Tutoring service at CMA Mental Arithmetic Centre (Yishun) Pte Ltd",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "873d512f-b3c4-42f1-8385-9e2f24469894",
+    "name": "Happy Cycle Singapore | Cycling Lessons | Learn To Cycle for Children and Adults| Learn to Cycle |",
+    "category": "Sports"
+  },
+  {
+    "id": "52399387-bcea-4eb2-86c9-9bdfc6ed0957",
+    "name": "Archery range at Salt & Light Archery @ West Coast",
+    "category": "Archery range"
+  },
+  {
+    "id": "71bda80c-0bd9-42d9-8871-f6e6ce9ec38f",
+    "name": "Education center at Brave Feats Student Care (Bedok)",
+    "category": "Education center"
+  },
+  {
+    "id": "d0ea830c-e5c1-43e5-98d4-b82550b16b9f",
+    "name": "The Collaboration Corner",
+    "category": "Enrichment"
+  },
+  {
+    "id": "12235276-d273-4b52-9a08-29eb4507771f",
+    "name": "Tak Takut Kids Club",
+    "category": "Enrichment"
+  },
+  {
+    "id": "dee52490-06a6-479e-84e1-c26c7538a8f4",
+    "name": "Learning center at Budding Acorns Education Centre",
+    "category": "Learning center"
+  },
+  {
+    "id": "d129c52f-7bb4-4fff-945f-e60779b225fc",
+    "name": "Tutoring service at Brilliant Minds Learning Centre",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "190b5128-2820-4966-9b07-9f4d11477cdf",
+    "name": "Brain Training at Brilliant Minds Learning Centre",
+    "category": "Brain Training"
+  },
+  {
+    "id": "a55ae4c7-2920-4a08-983f-d62d0db8a6cb",
+    "name": "Tuition at Cordova Education Centre",
+    "category": "Tuition"
+  },
+  {
+    "id": "53394354-a277-48fc-844f-65dc2c2a437a",
+    "name": "Tutoring service at Candela Learners Cove (formerly Eton Tuition Centre)",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "ae19d486-fb58-48b5-be4e-18d57bab0309",
+    "name": "Aries Mixed Martial Arts, MMA School Singapore",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "12b5e6b1-f53f-41cd-be64-9b71366ba5f7",
+    "name": "Education center at Chess at Three Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "d272b760-57a3-4fef-9d04-886d7f302fcd",
+    "name": "Education center at Children’s Worklab",
+    "category": "Education center"
+  },
+  {
+    "id": "aa2c50e1-874a-454f-8540-aee2c672cbf0",
+    "name": "Marine Parade Maha Bodhi Student Care Centre",
+    "category": "Religious Education"
+  },
+  {
+    "id": "4956e3c3-ceac-4dc2-8f9c-8e2a7d035b5f",
+    "name": "Education center at Character",
+    "category": "Education center"
+  },
+  {
+    "id": "a6888601-d418-4a69-bfca-44277d58307e",
+    "name": "SkateDragons @ Xtreme Skate Park (ECP)",
+    "category": "Sports"
+  },
+  {
+    "id": "b4a2a80e-80cf-4c3d-966d-6657eb7e99cb",
+    "name": "Education center at Chinese Is Easy Pte Ltd (Novena)",
+    "category": "Education center"
+  },
+  {
+    "id": "13593279-1b3c-4e27-bb81-e6791c602373",
+    "name": "Animation studio at VisualMediaWorks",
+    "category": "Animation studio"
+  },
+  {
+    "id": "c4bab859-af1c-49ec-9f4c-42c21109cba7",
+    "name": "Tutoring service at CMA Mental Arithmetic (Bedok) Centre",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "a7f59f77-fd8d-403e-a84e-b9bdddd927fd",
+    "name": "Education center at 3House Learning Centre (Tampines Central CC)",
+    "category": "Education center"
+  },
+  {
+    "id": "8edbfb3a-09f4-4206-aa54-37a04dda7616",
+    "name": "Tutoring service at CMA Mental Arithmetic (Kovan) Centre",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "e9fe268f-9e17-483f-a094-6bf980801203",
+    "name": "Education center at CMA Mental Arithmetic Centre (West Coast) Pte Ltd",
+    "category": "Education center"
+  },
+  {
+    "id": "ace89064-bea8-478a-aa17-e06752c7c199",
+    "name": "Tutoring service at CMA Mental Arithmetic Centre (Head Office) Pte Ltd",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "bd835d3b-2231-44f6-9aec-c4e2a790c1f4",
+    "name": "Singapore School of Cycling",
+    "category": "Sports"
+  },
+  {
+    "id": "fe40aa8d-2859-4566-ae65-4b72d7f35791",
+    "name": "Preschool at Abata Treehouse",
+    "category": "Preschool"
+  },
+  {
+    "id": "749f2a5e-0e24-4bac-8f03-a28de34c1f0d",
+    "name": "Bibinogs Kids Academy",
+    "category": "Chinese"
+  },
+  {
+    "id": "d04e6dee-6a3b-4b15-bbd1-5942409d4349",
+    "name": "Preschool at Creative Parenting",
+    "category": "Preschool"
+  },
+  {
+    "id": "bf6c7721-fe88-4cf0-9e1a-2bb4038fe2f1",
+    "name": "Learning center at Creative Kindlerium Education",
+    "category": "Learning center"
+  },
+  {
+    "id": "639eb767-9ca4-4c74-b1e5-a785092ce877",
+    "name": "Learning center at Crestar Learning Centre @ Jurong East",
+    "category": "Learning center"
+  },
+  {
+    "id": "ff27d800-0ec9-4671-9b0a-f91f1154eb67",
+    "name": "Learning center at Crestar Learning Centre @ Marine Parade",
+    "category": "Learning center"
+  },
+  {
+    "id": "fc534d7d-c5e7-4349-959b-4552cea656b6",
+    "name": "Education center at Curious Thoughts Academy",
+    "category": "Education center"
+  },
+  {
+    "id": "5fdf4160-d5d7-4a6b-82dd-817bb27c7e7d",
+    "name": "Prelude Music Studio",
+    "category": "Music"
+  },
+  {
+    "id": "c57021a3-5d8d-408e-8825-9984ff346ee6",
+    "name": "Education center at Distinction Tutors",
+    "category": "Education center"
+  },
+  {
+    "id": "cd6af2ea-264c-4860-be75-e50e9544bd5d",
+    "name": "Cakap Malayu Learning Centre",
+    "category": "Languages"
+  },
+  {
+    "id": "a33f6055-8a58-4973-ad39-c9f154b1e191",
+    "name": "Canossian School",
+    "category": "Religious Education"
+  },
+  {
+    "id": "cdc04a34-a52e-4aec-89b1-03c43da96542",
+    "name": "Calligraphy and Ink",
+    "category": "Art"
+  },
+  {
+    "id": "6cb75f8d-8b06-447a-9c5c-11c2ccf5756d",
+    "name": "Education center at De Kinder Club",
+    "category": "Education center"
+  },
+  {
+    "id": "9799dd74-246f-4104-9a7e-7cd160e1341c",
+    "name": "Magic Fiddler Pte Ltd",
+    "category": "Music"
+  },
+  {
+    "id": "b2dd412e-5533-4dfc-aa8e-c6cb3279fd24",
+    "name": "Training provider at DC Academy",
+    "category": "Training provider"
+  },
+  {
+    "id": "7c470849-bb3d-4d07-a88e-a9e46c83d4de",
+    "name": "Education center at 3House Learning Centre (Tampines East)",
+    "category": "Education center"
+  },
+  {
+    "id": "5b80d91e-84d6-4712-afb6-46e10d6b3e15",
+    "name": "Pacific Swim Team Punggol Swimming Complex",
+    "category": "Swimming"
+  },
+  {
+    "id": "7132e175-5ea9-472d-b099-3bd0d6733937",
+    "name": "Life Skills at Eager Kids Montessori",
+    "category": "Life Skills"
+  },
+  {
+    "id": "d7d791d0-c6c9-493c-a566-d3d480ee6f9e",
+    "name": "Brain Training at EDOOVO - Online Learning",
+    "category": "Brain Training"
+  },
+  {
+    "id": "dc6bd925-d1c0-42d1-b728-f3e120277853",
+    "name": "Education center at Edufront Learning Centre - Choa Chu Kang",
+    "category": "Education center"
+  },
+  {
+    "id": "eb7a1bc1-f89c-4327-b261-78aa5c8b5a09",
+    "name": "Education center at EE Music School Pte Ltd Tampines Branch",
+    "category": "Education center"
+  },
+  {
+    "id": "b5779bef-f2fb-4b0f-af46-ff502d1c2fd5",
+    "name": "Education center at Edufront Learning Centre - Pasir Ris",
+    "category": "Education center"
+  },
+  {
+    "id": "b30f8449-d5ea-4264-93f4-47b54fa13700",
+    "name": "Learning center at WRITERS AT WORK Enrichment - Clementi",
+    "category": "Learning center"
+  },
+  {
+    "id": "eede6ac4-b3af-4c89-985a-c7fc98f3fdcb",
+    "name": "Wellness program at Xiu Nature Connections 休 | Forest Therapy and Rest by Youmin | Singapore & AsiaPacific-wide",
+    "category": "Wellness program"
+  },
+  {
+    "id": "4e194998-a382-4002-92d8-884c604fce2a",
+    "name": "Education center at AGrader Learning Centre (Sengkang CC) - English, Math, Science, Creative Writing, Chinese Tuition Centre Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "6fb3b2c4-a0d5-4565-b98a-2bd926a15766",
+    "name": "Education center at Empire Code",
+    "category": "Education center"
+  },
+  {
+    "id": "9c77cf82-3ea3-4754-b2c7-a61c1acf054e",
+    "name": "Education center at EliteKid Chinese",
+    "category": "Education center"
+  },
+  {
+    "id": "f4a6f0b9-0b7f-4385-b62c-9db09f8c0bc4",
+    "name": "Tuition at Eton Tuition Centre",
+    "category": "Tuition"
+  },
+  {
+    "id": "51bba912-6ca7-43d0-9693-db9aa69c738f",
+    "name": "Ground-Up Initiative",
+    "category": "Enrichment"
+  },
+  {
+    "id": "78e76027-4e50-4411-9f21-1afdd68a6287",
+    "name": "Education center at English Creative Writing Academy",
+    "category": "Education center"
+  },
+  {
+    "id": "6666dd13-ae65-4654-b30e-8511b3c42a98",
+    "name": "Education center at Engineers' Angle Learning Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "c001adc8-2c3f-4751-8e94-ae5f4d9fbb10",
+    "name": "Training centre at Eversafe Academy",
+    "category": "Training centre"
+  },
+  {
+    "id": "efabd96b-c116-49b1-a73d-290a1b5519e4",
+    "name": "Education center at Eye Level @ Bukit Batok East",
+    "category": "Education center"
+  },
+  {
+    "id": "f9234f46-dee7-44d3-b3de-d94c9c74e1f1",
+    "name": "Education center at Eye Level @ Choa Chu Kang",
+    "category": "Education center"
+  },
+  {
+    "id": "af6e6d8c-125f-4493-9fb9-986d08b848fa",
+    "name": "Learning center at Eye Level @ Bukit Batok",
+    "category": "Learning center"
+  },
+  {
+    "id": "deadc3f6-e1d2-48b8-a759-858d5a549f37",
+    "name": "SgHindi",
+    "category": "Languages"
+  },
+  {
+    "id": "1704bf12-9091-4b32-be83-10a83af82bde",
+    "name": "Education center at Eye Level @ Serangoon Gardens",
+    "category": "Education center"
+  },
+  {
+    "id": "dfbbd28f-47bf-41ff-be5f-cfb354414d03",
+    "name": "Tutoring service at Fei Yue Early Intervention Centre For Children",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "44cc9fd2-51c5-4973-9711-c1af5e9fc013",
+    "name": "Education center at Eye Level Learning Centre @ Ang Mo Kio Central",
+    "category": "Education center"
+  },
+  {
+    "id": "e7bef21c-d994-4d5d-b03f-5e3b4953fbc0",
+    "name": "Education center at Eyelevel @ Pasir Ris",
+    "category": "Education center"
+  },
+  {
+    "id": "6125ce26-4a5c-4ab0-9fd8-5c1273578214",
+    "name": "Training centre at First Aid Tuition",
+    "category": "Training centre"
+  },
+  {
+    "id": "d380b5e6-29e3-41dd-8965-81cae75678d1",
+    "name": "Preschool at Adventure Tree Preschool - Bukit Timah",
+    "category": "Preschool"
+  },
+  {
+    "id": "a6281945-0e41-4667-8e31-0d6a34ff4b34",
+    "name": "Training provider at Financial Mall - Value Investing Courses, Coaches and Events",
+    "category": "Training provider"
+  },
+  {
+    "id": "505461dd-0920-47a4-a96f-f6eb4e9d9af2",
+    "name": "Education center at Formuless Maths Learning Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "d73e291d-bc0e-422a-ab0d-59da024d58f4",
+    "name": "Education center at AGrader Learning Centre (Boon Lay- Jurong Point) - English, Math, Creative Writing, Chinese, Science Tuition Centre Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "6ab9145e-f5ed-4fd8-8db3-62cb6a7c3cc1",
+    "name": "Education center at AGrader Learning Centre (Pasir Ris) - English, Math, Creative Writing, Science Tuition Centre Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "37397233-5181-453e-9309-8eeea43ffe4a",
+    "name": "Tuition at Formuless Maths Learning Centre",
+    "category": "Tuition"
+  },
+  {
+    "id": "1ac4716c-55f7-466a-88a6-dbc0ca52f07f",
+    "name": "Wellness program at The Plant Story",
+    "category": "Wellness program"
+  },
+  {
+    "id": "2d9cf456-5086-40f7-b5b3-cb9491ce10c2",
+    "name": "Tutoring service at Frankel Tutors (Online)",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "88ef4844-9bd5-4621-b4a2-aa89dbb26070",
+    "name": "Education center at Focus Learning Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "f58f504b-16d5-457b-8b91-b0849294515a",
+    "name": "Research institute at Robotics Research Centre (RRC)",
+    "category": "Research institute"
+  },
+  {
+    "id": "30268bae-4dfe-4eca-a2e6-a1aa4351a6ed",
+    "name": "Nine Years Theatre 九年剧场",
+    "category": "Drama"
+  },
+  {
+    "id": "204462bd-0d4a-4e8d-a614-5d432fdc9f2e",
+    "name": "Tutoring service at CMA Mental Arithmetic (Tampines) Centre",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "7443a290-3916-461d-a776-a82759c688dc",
+    "name": "Longkang Adventures",
+    "category": "Play"
+  },
+  {
+    "id": "2b038f07-ac2c-4c65-a671-d80460f52bc0",
+    "name": "Education center at Genius Assembly",
+    "category": "Education center"
+  },
+  {
+    "id": "7497dd3a-7eef-4ed3-b133-9962418d183e",
+    "name": "Education center at AGrader Learning Centre (Kovan) - English, Math, Creative Writing, Chinese, Science Tuition Centre Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "f57a5d30-a5b7-4924-8565-370460514b13",
+    "name": "Life Skills at Empire Code",
+    "category": "Life Skills"
+  },
+  {
+    "id": "3fd88780-d83e-490f-ab8c-b02afbd402ee",
+    "name": "Training provider at Addestra Learning Centre Pte Ltd",
+    "category": "Training provider"
+  },
+  {
+    "id": "c6c7f9cd-0e8e-458d-981c-0474844e8266",
+    "name": "Education center at Genohouse Science Junior Education Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "b0cf9bde-dae1-4107-af11-56b9a5fb3e77",
+    "name": "Education center at AGrader Learning Centre (Choa Chu Kang) - English, Math, Creative Writing, Chinese, Science Tuition Centre Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "5febe007-39c1-418c-98ab-913ec8409fac",
+    "name": "Education center at AGrader Learning Centre (Fernvale) - English, Math, Creative Writing, Chinese, Science Tuition Centre Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "bc684a45-d5f3-48f0-be23-c0224af8a8ae",
+    "name": "Education center at Go Checkmate Pte Ltd",
+    "category": "Education center"
+  },
+  {
+    "id": "40ca2765-b2e4-4962-b4ae-89904391d7e1",
+    "name": "Tutoring service at Global Education Hub",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "c89c3e5b-25b6-410e-8e24-d1958407cc35",
+    "name": "Education center at AGrader Learning Centre (Sembawang) - English, Math, Creative Writing, Chinese, Science Tuition Centre Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "132222cf-1a89-4b4e-9e2f-cb390aa47b17",
+    "name": "Learning center at AGrader Learning Centre (Serangoon) - English, Math, Creative Writing, Chinese, Science Tuition Centre Singapore",
+    "category": "Learning center"
+  },
+  {
+    "id": "6d226ba5-5931-401b-ae46-3699eb52a49f",
+    "name": "Tutoring service at AGrader Learning Centre (Jurong West) - English, Math, Creative Writing, Chinese, Science Tuition Centre Singapore",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "c3f33ad8-57f7-41c8-a6a2-27e15fef138f",
+    "name": "JH Kim Taekwondo Institute Singapore",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "74ade0ba-6703-4e41-9593-dc0d7c3ffba2",
+    "name": "Education center at Meta Robotics by First Step Academy @ Katong",
+    "category": "Education center"
+  },
+  {
+    "id": "f23d2007-c680-4aea-8a8d-e3d462a0b08e",
+    "name": "Education center at AGrader Learning Centre (Admiralty) - English, Math, Creative Writing, Science Tuition Centre Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "e5381239-2f03-451a-8161-9b2cd8c8e47d",
+    "name": "Education center at Happy Train Pte Ltd (Bugis)",
+    "category": "Education center"
+  },
+  {
+    "id": "5ac7defb-1a18-4fcf-bf14-ad2d40def9fd",
+    "name": "Education center at HappyCare-Student Care",
+    "category": "Education center"
+  },
+  {
+    "id": "67374995-372d-42d3-84f3-a5702934a63d",
+    "name": "Education center at Apex Education Pte Ltd (Bedok)",
+    "category": "Education center"
+  },
+  {
+    "id": "5536f795-9c35-4cc2-8f7a-89dd19e19af3",
+    "name": "Brain Training at Happy train",
+    "category": "Brain Training"
+  },
+  {
+    "id": "495279d2-8552-4cd6-ae1e-5dff7e80f05e",
+    "name": "Achievers Journey Tuition Centre",
+    "category": "Science"
+  },
+  {
+    "id": "a38168dd-7751-4422-9f25-e1f46c065a6d",
+    "name": "Learning center at HighQ Learning Centre",
+    "category": "Learning center"
+  },
+  {
+    "id": "b09ae6a8-b4b7-468d-ad10-cb67eff42a8d",
+    "name": "Education center at Apex Education Pte Ltd (Tanah Merah)",
+    "category": "Education center"
+  },
+  {
+    "id": "d425e6d0-6ade-4cbc-88e5-5c40b3f01e2f",
+    "name": "Education center at Apex Education Pte Ltd (Jurong)",
+    "category": "Education center"
+  },
+  {
+    "id": "3bab6ecd-4c1a-4215-86b4-81dea6a8ba2a",
+    "name": "Berries World of Learning School(The Woodleigh Mall)",
+    "category": "Chinese"
+  },
+  {
+    "id": "92fb9d80-06b3-4027-b41f-b3616a3aeaba",
+    "name": "Education center at InnoSage Education",
+    "category": "Education center"
+  },
+  {
+    "id": "130dbbe9-1142-4c9a-a4e8-a0bd2f1d97d5",
+    "name": "Learning center at Inventive Kids Play-based STEM Learning Centre",
+    "category": "Learning center"
+  },
+  {
+    "id": "0ee1c1fb-eca3-413a-b74d-a4b59c49fa17",
+    "name": "Coaching center at Jai Learning Hub",
+    "category": "Coaching center"
+  },
+  {
+    "id": "f77170ee-0781-4f65-b196-d5d0fcab8bde",
+    "name": "Education center at Apex Education Pte Ltd (Bt Timah)",
+    "category": "Education center"
+  },
+  {
+    "id": "ceef729b-3e22-47df-964e-f675e5241bec",
+    "name": "Excella Learning Hub",
+    "category": "Science"
+  },
+  {
+    "id": "08076636-f73d-4e0a-8748-f73ce041ee67",
+    "name": "Martial Arts at JH KIM TAEKWONDO",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "132bcec0-7675-4cbd-be84-9d0a29022c46",
+    "name": "Learning center at Julia Gabriel Centre, The Woodleigh Mall",
+    "category": "Learning center"
+  },
+  {
+    "id": "7ad6b917-66fe-473b-a41a-4b1147849bcf",
+    "name": "Learning center at Julia Gabriel Centre, Tampines Mall",
+    "category": "Learning center"
+  },
+  {
+    "id": "54585506-55c2-4b37-810b-6258b8cfd52b",
+    "name": "Learning center at Julia Gabriel Centre, Forum",
+    "category": "Learning center"
+  },
+  {
+    "id": "2d4e9a64-5a48-4637-a267-64ac22c7f8c8",
+    "name": "Martial Arts at Kickmatics Taekwondo",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "66c5a5e5-3d9e-4bd5-b41b-be5780aa1297",
+    "name": "Education center at Keynote Learning",
+    "category": "Education center"
+  },
+  {
+    "id": "1a89684c-2fad-4fad-9014-9ae9654f7703",
+    "name": "Training provider at Ardent Training Academy",
+    "category": "Training provider"
+  },
+  {
+    "id": "ef2c96bb-df2c-4ae8-ad30-d1153da55d70",
+    "name": "Education center at Kent Ridge Education- Bukit Panjang",
+    "category": "Education center"
+  },
+  {
+    "id": "7169a44e-302d-4535-8469-999de12ce135",
+    "name": "Education center at Kenyang International Pte Ltd",
+    "category": "Education center"
+  },
+  {
+    "id": "60106e92-9994-446f-a29a-c7174d364691",
+    "name": "Tutoring service at Kent Ridge Tuition Centre",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "c7834d7f-0926-44bf-871d-5c2071b9a433",
+    "name": "Preschool at My Montessori Preschool @ Bullion",
+    "category": "Preschool"
+  },
+  {
+    "id": "f785aaa1-a3d6-4559-8cba-54b3509f988d",
+    "name": "Edumore Learning Centre",
+    "category": "Chinese"
+  },
+  {
+    "id": "8153adfa-1e74-432b-85ad-2a78636b956b",
+    "name": "Tutoring service at KRTC Kent Ridge Tutors",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "261af2e4-3329-4fd0-a501-03da141ddbc2",
+    "name": "Tutoring service at KRTC",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "a4053ad4-585c-4b01-86ed-50518eb82d28",
+    "name": "Tutoring service at KRTC Choa Chu Kang",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "ddd7bca7-7516-4e71-9a3d-a5bfd8ec02e6",
+    "name": "Education center at Learning Gems Tuition Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "1ac58e78-3185-4f51-b667-c5f9e15c4336",
+    "name": "Education center at Learning Journey Education Centre (Punggol)",
+    "category": "Education center"
+  },
+  {
+    "id": "d3d032a7-8a2d-4093-90da-871168838c3e",
+    "name": "Mini Soccer Field",
+    "category": "Football"
+  },
+  {
+    "id": "ba00f383-b8f3-473a-b3d0-a5a15060934e",
+    "name": "CLS International (1993) Pte Ltd (Berries World of Learning School HQ)",
+    "category": "Chinese"
+  },
+  {
+    "id": "578ec653-2515-4e0a-8adb-1aded9c13380",
+    "name": "Training centre at Life Saving Training Centre",
+    "category": "Training centre"
+  },
+  {
+    "id": "1552861a-b572-472e-a5d8-2e772d81dcab",
+    "name": "Education center at Little Earth Education",
+    "category": "Education center"
+  },
+  {
+    "id": "92e7573d-40cc-485c-aef7-b32c6d59e37d",
+    "name": "Preschool at Little Skool-House Orchid Country Club",
+    "category": "Preschool"
+  },
+  {
+    "id": "5ddb05c1-8401-4088-8203-9773888b8cd3",
+    "name": "Brain Training at LogicMills Learning Centre",
+    "category": "Brain Training"
+  },
+  {
+    "id": "acd3cac4-93dd-454c-a41f-6c347e9d5b52",
+    "name": "Preschool at Little Seeds Preschool (Calvary Baptist Church)",
+    "category": "Preschool"
+  },
+  {
+    "id": "31afd4a5-b09b-4bb6-97da-40bab4464e0e",
+    "name": "Learning center at The Write Studio",
+    "category": "Learning center"
+  },
+  {
+    "id": "e1cafc30-3dd2-4663-ba19-bb12e63a45a4",
+    "name": "Taiyo | Japanese Language School",
+    "category": "Languages"
+  },
+  {
+    "id": "480c0fbe-c402-4ff5-a681-fa3b2fc1ced3",
+    "name": "Island Taekwon-Do Centre",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "843f56d2-afec-4ec7-9af9-3437b13c7f3d",
+    "name": "Education center at Loshberry Code Studio",
+    "category": "Education center"
+  },
+  {
+    "id": "0df552b3-a232-4986-9f71-0cd845e8c8af",
+    "name": "Education center at Logiscool Hougang",
+    "category": "Education center"
+  },
+  {
+    "id": "580f474c-cd7f-4371-9452-08c0e9fc07ed",
+    "name": "Learning center at Nili Chinese Learning Nili老师华文乐园",
+    "category": "Learning center"
+  },
+  {
+    "id": "632ae622-3db2-49ec-964e-665d61be1661",
+    "name": "Education center at Aspire Hub",
+    "category": "Education center"
+  },
+  {
+    "id": "a68c0de2-ead3-4f14-bf9e-f4ac85e2ce0e",
+    "name": "Education center at Aspire Hub @ Alexandra Village",
+    "category": "Education center"
+  },
+  {
+    "id": "a5884080-edbb-432c-8b20-e64ce92783a4",
+    "name": "Education center at Malay Tuition - Pusat Bahasa NUSA (Jurong West)",
+    "category": "Education center"
+  },
+  {
+    "id": "d8fe99c7-8aae-4b49-b23f-df11ef89eb00",
+    "name": "Brain Training at Merritt Education Centre",
+    "category": "Brain Training"
+  },
+  {
+    "id": "b5dfd0a6-84c8-42ae-9ee0-f3198fe3e2dd",
+    "name": "Education center at MEGAPHONICS ENRICHMENT CENTRE",
+    "category": "Education center"
+  },
+  {
+    "id": "573d7bcf-8a8d-4079-870b-5c2ceb938ac1",
+    "name": "Education center at Meta Robotics by First Step Academy",
+    "category": "Education center"
+  },
+  {
+    "id": "72d970b3-49c2-4656-8da1-3eb3644bda31",
+    "name": "Education center at Mindful Space Pte Ltd",
+    "category": "Education center"
+  },
+  {
+    "id": "a5f4e971-97df-44d3-aca7-e3fa9cb84e44",
+    "name": "Preschool at MindChamps PreSchool @ Bedok",
+    "category": "Preschool"
+  },
+  {
+    "id": "eb23a846-cfd4-412d-be94-247d94c2cdaa",
+    "name": "Preschool at MindChamps PreSchool @ City Square Mall",
+    "category": "Preschool"
+  },
+  {
+    "id": "c9b04d1a-73a3-44d9-aeeb-b21e7f0c04c5",
+    "name": "Education center at MindChamps Reading @ Toa Payoh",
+    "category": "Education center"
+  },
+  {
+    "id": "aca1f83c-7b9c-44ac-a89e-22ffc352aff9",
+    "name": "Education center at My Little Big Boss | Young Entrepreneurs | Entrepreneurship Education | Online Enrichment Classes | E-Learning Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "beb48307-ee15-4f0a-8609-05aaab766874",
+    "name": "Coaching center at Nice Try Skateboarding - Singapore",
+    "category": "Coaching center"
+  },
+  {
+    "id": "365b21a7-089f-4d84-b1b7-b3713af3147c",
+    "name": "Kumon Learning Centre - Ubi Ave 1 (Maths and English Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "f3257532-ec31-4291-ba52-cec699d336d9",
+    "name": "Education center at Aspire Hub @ Thomson",
+    "category": "Education center"
+  },
+  {
+    "id": "916e8e6a-3a0d-4c83-b95d-17845a4e4a01",
+    "name": "Learning center at Assumption Learning",
+    "category": "Learning center"
+  },
+  {
+    "id": "72f6ee97-ee3b-4034-b0d9-b9571d9c437d",
+    "name": "Preschool at NTUC First Campus",
+    "category": "Preschool"
+  },
+  {
+    "id": "91bf9262-02ef-44e1-8430-39567ab6fa05",
+    "name": "Non-profit organization at Sing Lit Station",
+    "category": "Non-profit organization"
+  },
+  {
+    "id": "7947a014-3304-4203-b63f-2083115d9966",
+    "name": "Education center at Gemhearts Educare Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "ce00ded3-1c92-47cb-97c9-d9c724541296",
+    "name": "Tutoring service at Aspen Learning Centre (Sunshine Branch)",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "2a7ddff2-879d-4106-956e-d7e8386b39b7",
+    "name": "Education center at Aspire Hub @ Bukit Timah (Beauty World Centre)",
+    "category": "Education center"
+  },
+  {
+    "id": "dddb06d7-6187-4748-8c64-9e6e85253dab",
+    "name": "Learning center at AGrader Learning Centre (Tampines) - English, Math, Creative Writing, Science Tuition Centre Singapore",
+    "category": "Learning center"
+  },
+  {
+    "id": "28a46da1-fe89-4b65-8692-06d11a34811d",
+    "name": "Education center at Our Learning Lodge",
+    "category": "Education center"
+  },
+  {
+    "id": "9203a30b-18d1-42f2-8aac-c9f897fc31ab",
+    "name": "Education center at Nullspace Robotics (Kallang Wave Mall)",
+    "category": "Education center"
+  },
+  {
+    "id": "c90ed2ae-605e-4232-b34d-0cdc97447177",
+    "name": "Forms Ballet & Dance",
+    "category": "Dance"
+  },
+  {
+    "id": "0becec0f-dc2b-4a1b-a657-df39e7733cc3",
+    "name": "Brain Training at Presto Studios",
+    "category": "Brain Training"
+  },
+  {
+    "id": "4be922bf-afd4-43d7-8940-bd9ad565a43d",
+    "name": "Life Skills at Presto Studios",
+    "category": "Life Skills"
+  },
+  {
+    "id": "5e225e28-7778-4a41-9fb8-8370316fe0d0",
+    "name": "Knotty Shop",
+    "category": "Art"
+  },
+  {
+    "id": "5063c1b3-262a-407d-a9ba-e2efa0aff718",
+    "name": "Education center at Roboto Coding Academy @ Novena",
+    "category": "Education center"
+  },
+  {
+    "id": "b0597bf3-80b3-4780-be61-10deba43d58c",
+    "name": "Education center at Robodojo - STEM Portfolio Builder",
+    "category": "Education center"
+  },
+  {
+    "id": "153d676e-b114-472d-8766-a444442241bd",
+    "name": "Primary school at Rosyth School",
+    "category": "Primary school"
+  },
+  {
+    "id": "08e57d71-f411-4c4a-9f4f-070746019630",
+    "name": "Thinking Tap Robotics East",
+    "category": "Enrichment"
+  },
+  {
+    "id": "a4977823-bdf6-4bf6-bb93-82a2704653bc",
+    "name": "Jae Hun Kim Taekwondo",
+    "category": "Sports"
+  },
+  {
+    "id": "982a6a01-017e-4de2-95d4-ecd8f03bf46c",
+    "name": "Education center at Saturday Kids",
+    "category": "Education center"
+  },
+  {
+    "id": "757cdd5c-8c99-4e0b-8a30-0d78f9833288",
+    "name": "Archery store at Salt & Light Archery @ Chai Chee",
+    "category": "Archery store"
+  },
+  {
+    "id": "c5a1fc21-dda9-4945-9b10-440a465081c6",
+    "name": "Animation studio at SANDadu",
+    "category": "Animation studio"
+  },
+  {
+    "id": "91010a8f-e826-4933-b930-76fb3b1e78fd",
+    "name": "Meditation center at Sahaja Yoga Meditation",
+    "category": "Meditation center"
+  },
+  {
+    "id": "55398f98-b4e3-44c9-9990-c476e5a37d2b",
+    "name": "Animation studio at Sage Animation",
+    "category": "Animation studio"
+  },
+  {
+    "id": "1fb8c595-9f87-4f48-a950-f8bfdd7e4a3f",
+    "name": "Training centre at School Of Confidence | Public Speaking Course Singapore",
+    "category": "Training centre"
+  },
+  {
+    "id": "12769398-f575-4c48-b520-e86c3bb6c2df",
+    "name": "Education center at School Of Robotics (SOR)",
+    "category": "Education center"
+  },
+  {
+    "id": "9ab96752-33df-4f3a-ba1e-ba364e84a66b",
+    "name": "Religious institution at SimplyIslam.sg",
+    "category": "Religious institution"
+  },
+  {
+    "id": "59687a18-a5fb-4691-b9ca-72e912713800",
+    "name": "Religious organization at Singapore Buddhist Federation (SBF)",
+    "category": "Religious organization"
+  },
+  {
+    "id": "bd58be9b-4a61-4095-9aa1-97f180b20747",
+    "name": "Corporate office at Singapore Buddhist Welfare Service",
+    "category": "Corporate office"
+  },
+  {
+    "id": "1a87f33c-419b-4b17-9c05-54404784d2f7",
+    "name": "Tutoring service at CMA Mental Arithmetic (Bukit Panjang) Centre",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "ae0be3ae-9ca5-4b3f-8f5b-cff085c2636d",
+    "name": "Thinking Tap Robotics @ Serangoon",
+    "category": "Enrichment"
+  },
+  {
+    "id": "bbb43070-ea9d-46fc-865e-dd6e00ba4714",
+    "name": "Physical fitness program at Singapore Laughter Yoga",
+    "category": "Physical fitness program"
+  },
+  {
+    "id": "a866176c-5fc4-450f-96b7-2163f0a9fc39",
+    "name": "School at Singapore Centre for Chinese Language",
+    "category": "School"
+  },
+  {
+    "id": "d3b292d6-b7ab-42b8-9dc0-dc0b79ace696",
+    "name": "Bicycle club at Singapore Cycling Federation",
+    "category": "Bicycle club"
+  },
+  {
+    "id": "d9543582-7732-491d-92ae-e9eaf62c82bc",
+    "name": "Event management company at Singapore Chess Festival",
+    "category": "Event management company"
+  },
+  {
+    "id": "bb78dc24-786f-4170-a4f9-5b98227813cd",
+    "name": "Training centre at Public Speaking Academy HQ",
+    "category": "Training centre"
+  },
+  {
+    "id": "a97a2bf8-b25d-42f2-8132-aef544950ce3",
+    "name": "Education center at Quintessential Education - Leading IB & IGCSE Tuition Specialist in SG",
+    "category": "Education center"
+  },
+  {
+    "id": "0212579e-96fe-4bf6-8136-87703cd16cb6",
+    "name": "Training provider at Singapore Rescue Training Centre Pte Ltd",
+    "category": "Training provider"
+  },
+  {
+    "id": "a0346e47-4e7f-42a9-95cd-74be794b6df8",
+    "name": "Photographer at Singapore-Photographer",
+    "category": "Photographer"
+  },
+  {
+    "id": "b50ec237-9e0f-4fd6-bda9-fec3263afe1e",
+    "name": "Non-profit organization at Singapore Weiqi Association / 新加坡围棋协会",
+    "category": "Non-profit organization"
+  },
+  {
+    "id": "e81a34f2-85a4-4168-80ea-5e83a32f969c",
+    "name": "Skateboard shop at Skatebruh Skate Shop @ Kallang Wave Mall",
+    "category": "Skateboard shop"
+  },
+  {
+    "id": "5e72a240-119b-4d41-8843-630eed4b1149",
+    "name": "Tourist attraction at Sisters’ Islands Marine Park",
+    "category": "Tourist attraction"
+  },
+  {
+    "id": "2ef388d0-808d-4f4e-9fbd-054c819139e8",
+    "name": "Kumon Learning Centre - Siglap (Maths, English and Chinese Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "64f1d31e-da47-440b-a6cd-13e10d024e75",
+    "name": "Performing arts group at Sri Warisan Performing Arts Ltd",
+    "category": "Performing arts group"
+  },
+  {
+    "id": "eedf7e93-1add-4329-bef3-2fc36423a1fc",
+    "name": "Life Skills at Soul Kids",
+    "category": "Life Skills"
+  },
+  {
+    "id": "382b8384-b70a-4ff7-a559-2079294c769c",
+    "name": "Softball club at Sports By EM3 (Softball & Tennis Coaching Singapore)",
+    "category": "Softball club"
+  },
+  {
+    "id": "502e3903-e4da-49aa-97d3-19ada73b2c43",
+    "name": "Education center at Sparkanauts",
+    "category": "Education center"
+  },
+  {
+    "id": "4cc221ed-892a-455c-b0a6-eccedf40d351",
+    "name": "Photography studio at StudioPlay",
+    "category": "Photography studio"
+  },
+  {
+    "id": "5259fbe0-b933-4ef2-810c-a22362b5fa28",
+    "name": "Anglican church at St. Hilda's Church",
+    "category": "Anglican church"
+  },
+  {
+    "id": "d3d42d63-4f98-4216-af97-86e9ec166ecb",
+    "name": "Training provider at Sterling Campus",
+    "category": "Training provider"
+  },
+  {
+    "id": "cb4bc799-d22d-4af6-8831-ee839c9790d6",
+    "name": "Education center at Stories By Children",
+    "category": "Education center"
+  },
+  {
+    "id": "6be1d7a2-869f-4bec-afdd-3e827328767f",
+    "name": "Abrakadoodle — Doodlers",
+    "category": "Art"
+  },
+  {
+    "id": "cf38698f-2a8e-4c36-967f-1129ad4955dc",
+    "name": "School at SUTD Entrepreneurship Centre",
+    "category": "School"
+  },
+  {
+    "id": "9be3cf2e-b351-4910-86d0-5cb13d11a286",
+    "name": "Christian church at Tai Seng Christian Church",
+    "category": "Christian church"
+  },
+  {
+    "id": "ce7fdab1-d081-4942-8bc7-a6efc14ac438",
+    "name": "Water park at SWP (Singapore Wake Park)",
+    "category": "Water park"
+  },
+  {
+    "id": "d4241283-8030-4767-8b0f-a92b75bb5bd9",
+    "name": "Library at The Buddhist Library",
+    "category": "Library"
+  },
+  {
+    "id": "8cf4080d-7c27-4f39-8299-b909e6370376",
+    "name": "Financial Literacy at That Econs Tutor (TET) Education",
+    "category": "Financial Literacy"
+  },
+  {
+    "id": "bc26db6b-d46c-4558-9469-e24eb13a37ab",
+    "name": "Archery store at The Archery Academy",
+    "category": "Archery store"
+  },
+  {
+    "id": "e646856e-1f9c-4cef-95b6-8bf51b216ee5",
+    "name": "Primary school at Teck Whye Primary School",
+    "category": "Primary school"
+  },
+  {
+    "id": "3d6d0bed-4984-4282-87af-fae148df42e5",
+    "name": "Education center at The Brainery Code @ Jurong",
+    "category": "Education center"
+  },
+  {
+    "id": "d9992a9d-6c42-47c1-9f3e-74431aaf6f3f",
+    "name": "Preschool at The Enrichment Classroom - Gombak",
+    "category": "Preschool"
+  },
+  {
+    "id": "afafad11-32bf-4ee3-a8b2-d9d551295d53",
+    "name": "Education center at The Imaginarium",
+    "category": "Education center"
+  },
+  {
+    "id": "1caca9c7-697f-4714-bade-e2adcbf6d7bd",
+    "name": "Education center at The Hyve Learning Space",
+    "category": "Education center"
+  },
+  {
+    "id": "381a5627-1362-47d2-ad37-8da82a4f84fd",
+    "name": "Training centre at Coding 4 Kids",
+    "category": "Training centre"
+  },
+  {
+    "id": "a037f12b-2c21-4bc8-8fce-b262e9f1ce4f",
+    "name": "School at The Longboard Academy - Singapore's Top & First Longboard School",
+    "category": "School"
+  },
+  {
+    "id": "f2db77a7-d626-4a73-876e-500ce7f26e62",
+    "name": "Children's camp at The Resilience Camp",
+    "category": "Children's camp"
+  },
+  {
+    "id": "c9f305ca-0df8-4389-8ab1-22b08395a390",
+    "name": "Video production service at The Story Behind Pte. Ltd.",
+    "category": "Video production service"
+  },
+  {
+    "id": "f0b26544-22bf-40ab-9951-76cef7c73f62",
+    "name": "Buddhist temple at The Singapore Buddhist Lodge",
+    "category": "Buddhist temple"
+  },
+  {
+    "id": "4685f7e0-86fb-4052-9797-ebd1913e9e7f",
+    "name": "Education center at The Logic Coders",
+    "category": "Education center"
+  },
+  {
+    "id": "4eefd5b0-0c14-4a25-9467-361b2e465e3e",
+    "name": "Religious organization at The Mahaprajna Buddhist Society",
+    "category": "Religious organization"
+  },
+  {
+    "id": "2b5bf72d-4af6-406b-88cb-b62bce4c6db1",
+    "name": "Child psychologist at Think Kids",
+    "category": "Child psychologist"
+  },
+  {
+    "id": "7820e4d5-5d36-4a29-8450-3b40fa03c3b4",
+    "name": "Photographer at Theme Visuals",
+    "category": "Photographer"
+  },
+  {
+    "id": "1ca4497b-af94-48a4-8398-bf05905bae62",
+    "name": "Distance learning center at The Write Connection - TWC@Home",
+    "category": "Distance learning center"
+  },
+  {
+    "id": "aba7768e-082d-4538-a1ce-69eb7539bb9a",
+    "name": "Computer training school at The Young Maker (Lowland Road)",
+    "category": "Computer training school"
+  },
+  {
+    "id": "646a6936-1cc6-417b-abc3-3fdd3078f21b",
+    "name": "Occupational therapist at Therapy Alliance Singapore",
+    "category": "Occupational therapist"
+  },
+  {
+    "id": "0b4c3b14-9cb5-4054-bd79-f6f6a2252f62",
+    "name": "Children's amusement center at Thinking Tap Robotics West",
+    "category": "Children's amusement center"
+  },
+  {
+    "id": "4ab21e71-088d-4441-a252-7eac0ac2f26b",
+    "name": "Computer training school at The Young Maker (Stars of Kovan)",
+    "category": "Computer training school"
+  },
+  {
+    "id": "3078f85e-bf0d-4387-a497-d8f1659942f6",
+    "name": "Portrait studio at Tomato Photo Studio SG",
+    "category": "Portrait studio"
+  },
+  {
+    "id": "aed178c9-1c7f-41e3-9d3d-879acfa694f5",
+    "name": "School at Train Kids Early Intervention and Educare Centre LLP (Tampines Centre)",
+    "category": "School"
+  },
+  {
+    "id": "93dc169b-cf8c-46c6-8aef-94c97703b499",
+    "name": "Non-profit organization at Toastmasters Club of Singapore (TMCS)",
+    "category": "Non-profit organization"
+  },
+  {
+    "id": "aacd442c-73b9-45dd-96bb-3bd41bcc0eee",
+    "name": "Occupational therapist at THK Children's Therapy Space @ MacPherson",
+    "category": "Occupational therapist"
+  },
+  {
+    "id": "a8d9c838-4b75-42a5-9286-373fb148a00e",
+    "name": "Pet boarding service at Urban Paws Jurong East (West)",
+    "category": "Pet boarding service"
+  },
+  {
+    "id": "09268e3f-0570-4637-b4cd-291ebb1ff6b4",
+    "name": "Photography class at School of Photography Singapore",
+    "category": "Photography class"
+  },
+  {
+    "id": "5bb5d45e-8adb-4122-9317-6a1cc8c66d84",
+    "name": "Farm at Urban Farm",
+    "category": "Farm"
+  },
+  {
+    "id": "029fb440-5179-4201-8612-95087ef2350b",
+    "name": "Farm at V-Plus Agritech",
+    "category": "Farm"
+  },
+  {
+    "id": "95e8b494-ecf1-4cf1-8c9b-46616f68e20f",
+    "name": "Photographer at TVC Studio - Video Filming & Photography Set Studio",
+    "category": "Photographer"
+  },
+  {
+    "id": "fb4f713f-1b1e-4c60-9d0b-2d68ed24869c",
+    "name": "Water skiing service at Wake Time Wakeboarding",
+    "category": "Water skiing service"
+  },
+  {
+    "id": "b2f265cf-378b-4e93-b6b7-dcc47043c286",
+    "name": "Youth club at VIVITA Singapore",
+    "category": "Youth club"
+  },
+  {
+    "id": "a24edf15-3fa3-4e9b-aa76-10b8eac68426",
+    "name": "Animal hospital at Westside Vet Emergency & Referral Hospital",
+    "category": "Animal hospital"
+  },
+  {
+    "id": "faf904a0-ea1c-4d7e-a78c-0fe74b3d9846",
+    "name": "Primary school at Westwood Primary School",
+    "category": "Primary school"
+  },
+  {
+    "id": "1fe0c903-7bab-4cef-bbd7-636dca02c219",
+    "name": "School at Writing Sprouts Language Arts School (Katong)",
+    "category": "School"
+  },
+  {
+    "id": "ecfd393b-f8b8-4f81-b9b7-12875d848fc5",
+    "name": "Nature preserve at Windsor Nature Park",
+    "category": "Nature preserve"
+  },
+  {
+    "id": "acc99430-6b43-41c0-a632-cafc1d2352b5",
+    "name": "Learning center at WRITERS AT WORK Enrichment - King's Arcade (Bukit Timah)",
+    "category": "Learning center"
+  },
+  {
+    "id": "0226c796-8560-4a2c-b257-5766a8af2c9f",
+    "name": "Education center at Write Edge @ 338 Anchorvale Crescent",
+    "category": "Education center"
+  },
+  {
+    "id": "8aae45b4-19a7-4b94-8e47-45b5cc431996",
+    "name": "Learning center at XiangQi Mind Train Academy",
+    "category": "Learning center"
+  },
+  {
+    "id": "1fb7c8e4-476b-42cc-8b11-bbd8d73e2b67",
+    "name": "Escape room center at X聚 · Criminal X剧本杀桌游店（X社）",
+    "category": "Escape room center"
+  },
+  {
+    "id": "65ade438-e926-4fdd-bfed-e687a6864409",
+    "name": "Educational institution at Yishun Innova Junior College",
+    "category": "Educational institution"
+  },
+  {
+    "id": "81e7453b-7a96-4644-94a3-bd62bdaf7faa",
+    "name": "Swimming pool at Yishun ActiveSG Swimming Complex",
+    "category": "Swimming pool"
+  },
+  {
+    "id": "ddc195f1-039a-4d9b-b172-7579732d6e89",
+    "name": "Education center at Tuhfah Learning Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "fd5ff73e-3b8f-4d10-a224-68c2e44f153a",
+    "name": "Elite Creations Education Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "50f94af7-dae3-4468-9973-6707cfc41c6e",
+    "name": "Meditation center at 法鼓山新加坡护法会 Dharma Drum Singapore",
+    "category": "Meditation center"
+  },
+  {
+    "id": "8c247c06-27bd-4d48-8b3c-71ad74427e5a",
+    "name": "Association / Organization at சிங்கப்பூர் தமிழர் சங்கம்",
+    "category": "Association / Organization"
+  },
+  {
+    "id": "dec7a7c8-0275-4319-b9a4-13ef7d385114",
+    "name": "Educational institution at Zoom! Academy",
+    "category": "Educational institution"
+  },
+  {
+    "id": "191b2a4c-888d-42d7-8912-3529cb9e74c8",
+    "name": "Casco Enrichment Centre",
+    "category": "English"
+  },
+  {
+    "id": "10645baa-2699-43d6-8a34-fd2f681ae186",
+    "name": "Education center at Roboto Coding Academy @ Tampines",
+    "category": "Education center"
+  },
+  {
+    "id": "1cf94df4-a9a0-4385-b52a-fa7e8b95602d",
+    "name": "Education center at I Love Learning Achievement Center",
+    "category": "Education center"
+  },
+  {
+    "id": "f62f639a-4991-40b3-969f-57ded8baeef4",
+    "name": "Agape Music School — Lessons",
+    "category": "Music"
+  },
+  {
+    "id": "10082f7d-3d67-4927-bd8f-82b09271852c",
+    "name": "Life Skills at Eason Music School",
+    "category": "Life Skills"
+  },
+  {
+    "id": "b0221744-9424-4181-adae-0fa08621e539",
+    "name": "Tian Tian Language Center",
+    "category": "Malay"
+  },
+  {
+    "id": "a2879600-fdef-423e-a3c9-2a7d9f7e26f2",
+    "name": "Passion Vocal Studio @ Lavender",
+    "category": "Music"
+  },
+  {
+    "id": "4881afa1-97a7-46ed-b55b-f0b193802df0",
+    "name": "NUS Archery",
+    "category": "Sports"
+  },
+  {
+    "id": "7130a306-03db-4822-aa4a-e0d99606bae9",
+    "name": "Preschool at Bedok Methodist Preschool",
+    "category": "Preschool"
+  },
+  {
+    "id": "77bd257d-db99-439a-b04d-c101a4b69372",
+    "name": "Singapore Islamic Hub",
+    "category": "Religious Education"
+  },
+  {
+    "id": "e4e89f90-4787-4e9f-9110-39352e2c20f7",
+    "name": "Training centre at Be The Voice - Presentation Skills Training, Voice Training Skills, Coaching in Singapore",
+    "category": "Training centre"
+  },
+  {
+    "id": "ce7b4044-5de6-4eeb-87b4-cdd1e6ca8246",
+    "name": "Tutoring service at Camford Education Centre",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "843fe451-c7bf-407f-a846-94561f4d4380",
+    "name": "Camden Education Center",
+    "category": "Science"
+  },
+  {
+    "id": "53457cf4-782e-4d36-b08e-27507dc93aaa",
+    "name": "Learning center at Emc Learning Resources Pte Ltd",
+    "category": "Learning center"
+  },
+  {
+    "id": "fec137b9-9f93-446c-84fc-ba50c8b0d8dd",
+    "name": "Global Football Academy | Samurai Pte. Ltd.",
+    "category": "Football"
+  },
+  {
+    "id": "59159e0e-8456-47c1-a45c-540363c93d1c",
+    "name": "MuslimParents.SG",
+    "category": "Religious Education"
+  },
+  {
+    "id": "58ab0571-59f2-4de7-8aea-2fcdec530b8c",
+    "name": "Education center at Exploart",
+    "category": "Education center"
+  },
+  {
+    "id": "91e422ef-a0dc-4873-afa2-a5792d4e9baf",
+    "name": "Education center at Eye Level @ Edgefield Plains (Punggol)",
+    "category": "Education center"
+  },
+  {
+    "id": "7846d429-45bf-47ec-a75c-675e65afbca7",
+    "name": "MOF Soccer Football Academy Kovan",
+    "category": "Football"
+  },
+  {
+    "id": "a59da4a9-c204-4b60-ad63-9344cc3f5cbf",
+    "name": "Absolute Learning — Chinese Enrichment",
+    "category": "Chinese"
+  },
+  {
+    "id": "eb30e9d9-b6e8-44bb-8291-084dcdcc9aea",
+    "name": "Opus One Music School",
+    "category": "Music"
+  },
+  {
+    "id": "2f6d0a99-e907-4073-9808-f7a8ea707184",
+    "name": "Education center at Eye Level",
+    "category": "Education center"
+  },
+  {
+    "id": "6530d771-0e93-470b-94ae-95db3bb49e57",
+    "name": "InnoSage Education Online Chinese",
+    "category": "Drama"
+  },
+  {
+    "id": "70809ffc-775f-4ff8-bfa8-c58f0874d759",
+    "name": "Training provider at Centre For Mindfulness",
+    "category": "Training provider"
+  },
+  {
+    "id": "c8b62562-43d3-49be-b6c9-9e0e6ea0a531",
+    "name": "Education center at Chengzhu Mandarin Centre, Rochester Mall",
+    "category": "Education center"
+  },
+  {
+    "id": "fdfe6e69-6407-4b95-b9a7-9ab51d98772d",
+    "name": "Education center at Fangcao Yuan Education Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "0677aa83-9bed-440e-b99b-63904a0b69d5",
+    "name": "Vocalogy",
+    "category": "Music"
+  },
+  {
+    "id": "0f017782-1137-4444-9c08-3c67bdbb201a",
+    "name": "Kumon Learning Centre - Serangoon Central Drive (Maths and English Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "e0a0fda4-1f94-48d5-bcb9-3671cf8c714a",
+    "name": "Education center at Coding Lab (Bukit Timah)",
+    "category": "Education center"
+  },
+  {
+    "id": "f0b4ec25-cc7f-46c6-b67b-4cf1fdbd1cc4",
+    "name": "Education center at Eye Level Orchard",
+    "category": "Education center"
+  },
+  {
+    "id": "13e5c93f-c62a-4c32-8c48-de71f8d03084",
+    "name": "Skate With Us West Coast Park",
+    "category": "Sports"
+  },
+  {
+    "id": "8f015304-4c8e-43bb-8045-9b31e0eda03d",
+    "name": "HiArt Bukit Timah",
+    "category": "Art"
+  },
+  {
+    "id": "cd7fe85d-5ff7-4bb2-8ea3-c997e6cbea02",
+    "name": "Camden Education Center",
+    "category": "English"
+  },
+  {
+    "id": "b55fb894-9539-481e-9984-e34a23f0bfb7",
+    "name": "Coaching center at Floow MTB",
+    "category": "Coaching center"
+  },
+  {
+    "id": "bcf842d4-23db-4467-a80f-14c354ab5ff3",
+    "name": "Oasis Student Care @Jurong West",
+    "category": "Enrichment"
+  },
+  {
+    "id": "780d4d22-d7ba-4073-919e-2f64180075c6",
+    "name": "Education center at AGrader Learning Centre (Ang Mo Kio) - English, Math, Creative Writing, Science Tuition Centre Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "7f493e4c-6188-43ba-ae22-256bcb2704dc",
+    "name": "XCL American Academy",
+    "category": "Enrichment"
+  },
+  {
+    "id": "735e1539-b69e-4128-a889-66a3fabd665b",
+    "name": "Swim Lab",
+    "category": "Swimming"
+  },
+  {
+    "id": "1032171f-9248-4462-a648-4adc8fa98c13",
+    "name": "Cleverland Tutorial Centre",
+    "category": "Science"
+  },
+  {
+    "id": "83e455a8-96f4-454c-9b6e-3733a23dbc34",
+    "name": "Training centre at Mindful Kids Enrichment Classes",
+    "category": "Training centre"
+  },
+  {
+    "id": "6a262bd4-0161-4f12-a785-00e2c425be6c",
+    "name": "Education center at Fun-da-mentals Learning Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "697dd99f-d493-40cb-9c9c-d098cd242bad",
+    "name": "International school at Singapore Summer School",
+    "category": "International school"
+  },
+  {
+    "id": "98c4f3fe-4000-4274-8e81-4f92f64cbc73",
+    "name": "Education center at Code Bright",
+    "category": "Education center"
+  },
+  {
+    "id": "06c86abc-b3e6-4350-b092-08d306dbcb8f",
+    "name": "Human Naturally",
+    "category": "Sports"
+  },
+  {
+    "id": "a1c9db39-037c-4408-87f8-eb08d9930185",
+    "name": "Aestral Private School",
+    "category": "Holiday Camp"
+  },
+  {
+    "id": "33ab5b9a-6fda-4417-b6aa-5f508d718a06",
+    "name": "Child psychologist at Therapy for children/ Rise Up",
+    "category": "Child psychologist"
+  },
+  {
+    "id": "75909bdf-1189-4fb0-973b-87c551f441e6",
+    "name": "Garden at Urban Farm @ Funan",
+    "category": "Garden"
+  },
+  {
+    "id": "8feed1ca-ea43-4baf-904f-784a3532b00a",
+    "name": "Education center at Future Academy (Bukit Timah)",
+    "category": "Education center"
+  },
+  {
+    "id": "38661915-0393-4309-934a-4540b8dff44f",
+    "name": "Asia Gymnastics & Dance Academy @ Braddell",
+    "category": "Gymnastics"
+  },
+  {
+    "id": "3b944893-ec0a-4ca5-b6a0-c7de5eaef1c3",
+    "name": "Learning center at AGrader Learning Centre (Bukit Gombak) - English, Math, Creative Writing, Chinese, Science Tuition Centre Singapore",
+    "category": "Learning center"
+  },
+  {
+    "id": "41898153-5484-44b2-b8de-1fe82f5448a9",
+    "name": "Boys' Town",
+    "category": "Enrichment"
+  },
+  {
+    "id": "aeabd1d6-ebbf-4d51-bbd6-4928c5241308",
+    "name": "Olive Tree Development Center - Early Intervention Parkway Parade Branch",
+    "category": "Special Needs"
+  },
+  {
+    "id": "e507ba6f-2f3d-41bb-96e0-128496797d14",
+    "name": "Magic Fiddler",
+    "category": "Art"
+  },
+  {
+    "id": "32da002f-1536-47f2-a3c7-2778799857d9",
+    "name": "Coronation Music School Pte. Ltd.",
+    "category": "Music"
+  },
+  {
+    "id": "0df3b6e7-0eaa-451d-a0f3-f5be4e0b7ab8",
+    "name": "Brain Training at GRAPES Enrichment Pte Ltd",
+    "category": "Brain Training"
+  },
+  {
+    "id": "7aac499e-86a2-421e-ade3-40f376b9ff49",
+    "name": "Education center at KRTC Hougang",
+    "category": "Education center"
+  },
+  {
+    "id": "16e85663-e734-45ad-823d-a4d393f0cd7f",
+    "name": "GRAM's Learning Centre",
+    "category": "Languages"
+  },
+  {
+    "id": "f61e884f-d27b-4a3b-95b3-6aca13f64030",
+    "name": "Training centre at SINGAPORE LIFESAVING ACADEMY",
+    "category": "Training centre"
+  },
+  {
+    "id": "9004060e-a537-47ff-86cb-6013c0f64452",
+    "name": "Swim Conceirge",
+    "category": "Swimming"
+  },
+  {
+    "id": "68e4e0d4-b1e4-4fc6-9368-c8828e12c8c5",
+    "name": "Training centre at UCMHP Academy Pte Ltd",
+    "category": "Training centre"
+  },
+  {
+    "id": "b51b9b99-9560-424c-b4e8-0088017e2315",
+    "name": "Skaters Academy",
+    "category": "Sports"
+  },
+  {
+    "id": "cc680a02-4090-414d-b499-438f0397009e",
+    "name": "Star Swim Aquatics",
+    "category": "Swimming"
+  },
+  {
+    "id": "13eec9fb-172c-4a2f-84d3-894535431f64",
+    "name": "Agraganya Centre for Education",
+    "category": "Science"
+  },
+  {
+    "id": "80817fb9-c1a9-4cca-a18b-cb086a7cbcb3",
+    "name": "Aestral Private School",
+    "category": "English"
+  },
+  {
+    "id": "1ca72b12-9896-4743-9ba6-ebfcaecf21c8",
+    "name": "Finesse Inline Skating Centre",
+    "category": "Sports"
+  },
+  {
+    "id": "4d3b5f92-b4a2-4b87-87a5-e34312ad4276",
+    "name": "32 Pages",
+    "category": "Enrichment"
+  },
+  {
+    "id": "d82ca4c6-4c0d-454a-b148-daa1804a4b9b",
+    "name": "3House — English Programme",
+    "category": "English"
+  },
+  {
+    "id": "2a8fb8dc-4865-4a12-9c02-e092d09f45b6",
+    "name": "Eunos Skate Park",
+    "category": "Sports"
+  },
+  {
+    "id": "cabbb965-b095-4c06-aa40-e6b22bf36b09",
+    "name": "Islamicevents",
+    "category": "Religious Education"
+  },
+  {
+    "id": "3a0f039a-22c4-460f-bfe6-ac48c8ff748a",
+    "name": "Chengzhu Mandarin Centre, New Bahru",
+    "category": "Chinese"
+  },
+  {
+    "id": "10ad34a9-7b21-4064-9ca0-fc8443390f9e",
+    "name": "Apex Educational Centre",
+    "category": "Science"
+  },
+  {
+    "id": "aac4a3bf-310e-4a04-81a6-7c8c7f0fcb52",
+    "name": "Education center at I FLY HIGH learning Center @ Boon Keng",
+    "category": "Education center"
+  },
+  {
+    "id": "791d0bbd-119e-47e0-b255-a3086c47b5a5",
+    "name": "Frankel Tutors",
+    "category": "Chinese"
+  },
+  {
+    "id": "0d4315a7-46a7-46a4-8282-eb0c28b25526",
+    "name": "Cleverland Tutorial Centre",
+    "category": "English"
+  },
+  {
+    "id": "74ce78ca-94f7-4310-b476-d40ab6403cc1",
+    "name": "Dowell Tuition Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "8e16ecfa-9bfe-4009-b1cb-02b6f8d41449",
+    "name": "Rush-Me-Not Art Studio",
+    "category": "Art"
+  },
+  {
+    "id": "dfbcbb6d-6e12-44dc-97bc-f98675fc4a88",
+    "name": "Aquatic Joy",
+    "category": "Swimming"
+  },
+  {
+    "id": "ddef943c-8b71-44b5-950e-562cd7d8b2eb",
+    "name": "Brain Training at I Love Learning Achievement Center",
+    "category": "Brain Training"
+  },
+  {
+    "id": "a88fc0a4-bf91-4b2d-8ebf-668b0fb55411",
+    "name": "Education center at Imad Perdaus (Bedok)",
+    "category": "Education center"
+  },
+  {
+    "id": "403f0814-aaa9-4646-9c38-897a9c0dc949",
+    "name": "Mosque Madrasah Wakaf Shared Services",
+    "category": "Religious Education"
+  },
+  {
+    "id": "3705d28c-e100-40cd-96a7-ac5e8a83e7cb",
+    "name": "SRT Centre for Creative Learning",
+    "category": "Drama"
+  },
+  {
+    "id": "651af23e-15fc-4121-880d-78eb963db0b0",
+    "name": "JF Smart Learning (Bedok) - Science, Mathematics and Robotics Holiday Camps, Tuition and Enrichment Centre",
+    "category": "Coding"
+  },
+  {
+    "id": "284e86e4-3d8d-4810-a10f-10c81f87ade0",
+    "name": "Learning center at Focus Learning Lab Pte Ltd.",
+    "category": "Learning center"
+  },
+  {
+    "id": "b43a966e-b909-4ab2-aaa4-29f8bcd32892",
+    "name": "Non-profit organization at Singapore Film Society",
+    "category": "Non-profit organization"
+  },
+  {
+    "id": "dde1bd6d-dbf2-4d94-990b-96fe070316c3",
+    "name": "Education center at Cleverland Tutorial Centre @ Hougang",
+    "category": "Education center"
+  },
+  {
+    "id": "51259089-6c13-4cca-ae8f-e69e5cc650bd",
+    "name": "Education center at Junior Seekers Student Care @ Fajar",
+    "category": "Education center"
+  },
+  {
+    "id": "4807ba81-9274-4aee-82ba-15108c95b4dc",
+    "name": "Education center at CMA Mental Arithmetic Centre (Holland) Pte Ltd",
+    "category": "Education center"
+  },
+  {
+    "id": "f7ed0ac0-601b-4513-ac13-2fa16edd6023",
+    "name": "Education center at Etern Education Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "6773c1da-3874-473c-b1d8-7f7d54cf2e80",
+    "name": "Education center at Eye Level @ Woodgrove",
+    "category": "Education center"
+  },
+  {
+    "id": "34f9e5e3-8f0c-46b5-90d0-37ded35213b2",
+    "name": "Education center at AGrader Learning Centre (Bedok) - English, Math, Creative Writing, Science Tuition Centre Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "a4a919c5-555d-4423-8bcc-9528490fe53c",
+    "name": "Learning center at JustEdu Learning Centre (Bukit Gombak)",
+    "category": "Learning center"
+  },
+  {
+    "id": "1de7676d-22e2-48c5-8b97-a03f0bba0977",
+    "name": "Language of Things",
+    "category": "English"
+  },
+  {
+    "id": "70cdcb95-7a6c-43a2-bd6c-63a561efb8c6",
+    "name": "Education center at Cordova Education Centre Hougang",
+    "category": "Education center"
+  },
+  {
+    "id": "a1f8cb18-bb40-43cc-8207-64a268a1ab5f",
+    "name": "Tutoring service at KRTC Sun Plaza",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "51f6e24e-9b79-433f-a762-aefb84b6a939",
+    "name": "Preschool at Learning Vision Nanyang Technological University",
+    "category": "Preschool"
+  },
+  {
+    "id": "84d4e9fa-3217-44b8-a563-a9ac344de2bd",
+    "name": "Learning center at Brilliant Minds Learning Centre",
+    "category": "Learning center"
+  },
+  {
+    "id": "ebbabbc8-4ccb-4704-86e2-7122bc67e3a0",
+    "name": "Coaching center at SkateDragons",
+    "category": "Coaching center"
+  },
+  {
+    "id": "09edf78e-1fdc-42ea-88bf-057a643439dd",
+    "name": "Education center at Global Achievers Education Centre Pte Ltd",
+    "category": "Education center"
+  },
+  {
+    "id": "b09a34f5-3688-4efa-8981-beaf7cc6b917",
+    "name": "BlueWave F&B Singapore",
+    "category": "Swimming"
+  },
+  {
+    "id": "261c2c8b-e0f6-4297-8c17-e774d2a14d89",
+    "name": "IDE Academy Singapore",
+    "category": "Enrichment"
+  },
+  {
+    "id": "9178ff5c-9b5c-4745-bd22-6c15672eb3f1",
+    "name": "Education center at Discovery Edu Cove MOE Registered Tuition and Enrichment Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "f8bf187b-3506-4121-a772-4a5687c6af37",
+    "name": "Tutoring service at Little Gems Learning Centre",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "5c9cd196-e021-445e-a7d0-1c781820f39e",
+    "name": "Education center at Champ Code Academy",
+    "category": "Education center"
+  },
+  {
+    "id": "473439fd-5bed-4712-9e8e-a19631833210",
+    "name": "Education center at Little Muslim Readers (Woodlands)",
+    "category": "Education center"
+  },
+  {
+    "id": "fe173802-17ab-46cf-abe5-10193209692d",
+    "name": "Preschool at GUG Preschool @ Tampines HQ (by Growing Up Gifted)",
+    "category": "Preschool"
+  },
+  {
+    "id": "dc9962b0-e1ef-4ef6-b663-2af4d416c5be",
+    "name": "Training centre at SoulKids - Award-Winning Life Skills Training for Children and Parents",
+    "category": "Training centre"
+  },
+  {
+    "id": "20044202-edd4-4185-9e77-ef31d3b0ed69",
+    "name": "Education center at Aifuza Learning Centre Pte. Ltd.",
+    "category": "Education center"
+  },
+  {
+    "id": "c0c6dc30-a582-413d-a2de-653a20386acc",
+    "name": "HiArt Education",
+    "category": "Art"
+  },
+  {
+    "id": "4f7f2698-9804-48c2-b35a-c837cb1be7df",
+    "name": "FootballPlus Ltd",
+    "category": "Football"
+  },
+  {
+    "id": "65b78b6d-7983-4d34-ab70-eef5b4a66703",
+    "name": "Education center at dMaster Learning Centre Pte Ltd",
+    "category": "Education center"
+  },
+  {
+    "id": "c9f0bae1-a9ce-48be-abce-18f86c8b04df",
+    "name": "Inochi Learners",
+    "category": "Chinese"
+  },
+  {
+    "id": "bd81d7ad-03a4-44e7-b08d-c83064c68124",
+    "name": "Emmanuel Music School",
+    "category": "Music"
+  },
+  {
+    "id": "900fb1ab-d192-4ee6-aa59-6517e4c94eb5",
+    "name": "Maker Central",
+    "category": "Holiday Camp"
+  },
+  {
+    "id": "25aa7d58-623e-4d40-841d-73857dab463e",
+    "name": "Training provider at HMI Institute of Health Sciences Pte Ltd",
+    "category": "Training provider"
+  },
+  {
+    "id": "abe7c18b-bf29-4e50-96f8-d09cf65b5232",
+    "name": "Education center at Malay Tuition - Pusat Bahasa NUSA (Tampines)",
+    "category": "Education center"
+  },
+  {
+    "id": "d398624b-99d7-43a4-aefa-a7e84f0a0e39",
+    "name": "Paperland",
+    "category": "Mathematics"
+  },
+  {
+    "id": "588479d3-5ff7-4745-8e5f-e2f6855690a4",
+    "name": "Learning center at EDOOVO | Online Enrichment Classes",
+    "category": "Learning center"
+  },
+  {
+    "id": "368c5f61-135e-4849-af6f-63ff3b23d22c",
+    "name": "eZoo School of Music And Fine ArtsP/L",
+    "category": "Music"
+  },
+  {
+    "id": "bec820e8-968f-463b-83be-cace2c669d71",
+    "name": "Jump Five Dance Academy",
+    "category": "Dance"
+  },
+  {
+    "id": "3e80f6e4-5020-4b9b-871d-a8dc4b32e1b9",
+    "name": "Brain Training at Empire Code",
+    "category": "Brain Training"
+  },
+  {
+    "id": "67d396e0-821d-4a57-aece-f59e6af29a76",
+    "name": "Art Class Orchard Road | Inquisitive Ones Art Studio",
+    "category": "Art"
+  },
+  {
+    "id": "29ae2f08-a323-4dd8-ba97-97cd500e6dba",
+    "name": "eZoo School Of Music and Fine Arts",
+    "category": "Music"
+  },
+  {
+    "id": "3cb5acb4-65d9-4c3c-8897-9843e88260aa",
+    "name": "Education center at Eye Level @ Circuit Road",
+    "category": "Education center"
+  },
+  {
+    "id": "7ab91f2f-1161-4ea8-a493-9a8bc22a87ce",
+    "name": "Education center at Mind Sparks Bukit Batok | Student Care by Mind Stretcher",
+    "category": "Education center"
+  },
+  {
+    "id": "2c43a77f-735e-4830-95ac-425579693958",
+    "name": "STEM Academy",
+    "category": "Coding"
+  },
+  {
+    "id": "d39bb52e-d1cb-481b-8af5-91a8d82441e7",
+    "name": "eZoo School of Music and Fine Arts",
+    "category": "Music"
+  },
+  {
+    "id": "17d51162-4c7d-4b43-9aec-5f7f12b01df7",
+    "name": "Gladius Fencing Club",
+    "category": "Sports"
+  },
+  {
+    "id": "95e63a52-50ad-45c9-9df6-f2a1064cd969",
+    "name": "Education center at Mind Sparks Toa Payoh | Student Care by Mind Stretcher",
+    "category": "Education center"
+  },
+  {
+    "id": "07c91486-e2f5-4291-b37f-255a15b215de",
+    "name": "Byron Tutorial Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "617de5fc-02f1-4633-92db-c68984203d37",
+    "name": "Forest Adventure Club",
+    "category": "Sports"
+  },
+  {
+    "id": "bef385d4-46a3-48a2-981b-8df5a5f799ad",
+    "name": "Nature Explorers School",
+    "category": "Sports"
+  },
+  {
+    "id": "c5239ad2-f667-4d40-9e95-7862ab258a6f",
+    "name": "Life Skills at Futurum Academy - Coding and Robotics",
+    "category": "Life Skills"
+  },
+  {
+    "id": "2d43c902-242a-4a3f-a8aa-ed1062bf5ff4",
+    "name": "Beat Street",
+    "category": "Dance"
+  },
+  {
+    "id": "d6d218df-fb50-4a3f-b938-8277dc94126d",
+    "name": "Education center at Aspire Hub @ Bedok Central",
+    "category": "Education center"
+  },
+  {
+    "id": "b22d8d8a-a5da-4e67-8ad7-bb60485a0975",
+    "name": "JCS Japanese Language School",
+    "category": "Languages"
+  },
+  {
+    "id": "8a9d23e1-26c0-4f9d-804b-e0e0f9d317bb",
+    "name": "RB Tennis Academy",
+    "category": "Sports"
+  },
+  {
+    "id": "162a2223-ca79-40d0-88e8-e53990ef0ed1",
+    "name": "Learning center at NK Robotics Sengkang",
+    "category": "Learning center"
+  },
+  {
+    "id": "55214330-474a-40be-963b-7a4d13ef984f",
+    "name": "Planting Seeds with Kids - Children's Yoga & Mindfulness Singapore",
+    "category": "Yoga"
+  },
+  {
+    "id": "b2398e14-99d5-438b-a86d-c55545c9e54f",
+    "name": "Education center at Aspire Hub @ West Mall",
+    "category": "Education center"
+  },
+  {
+    "id": "2343b2b6-dbee-4aae-8393-c92b88ee6622",
+    "name": "Excella Learning Hub",
+    "category": "Chinese"
+  },
+  {
+    "id": "b668f111-65c1-4699-b0e8-af55ace08f62",
+    "name": "Nehohmee",
+    "category": "Art"
+  },
+  {
+    "id": "82b3bd51-2bac-4739-b5b0-ab6fa9d728c0",
+    "name": "Body Vocal Arts Studio",
+    "category": "Art"
+  },
+  {
+    "id": "3aedbb2f-ca9c-431c-8b78-535114e3e8cb",
+    "name": "Li Shu He Table Tennis Academy",
+    "category": "Sports"
+  },
+  {
+    "id": "e38a8ced-357c-463b-8b83-0088aa8ecb63",
+    "name": "Motivate Music School",
+    "category": "Music"
+  },
+  {
+    "id": "3abc49c4-554c-4221-bb9a-ab020e709e4c",
+    "name": "Training centre at KICKS TAEKWONDO (AMK HUB)",
+    "category": "Training centre"
+  },
+  {
+    "id": "c87eb7b6-3d47-409b-8d3b-194e040422e5",
+    "name": "Absolute Learning — Mathematics Enrichment",
+    "category": "Mathematics"
+  },
+  {
+    "id": "93464c8c-2486-4828-a546-c7748aea474c",
+    "name": "Education center at Learn Beyond Education",
+    "category": "Education center"
+  },
+  {
+    "id": "6a94db7c-13ed-49b1-b85b-3f67ebfc2f3d",
+    "name": "3House — Chinese Programme",
+    "category": "Chinese"
+  },
+  {
+    "id": "9884994a-5437-4027-bcb3-cbd8c2af44c7",
+    "name": "Education center at GRAPES Enrichment Pte Ltd",
+    "category": "Education center"
+  },
+  {
+    "id": "eb4c139d-b8a5-4853-b4aa-17585e34b143",
+    "name": "Education center at Learners Exploratorium",
+    "category": "Education center"
+  },
+  {
+    "id": "ef7d98aa-550f-4c63-8b25-1dbf42e80a3f",
+    "name": "Tutoring service at Axcell Tuition Centre, Jurong East",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "6119ae10-633a-42c5-a59a-03e4ccf9873d",
+    "name": "Education center at Little Towkay Academy",
+    "category": "Education center"
+  },
+  {
+    "id": "1ce77356-5d55-4c7b-b1a2-26b9f5457cde",
+    "name": "Archery store at SEarchery",
+    "category": "Archery store"
+  },
+  {
+    "id": "9ea0c2a9-c530-429f-8b5b-f4c6fa4d525b",
+    "name": "Tinker With Things",
+    "category": "Coding"
+  },
+  {
+    "id": "81685547-a44b-4f92-bdb0-72849c62ee0f",
+    "name": "Education center at KRTC Sengkang",
+    "category": "Education center"
+  },
+  {
+    "id": "fca7e871-ff9d-4f23-985e-f97b6cb36843",
+    "name": "Learning center at LoveKids Speech and Drama Serangoon Gardens",
+    "category": "Learning center"
+  },
+  {
+    "id": "844739d4-43b0-473e-9cfc-f241f7b92d07",
+    "name": "Brain Training at SEMPOA SIP SINGAPORE",
+    "category": "Brain Training"
+  },
+  {
+    "id": "4884ac5e-3b2c-4432-b925-4aecf028629d",
+    "name": "Archery range at Simply Archery Club",
+    "category": "Archery range"
+  },
+  {
+    "id": "6d4f57f9-d796-4acc-b24a-8172025fc721",
+    "name": "Roots and Boots",
+    "category": "Chinese"
+  },
+  {
+    "id": "c44682fc-150d-4863-ada2-364ada28304a",
+    "name": "Yvonne Swim School Pte Ltd",
+    "category": "Swimming"
+  },
+  {
+    "id": "01ab2018-ae86-486e-875c-7defdf6f0c04",
+    "name": "STEM Institution (Upper Thomson)",
+    "category": "Coding"
+  },
+  {
+    "id": "eb7fbd89-a876-4f9b-ab06-7c11455d25cc",
+    "name": "Parkway Parade",
+    "category": "Music"
+  },
+  {
+    "id": "84d4867c-0e60-494c-835f-883ba1bf64ea",
+    "name": "Art gallery at Singapore Art Auction & Global Artwork Art Gallery",
+    "category": "Art gallery"
+  },
+  {
+    "id": "08b7f374-4717-449a-8a32-df7e60bfb7dd",
+    "name": "Training centre at SGX Academy",
+    "category": "Training centre"
+  },
+  {
+    "id": "bf131884-ddbb-4b53-bea4-466a9aa14340",
+    "name": "DSTS BADMINTON ACADEMY",
+    "category": "Sports"
+  },
+  {
+    "id": "42a379f6-bc09-415b-9b7f-71eee012db59",
+    "name": "Academic department at Sim Kee Boon Institute for Financial Economics",
+    "category": "Academic department"
+  },
+  {
+    "id": "68be4335-ab04-4c23-8fc9-ba94e464bacc",
+    "name": "Education center at Julia Gabriel Centre, Greenwich V",
+    "category": "Education center"
+  },
+  {
+    "id": "9fc4a7ed-1a46-4bb4-b785-ee05cd9425b4",
+    "name": "Meditation center at Singapore Meditation 新加坡修心中心 Pusat Meditasi Singapura சிங்கப்பூர் தியானம்",
+    "category": "Meditation center"
+  },
+  {
+    "id": "64bc8556-c0a1-4695-942b-31d4d6a75adc",
+    "name": "Education center at KRTC Simei",
+    "category": "Education center"
+  },
+  {
+    "id": "187e9dd7-9b62-4462-babe-4bf6f17d36a1",
+    "name": "Tourist attraction at Singapore Discovery Centre",
+    "category": "Tourist attraction"
+  },
+  {
+    "id": "3816aed0-d7b4-4e25-8d7d-1ebe9426ff90",
+    "name": "Edumore Learning Centre",
+    "category": "English"
+  },
+  {
+    "id": "0e5cce55-9330-430c-8652-b46aefdce860",
+    "name": "Advanced Learning Centre",
+    "category": "Science"
+  },
+  {
+    "id": "4184337b-0660-42e8-b3a6-298d4327e216",
+    "name": "Crestar Learning Centre Clementi",
+    "category": "Dance"
+  },
+  {
+    "id": "abed2d9e-c94a-4a1b-8497-870855acaa34",
+    "name": "Artsy Bugsy Studio | Funan",
+    "category": "Art"
+  },
+  {
+    "id": "277222a1-c404-41f1-bcb3-bcf73c683e2d",
+    "name": "St. Stephen's School",
+    "category": "Religious Education"
+  },
+  {
+    "id": "f12c888a-f912-400d-bcd0-c59b08dd2eaf",
+    "name": "C Win Learning Centre",
+    "category": "English"
+  },
+  {
+    "id": "e72ee9ea-8cbf-49ec-9594-f12a963ffdc4",
+    "name": "Musical Art Studio",
+    "category": "Music"
+  },
+  {
+    "id": "c533713b-7dcd-48ad-8fa8-461d65e22f75",
+    "name": "Coaching center at SkateDragons @ Somerset Skate Park",
+    "category": "Coaching center"
+  },
+  {
+    "id": "5c5d0bbe-bb69-4055-87e2-b0e1127d16bf",
+    "name": "Swim Lab",
+    "category": "Sports"
+  },
+  {
+    "id": "29a9339a-6fe7-4a60-ba27-88837684633a",
+    "name": "Agape Learning Centre",
+    "category": "Chinese"
+  },
+  {
+    "id": "8454c69c-f3a5-477b-b485-6485e8f20cd0",
+    "name": "Learning center at Learners Exploratorium. Best Tuition and Enrichment Experience",
+    "category": "Learning center"
+  },
+  {
+    "id": "6dccde52-eeee-4eb5-8241-2ee8b837d353",
+    "name": "Donason Deen Education Centre",
+    "category": "English"
+  },
+  {
+    "id": "fbb56899-9783-4bc2-a92b-e17a745d5e7c",
+    "name": "Education center at Le Wagon Singapore - Coding Bootcamp",
+    "category": "Education center"
+  },
+  {
+    "id": "4c0a2841-6400-4617-865b-c0fc68bf27f9",
+    "name": "Emmanuel Music School",
+    "category": "Music"
+  },
+  {
+    "id": "2ee3a031-c9eb-4fce-ace8-53e6fc9ae584",
+    "name": "Praise Music School (Michael Sim)",
+    "category": "Music"
+  },
+  {
+    "id": "480c19bb-2c13-47ad-9d71-244d8be3b4c6",
+    "name": "Golden Microphone Language Centre",
+    "category": "Drama"
+  },
+  {
+    "id": "e300b384-80d1-498e-ac32-437a7d0e6029",
+    "name": "Education center at RedDot Academy",
+    "category": "Education center"
+  },
+  {
+    "id": "9f8ad290-e54c-49c3-af9d-47f89cf0959e",
+    "name": "J H Kim Taekwondo Institute (North)",
+    "category": "Sports"
+  },
+  {
+    "id": "d4073748-a7d4-44eb-844d-fb08fae7d4b4",
+    "name": "MuzArt (Beauty World) School",
+    "category": "Art"
+  },
+  {
+    "id": "599de3c2-21f1-4573-9539-82917ff25e74",
+    "name": "Ecube Education Lab",
+    "category": "English"
+  },
+  {
+    "id": "3b8ad835-baf3-4730-b4a5-8945f4105af4",
+    "name": "EMC Learning Centre",
+    "category": "English"
+  },
+  {
+    "id": "c34e062f-26c1-47ad-859b-26a7329bab29",
+    "name": "Photography service at Smittenpixels Co.",
+    "category": "Photography service"
+  },
+  {
+    "id": "ec4197cb-1212-47a8-b8a2-a5af77a3f1a0",
+    "name": "Internet cafe at Titans Esports Gaming Ang Mo Kio (LAN Shop Cyber Cafe)",
+    "category": "Internet cafe"
+  },
+  {
+    "id": "c09628dd-a2aa-4be4-be9c-ae57b039b9b3",
+    "name": "Little Sparks Montessori and Enrichment Centre",
+    "category": "Music"
+  },
+  {
+    "id": "43a703b6-1515-4053-bf3a-817994485679",
+    "name": "Elitepro",
+    "category": "Swimming"
+  },
+  {
+    "id": "f93b83da-485c-4cce-b2b1-b88e82ac35c6",
+    "name": "Coaching center at Sigaram",
+    "category": "Coaching center"
+  },
+  {
+    "id": "2ae70045-0d85-4fa7-9e5f-0d33e8a7031d",
+    "name": "Heguru Education @ SingPost Centre Paya Lebar",
+    "category": "Enrichment"
+  },
+  {
+    "id": "777bbaae-6588-4024-ad70-bff4a8552bfe",
+    "name": "Learning center at LoveKids Speech & Drama Sembawang",
+    "category": "Learning center"
+  },
+  {
+    "id": "d7e4e87d-93b1-4f95-9124-d55abb5ce1a2",
+    "name": "TwinnySkates",
+    "category": "Sports"
+  },
+  {
+    "id": "67d0f243-0057-4c0e-a0cf-8d3bd8e238c2",
+    "name": "Advanced Learning Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "3c8b3a5d-370d-43ae-865b-01a30e175018",
+    "name": "Conundrum Theatre",
+    "category": "Drama"
+  },
+  {
+    "id": "c256b58f-59bf-43e7-861c-9e1db8575ec3",
+    "name": "Heguru Education @ Serangoon NEX",
+    "category": "Enrichment"
+  },
+  {
+    "id": "dff10c72-ac19-4c5d-b41d-f1ee79ff7ad4",
+    "name": "J H Kim Taekwondo Institute",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "d3bf1bf1-8fa2-40a2-857d-51306ed0dce4",
+    "name": "Lorna Whiston Student Care (Greenwich)",
+    "category": "Enrichment"
+  },
+  {
+    "id": "3b71309d-5abd-4aab-87cc-0530f256e08c",
+    "name": "Training centre at Singapore First Aid Training Centre Pte Ltd",
+    "category": "Training centre"
+  },
+  {
+    "id": "700cd787-72bf-460c-8271-f79698827652",
+    "name": "Singapore Kickboxing Club",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "41d31bf0-853e-459b-8aa3-b77028b4e24a",
+    "name": "Blk 50 Badminton Court",
+    "category": "Sports"
+  },
+  {
+    "id": "cd177934-a271-4c9f-98f0-f0fd360e10c1",
+    "name": "Education center at The Brainery Code @ Marine Parade",
+    "category": "Education center"
+  },
+  {
+    "id": "bdcfb46b-8ea3-4df9-b6b6-90a419c99d4c",
+    "name": "新加坡佛学教育中心 Singapore Buddhist Education Center",
+    "category": "Religious Education"
+  },
+  {
+    "id": "2602ddab-c4c5-4cc8-bd4d-865f554c75f7",
+    "name": "Education center at Meta Robotics by First Step Academy @ Upper Thomson",
+    "category": "Education center"
+  },
+  {
+    "id": "91d1a84c-f598-4270-8933-e22d1d9eb1e3",
+    "name": "School at Studio De S",
+    "category": "School"
+  },
+  {
+    "id": "9747413c-5bcc-4a22-9645-684f1f2b362c",
+    "name": "Learning center at MOE Dairy Farm Outdoor Adventure Learning Centre",
+    "category": "Learning center"
+  },
+  {
+    "id": "d28eac72-8d0d-4c71-bbc2-1d513e96ff9a",
+    "name": "Education center at Paced Learning Academy",
+    "category": "Education center"
+  },
+  {
+    "id": "f75e5e87-a795-4c4f-9619-c865ecededa3",
+    "name": "Mark MacRae Golf Coaching Golf Lessons @theGolfLab",
+    "category": "Sports"
+  },
+  {
+    "id": "2b0d5653-88e4-4908-86eb-03db3d0f2687",
+    "name": "Education center at Tamil Tuition- Tamil Amuthu Learning Centre, Singapore, தமிழ் பயிற்சி- தமிழ் அமுது பயிற்சி மையம், சிங்கப்பூர்",
+    "category": "Education center"
+  },
+  {
+    "id": "dcc2d84f-b446-44ce-863e-a728cd3475c6",
+    "name": "Preschool at Starshine Montessori at Hillview - Childcare Centre and Preschool",
+    "category": "Preschool"
+  },
+  {
+    "id": "3d708b7e-b54d-4aed-ab87-75e2f5daebd4",
+    "name": "Stage for Kids Global",
+    "category": "Drama"
+  },
+  {
+    "id": "2176a7a0-861a-4362-af81-623eab837f96",
+    "name": "Association / Organization at Singapore Waterski & Wakeboard Federation (SWWF)",
+    "category": "Association / Organization"
+  },
+  {
+    "id": "0892113f-3125-4770-9602-5685eec7affc",
+    "name": "Preschool at My Little Campus - MLC (Yishun)",
+    "category": "Preschool"
+  },
+  {
+    "id": "455d446b-8c0f-4f03-841a-173b16c0c578",
+    "name": "Education center at Neural Connections Pte Ltd",
+    "category": "Education center"
+  },
+  {
+    "id": "1223ce7d-fa6d-4f18-8e77-9b7c00188d4d",
+    "name": "Tutoring service at The Learning Lab (Seletar Mall)",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "27984196-8090-4162-857a-7ef3c178445d",
+    "name": "Natural Instinct Outdoor Academy",
+    "category": "Sports"
+  },
+  {
+    "id": "d867021a-dd93-4621-9f83-5952c4d301c0",
+    "name": "Training provider at The Living Centre",
+    "category": "Training provider"
+  },
+  {
+    "id": "9d10b80d-500c-42d3-aa25-3363933b1771",
+    "name": "SkateXtreme @ Yishun Park Inline Skating Lesson",
+    "category": "Sports"
+  },
+  {
+    "id": "bcf24d88-6788-4b03-9339-f152d2e5e993",
+    "name": "Learning center at PiggyPlay Pte. Ltd.",
+    "category": "Learning center"
+  },
+  {
+    "id": "b21b4a5e-8006-4247-9c6e-f938f8a75b41",
+    "name": "Education center at Play2see",
+    "category": "Education center"
+  },
+  {
+    "id": "2296d838-6372-4c56-ba7f-9a71d59dbab5",
+    "name": "Physical fitness program at Superfly Monkey Dragons - Parkour Classes For Kids And Adults",
+    "category": "Physical fitness program"
+  },
+  {
+    "id": "2f93f069-95fd-4500-b54f-154d40461cad",
+    "name": "Kumon Learning Centre – Kallang – Stadium Walk (Maths and English Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "a2c8cbfa-8582-44d4-bb48-78119420a765",
+    "name": "The Young Writer's Table",
+    "category": "English"
+  },
+  {
+    "id": "cf47a239-68ba-4572-9df8-906a3de00d81",
+    "name": "Education center at Speech Academy Asia PUNGGOL",
+    "category": "Education center"
+  },
+  {
+    "id": "6fcd35ad-27bd-4d46-8a91-41ff7404f4c8",
+    "name": "Horseback riding service at THERIS - Therapeutic & Educational Riding in Singapore",
+    "category": "Horseback riding service"
+  },
+  {
+    "id": "9d898dbe-144f-4946-8a88-951f01363bd4",
+    "name": "Ballet Foundations — Classical Dance",
+    "category": "Dance"
+  },
+  {
+    "id": "7b8835c1-cc10-4399-bed7-d72cf88bbb10",
+    "name": "Preschool at Rainforest Schoolhouse",
+    "category": "Preschool"
+  },
+  {
+    "id": "3e8835d4-d559-4f30-aa2f-b1e6b4226edb",
+    "name": "Pottery classes at THE 8TH FLOOR Ceramics Studio (The 8th Floor Pte Ltd)",
+    "category": "Pottery classes"
+  },
+  {
+    "id": "b71dcbc7-6675-45e7-88bf-8a3eb3b31e35",
+    "name": "J H Kim Taekwondo Institute (Holland)",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "0478ca0f-8b40-4e64-8a24-59f47a319c6f",
+    "name": "Apex Educational Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "63154fcf-91d2-4f96-8e90-5ad38f3ccb9c",
+    "name": "Education center at Sargam Tamil Tuition Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "8b28dc26-841c-4d80-8595-4d9af9ec2a8c",
+    "name": "Coaching center at United Skates",
+    "category": "Coaching center"
+  },
+  {
+    "id": "3812b8f0-8a41-44f2-9cb8-1a2d36d73452",
+    "name": "Ballet Eastern Dance",
+    "category": "Dance"
+  },
+  {
+    "id": "a9c66bf0-ef20-40a9-9b32-7a68d6ac363e",
+    "name": "Tutoring service at Vinmeen Tamil Tuition Classes Singapore",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "2a639d07-2019-477d-bb42-1f54af847a36",
+    "name": "Non-governmental organization at RollerSports Singapore",
+    "category": "Non-governmental organization"
+  },
+  {
+    "id": "a7a6bea9-8940-4d19-ac91-aef747fbe310",
+    "name": "Dog day care center at Up For Paws",
+    "category": "Dog day care center"
+  },
+  {
+    "id": "b27a8ad3-999d-4b6b-a8f1-ce82c3515070",
+    "name": "Outdoor School Singapore by NTUC First Campus",
+    "category": "Sports"
+  },
+  {
+    "id": "ec9cd3ce-e0ca-422c-843e-92a77fd802eb",
+    "name": "Video production service at Triken Studios",
+    "category": "Video production service"
+  },
+  {
+    "id": "9643829b-6715-4963-89fe-f5be3303dcd4",
+    "name": "Training centre at Scholar Basketball Academy SG (Office)",
+    "category": "Training centre"
+  },
+  {
+    "id": "f73d8c1d-7f8e-4f85-b5a4-40cf6b92daef",
+    "name": "Educational institution at School Of Robotics (SOR)",
+    "category": "Educational institution"
+  },
+  {
+    "id": "6901d2a3-21a7-41e6-86b1-7d343cc08233",
+    "name": "Education center at Science Ventures Learning Hub.",
+    "category": "Education center"
+  },
+  {
+    "id": "01b8f777-b1ee-4845-91a5-6c7b34f57417",
+    "name": "Educational institution at School of Film & Media Studies",
+    "category": "Educational institution"
+  },
+  {
+    "id": "831d94cb-23ca-4081-a5eb-9741b638f2b1",
+    "name": "Private tutor at Tutor City Home Tuition Agency",
+    "category": "Private tutor"
+  },
+  {
+    "id": "69137f0d-2b4f-4407-bbd1-52e85ecda67d",
+    "name": "Association / Organization at Scripture Union Singapore",
+    "category": "Association / Organization"
+  },
+  {
+    "id": "c7adedaa-8e4a-4e9e-92be-92de510aaae2",
+    "name": "Meditation instructor at Sahaja Yoga Meditation",
+    "category": "Meditation instructor"
+  },
+  {
+    "id": "e314e573-3a08-494c-b183-c669979f760e",
+    "name": "Garden center at World Farm & Hua Hng Sungei Tengah",
+    "category": "Garden center"
+  },
+  {
+    "id": "1d556451-b43c-47ad-8982-5851fdda6daa",
+    "name": "Education center at Shinz School of Creativity",
+    "category": "Education center"
+  },
+  {
+    "id": "acbcd12b-8fd3-4377-953d-0d0b9dd9a716",
+    "name": "Children's camp at XCL Camps",
+    "category": "Children's camp"
+  },
+  {
+    "id": "1d349b3b-804b-4b92-8669-9d45581d52d1",
+    "name": "Geylang East Swimming - Pacific Swim Team",
+    "category": "Swimming"
+  },
+  {
+    "id": "073b13f8-b605-4cae-825e-17692472797c",
+    "name": "Kumon Learning Centre - Potong Pasir Ave 1 (Maths and English Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "44c43005-3877-4e1a-ac22-96fe80462e30",
+    "name": "Avante Arts",
+    "category": "Dance"
+  },
+  {
+    "id": "0ac5b527-626e-4dfa-b469-82f4c1129d45",
+    "name": "Chapter One",
+    "category": "English"
+  },
+  {
+    "id": "93c81970-7478-4168-a595-0ab1a6279bce",
+    "name": "Able Aquatic — Learn to Swim",
+    "category": "Swimming"
+  },
+  {
+    "id": "dd722b62-2419-437f-b4e1-7d0dec73ed35",
+    "name": "Children's club at The Mindful Camp",
+    "category": "Children's club"
+  },
+  {
+    "id": "d5030a99-7e99-401c-b433-524bac7a05b0",
+    "name": "Martial Arts at Xin Yi Wushu Academy",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "d809186e-1bf5-42b0-9067-fb9846e22f0f",
+    "name": "Coaching center at Skateboarding Academy (Central)",
+    "category": "Coaching center"
+  },
+  {
+    "id": "1dda4110-be2e-48d6-bb81-a9f5e7f7450e",
+    "name": "Religious school at SimplyIslam.sg",
+    "category": "Religious school"
+  },
+  {
+    "id": "0e6dedc4-52bb-403a-bde8-df54b52d4d0d",
+    "name": "Pottery store at Thow Kwang Pottery Jungle",
+    "category": "Pottery store"
+  },
+  {
+    "id": "85a6d806-54f6-43a3-86a6-fa3277c0ad2f",
+    "name": "C Win Learning Centre",
+    "category": "Chinese"
+  },
+  {
+    "id": "ec72b3c7-155c-464e-9039-6dd19a13843d",
+    "name": "Veterinarian at The Animal Clinic",
+    "category": "Veterinarian"
+  },
+  {
+    "id": "5946e711-ab99-4819-b47c-ad6ab6a4a806",
+    "name": "Able Aquatic School",
+    "category": "Swimming"
+  },
+  {
+    "id": "7ecd5c70-4d12-4187-9466-a505375214f8",
+    "name": "Cognitive Development Learning Centre",
+    "category": "Special Needs"
+  },
+  {
+    "id": "d300a4ed-335b-4be2-88e0-d6bf142fe37f",
+    "name": "Lowrey Music School",
+    "category": "Music"
+  },
+  {
+    "id": "22483447-7552-418b-8bac-bcebf12f96b9",
+    "name": "Maker.sg",
+    "category": "Coding"
+  },
+  {
+    "id": "d38f488a-f05c-46d0-bded-1a177fc19a93",
+    "name": "Joyhouse Learning Centre",
+    "category": "Music"
+  },
+  {
+    "id": "b79d6594-9f22-40c9-bd69-994e47d3a41c",
+    "name": "School at Young Leaders School - Public Speaking | Leadership for kids Singapore",
+    "category": "School"
+  },
+  {
+    "id": "978ff199-f5f3-4ec5-821b-5114d9c2a89e",
+    "name": "Education center at Young Nautilus Learning Journeys | Corporate Programmes | Nature Walks",
+    "category": "Education center"
+  },
+  {
+    "id": "b0063e71-25f3-429e-b655-fcb4dbd32a8b",
+    "name": "Clay By Jill",
+    "category": "Art"
+  },
+  {
+    "id": "889c0e29-74a8-4894-8955-e866e21bdcbb",
+    "name": "Therapy Kidz Pte. Ltd.",
+    "category": "Special Needs"
+  },
+  {
+    "id": "f982bdc6-69ae-487f-a4da-73d8e4931cff",
+    "name": "Brain Training at Futurum Academy - Coding and Robotics",
+    "category": "Brain Training"
+  },
+  {
+    "id": "17753335-12da-433b-81c1-d59542e9ea5a",
+    "name": "Education center at NK Robotics Westgate (Jurong East)",
+    "category": "Education center"
+  },
+  {
+    "id": "d807decc-d4c5-4d66-9429-d3a539178bcc",
+    "name": "School at The Growing Academy Pte. Ltd.",
+    "category": "School"
+  },
+  {
+    "id": "e5955d68-2566-4a8e-93cd-fb92e9483f3e",
+    "name": "Learning center at Singapore Brain Development Centre - ADHD, Dyslexia & Autism Treatment",
+    "category": "Learning center"
+  },
+  {
+    "id": "b19cbbf4-a8d6-4a9d-809e-1c4c72a1fcb0",
+    "name": "Chinese Edge - Singapore Mandarin Classes",
+    "category": "Chinese"
+  },
+  {
+    "id": "4b976c0e-0917-4480-a7ad-b974fa7abf95",
+    "name": "Learning center at Genius R Us",
+    "category": "Learning center"
+  },
+  {
+    "id": "5c50c604-a878-459f-860d-a806852dae8f",
+    "name": "Chinese Edge (Jurong Campus) - Learn Chinese Language in Singapore",
+    "category": "Chinese"
+  },
+  {
+    "id": "177f29e1-43aa-4641-91ba-719e52270b9a",
+    "name": "Archdiocesan Commission for Catholic Schools",
+    "category": "Religious Education"
+  },
+  {
+    "id": "4090da6b-8ecc-4b85-912a-0c8b7713b19a",
+    "name": "HiArt Esplanade",
+    "category": "Art"
+  },
+  {
+    "id": "c5c1d6e0-1981-477b-9331-7cf40148bd3f",
+    "name": "JSU Language School",
+    "category": "Languages"
+  },
+  {
+    "id": "6baaf096-591b-4d4a-9505-2d270b8af987",
+    "name": "Education center at Cleverland Tutorial Centre @ Tampines",
+    "category": "Education center"
+  },
+  {
+    "id": "2b9a80bb-d507-42b2-91ef-160b6d133f59",
+    "name": "My Art Studio",
+    "category": "Art"
+  },
+  {
+    "id": "fc86b066-ac04-45fa-8a67-8f14a1497ccb",
+    "name": "A1 Code Academy",
+    "category": "Coding"
+  },
+  {
+    "id": "13885c9f-c9b3-40d9-8bd9-ac55e09f07d4",
+    "name": "Artistic Expressions",
+    "category": "Drama"
+  },
+  {
+    "id": "1e13ea82-9610-4d38-bed5-6c8d6e6059cc",
+    "name": "FRENCH FASTER",
+    "category": "Languages"
+  },
+  {
+    "id": "44419549-b503-4e83-b641-7b831c69c893",
+    "name": "Animagine Pte. Ltd.",
+    "category": "Art"
+  },
+  {
+    "id": "10bc9a20-0fc1-4c40-b2a1-bcaef205ea3d",
+    "name": "Kumon Learning Centre - Marine Parade - Katong V (Maths and English Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "e3ea6a0c-2efd-43e4-b974-d18e3626a890",
+    "name": "Ecube Education Lab",
+    "category": "Mathematics"
+  },
+  {
+    "id": "bdba59f3-79ab-4c6d-91c4-13ca6741d6ca",
+    "name": "Life Skills at The Lab Singapore",
+    "category": "Life Skills"
+  },
+  {
+    "id": "04cca8c1-e293-4fbb-8cc9-29f1c04214dd",
+    "name": "Tour operator at ShangrilaCyclingTours - SCT by Shangrila Adventure",
+    "category": "Tour operator"
+  },
+  {
+    "id": "8fb10a7a-3b0e-450b-93ee-a1d211a3a4f4",
+    "name": "Landscaper at Urban Landscape Singapore Company (Landscaping & Gardening Services)",
+    "category": "Landscaper"
+  },
+  {
+    "id": "cc8a23da-bcbb-428a-9a02-95f6d306a829",
+    "name": "Jamiyah Academy",
+    "category": "Religious Education"
+  },
+  {
+    "id": "31ab19ab-5908-44aa-b99d-d5ba4b61ae2a",
+    "name": "Buddy Planet Education Centre",
+    "category": "Science"
+  },
+  {
+    "id": "e39f0ab5-ac46-4969-8625-eee35bb59b7c",
+    "name": "Farm at Singapore Indoor Farms Pte Ltd",
+    "category": "Farm"
+  },
+  {
+    "id": "8b88926b-5abe-48f2-9827-2f4c82c75366",
+    "name": "Meditation instructor at Singapore Meditation 新加坡修心中心 Pusat Meditasi Singapura சிங்கப்பூர் தியானம்",
+    "category": "Meditation instructor"
+  },
+  {
+    "id": "944d8bd1-9145-40be-aeca-ecdd02181006",
+    "name": "Kumon Learning Centre – Bedok Town Central (Maths and English Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "104813e8-65f2-45fc-ac66-8def8e41e974",
+    "name": "Colourful Notes Music and Art Studio",
+    "category": "Art"
+  },
+  {
+    "id": "519c3b55-1fe5-460b-9b61-790e5e322806",
+    "name": "Training provider at Singapore Safety Training Centre LLP",
+    "category": "Training provider"
+  },
+  {
+    "id": "b2b10743-4c5d-4ef3-8273-c925c62d45f2",
+    "name": "Learning center at Bike School Asia Pte. Ltd.",
+    "category": "Learning center"
+  },
+  {
+    "id": "397a5f51-af86-4401-b543-c6d2c828be32",
+    "name": "Training centre at Hustle Singapore (Somerset)",
+    "category": "Training centre"
+  },
+  {
+    "id": "6d63ae9d-c195-442d-9840-3e0fcb70d6c6",
+    "name": "Houseboat rental service at Water Sports Centre",
+    "category": "Houseboat rental service"
+  },
+  {
+    "id": "088cdafc-71e3-4a00-8119-0856bfb54588",
+    "name": "Little Quran Kids Blk 462 Tampines",
+    "category": "Religious Education"
+  },
+  {
+    "id": "ed0a9799-7d27-4b23-b62e-eeb2d3aca6ac",
+    "name": "Agricultural service at Sky Greens",
+    "category": "Agricultural service"
+  },
+  {
+    "id": "2af198cc-021d-4322-9d81-f7bf0d2a8545",
+    "name": "Education center at Thinking Factory Education Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "7f0d4d1f-723e-4f94-a154-4a9febaea82c",
+    "name": "Chiki can Paint - Hougang",
+    "category": "Art"
+  },
+  {
+    "id": "fc0ee92f-0ad2-4b71-abe2-1fc8808a5691",
+    "name": "Education center at Eye Level Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "ff423c22-31bf-4880-88d6-c29de6234d22",
+    "name": "International Fencing School",
+    "category": "Sports"
+  },
+  {
+    "id": "0e4aceff-d7c3-4b17-814d-c31a39f6b8d9",
+    "name": "Educational institution at Smarter Me",
+    "category": "Educational institution"
+  },
+  {
+    "id": "03b56465-5b80-477e-a7a5-5bdbdd86dbbf",
+    "name": "Education center at Wise Oaks International School",
+    "category": "Education center"
+  },
+  {
+    "id": "dad52a90-645c-493e-9a12-a5a2b51594d3",
+    "name": "Training centre at School of Speaking",
+    "category": "Training centre"
+  },
+  {
+    "id": "2ea1eca4-24da-4d50-b968-0f07d1bc9149",
+    "name": "Preschool at Smart Berriis",
+    "category": "Preschool"
+  },
+  {
+    "id": "720d45fd-54d7-40f7-b7ac-a0ef405498d1",
+    "name": "Apkim Resources",
+    "category": "Religious Education"
+  },
+  {
+    "id": "70ee62c1-f4f4-4064-bc41-a9ca8e98412d",
+    "name": "Self defense school at Self Defense Classes Singapore",
+    "category": "Self defense school"
+  },
+  {
+    "id": "5c732959-8c65-4c68-a43e-03e32f489f24",
+    "name": "Education center at Speech Academy Asia @ Woodlands",
+    "category": "Education center"
+  },
+  {
+    "id": "eb2a3ea4-357e-43bc-ba8a-7da921656491",
+    "name": "Training centre at Saddlewerkz",
+    "category": "Training centre"
+  },
+  {
+    "id": "a8d0290c-811a-433f-a674-2c75a9eafd30",
+    "name": "EE MUSIC SCHOOL(JURONG)",
+    "category": "Music"
+  },
+  {
+    "id": "6fd7b78c-8cc9-4c93-b178-f14fd9c17145",
+    "name": "Achievers Journey Tuition Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "e0d12c20-81be-4d50-bf8a-72f8113f856d",
+    "name": "Tampines",
+    "category": "STEM"
+  },
+  {
+    "id": "45e0787f-a072-4da6-878e-7dea73d26cdb",
+    "name": "Avant Theatre",
+    "category": "Drama"
+  },
+  {
+    "id": "1d4c112d-4839-45b3-89fe-3d964af3d11b",
+    "name": "Training centre at Speech Academy Asia Novena",
+    "category": "Training centre"
+  },
+  {
+    "id": "f8e9d62a-af8d-44a9-92fa-22ee51d9c7bb",
+    "name": "Education center at Writers Studio School of English (Kovan)",
+    "category": "Education center"
+  },
+  {
+    "id": "92b55d07-e0b7-45fc-8437-a8369c6e0714",
+    "name": "Catholic Archdiocesan Education Centre",
+    "category": "Religious Education"
+  },
+  {
+    "id": "ba970389-eef6-4c9b-bda0-169d19086d39",
+    "name": "Charity at St John Singapore (Jurong Centre)",
+    "category": "Charity"
+  },
+  {
+    "id": "986acffc-2bdb-4d12-82f3-2aaebd5f5eda",
+    "name": "新加坡华族舞蹈剧场 Singapore Chinese Dance Theatre",
+    "category": "Dance"
+  },
+  {
+    "id": "b4cac426-2f2b-4db0-9b3e-759c22bfae5f",
+    "name": "Coaching center at Chess.sg",
+    "category": "Coaching center"
+  },
+  {
+    "id": "3a38de2b-173f-46ad-bc13-054d9569231b",
+    "name": "Resilience Gym 坚韧道场",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "ff952d2b-f864-4bbe-98a1-d48f4b2792fd",
+    "name": "Animal shelter at SOSD Singapore",
+    "category": "Animal shelter"
+  },
+  {
+    "id": "0aaf7fa3-20a2-4c95-9b6b-20d95c535e32",
+    "name": "Counselor at Stress.SG",
+    "category": "Counselor"
+  },
+  {
+    "id": "b489d958-f46f-4509-b6e4-3879edcbe425",
+    "name": "Learning center at WondersWork",
+    "category": "Learning center"
+  },
+  {
+    "id": "eb5316d5-cc02-4966-9fb0-33f67bc3c969",
+    "name": "PeiPer Arts School",
+    "category": "Art"
+  },
+  {
+    "id": "cb83c6b0-b828-483b-826d-9c578e6c82db",
+    "name": "Curtis Music School",
+    "category": "Music"
+  },
+  {
+    "id": "aeeee39b-a8b2-421b-9f58-765f3fc9db2b",
+    "name": "Wedding photographer at Studio Five Weddings",
+    "category": "Wedding photographer"
+  },
+  {
+    "id": "65476b62-5ad8-4ecd-b129-95638d9dfc83",
+    "name": "IYU Chinese Learning Centre",
+    "category": "Chinese"
+  },
+  {
+    "id": "3b1493a0-d68e-4df3-9d23-5dbf02e64137",
+    "name": "Abrakadoodle",
+    "category": "Holiday Camp"
+  },
+  {
+    "id": "80b2ceac-70ee-4649-baa1-8bb43d3052a2",
+    "name": "Evo Learning Hub",
+    "category": "Chinese"
+  },
+  {
+    "id": "e176a5a8-dac2-40e5-8724-6a1998e165a5",
+    "name": "Darul Hidayah Learning Centre",
+    "category": "Religious Education"
+  },
+  {
+    "id": "6eb96adc-cd10-403b-a003-9f128e645750",
+    "name": "Education center at LingoAce",
+    "category": "Education center"
+  },
+  {
+    "id": "35b19192-11ad-4324-8e01-05ec1bde631d",
+    "name": "All Nihon Japanese Language Centre",
+    "category": "Languages"
+  },
+  {
+    "id": "97bf7004-2c83-401d-b890-060fccc2482b",
+    "name": "Little Sparks Montessori and Enrichment Centre",
+    "category": "Drama"
+  },
+  {
+    "id": "9480d144-26ac-4be6-9477-446c0aeb813d",
+    "name": "The Write Tribe",
+    "category": "English"
+  },
+  {
+    "id": "6f206d3e-5368-427b-97b7-1ea66dbe2d8d",
+    "name": "Anglican Preschool Services Ltd",
+    "category": "Religious Education"
+  },
+  {
+    "id": "ed2c4fec-5952-43ba-a037-ff734fd20f37",
+    "name": "Able Aquatic Swim School",
+    "category": "Swimming"
+  },
+  {
+    "id": "8fd3c8bb-33af-4527-8bba-99debe1ae553",
+    "name": "Nanyang Calligraphy Centre",
+    "category": "Art"
+  },
+  {
+    "id": "6817b96c-be9c-43c3-9052-9aed2984d656",
+    "name": "Opus One",
+    "category": "Music"
+  },
+  {
+    "id": "937c1dd1-1be6-4062-be69-0e0016c3b0da",
+    "name": "Education center at Stariffic",
+    "category": "Education center"
+  },
+  {
+    "id": "ec74d6de-bc06-4251-a263-dc1a0fd8db30",
+    "name": "Islamic Worldview School",
+    "category": "Enrichment"
+  },
+  {
+    "id": "75128c1e-8836-4c52-9f62-2349ae48a8c2",
+    "name": "Adult education school at Tertiary Infotech Pte Ltd",
+    "category": "Adult education school"
+  },
+  {
+    "id": "a8757849-1e1d-4ecf-93fa-ac5c3bb7084e",
+    "name": "Education center at robotics revolution",
+    "category": "Education center"
+  },
+  {
+    "id": "0f092bd7-a689-4705-aa29-ae83756c14fa",
+    "name": "Photography studio at Studio 2020",
+    "category": "Photography studio"
+  },
+  {
+    "id": "ed2aa32c-9c06-4a84-9da2-8724432b7684",
+    "name": "Dragons Rugby Club",
+    "category": "Sports"
+  },
+  {
+    "id": "6554990f-3c12-4ad1-a860-94ebe4cda05d",
+    "name": "SwimHub Swimming School",
+    "category": "Swimming"
+  },
+  {
+    "id": "55872e83-0468-4d0f-8808-bae516f5080d",
+    "name": "Catholic Welfare Services",
+    "category": "Religious Education"
+  },
+  {
+    "id": "fba2fe3e-6d5f-4759-b0aa-cc9d6cd8f103",
+    "name": "All That Jazz Dance Academy (Claymore)",
+    "category": "Dance"
+  },
+  {
+    "id": "686d0f9f-e4e8-4380-982d-fc24c6370f11",
+    "name": "EXIS - Extreme Inline Sports",
+    "category": "Sports"
+  },
+  {
+    "id": "6a2e11dc-5d22-4de7-b4a9-c015e970ae34",
+    "name": "Absolute Learning Centre",
+    "category": "English"
+  },
+  {
+    "id": "39c9acee-ab45-4a7d-97cb-25bbcba12c1d",
+    "name": "Beidou Chinese Chess Club",
+    "category": "Chess"
+  },
+  {
+    "id": "fb9ec801-6ef3-4c94-9e12-921341afcc63",
+    "name": "Percussive Arts and Music School",
+    "category": "Music"
+  },
+  {
+    "id": "3373d8fd-aa0b-496d-9723-71adb994ed2b",
+    "name": "ASEAN Chess Academy",
+    "category": "Chess"
+  },
+  {
+    "id": "6855d763-4e9b-403e-81f5-9c8b43dfa846",
+    "name": "Seimpi Education Group",
+    "category": "Holiday Camp"
+  },
+  {
+    "id": "0c4aab7f-7b92-4011-9a3d-850175a55b1a",
+    "name": "Education center at Chen Higher Chinese Tuition",
+    "category": "Education center"
+  },
+  {
+    "id": "4c3981b9-28f3-48b1-b1a0-b3390534a4ff",
+    "name": "Bold Moment | Theatre & Actor Training | Singapore",
+    "category": "Drama"
+  },
+  {
+    "id": "7ad6471a-1259-407a-9964-823f21065bd8",
+    "name": "Bellydance Haven",
+    "category": "Dance"
+  },
+  {
+    "id": "8eb1511a-fa25-4e51-81fe-047017978258",
+    "name": "Dempsey Academy",
+    "category": "Music"
+  },
+  {
+    "id": "7461339e-2680-4359-91d4-5d0d6e0d537c",
+    "name": "Stamford Scholars (Student Care and Tuition)",
+    "category": "Sports"
+  },
+  {
+    "id": "870b562a-b325-4dfa-9d83-c9786fed67cc",
+    "name": "Faith Music Centre",
+    "category": "Music"
+  },
+  {
+    "id": "a53bbc99-dbb8-4691-8feb-88675a41559d",
+    "name": "Preschool at Mahad Al-Nasry @ Sengkang",
+    "category": "Preschool"
+  },
+  {
+    "id": "b0d566a3-04f8-442e-8a32-9e0795214509",
+    "name": "Verve Academy",
+    "category": "Dance"
+  },
+  {
+    "id": "48b0f813-495c-49f2-977c-4032f33b6b37",
+    "name": "BG Badminton Academy",
+    "category": "Sports"
+  },
+  {
+    "id": "687a9010-e1ad-4c51-bd3c-2797c81370de",
+    "name": "Child Evangelism Fellowship (Singapore) Ltd",
+    "category": "Religious Education"
+  },
+  {
+    "id": "b16762f7-ef91-4889-815a-2a0cf6ae7467",
+    "name": "Tutoring service at CMA Mental Arithmetic (Choa Chu Kang) Centre",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "d2ab5124-7593-46c7-aaa6-17e29f897d52",
+    "name": "Dance Factory Singapore",
+    "category": "Dance"
+  },
+  {
+    "id": "7413e550-64a0-42ca-b6ec-d74f88fc8367",
+    "name": "Brainy Child Montessori Learning Centre",
+    "category": "Chinese"
+  },
+  {
+    "id": "12240242-f8a9-4ebf-a304-9a2868ea6042",
+    "name": "Education center at Young at Art Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "13abf8d1-d712-4e88-a3bd-360c92e20a6a",
+    "name": "Palais Dance Studio I Singapore Ballet School",
+    "category": "Dance"
+  },
+  {
+    "id": "22231090-904a-4c68-9e1a-f52bde32a84b",
+    "name": "Strum and Praise",
+    "category": "Music"
+  },
+  {
+    "id": "029f25bd-77cb-441c-a5a6-4e933bcfc4c9",
+    "name": "Learning center at Crestar Learning Centre @ Woodlands Civic Centre",
+    "category": "Learning center"
+  },
+  {
+    "id": "c3a814e9-e0ad-40a6-93e3-374383f2c5f2",
+    "name": "School at 明辉教育My Bright Education Centre",
+    "category": "School"
+  },
+  {
+    "id": "66f04af3-befb-446e-9f0a-b0eab1267dbc",
+    "name": "Education center at The Lab Singapore (Kinex)",
+    "category": "Education center"
+  },
+  {
+    "id": "9962de40-2238-4caf-bb73-7d8b8a60b1f5",
+    "name": "SuperMinds",
+    "category": "Enrichment"
+  },
+  {
+    "id": "8e725000-42c6-45bb-a79b-e36bcf678307",
+    "name": "Agricultural service at Upgrown Farming Co. (Indoor/Vertical/Urban/Hydroponics Farming)",
+    "category": "Agricultural service"
+  },
+  {
+    "id": "15dfeca4-1d94-4d26-b9db-8cba481bbc1a",
+    "name": "ActiveSG Football Academy (Beatty Sec)",
+    "category": "Football"
+  },
+  {
+    "id": "4ef9830f-641d-4d88-bfaf-f68b1028086f",
+    "name": "Brain Training at The Lab Singapore",
+    "category": "Brain Training"
+  },
+  {
+    "id": "9b10ba5b-3a15-4ea3-a53e-559c4b822d68",
+    "name": "Wellness program at Wellness Journey",
+    "category": "Wellness program"
+  },
+  {
+    "id": "d546eb25-6a0e-49b6-87f3-8ae6f4e10c57",
+    "name": "Training centre at Singapore Emergency Responder Academy",
+    "category": "Training centre"
+  },
+  {
+    "id": "6f7e5982-46ea-4841-8fc0-fd244d6015f1",
+    "name": "Training provider at The Media Skool Pte Ltd ( Media Training Provider based in Singapore)",
+    "category": "Training provider"
+  },
+  {
+    "id": "05635643-a173-428b-94dc-6cd54c4a12f5",
+    "name": "Photography service at The Digital Moments",
+    "category": "Photography service"
+  },
+  {
+    "id": "c6b4002a-6dd6-4ed5-9ca8-c77ccc79e96c",
+    "name": "Paper Monkey Theatre Ltd",
+    "category": "Drama"
+  },
+  {
+    "id": "d7efa5c3-6875-4f55-9a6a-81f18a7f47f5",
+    "name": "Education center at SkyGems Academy",
+    "category": "Education center"
+  },
+  {
+    "id": "3c1d7e8d-56f2-47e9-afad-52de59b6529b",
+    "name": "Dowell Tuition Centre",
+    "category": "Chinese"
+  },
+  {
+    "id": "46a1d4ce-df11-40aa-bef7-c9cb3f3031ca",
+    "name": "Edumore Learning Centre",
+    "category": "Science"
+  },
+  {
+    "id": "47e3e9be-9eb5-477f-905b-ab1f80f2aabd",
+    "name": "L'Academie de Danse - Singapore",
+    "category": "Dance"
+  },
+  {
+    "id": "f167fc12-1b65-4e59-a19e-f3d3d143331e",
+    "name": "Catholic High School",
+    "category": "Religious Education"
+  },
+  {
+    "id": "6a781da1-1d22-4c1b-9edf-616c6a6ca5d8",
+    "name": "Swimium Condo",
+    "category": "Swimming"
+  },
+  {
+    "id": "d8fdff91-b4ad-47e3-bb91-4924a9ccefc5",
+    "name": "Learning Cottage Little Explorers Club (Explorers Edu-Place)",
+    "category": "Drama"
+  },
+  {
+    "id": "dfc851c1-9a6d-4aa7-b47a-5246ea892614",
+    "name": "Artiste Quotient",
+    "category": "Dance"
+  },
+  {
+    "id": "49cd1655-b6a8-4b3c-83f8-9a97327740f9",
+    "name": "Tutoring service at CMA Mental Arithmetic (Jurong West Central) Centre",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "db5221a4-0562-4cfc-871f-553782ebfac6",
+    "name": "Coding Classes for kids in Singapore",
+    "category": "Coding"
+  },
+  {
+    "id": "dfae05a9-2735-4ee4-a70a-63f05a3b2ebf",
+    "name": "Advanced Learning Centre",
+    "category": "Chinese"
+  },
+  {
+    "id": "efc849fc-ac7e-467b-963a-1d84c9d64408",
+    "name": "Ballet Eastern Dance",
+    "category": "Dance"
+  },
+  {
+    "id": "c65a8c66-cd67-4902-a6c1-2e0e926fb64a",
+    "name": "Asian Pastoral Institute",
+    "category": "Religious Education"
+  },
+  {
+    "id": "118d2c0b-3e25-4b35-9218-ff4d38a4768f",
+    "name": "Preschool at Cherie Hearts @ Charlton",
+    "category": "Preschool"
+  },
+  {
+    "id": "3d900f53-0908-449b-a279-4ef3aac60849",
+    "name": "J H Kim Taekwondo Institute (Toh Tuck)",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "25e227a7-3760-4138-9a99-2e41bd2fc943",
+    "name": "Education center at Good School Learning Hub - Kovan",
+    "category": "Education center"
+  },
+  {
+    "id": "36f8159f-be04-42a6-afc8-330fa0e2c9d6",
+    "name": "Camden Education Center",
+    "category": "Mathematics"
+  },
+  {
+    "id": "d96a34a5-5e37-49a0-99dc-91921502eef0",
+    "name": "Speech pathologist at The Speech Practice Pte Ltd",
+    "category": "Speech pathologist"
+  },
+  {
+    "id": "3e7ca0d6-9b8b-4587-a492-ec308e3ea9ac",
+    "name": "Little Swim School",
+    "category": "Swimming"
+  },
+  {
+    "id": "2af9ebd2-a4be-4a4b-86ca-e90a081e4a51",
+    "name": "Education center at The Little House (Montessori)",
+    "category": "Education center"
+  },
+  {
+    "id": "a03e9a31-c2c5-4059-aed0-5626e8fc8e17",
+    "name": "Life Skills at The Writer's Place",
+    "category": "Life Skills"
+  },
+  {
+    "id": "1203dea2-e32f-4657-9a35-dc1f35774f3d",
+    "name": "Education center at Eye Level @ Heartbeat Bedok",
+    "category": "Education center"
+  },
+  {
+    "id": "092d10c6-d517-47ab-84dc-cd9d0ff72782",
+    "name": "Learning center at Eye Level West Coast Plaza",
+    "category": "Learning center"
+  },
+  {
+    "id": "4f22a56e-81b4-41c6-b04b-6d72bb0a1e4d",
+    "name": "Buddhist temple at Thekchen Choling Singapore 新加坡大乘禅寺",
+    "category": "Buddhist temple"
+  },
+  {
+    "id": "7729c67c-34dd-49a8-b73a-72bd5e68770d",
+    "name": "Elite Education & Talent Centre",
+    "category": "Holiday Camp"
+  },
+  {
+    "id": "dcdaaab4-92e2-4dc2-a8ea-fee60eb97739",
+    "name": "Little Green Kitchen",
+    "category": "Cooking"
+  },
+  {
+    "id": "55d503f8-9be4-42e8-b1ea-3d352f3f1627",
+    "name": "Donason Deen Education Centre",
+    "category": "Science"
+  },
+  {
+    "id": "b5b6d1e1-6b39-48cb-9443-6cfc6d768628",
+    "name": "Singafit - Fun Kids Sports Camps in Singapore.",
+    "category": "Holiday Camp"
+  },
+  {
+    "id": "591d4fbd-7d83-4f34-a9e5-624215881da2",
+    "name": "Casco Enrichment Centre",
+    "category": "Science"
+  },
+  {
+    "id": "047ae637-8d86-4f53-a509-bfee7661db0b",
+    "name": "Rhythmic Fitness",
+    "category": "Sports"
+  },
+  {
+    "id": "31660720-fca9-405c-baba-a4e6440969cd",
+    "name": "Training provider at Think Story Speak",
+    "category": "Training provider"
+  },
+  {
+    "id": "6fd6a5dc-8245-45e4-8f79-4c9899382e35",
+    "name": "swim 2 survive",
+    "category": "Swimming"
+  },
+  {
+    "id": "1eff5444-aa39-481d-8ebb-f009b7e58a23",
+    "name": "Education center at Writers Studio School of English (Beauty World Centre)",
+    "category": "Education center"
+  },
+  {
+    "id": "21884b99-7ac2-4fc4-87e1-d9120b5ea0cc",
+    "name": "Essential Minds Tutorial Centre",
+    "category": "English"
+  },
+  {
+    "id": "fa6c191a-f02c-49f8-8aaa-afd898a92a6c",
+    "name": "School at Tung Ling Bible School",
+    "category": "School"
+  },
+  {
+    "id": "522a5ef3-75d0-4314-8efd-1ecbe84b39a1",
+    "name": "Life Skills at GRAPES Enrichment Pte Ltd",
+    "category": "Life Skills"
+  },
+  {
+    "id": "32f4dc5c-aff0-4d9f-9283-40d920be5d94",
+    "name": "Child health care centre at The Grounds Therapy Singapore",
+    "category": "Child health care centre"
+  },
+  {
+    "id": "fea884bb-8d33-4431-adb4-d8abd3f97aa9",
+    "name": "School at Young Engineers Jurong East",
+    "category": "School"
+  },
+  {
+    "id": "fd0b14e3-db50-48a3-be71-1a90e45c3a39",
+    "name": "Bicycle repair shop at TRAIL+ | Your Mountain Bike Specialist",
+    "category": "Bicycle repair shop"
+  },
+  {
+    "id": "3003bca5-9619-4b0a-81fa-186fa326a62a",
+    "name": "All That Jazz Dance Academy",
+    "category": "Dance"
+  },
+  {
+    "id": "6f2ca1a3-eca5-4e71-9274-21bb2f0abe89",
+    "name": "Avant Culinary School | Private Cooking Lessons Singapore",
+    "category": "Cooking"
+  },
+  {
+    "id": "30498614-090c-4d1c-9212-02856bae88df",
+    "name": "Sew Into It",
+    "category": "Art"
+  },
+  {
+    "id": "f64206d4-475b-4119-bfb6-02cfd13ea391",
+    "name": "Elite Fencing Pte Ltd",
+    "category": "Sports"
+  },
+  {
+    "id": "5de64856-2d5b-4bea-8524-c7e22b4ff219",
+    "name": "Speech Lab Pte. Ltd.",
+    "category": "English"
+  },
+  {
+    "id": "b25cd6b3-7344-47ef-aaea-73f2c8e20a28",
+    "name": "Education center at UpChild Baby Sleep Consultation and Baby Signs",
+    "category": "Education center"
+  },
+  {
+    "id": "aa357bf7-95b8-4613-add1-6ca5d2942f92",
+    "name": "Agricultural service at Urban Green Dot Pte Ltd",
+    "category": "Agricultural service"
+  },
+  {
+    "id": "eb2c39ef-8354-43f9-9f50-2e0fec72358f",
+    "name": "Lip Golf",
+    "category": "Sports"
+  },
+  {
+    "id": "0fa27096-3a40-48e0-90db-50527a7e8a4f",
+    "name": "The Finger Players",
+    "category": "Drama"
+  },
+  {
+    "id": "a77e6503-6379-4a9e-8384-3369e20cae2b",
+    "name": "Veterinarian at Veterinary Rehabilitation and Hydrotherapy Centre",
+    "category": "Veterinarian"
+  },
+  {
+    "id": "0043dc41-90ae-4a42-9d5f-4f9ee782606e",
+    "name": "Organic farm at Urban Organics",
+    "category": "Organic farm"
+  },
+  {
+    "id": "1daed29d-7b0e-4d32-932b-30c18cb46e7d",
+    "name": "@Libitum Pte Ltd, Music and Art Studio",
+    "category": "Music"
+  },
+  {
+    "id": "160ddb6e-1c86-4540-93d2-56f9c2f7dc0c",
+    "name": "Buddy Planet Education Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "cbfac430-25fb-4e4d-97cb-562b0401b4dc",
+    "name": "Ballet Classes @ Toa Payoh (The Dance Hub)",
+    "category": "Dance"
+  },
+  {
+    "id": "b326a2c1-3519-4d71-b2fd-fd6c14d88113",
+    "name": "Donason Deen Education Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "26cd4bdb-0189-45d0-a8c7-e6124a6260b0",
+    "name": "Veterinarian at West Coast Vetcare",
+    "category": "Veterinarian"
+  },
+  {
+    "id": "e4c33731-05db-4146-8a22-69de2ae4672f",
+    "name": "Water sports equipment rental service at Wake Pirates",
+    "category": "Water sports equipment rental service"
+  },
+  {
+    "id": "c3077e0b-70d6-470c-9e10-97df048c5df6",
+    "name": "Farm at wethefarm",
+    "category": "Farm"
+  },
+  {
+    "id": "b96aaf03-7ece-4478-aa9d-72a94e0118ff",
+    "name": "Education center at 2B Robotics Education (Jurong East)",
+    "category": "Education center"
+  },
+  {
+    "id": "c520be6f-0f1e-49d4-9ea3-535331a79282",
+    "name": "Concert hall at Victoria Concert Hall",
+    "category": "Concert hall"
+  },
+  {
+    "id": "f47152e6-32cf-444e-bda9-a916c7ebf1fe",
+    "name": "Bumblebee Language Centre",
+    "category": "Chinese"
+  },
+  {
+    "id": "162d3dbb-e0c8-4656-94b2-dd33b6543383",
+    "name": "Education center at Aspire Hub @ Parkway Parade",
+    "category": "Education center"
+  },
+  {
+    "id": "bb466069-d3aa-47d5-8c67-31a95bbd2900",
+    "name": "Water skiing instructor at WAKEPIT",
+    "category": "Water skiing instructor"
+  },
+  {
+    "id": "837f40f2-240f-4f7b-943d-ac4d4aea19b3",
+    "name": "School at Victory Life Christian School",
+    "category": "School"
+  },
+  {
+    "id": "10fc0634-14fb-4b99-b063-3a17c0fa12c5",
+    "name": "The Fins Swim School",
+    "category": "Swimming"
+  },
+  {
+    "id": "ebc4163a-8c5a-4b00-9aa1-5c8681f27064",
+    "name": "Garden center at World Farm & Hua Hng Jurong",
+    "category": "Garden center"
+  },
+  {
+    "id": "1f474e7f-6c7a-416f-a639-7688a9a1a0e4",
+    "name": "Casco Enrichment Centre",
+    "category": "Chinese"
+  },
+  {
+    "id": "d69240b6-8606-432e-a6a4-239e6c0ec824",
+    "name": "Quran Class SG - Nadi Quranic Learning Centre (Kembangan)",
+    "category": "Religious Education"
+  },
+  {
+    "id": "142e8efb-cc4b-4cd1-b40c-0c196fc1944c",
+    "name": "Video production service at Vivid Media Pte. Ltd. (Vivid Snaps Video Production)",
+    "category": "Video production service"
+  },
+  {
+    "id": "e9f600ce-8aac-419f-9a33-93780f0121fb",
+    "name": "Training centre at Singapore Red Cross Academy @ Atrium",
+    "category": "Training centre"
+  },
+  {
+    "id": "9db28b46-9ec0-463e-8d7d-9bea428d876a",
+    "name": "Forms Ballet and Dance Centre",
+    "category": "Dance"
+  },
+  {
+    "id": "85750790-62ae-47e9-bf88-908cd76f64dc",
+    "name": "Nadifurqan Singapore",
+    "category": "Religious Education"
+  },
+  {
+    "id": "6bde36bb-1c6d-4671-84d3-873dcb99384d",
+    "name": "Kelas Asas Al Quran",
+    "category": "Religious Education"
+  },
+  {
+    "id": "1953cde7-3843-41bf-a98c-68e6a1a2b716",
+    "name": "Agape Music School",
+    "category": "Dance"
+  },
+  {
+    "id": "9c4d6375-2798-4a68-9a0c-1a7a85edbab8",
+    "name": "Education center at Xuelin Learning Hub Kovan Branch",
+    "category": "Education center"
+  },
+  {
+    "id": "4676c919-8c74-4476-b7f8-6df0cf07acaa",
+    "name": "Canossa Catholic Primary School",
+    "category": "Religious Education"
+  },
+  {
+    "id": "3f86c00b-b847-4c7a-b9ac-d146fe86d603",
+    "name": "Bibinogs Kids Academy",
+    "category": "English"
+  },
+  {
+    "id": "a72c8859-3ac3-43cc-b678-1bc8f4ff8686",
+    "name": "International school at XCL World Academy",
+    "category": "International school"
+  },
+  {
+    "id": "f3eb565c-5f2b-48ea-b628-256a5fd650b1",
+    "name": "Education center at Yanzi Mandarin - Chinese Tuition & Enrichment",
+    "category": "Education center"
+  },
+  {
+    "id": "ce5ea7da-665f-4b6a-9656-fd67abaf21b5",
+    "name": "St. Gabriel's Secondary School",
+    "category": "Religious Education"
+  },
+  {
+    "id": "8f2448f2-15c1-486b-87ca-9a68683e66e7",
+    "name": "Contempo Music School",
+    "category": "Music"
+  },
+  {
+    "id": "dd3b8a37-0ce7-4c69-8715-e40fca5a2425",
+    "name": "Catholic Preschool Education (Singapore) Ltd",
+    "category": "Religious Education"
+  },
+  {
+    "id": "bad108cd-2f0d-4fb3-9702-c6901862b673",
+    "name": "Glisse Figure Skating Academy",
+    "category": "Sports"
+  },
+  {
+    "id": "882e4085-0a7a-4654-8bd6-a0517bacfb3f",
+    "name": "Brain Training at EE Music School",
+    "category": "Brain Training"
+  },
+  {
+    "id": "62e0415d-f32e-4aac-b315-ceac5e8707ab",
+    "name": "Education center at You Cheng Education Center",
+    "category": "Education center"
+  },
+  {
+    "id": "22939583-618c-41ed-84e7-797053510465",
+    "name": "Future Masters Robotics Coding School/Course for Kids",
+    "category": "Enrichment"
+  },
+  {
+    "id": "528bdccd-3f42-434f-9532-70a7756e2651",
+    "name": "Tutoring service at Axcell Tuition Centre, Queenstown",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "d061439b-8db8-406a-89cd-bb16d978c652",
+    "name": "Community center at Yuhua Community Club",
+    "category": "Community center"
+  },
+  {
+    "id": "ee760a7d-f5b8-461f-8e50-8e03256ef6b8",
+    "name": "Heguru Education @ The Woodleigh Mall",
+    "category": "Enrichment"
+  },
+  {
+    "id": "4aab70c0-e2e5-4f83-a6ec-629e2dd1dcfc",
+    "name": "Casco Enrichment Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "f306f2b4-f00e-4cab-8978-078163047bbb",
+    "name": "Training centre at The Rhetoric Collective",
+    "category": "Training centre"
+  },
+  {
+    "id": "145ab6b2-525c-4de4-9bec-2dfd9b015118",
+    "name": "The Art People Marine Parade",
+    "category": "Art"
+  },
+  {
+    "id": "823f5e32-5f0c-400a-84bc-c3af4bb645ce",
+    "name": "Punggol",
+    "category": "STEM"
+  },
+  {
+    "id": "205aaf51-e2f6-4e91-adcb-e2f9f3b6a68a",
+    "name": "Evangelical church at The Bible Church, Singapore",
+    "category": "Evangelical church"
+  },
+  {
+    "id": "f0ae6452-7162-47f6-bd1f-0b8f07716c75",
+    "name": "Education center at Best STEAM Junior Enrichment Classes Singapore",
+    "category": "Education center"
+  },
+  {
+    "id": "26a5b68e-eb96-42ac-9ffa-c5b6a9090f0e",
+    "name": "Tutoring service at CMA Mental Arithmetic Centre (Canberra) Pte Ltd",
+    "category": "Tutoring service"
+  },
+  {
+    "id": "f7014a75-51a7-4351-912b-9ef3e6c8b36d",
+    "name": "BrightNotes — Montessori & Suzuki Piano",
+    "category": "Piano"
+  },
+  {
+    "id": "f1117ab0-0071-4037-b122-96f52c6e1239",
+    "name": "Longkang Adventures",
+    "category": "Sports"
+  },
+  {
+    "id": "b57a391f-208e-4132-b448-070c0d435919",
+    "name": "Achievor Art and Culture",
+    "category": "Art"
+  },
+  {
+    "id": "df6dbb28-15ca-40be-bef3-c254dfbb2955",
+    "name": "Hajjah Rahimahbi Mosque Kindergarten",
+    "category": "Religious Education"
+  },
+  {
+    "id": "cab970a3-cdcc-4df4-bdff-f04bd02451a5",
+    "name": "MakerHive Singapore",
+    "category": "STEM"
+  },
+  {
+    "id": "ef5e0210-5a72-4f75-a08b-0bffc7026ef2",
+    "name": "Pacific Swim Team Pasir Ris",
+    "category": "Swimming"
+  },
+  {
+    "id": "b9b4b68d-81b4-42bb-b194-96983f6ff365",
+    "name": "Avante Arts",
+    "category": "Holiday Camp"
+  },
+  {
+    "id": "4781e87e-9028-4182-9fe2-694498fcfd69",
+    "name": "Think Bahasa",
+    "category": "Malay"
+  },
+  {
+    "id": "597807f7-f859-451c-9080-cc0bc38bdf8c",
+    "name": "Peace Peas Play",
+    "category": "Play"
+  },
+  {
+    "id": "107954c6-28db-4dac-96ce-b51840e4cd6a",
+    "name": "Frankel Tutors",
+    "category": "Science"
+  },
+  {
+    "id": "0bf61caf-dee9-4874-aa0e-5273d42c3737",
+    "name": "Cognitive Development Learning Centre",
+    "category": "English"
+  },
+  {
+    "id": "645bd339-703c-4ec5-a791-80aaee1aba39",
+    "name": "WaterJoy Swim School",
+    "category": "Swimming"
+  },
+  {
+    "id": "c06919f1-2bcb-4135-9dbd-1beb3131e3a0",
+    "name": "Real Madrid Foundation Football School Katong",
+    "category": "Football"
+  },
+  {
+    "id": "45878f7f-44c7-443b-8250-9c36a97abf49",
+    "name": "Life Skills at Budding Acorns Education Centre",
+    "category": "Life Skills"
+  },
+  {
+    "id": "1d80bd14-a9e9-41fb-b695-687ce50be760",
+    "name": "Girls Soccer Academy",
+    "category": "Football"
+  },
+  {
+    "id": "bdccbe1f-0f65-4953-a658-80e79ff2a7b5",
+    "name": "Acropolis English Centre Pte Ltd",
+    "category": "Languages"
+  },
+  {
+    "id": "6e93b4a5-fca7-48ab-aba6-85fc2be80929",
+    "name": "Taoist temple at Thian Hock Keng Temple",
+    "category": "Taoist temple"
+  },
+  {
+    "id": "bdba3130-fb89-4898-9b16-42f95e6a857a",
+    "name": "LK Academy",
+    "category": "Enrichment"
+  },
+  {
+    "id": "17ebe849-cb30-4389-8b5c-99d228f6b82d",
+    "name": "Brain Training at Budding Acorns Education Centre",
+    "category": "Brain Training"
+  },
+  {
+    "id": "d1c5698f-42cc-42da-beaa-f67b713bd4a1",
+    "name": "dMaster Learning Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "513a82fd-0736-4d9c-adbb-72c6f1e241a5",
+    "name": "The SKILT Centre @ Upper Thomson",
+    "category": "Special Needs"
+  },
+  {
+    "id": "a2d724f7-bd4a-4cfe-a803-f63613e9196a",
+    "name": "School at ThinkTamil Academy",
+    "category": "School"
+  },
+  {
+    "id": "b0a20fc4-cb4b-4749-a474-307aed176cfe",
+    "name": "Education center at HAO Chinese Tuition Centre 好学堂 (HQ)",
+    "category": "Education center"
+  },
+  {
+    "id": "12909bdf-a9f7-4a99-bdba-42ed4f3eabec",
+    "name": "Littlefoot Academy by Littlefoot Developmental Services",
+    "category": "Special Needs"
+  },
+  {
+    "id": "128a370a-460a-4510-84ee-604cf2b1fa37",
+    "name": "Learning center at tinkermind",
+    "category": "Learning center"
+  },
+  {
+    "id": "f65b2315-3fb2-427d-b5ca-cd07f4a0d530",
+    "name": "Water skiing service at The Wake Collective",
+    "category": "Water skiing service"
+  },
+  {
+    "id": "62a69912-ba45-4481-a6ac-a2df982be644",
+    "name": "Precept Ministries (Singapore)",
+    "category": "Religious Education"
+  },
+  {
+    "id": "1a4fb988-3a2a-48a8-9c63-cdc363a5e90f",
+    "name": "J Carter Centre for Public Speaking",
+    "category": "Drama"
+  },
+  {
+    "id": "bef559cc-c63b-4e52-9140-fc5ad6e769d9",
+    "name": "Education center at Tree Art (Paya Lebar Campus)",
+    "category": "Education center"
+  },
+  {
+    "id": "f7a1316b-d37d-4672-855c-6f28ee9b1012",
+    "name": "The Ballet & Music Company",
+    "category": "Dance"
+  },
+  {
+    "id": "80add925-b1b0-4fe6-a8cc-36e22abe3d57",
+    "name": "LCCL Coding Academy",
+    "category": "Coding"
+  },
+  {
+    "id": "84847522-edd5-41a9-abc2-494c7027aa52",
+    "name": "Education center at HAO Chinese Tuition Centre 好学堂 (Bukit Batok)",
+    "category": "Education center"
+  },
+  {
+    "id": "4be17b4d-e3a1-4f84-8704-9e98b6de7b59",
+    "name": "Education center at Aspire Hub @ United Square",
+    "category": "Education center"
+  },
+  {
+    "id": "1d4ca65e-a759-46f0-a139-0303fe45c8b9",
+    "name": "The SKILT Centre @ Bukit Timah",
+    "category": "Special Needs"
+  },
+  {
+    "id": "1580916d-0ed6-4f17-9c0b-334f60bc6a9d",
+    "name": "K-Pop Dance — Learn the Choreo",
+    "category": "Dance"
+  },
+  {
+    "id": "0a425a1c-d5c5-4ef1-ad0b-8d44673a70ef",
+    "name": "Boldly In Art",
+    "category": "Art"
+  },
+  {
+    "id": "8da146d8-8a97-4035-8386-6d938a0e9b31",
+    "name": "Essence Education Centre",
+    "category": "Chinese"
+  },
+  {
+    "id": "f612a15d-57a8-40cb-be3f-f57cd328d31f",
+    "name": "Climbodachi",
+    "category": "Rock Climbing"
+  },
+  {
+    "id": "4e2492cf-cd33-4895-bb10-7b9662e65749",
+    "name": "Creative Movement & Contemporary Dance",
+    "category": "Dance"
+  },
+  {
+    "id": "ec6d7a74-81a8-49d2-a083-ae0c89451c7a",
+    "name": "Camden Education Center",
+    "category": "Chinese"
+  },
+  {
+    "id": "75a7a598-9f67-420f-9adf-b5d0e996977c",
+    "name": "Traditional Archers Singapore",
+    "category": "Sports"
+  },
+  {
+    "id": "0a1b7609-9f1d-4979-a8ef-4b27dcd091a7",
+    "name": "Al Misbah Academy",
+    "category": "Religious Education"
+  },
+  {
+    "id": "a282856e-0668-467c-bef6-05d64540b9ae",
+    "name": "Hougang Japanese Language School",
+    "category": "Languages"
+  },
+  {
+    "id": "80cb7ee7-a117-4cd9-8f15-680d428d1fdb",
+    "name": "Training provider at Speak Sell Succeed 🎤 Public Speaking & Presentation Skills",
+    "category": "Training provider"
+  },
+  {
+    "id": "a74c1134-1500-4197-bb61-ef3c63998d57",
+    "name": "The Enrichment Classroom",
+    "category": "Holiday Camp"
+  },
+  {
+    "id": "7360f964-d5cf-4da7-9702-d09f753265cc",
+    "name": "Fame Music School",
+    "category": "Music"
+  },
+  {
+    "id": "787f9e21-c8ae-4cd9-87c3-7801b55056b8",
+    "name": "Artiste Quotient | AQ Dance Academy",
+    "category": "Dance"
+  },
+  {
+    "id": "bc5f8df3-f9e1-4f85-9bb8-175b73bfb8a5",
+    "name": "Infiniti Kids Multi Sport (Macpherson)",
+    "category": "Sports"
+  },
+  {
+    "id": "2ff7c6bd-dc96-424c-aad0-c7edac8f85dd",
+    "name": "Learning center at Cordova Education Centre",
+    "category": "Learning center"
+  },
+  {
+    "id": "9ff7171f-bd07-4dc8-adb2-d234c7eb5c92",
+    "name": "Aspen Learning Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "e3e74848-9774-4361-b95f-f779179c0e98",
+    "name": "Young Chef Academy — Professional Kitchen Experience",
+    "category": "Cooking"
+  },
+  {
+    "id": "97cbd018-a37f-4040-8d5a-bc3ff49f9da4",
+    "name": "SG Sink Or Swim",
+    "category": "Swimming"
+  },
+  {
+    "id": "eda763a8-b6c4-4e47-8a89-1da19e43dc3f",
+    "name": "Aspen Learning Centre",
+    "category": "Science"
+  },
+  {
+    "id": "3e7163a1-a7c3-45a8-b720-e67c0d2fa13a",
+    "name": "HiArt Tiong Bahru",
+    "category": "Art"
+  },
+  {
+    "id": "293a59ae-4154-4f5f-a581-f81fab37ccd7",
+    "name": "University at Sekolah Ugama Radin Mas",
+    "category": "University"
+  },
+  {
+    "id": "56c88665-6e90-4121-8ff7-2eee23793eb1",
+    "name": "Education center at STEM Genius Coding & Robotics Academy (AMK)",
+    "category": "Education center"
+  },
+  {
+    "id": "ca37f9f9-e4cf-4778-8699-3754d1647349",
+    "name": "Blue Whale Tail Swim School",
+    "category": "Swimming"
+  },
+  {
+    "id": "f33dfb0b-2fd2-476a-9017-30736c812365",
+    "name": "Story Chopsticks",
+    "category": "Drama"
+  },
+  {
+    "id": "7a211f7c-6962-4b1e-bf40-dd4835beb845",
+    "name": "Agape Learning Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "57a5a658-58f5-4ea2-9fcb-24c7379f4f98",
+    "name": "Body Vocal Arts Academy",
+    "category": "Dance"
+  },
+  {
+    "id": "46e64971-7eda-4fce-99e4-9be4bbdd6d5f",
+    "name": "Bricks Robotics",
+    "category": "Coding"
+  },
+  {
+    "id": "9b8b8ae9-ee98-408e-99b1-b529c24f5bd0",
+    "name": "Body Vocal Arts Studio",
+    "category": "Dance"
+  },
+  {
+    "id": "a484286e-83f6-4c6e-bbdc-b1ddd156f567",
+    "name": "Holy Innocents' Primary School",
+    "category": "Religious Education"
+  },
+  {
+    "id": "61eb6676-7dc4-4591-bfbe-3f8288255c47",
+    "name": "Ace Dolphin Swim School | Punggol Sports Centre",
+    "category": "Swimming"
+  },
+  {
+    "id": "8ea0eee2-631d-4b84-8181-03eee245edfb",
+    "name": "Lucy Sparkles & Friends Drama, Music & Dance Classes",
+    "category": "Music"
+  },
+  {
+    "id": "9841a883-af69-4a26-b9c8-55ff3dc80a76",
+    "name": "Aestral Private School",
+    "category": "Mathematics"
+  },
+  {
+    "id": "f498d848-1652-40e4-bc25-428eb142a48f",
+    "name": "Philadelphia House of Fellowship",
+    "category": "Religious Education"
+  },
+  {
+    "id": "90ec7be5-44ad-45d4-8f9d-07c473742f83",
+    "name": "Pottery classes at The Potters' Guilt",
+    "category": "Pottery classes"
+  },
+  {
+    "id": "1f733b40-1a24-4dc2-8856-9d851596a2e5",
+    "name": "Yameen Quran Academy",
+    "category": "Religious Education"
+  },
+  {
+    "id": "ce7a5270-ce44-47ae-bb33-ea145538097a",
+    "name": "Vince Music Art Studio",
+    "category": "Art"
+  },
+  {
+    "id": "eb4347fe-ffc8-42ae-9af4-aafe5f3602a6",
+    "name": "Skills Development Academy",
+    "category": "Malay"
+  },
+  {
+    "id": "c207afb8-791a-4dfa-8f9c-c1571ed14652",
+    "name": "Training centre at Speech Academy Asia Marine Parade - Public speaking for kids and adults",
+    "category": "Training centre"
+  },
+  {
+    "id": "82f4c10c-4859-4bdd-80e6-78506fa3303d",
+    "name": "Chinese Calligraphy & Fine Arts Studio",
+    "category": "Art"
+  },
+  {
+    "id": "932734ff-d71a-4c57-9ba7-ec0431ceb47e",
+    "name": "Globalart Parkway Center",
+    "category": "Art"
+  },
+  {
+    "id": "ce3b55fe-fbd6-4cf1-a512-6129a5ec7ea4",
+    "name": "Cleverland Tutorial Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "5223a4b0-ecbb-4122-85db-37fb1b462686",
+    "name": "HiArt Novena",
+    "category": "Art"
+  },
+  {
+    "id": "9d965a19-5e70-4836-81e1-2ab8f8737be1",
+    "name": "Bishan Chess Club",
+    "category": "Chess"
+  },
+  {
+    "id": "d57830b8-933f-4f09-8f39-2fe8d55a38fb",
+    "name": "Global Top Education Centre",
+    "category": "Science"
+  },
+  {
+    "id": "f8b1710f-44cf-4ef6-97a8-3f876233c181",
+    "name": "Harmony Road Music School",
+    "category": "Music"
+  },
+  {
+    "id": "97d0bea2-6ce0-457c-ba1c-2ebd4e805a17",
+    "name": "ChinaLingua School",
+    "category": "English"
+  },
+  {
+    "id": "7bda9c2d-8d1d-4d8f-b793-26a00c3558d9",
+    "name": "French Council of Singapore: French lessons and French classes. Learn French in Singapore.",
+    "category": "Languages"
+  },
+  {
+    "id": "8a4e87f7-3f1c-4d56-a96c-d234bc885186",
+    "name": "All That Jazz Dance Academy (Performance and Training Centre)",
+    "category": "Dance"
+  },
+  {
+    "id": "a258dd07-c223-449f-bb23-e4343b8e8a4f",
+    "name": "International French School (IFS)",
+    "category": "Languages"
+  },
+  {
+    "id": "a49983eb-aefa-486e-b03e-483ff1e79392",
+    "name": "Katong Swimming - Pacific Swim Team",
+    "category": "Swimming"
+  },
+  {
+    "id": "432305d0-7c5a-4ec0-a35a-6e3fda7b928a",
+    "name": "Advanced Learning Centre",
+    "category": "English"
+  },
+  {
+    "id": "8f6ff561-847c-44bf-a74d-843147a1e37a",
+    "name": "Beijing Language School",
+    "category": "Chinese"
+  },
+  {
+    "id": "32dab7eb-21b2-43e3-a42e-4d450951d1b6",
+    "name": "Educational institution at THE GO ACADEMY (围棋教育学院)",
+    "category": "Educational institution"
+  },
+  {
+    "id": "d1e52dab-7c5c-4184-af8f-94bb2be9cf8d",
+    "name": "Buddy Planet Education Centre",
+    "category": "English"
+  },
+  {
+    "id": "a5ac2d1b-0e78-4410-ab6e-bd5c9a60bcc3",
+    "name": "Isplash Swim School",
+    "category": "Swimming"
+  },
+  {
+    "id": "c349d91b-0929-47ea-bb31-4bced3d0fe70",
+    "name": "Heguru Centre (OCC)",
+    "category": "Enrichment"
+  },
+  {
+    "id": "49770a4c-fe0e-46b0-bdfa-6f38d6e1ccfc",
+    "name": "Bright Mindz Education | Tuition Centre & Student Care Services in Farrer Park",
+    "category": "Languages"
+  },
+  {
+    "id": "e44a5a83-1278-4e50-9c60-b618f2efb5fc",
+    "name": "Clear Minds Education Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "1c2595b6-0a30-4734-a4fa-e4bafcb2dfeb",
+    "name": "Kumon Learning Centre – Farrer Park – City Square (Maths, English and Chinese Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "d85d1590-5054-4383-b790-3bd932d2ebbc",
+    "name": "Dowell Tuition Centre",
+    "category": "English"
+  },
+  {
+    "id": "9cb9c4a6-ed8d-4f8b-bcd2-eb749565c984",
+    "name": "Chuangxin School of Education",
+    "category": "Art"
+  },
+  {
+    "id": "d7515572-9d25-461a-9cf7-ed5d89d0f8c6",
+    "name": "Kumon Learning Centre - Singapore Japanese (Maths, English and Japanese Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "ecab9718-c95e-4f73-823e-3ed6d95151c1",
+    "name": "Art Curios",
+    "category": "Art"
+  },
+  {
+    "id": "4156c40f-022f-4fd3-b40b-b3762b66151b",
+    "name": "The Vocal Studio (East)",
+    "category": "Music"
+  },
+  {
+    "id": "6baab62c-077b-4a95-8cc5-08974f434c6d",
+    "name": "Kumon Learning Centre - Marine Parade - Parkway (Maths & English Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "288a8776-90ed-45da-9b4c-f80b9dcefbc7",
+    "name": "Kumon Asia and Oceania Pte Ltd",
+    "category": "Mathematics"
+  },
+  {
+    "id": "8a975d82-1627-4a27-9123-f30bed887c7e",
+    "name": "Kumon Learning Centre - Dhoby Ghaut - Parklane (Maths, English and Chinese Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "50b60aa5-88e6-4f17-a866-e492252e67d4",
+    "name": "Elite Education & Talent Centre",
+    "category": "Drama"
+  },
+  {
+    "id": "cf5a4eba-5b8f-45f5-844a-c3e3b66b073d",
+    "name": "The Little Arts Academy",
+    "category": "Dance"
+  },
+  {
+    "id": "f141d65a-c95e-41a5-920d-1bf2390c464d",
+    "name": "Distinction Tutorial School",
+    "category": "English"
+  },
+  {
+    "id": "ab662cd0-6e8c-4044-a464-e00f1bb2a86f",
+    "name": "The Little Gym",
+    "category": "Sports"
+  },
+  {
+    "id": "5bbb657c-c119-4126-98a0-fef79a521367",
+    "name": "HiArt Bukit Panjang",
+    "category": "Art"
+  },
+  {
+    "id": "253c13b5-1de1-4401-aca0-d3fdaee86ee0",
+    "name": "Wonderfully You - Early Intervention Therapy Centre",
+    "category": "Special Needs"
+  },
+  {
+    "id": "7816f2d3-4eb9-4161-9fa5-b7c7dc7d5ccc",
+    "name": "Split Theatre",
+    "category": "Drama"
+  },
+  {
+    "id": "51c98ce4-d4e8-491d-81d0-777e0e1a904f",
+    "name": "Charity at YMCA of Singapore",
+    "category": "Charity"
+  },
+  {
+    "id": "42b9ec75-6e3c-42d8-9ef0-ede2cb6e0799",
+    "name": "Cleverland Tutorial Centre",
+    "category": "Chinese"
+  },
+  {
+    "id": "15cbebd1-0db3-4822-a54d-202619c68bfd",
+    "name": "It's Just Play",
+    "category": "Special Needs"
+  },
+  {
+    "id": "a64f6671-fbc8-4115-8166-b6293378a5bf",
+    "name": "Brain Training at Learners Exploratorium",
+    "category": "Brain Training"
+  },
+  {
+    "id": "113f1089-38d2-4a77-88fe-f78ba1c14688",
+    "name": "Maths2Art",
+    "category": "Mathematics"
+  },
+  {
+    "id": "69d12b73-0a57-4622-b440-582da8d27928",
+    "name": "Maker East",
+    "category": "Holiday Camp"
+  },
+  {
+    "id": "ca31dbb3-3c33-4566-89d8-6a9485d7a417",
+    "name": "Young Writers Lab",
+    "category": "English"
+  },
+  {
+    "id": "e4600718-b2e1-4b8b-a6ee-c597d2c3e2fe",
+    "name": "Learning center at Star Horizon Learning Pte. Ltd.",
+    "category": "Learning center"
+  },
+  {
+    "id": "a0c84fde-7921-406c-adba-ae72026beeb7",
+    "name": "dip! swim (Singapore)",
+    "category": "Swimming"
+  },
+  {
+    "id": "f435285d-61a2-4c65-8d2e-156f4c58123b",
+    "name": "Moneykids",
+    "category": "Enrichment"
+  },
+  {
+    "id": "18bdbf66-87a3-4425-9c5c-593212251d95",
+    "name": "Singapore Kidpreneur Bazaar",
+    "category": "Enrichment"
+  },
+  {
+    "id": "fe9add2b-f3f1-48aa-9f22-27965f00f6e9",
+    "name": "Kumon Learning Centre - Balestier Road (Maths and English Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "db625b82-6d38-4234-ac1a-5472e1684e03",
+    "name": "Andrew Er Learning Hub",
+    "category": "Mathematics"
+  },
+  {
+    "id": "46fa1b0c-70a5-4f35-9cc7-f7d2887f54b8",
+    "name": "Kumon Learning Centre - Kembangan (Maths, English and Chinese Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "e607120f-2feb-4b08-aada-8c9b6eda9957",
+    "name": "Education center at Malay Tuition - Pusat Bahasa NUSA (Woodlands)",
+    "category": "Education center"
+  },
+  {
+    "id": "187eea76-cc01-42d0-8d35-d107e38e8c64",
+    "name": "Harmony Music School Singapore",
+    "category": "Music"
+  },
+  {
+    "id": "23dc9ca3-03ff-4623-82c4-130cdbd79e31",
+    "name": "Distinction Tutorial School",
+    "category": "Mathematics"
+  },
+  {
+    "id": "50bafad2-15a0-49a7-9ea1-a4bd77429242",
+    "name": "EdibleMakerspace",
+    "category": "STEM"
+  },
+  {
+    "id": "97126f8c-3fe8-4e4f-90bf-cdd7258e3929",
+    "name": "Elite Creations Education Centre",
+    "category": "English"
+  },
+  {
+    "id": "d1d13e14-a7f8-4d03-b9db-ce47d8c3c5c0",
+    "name": "Kumon Asia & Oceania Pte. Ltd. (Kumon Franchise Office)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "4475785c-f6bb-4c36-8230-20246d47ba9d",
+    "name": "Photographer at StellarPhoto.sg - Sg Photographer, Freelance, Events, Birthdays",
+    "category": "Photographer"
+  },
+  {
+    "id": "8f9ec07e-26c5-4857-97da-bed3de73b60b",
+    "name": "Opus One Music School",
+    "category": "Music"
+  },
+  {
+    "id": "05ebffb6-1dc6-4fda-9816-19ddfe922347",
+    "name": "Creativebits",
+    "category": "Art"
+  },
+  {
+    "id": "01372af8-5b61-4bb4-b98e-9f87dde04478",
+    "name": "Chelsea Fc Soccer School",
+    "category": "Football"
+  },
+  {
+    "id": "025a9522-412f-4e1e-9f88-da3b98c43f8c",
+    "name": "Forest Atelier",
+    "category": "Enrichment"
+  },
+  {
+    "id": "876103de-a0c8-42b3-995e-78092471130f",
+    "name": "The Cage Academy Singapore",
+    "category": "Football"
+  },
+  {
+    "id": "6a30e4aa-7f02-48d6-936d-ad143f087a2d",
+    "name": "Learning center at Mind Theory Singapore",
+    "category": "Learning center"
+  },
+  {
+    "id": "f987dfdd-d585-4ee8-bd3c-6604918c7b56",
+    "name": "EMC Learning Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "4f2cc0e0-7d78-4bd0-882d-f038cc4df956",
+    "name": "Joyful Land Learning Centre",
+    "category": "Holiday Camp"
+  },
+  {
+    "id": "45849f79-8ff6-47c7-bca3-e5f6c6b36049",
+    "name": "Berries World of Learning School (Bishan St 11)",
+    "category": "Chinese"
+  },
+  {
+    "id": "a6524012-628e-436c-bc08-efdbccfecd39",
+    "name": "Anglican church at Yishun Christian Church Anglican",
+    "category": "Anglican church"
+  },
+  {
+    "id": "8df9ddd4-582a-4853-8876-4fc733ed1261",
+    "name": "Bridge Learning",
+    "category": "Mathematics"
+  },
+  {
+    "id": "fac0ad30-b269-4834-b376-66ea8dab5ca7",
+    "name": "Eye Level @ Jurong East",
+    "category": "Enrichment"
+  },
+  {
+    "id": "a9f086ad-1e82-47ef-9b04-9c5505d1f1ad",
+    "name": "Surf spot at Singapore Waterski & Wakeboard Federation",
+    "category": "Surf spot"
+  },
+  {
+    "id": "3fc19bbc-1634-429b-bde8-e2ab8bbb5a92",
+    "name": "Dowell Tuition Centre",
+    "category": "Science"
+  },
+  {
+    "id": "e9970079-937d-4ce5-90ce-dd3d7c0173df",
+    "name": "Global Art (Bukit Timah Plaza)",
+    "category": "Art"
+  },
+  {
+    "id": "f0710cb4-8e06-4e17-9476-c8211e9a47bb",
+    "name": "GK Taekwondo (The Woodleigh Mall)",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "2f7fa2f4-a26b-4f38-8d28-63b3d0fbc33b",
+    "name": "GRAM'S Learning Centre",
+    "category": "Art"
+  },
+  {
+    "id": "04bf2a20-5db2-4b81-960d-842b3c1a708c",
+    "name": "Education center at Cordova Education Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "27603c50-8721-4357-8f70-5446f69d3045",
+    "name": "Little Sparks Montessori and Enrichment Centre",
+    "category": "Yoga"
+  },
+  {
+    "id": "3c2f4751-e529-47c5-83ae-521576cb7eef",
+    "name": "Morning Star EXSEL",
+    "category": "Enrichment"
+  },
+  {
+    "id": "9a8c4d66-d118-4082-96b9-73602d1f6ce1",
+    "name": "Event planner at TickiKids",
+    "category": "Event planner"
+  },
+  {
+    "id": "e1cc7bc9-3f28-421c-8f86-2edffeaf4df0",
+    "name": "Little Sparks Montessori and Enrichment Centre",
+    "category": "Dance"
+  },
+  {
+    "id": "cda285b1-85bf-4d76-a786-f9ff4bee14d3",
+    "name": "Boys' Town Adventure Centre",
+    "category": "Rock Climbing"
+  },
+  {
+    "id": "74b62e4e-2008-4ab8-8d7d-c5c984030433",
+    "name": "Every Nation Singapore",
+    "category": "Religious Education"
+  },
+  {
+    "id": "3b2e2a1a-29c9-4420-87d3-e3fd6d1b71b6",
+    "name": "Elite Creations Education Centre",
+    "category": "Chinese"
+  },
+  {
+    "id": "835263d2-daa5-49ac-a081-248f2d879a55",
+    "name": "Music Solutions",
+    "category": "Music"
+  },
+  {
+    "id": "afbef082-da67-41c0-a281-c4f1ec648742",
+    "name": "Skater's Corner",
+    "category": "Sports"
+  },
+  {
+    "id": "4cb4071e-0275-4231-830a-bfba9aaaa208",
+    "name": "Your Doorstep, Singapore",
+    "category": "Sports"
+  },
+  {
+    "id": "f2432635-b372-42fe-8677-5a5e9d3ad0d7",
+    "name": "Elite table tennis Academy Singapore",
+    "category": "Sports"
+  },
+  {
+    "id": "cb0c20d9-fff7-4151-bef1-6e81c45955bd",
+    "name": "Just Dance Sg",
+    "category": "Dance"
+  },
+  {
+    "id": "40cfd4bc-d3e6-406b-b7c1-464085aa7472",
+    "name": "A2G Music — Rhythm & Movement",
+    "category": "Dance"
+  },
+  {
+    "id": "50ef2bf6-cabe-426c-ae43-42e9d1c23942",
+    "name": "Shakiya Bellydance School Singapore",
+    "category": "Dance"
+  },
+  {
+    "id": "4fe3eec8-4a43-48da-852c-caa50a3b9311",
+    "name": "Astern Wave",
+    "category": "Water Sports"
+  },
+  {
+    "id": "7ebc47b9-920b-4905-9cc0-9218079ccbef",
+    "name": "Council at Tamil Language Council",
+    "category": "Council"
+  },
+  {
+    "id": "d6cc4a7d-d188-4151-afa6-22db7c261dfd",
+    "name": "Praise Music School",
+    "category": "Music"
+  },
+  {
+    "id": "78b5ef49-2082-435e-8f47-5d01ff905312",
+    "name": "Mini Monsters Limited",
+    "category": "Languages"
+  },
+  {
+    "id": "413fd722-a9ec-470f-8c6d-2763d8ea87a6",
+    "name": "Jae Hun Kim Taekwondo",
+    "category": "Sports"
+  },
+  {
+    "id": "0b494428-93ee-4bdd-bd85-3ad1fd256a6d",
+    "name": "Geno House Tuition and Enrichment Centre",
+    "category": "Holiday Camp"
+  },
+  {
+    "id": "c1efc166-b14f-4fb1-b913-a712fc63aed8",
+    "name": "Chuangxin School of Education",
+    "category": "Chinese"
+  },
+  {
+    "id": "1c72b372-6f0b-4718-85f6-d607ca90c206",
+    "name": "Seimpi Education Group",
+    "category": "Dance"
+  },
+  {
+    "id": "9c5e9394-811b-4e6e-b5e3-629795a57d65",
+    "name": "Animation studio at Scrawl Animation Pte Ltd",
+    "category": "Animation studio"
+  },
+  {
+    "id": "d0d97fe7-82e9-4441-aebe-9b0c96d4c934",
+    "name": "Brainy Child Montessori Learning Centre",
+    "category": "English"
+  },
+  {
+    "id": "0579dcf0-d07d-4ace-8160-6df7a92f0161",
+    "name": "Liew Calligraphy",
+    "category": "Art"
+  },
+  {
+    "id": "f9940df7-bbaf-430b-a767-558c3e23ce6c",
+    "name": "Seimpi Education Group",
+    "category": "Music"
+  },
+  {
+    "id": "5546499c-af0e-4eb5-a990-81ce55e8c766",
+    "name": "City Ballet Academy (Prinsep)",
+    "category": "Dance"
+  },
+  {
+    "id": "af3d7c01-3c9e-4ae7-8b3e-f1e4791d8743",
+    "name": "Colts Polo & Riding",
+    "category": "Sports"
+  },
+  {
+    "id": "ed74fd2c-e8fc-4851-bf77-14c2986ee221",
+    "name": "Skate With Us, the only skate school for children age 3 up",
+    "category": "Sports"
+  },
+  {
+    "id": "afc6b500-0b32-4772-9260-fe3f7bb067ce",
+    "name": "Hougang Japanese Language School",
+    "category": "Languages"
+  },
+  {
+    "id": "ea12294f-4b49-462f-802b-c869e95bea9a",
+    "name": "Curtis Music School",
+    "category": "Music"
+  },
+  {
+    "id": "0c224553-344e-4d25-bac7-a0f6aab5c778",
+    "name": "Little Splashes Aquatics",
+    "category": "Sports"
+  },
+  {
+    "id": "7356ec6e-1162-4a7a-a8f5-a9b6f2d519a1",
+    "name": "Foorman Music Studios",
+    "category": "Music"
+  },
+  {
+    "id": "a3ccac6c-1f6a-4c2b-873e-28f45ac32948",
+    "name": "SSC Capoeira Singapore",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "58f4aac5-4abf-4402-a0da-ca56bd8fa6e8",
+    "name": "Charis Montessori HQ",
+    "category": "Religious Education"
+  },
+  {
+    "id": "80e68b02-60c2-48e6-948e-51f883413278",
+    "name": "Jeong-In Taekwondo(Stars of Kovan)",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "284e876f-e35e-4ec3-8a50-42d5dbec8bcf",
+    "name": "Asia Music School (Yishun)",
+    "category": "Music"
+  },
+  {
+    "id": "c372b38b-3a1d-4434-9095-1b99059d3d62",
+    "name": "Contempo Music School",
+    "category": "Music"
+  },
+  {
+    "id": "23eb5309-5f24-47d5-b372-2bf275f56797",
+    "name": "Bumblebee Language Centre",
+    "category": "Chinese"
+  },
+  {
+    "id": "93d6c1d6-ff82-494c-aacb-dff8c204b554",
+    "name": "Berries World Of Learning School (Tanjong Pagar)",
+    "category": "Chinese"
+  },
+  {
+    "id": "9dac82a5-2f14-4fc7-b1e8-a6a5a092189d",
+    "name": "Prep Zone Academy",
+    "category": "Mathematics"
+  },
+  {
+    "id": "1e23268f-0a55-4fba-859b-15d7d8b0021c",
+    "name": "Eye Level Learning Centre",
+    "category": "Holiday Camp"
+  },
+  {
+    "id": "39e8e9ea-d45a-4bff-a352-85998e48f6d8",
+    "name": "ERNSPORTS @ Bedok reservoir",
+    "category": "Sports"
+  },
+  {
+    "id": "450bf0fd-8d87-4940-897b-0fa2c70f82f6",
+    "name": "Heguru Education @ Pasir Ris Mall",
+    "category": "Enrichment"
+  },
+  {
+    "id": "7a21675a-fdf2-4a4d-9cd5-23d030ee7b15",
+    "name": "Kicks Taekwondo (Upper Thomson)",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "784e6422-eb35-4b91-9516-77c6431d9cea",
+    "name": "Tokyo Codomo Japanese Language Centre",
+    "category": "Languages"
+  },
+  {
+    "id": "54a34787-6d30-4a37-809b-2641e4778706",
+    "name": "Training provider at Speak With Style",
+    "category": "Training provider"
+  },
+  {
+    "id": "7a576e0e-9bbb-41b3-afcc-89d168539620",
+    "name": "Distinction Tutorial School",
+    "category": "Science"
+  },
+  {
+    "id": "8039b889-237d-4e0c-b4e1-8fe335e7f937",
+    "name": "新加坡舞蹈音乐工作室Art Republic Studio@Lavender",
+    "category": "Dance"
+  },
+  {
+    "id": "c977ac0f-c45b-4552-a0b7-2c9447219038",
+    "name": "Fun-Da-Mentals Learning Centre",
+    "category": "Science"
+  },
+  {
+    "id": "0f2d15b6-f069-43bc-80e0-5cb2be5583d9",
+    "name": "Art",
+    "category": "Yoga"
+  },
+  {
+    "id": "b3d6c870-ff6b-4c09-8921-86ba41efc780",
+    "name": "Art",
+    "category": "Drama"
+  },
+  {
+    "id": "bad1d992-a396-4497-bc5f-95957b4e5d4f",
+    "name": "Art",
+    "category": "Art"
+  },
+  {
+    "id": "1df43525-13ca-4d9b-b055-0a31060c560b",
+    "name": "Kicks Taekwondo",
+    "category": "Sports"
+  },
+  {
+    "id": "e544f8cb-8ec4-41ef-9b96-92270e89e4f1",
+    "name": "Ascend Education Centre",
+    "category": "English"
+  },
+  {
+    "id": "a56302ca-b252-4dc2-a51a-a2f6ff011a77",
+    "name": "Education center at Robothink",
+    "category": "Education center"
+  },
+  {
+    "id": "aa8e28d9-d912-4297-b77b-b51523d83325",
+    "name": "Education center at Code Ninja",
+    "category": "Education center"
+  },
+  {
+    "id": "1debf07f-ecff-4fff-b44b-6bd63bf817d9",
+    "name": "Pictorial Photography Course Singapore",
+    "category": "Art"
+  },
+  {
+    "id": "08734098-7085-4235-91d1-aacdb0c90898",
+    "name": "Learning center at Fun Learners' School - Bukit Batok Tuition Centre",
+    "category": "Learning center"
+  },
+  {
+    "id": "2415858a-9a62-4899-be03-a1ffe2083b01",
+    "name": "FINS Swim School (SAFRA Yishun)",
+    "category": "Swimming"
+  },
+  {
+    "id": "7641d5ef-0ab7-4700-834c-fbab832c96a5",
+    "name": "HiArt Marine Parade",
+    "category": "Art"
+  },
+  {
+    "id": "419053da-4def-403a-af86-8d02b32bc4b5",
+    "name": "The Cliff @SnowCity",
+    "category": "Rock Climbing"
+  },
+  {
+    "id": "61cd3288-0a2e-4887-a5a4-d63a70d6038e",
+    "name": "Kumon Learning Centre - Kovan - Upper Serangoon (Maths, English and Chinese Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "41a15547-6a73-4802-842e-fb981aa7f5c3",
+    "name": "Education center at Haoxue Chinese 好学中文",
+    "category": "Education center"
+  },
+  {
+    "id": "3c07adf3-74a5-4340-a9a5-5233259fe648",
+    "name": "Learning center at Joyous Learning Academy Pte Ltd",
+    "category": "Learning center"
+  },
+  {
+    "id": "e3e55be3-2656-4f4a-acad-98ec0a9f87e6",
+    "name": "Learning center at Jocelyn Chinese Tuition 如苑教育补习中心 - Coronation Shopping Plaza",
+    "category": "Learning center"
+  },
+  {
+    "id": "c26cbb7b-85cd-4b7d-a908-4bb67e0e5a46",
+    "name": "Berries World of Learning School (Jurong)",
+    "category": "Chinese"
+  },
+  {
+    "id": "a12251cd-a6e7-4ce6-b94d-da3a97e822c3",
+    "name": "Essential Minds Tutorial Centre",
+    "category": "Chinese"
+  },
+  {
+    "id": "5f2bca51-3d13-4cd6-bc9c-09c8c0ff6372",
+    "name": "Dance Planet",
+    "category": "Dance"
+  },
+  {
+    "id": "b310982d-6b71-41ae-b244-25e002681431",
+    "name": "Laser Clay Singapore",
+    "category": "Sports"
+  },
+  {
+    "id": "c2c5d461-ca75-4254-948a-9967fe52028c",
+    "name": "Dragon Academy",
+    "category": "Sports"
+  },
+  {
+    "id": "51ff53b9-184e-482f-a605-b106ce75943f",
+    "name": "Music Playhouse",
+    "category": "Music"
+  },
+  {
+    "id": "8b096ffb-16a3-48e9-96ff-2ffa62d5ee60",
+    "name": "Sparklekidz Academia",
+    "category": "Coding"
+  },
+  {
+    "id": "1d9e419b-421f-4bf4-bf1f-48f682aaf8f9",
+    "name": "Les Oliviers French/English Montessori",
+    "category": "Languages"
+  },
+  {
+    "id": "29983356-0327-4c95-b623-0bffd010ad97",
+    "name": "ChinaLingua School",
+    "category": "Chinese"
+  },
+  {
+    "id": "70e08fcd-82db-44f3-a4ef-4912b5dd7478",
+    "name": "Morris Allen",
+    "category": "Holiday Camp"
+  },
+  {
+    "id": "071b3ac1-1ed4-49e7-bd6a-7818041a5e4a",
+    "name": "Hougang Central Learning Centre Kumon",
+    "category": "Mathematics"
+  },
+  {
+    "id": "5f99adf5-e671-450a-b423-b6f19e2668c6",
+    "name": "Let's Learn Malay",
+    "category": "Languages"
+  },
+  {
+    "id": "9f97c921-87a6-4a9f-919a-890361f86211",
+    "name": "Flou",
+    "category": "Play"
+  },
+  {
+    "id": "42c06d74-6f21-40af-9f1b-b7d87176ba80",
+    "name": "Psalms Music School",
+    "category": "Music"
+  },
+  {
+    "id": "da2cc99f-2eef-4bf5-b567-f09f76ac6b55",
+    "name": "Jonathan & Peggie Dance Studio",
+    "category": "Dance"
+  },
+  {
+    "id": "63627de6-1f1f-4a6f-8771-33ffcb582bce",
+    "name": "Training centre at Speech Academy Asia Tampines - Public speaking for kids and adults",
+    "category": "Training centre"
+  },
+  {
+    "id": "4c7e28be-32d1-4836-9d1f-d23b883004fe",
+    "name": "Child psychologist at Speech Therapy Research-Based",
+    "category": "Child psychologist"
+  },
+  {
+    "id": "ab10c8ac-6822-4d07-84ed-a5fd846d9fa1",
+    "name": "Speech pathologist at Speech Therapy Adventures",
+    "category": "Speech pathologist"
+  },
+  {
+    "id": "bc83c5a8-60a6-4338-b4c4-05dd853ee9fa",
+    "name": "Uyii",
+    "category": "Art"
+  },
+  {
+    "id": "f22d00fc-d1ef-4bf8-b6f6-00da687f2aec",
+    "name": "Singapore Football Club",
+    "category": "Football"
+  },
+  {
+    "id": "cf654ace-c947-4e65-9fad-2e41e584ee6c",
+    "name": "Veterinarian at The Animal Doctors",
+    "category": "Veterinarian"
+  },
+  {
+    "id": "4a6c13d4-0261-4677-913c-20abb55a62d7",
+    "name": "Acropolis English Centre",
+    "category": "English"
+  },
+  {
+    "id": "4aea8246-1f3f-403f-9eb2-000c11ba2609",
+    "name": "The Little Arts Academy Campus I",
+    "category": "Art"
+  },
+  {
+    "id": "21392c7a-6785-4c02-b5ae-a19cf13420bf",
+    "name": "Education center at THE GO ACADEMY(围棋教育学院) Kembangan Centre",
+    "category": "Education center"
+  },
+  {
+    "id": "19c9f930-d794-4d98-8f56-0cc17f4a7002",
+    "name": "Agraganya Centre for Education",
+    "category": "Mathematics"
+  },
+  {
+    "id": "6724b68a-3a42-40df-addb-d66696afb22a",
+    "name": "Digital Art Adventures for Kids",
+    "category": "Art"
+  },
+  {
+    "id": "3e3419ad-646c-482e-be79-c3e8e589f220",
+    "name": "Dynamics Early Intervention Program",
+    "category": "Enrichment"
+  },
+  {
+    "id": "12c410c2-1871-42c4-a6e6-591ad84f46a4",
+    "name": "CHIJ Katong Convent",
+    "category": "Religious Education"
+  },
+  {
+    "id": "60d55e6b-f258-4dfe-8d85-440400d89a6a",
+    "name": "Chinmaya Seva Centre",
+    "category": "Religious Education"
+  },
+  {
+    "id": "ea3ef74b-97c0-4f92-9432-e7736488fc64",
+    "name": "Non-profit organization at Singapore Resuscitation and First Aid Council",
+    "category": "Non-profit organization"
+  },
+  {
+    "id": "ca036a75-8884-45fd-9b49-37914f1c6742",
+    "name": "Institut Ramlah Daing Abdul Kadir (IRDAK)",
+    "category": "Religious Education"
+  },
+  {
+    "id": "7d8dc922-de0f-4b6f-9e65-f2ff1e2da919",
+    "name": "Kim Keat Church Kindergarten",
+    "category": "Religious Education"
+  },
+  {
+    "id": "59358e26-b04b-4a5c-a65e-66937c37fc58",
+    "name": "Global Achievers Education Centre",
+    "category": "Science"
+  },
+  {
+    "id": "92fb542c-130f-427c-9d4a-d927e2964364",
+    "name": "Berries World of Learning School (Bukit Batok)",
+    "category": "Chinese"
+  },
+  {
+    "id": "4e3a1d3f-6ab4-44e0-bdf3-a6f6e759666a",
+    "name": "Swim Lab",
+    "category": "Sports"
+  },
+  {
+    "id": "a1c3a8b1-6fb5-4533-8b3c-9e2e2e6ce6fa",
+    "name": "Arkki Singapore",
+    "category": "Coding"
+  },
+  {
+    "id": "255d39f7-dfec-4bb0-b389-d06b484a192c",
+    "name": "Musical Art Studio",
+    "category": "Music"
+  },
+  {
+    "id": "bd0b393b-bfc9-44df-9e19-f464830076e0",
+    "name": "Foorman Music School",
+    "category": "Music"
+  },
+  {
+    "id": "d2bf1aef-c0b0-4ec7-aa66-e740ae7457e3",
+    "name": "Elite Creations Education Centre",
+    "category": "Science"
+  },
+  {
+    "id": "a4e719a8-e788-4cc4-91c7-bfdb71b7158a",
+    "name": "Canossaville Preschool",
+    "category": "Religious Education"
+  },
+  {
+    "id": "20ba1236-4b77-4c25-bc4e-acaeac575c43",
+    "name": "Eden School",
+    "category": "Special Needs"
+  },
+  {
+    "id": "c523fc37-c0b7-4929-8530-fae3bff47d8e",
+    "name": "Apex Educational Centre",
+    "category": "English"
+  },
+  {
+    "id": "79c90ed9-dd49-4644-a73b-80ad6fd92a99",
+    "name": "Janus Academy (JAIE Group Pte Ltd)",
+    "category": "Languages"
+  },
+  {
+    "id": "1ee46598-6a8b-42fd-b854-9a5a0298a661",
+    "name": "Colourful Notes Music & Art Studio",
+    "category": "Music"
+  },
+  {
+    "id": "bbf9b807-ae70-4fd6-9dc6-6fe9caeb8ed5",
+    "name": "Buddha Of Medicine Welfare Society",
+    "category": "Religious Education"
+  },
+  {
+    "id": "25776259-1f5b-434b-8e7d-d300b736051a",
+    "name": "Beary Naise Co.",
+    "category": "Art"
+  },
+  {
+    "id": "94661346-2411-44b6-ac34-5e617b185c05",
+    "name": "3House — Mathematics Programme",
+    "category": "Mathematics"
+  },
+  {
+    "id": "635bf9c0-139c-49d1-a07b-5fd64874cba4",
+    "name": "Devsash (maths, coding and robotics classes)",
+    "category": "Coding"
+  },
+  {
+    "id": "3b396682-564d-47b3-b967-feb2e5b1973a",
+    "name": "Kumon Learning Centre - Marine Parade - Parkway Parade (Maths and English Enrichment)",
+    "category": "Mathematics"
+  },
+  {
+    "id": "f185f149-707f-4bee-a0c8-4c2459c1e54d",
+    "name": "Byron Tutorial Centre",
+    "category": "Science"
+  },
+  {
+    "id": "f4c39678-e583-4682-83dc-8cf2cbe15749",
+    "name": "Alhambra — Belly Dance Classes",
+    "category": "Dance"
+  },
+  {
+    "id": "ca7681da-9580-43f8-96c1-e796048757f0",
+    "name": "Artstratosphere — Music Lessons",
+    "category": "Music"
+  },
+  {
+    "id": "8c86bc6f-2cea-433c-9e18-421f231a07cb",
+    "name": "Shadz Learning Centre",
+    "category": "Religious Education"
+  },
+  {
+    "id": "af30f576-91ec-4b80-a8fc-89c0aa2aebfe",
+    "name": "Photo-art Association Of Singapore",
+    "category": "Art"
+  },
+  {
+    "id": "a122f560-87ef-4720-aaa4-6d5d0e97d64e",
+    "name": "Bricks 4 Kidz - Upper Thomson",
+    "category": "Coding"
+  },
+  {
+    "id": "933214a5-a29b-4e5d-bc16-ad54187bf253",
+    "name": "LightBeijing - Online Mandarin Education",
+    "category": "Chinese"
+  },
+  {
+    "id": "aac5cddf-9192-44df-bc3a-a5f69f5aeaea",
+    "name": "The Yoga Language Pte ltd",
+    "category": "Yoga"
+  },
+  {
+    "id": "c15b2bdf-cf4c-4448-a39b-394234c10374",
+    "name": "Edumore Learning Centre",
+    "category": "Mathematics"
+  },
+  {
+    "id": "f07d8e36-2a8f-479b-96fc-d80939fdb0e4",
+    "name": "Muzart Learning Centre",
+    "category": "Art"
+  },
+  {
+    "id": "5347c904-a5da-4fb0-b365-b5397bceea2d",
+    "name": "Meta Robotics @ Katong",
+    "category": "Coding"
+  },
+  {
+    "id": "435fd2e5-b05c-4fa1-875e-5e80e23f8cd8",
+    "name": "Football Centre of Excellence (FCoE)",
+    "category": "Football"
+  },
+  {
+    "id": "04a93751-37b1-484f-984e-3adebfcfaf47",
+    "name": "The People's Church (Singapore)",
+    "category": "Religious Education"
+  },
+  {
+    "id": "49b058d4-8a0a-4119-8963-d765f93320e2",
+    "name": "Libitum",
+    "category": "Art"
+  },
+  {
+    "id": "23688b6c-9cb3-4f9e-8e1e-c1c2e0e7cca4",
+    "name": "PERGAS",
+    "category": "Religious Education"
+  },
+  {
+    "id": "a7c6b69a-c474-4a8e-958b-6c35f8205ac4",
+    "name": "Education center at Eye Level @ Novena Goldhill",
+    "category": "Education center"
+  },
+  {
+    "id": "b6209cc1-cec5-4bda-bf52-5e932870ef81",
+    "name": "Rubat Nur Tareem",
+    "category": "Religious Education"
+  },
+  {
+    "id": "3ab937e9-151d-4d08-a3a7-d5c8bc47d0c2",
+    "name": "Gems Tutorial Centre",
+    "category": "Science"
+  },
+  {
+    "id": "35ee36e5-3537-44af-9bd7-9652ce44f919",
+    "name": "Chapter One",
+    "category": "Chinese"
+  },
+  {
+    "id": "c26fdcfe-d141-4cc0-b623-cd6c7918b3af",
+    "name": "J H Kim Taekwondo Institute @ The Grandstand",
+    "category": "Martial Arts"
+  },
+  {
+    "id": "05cfd242-76cc-40c8-a274-b8906f453021",
+    "name": "KIRIN Mandarin",
+    "category": "Malay"
+  },
+  {
+    "id": "636cc505-28d9-4429-8a39-4148d8d7d2d4",
+    "name": "Butterfly Art Studio",
+    "category": "Art"
+  },
+  {
+    "id": "94d3ca9f-76f0-490c-862e-617a6ba77c26",
+    "name": "Methodist School of Music",
+    "category": "Music"
+  },
+  {
+    "id": "273cd21f-c840-4f4d-be14-68731e6c7f67",
+    "name": "Singapore Dance Academy",
+    "category": "Dance"
+  }
+]

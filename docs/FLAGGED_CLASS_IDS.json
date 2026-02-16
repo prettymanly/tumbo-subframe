@@ -1,0 +1,114 @@
+[
+  {
+    "id": "874a4482-757a-4859-9d57-c639c7263330",
+    "name": "Catholic Junior College",
+    "category": "Religious Education",
+    "provider_name": "Catholic Junior College",
+    "reason": "Junior College (JC) — tertiary, not kids enrichment",
+    "hide_reason": "out_of_scope"
+  },
+  {
+    "id": "51f6e24e-9b79-433f-a762-aefb84b6a939",
+    "name": "Preschool at Learning Vision Nanyang Technological University",
+    "category": "Preschool",
+    "provider_name": "Learning Vision Nanyang Technological University",
+    "reason": "University — tertiary",
+    "hide_reason": "out_of_scope"
+  },
+  {
+    "id": "cf38698f-2a8e-4c36-967f-1129ad4955dc",
+    "name": "School at SUTD Entrepreneurship Centre",
+    "category": "School",
+    "provider_name": "SUTD Entrepreneurship Centre",
+    "reason": "SUTD — university",
+    "hide_reason": "out_of_scope"
+  },
+  {
+    "id": "4f0fae53-5692-4ab8-a783-a66b005e25c8",
+    "name": "Adult education school at Tertiary Courses Singapore",
+    "category": "Adult education school",
+    "provider_name": "Tertiary Courses Singapore",
+    "reason": "Adult education / training",
+    "hide_reason": "out_of_scope"
+  },
+  {
+    "id": "65ade438-e926-4fdd-bfed-e687a6864409",
+    "name": "Educational institution at Yishun Innova Junior College",
+    "category": "Educational institution",
+    "provider_name": "Yishun Innova Junior College",
+    "reason": "Junior College (JC) — tertiary, not kids enrichment",
+    "hide_reason": "out_of_scope"
+  },
+  {
+    "id": "f31c3a7d-1672-4993-a911-e84605648ac4",
+    "name": "St Andrew's Junior College",
+    "category": "Religious Education",
+    "provider_name": "St Andrew's Junior College",
+    "reason": "Junior College (JC) — tertiary, not kids enrichment",
+    "hide_reason": "out_of_scope"
+  },
+  {
+    "id": "4881afa1-97a7-46ed-b55b-f0b193802df0",
+    "name": "NUS Archery",
+    "category": "Sports",
+    "provider_name": "NUS Archery",
+    "reason": "NUS — university",
+    "hide_reason": "out_of_scope"
+  },
+  {
+    "id": "75128c1e-8836-4c52-9f62-2349ae48a8c2",
+    "name": "Adult education school at Tertiary Infotech Pte Ltd",
+    "category": "Adult education school",
+    "provider_name": "Tertiary Infotech Pte Ltd",
+    "reason": "Adult education / training",
+    "hide_reason": "out_of_scope"
+  },
+  {
+    "id": "293a59ae-4154-4f5f-a581-f81fab37ccd7",
+    "name": "University at Sekolah Ugama Radin Mas",
+    "category": "University",
+    "provider_name": "Sekolah Ugama Radin Mas",
+    "reason": "University — tertiary",
+    "hide_reason": "out_of_scope"
+  },
+  {
+    "id": "80d2ae68-3af1-4cea-9798-eebfbf259d57",
+    "name": "TMG Golf Academy",
+    "category": "",
+    "provider_name": "",
+    "reason": "Bare content — doesn't meet editorial standards (no summary/vibe subsections)",
+    "hide_reason": "bare_content"
+  },
+  {
+    "id": "d8440085-53b7-435f-a0ea-6ac17559ed50",
+    "name": "Education center at 1ST Aid & Healthcare P/L",
+    "category": "",
+    "provider_name": "",
+    "reason": "Bare content — doesn't meet editorial standards (no summary/vibe subsections)",
+    "hide_reason": "bare_content"
+  },
+  {
+    "id": "de368e85-8d46-405b-b99c-41171e18e7a9",
+    "name": "Education center at 3House Kindergarten",
+    "category": "",
+    "provider_name": "",
+    "reason": "Bare content — doesn't meet editorial standards (no summary/vibe subsections)",
+    "hide_reason": "bare_content"
+  },
+  {
+    "id": "d99abb26-6df7-44ff-a2a3-444eaf71dacf",
+    "name": "Grasio Sports Silat School - Bukit Batok CC",
+    "category": "",
+    "provider_name": "",
+    "reason": "Bare content — doesn't meet editorial standards (no summary/vibe subsections)",
+    "hide_reason": "bare_content"
+  },
+  {
+    "id": "20ff3162-787a-4772-9433-8f2e67902aa0",
+    "name": "Training provider at Absolute Kinetics Consultancy - HQ Office",
+    "category": "",
+    "provider_name": "",
+    "reason": "Bare content — doesn't meet editorial standards (no summary/vibe subsections)",
+    "hide_reason": "bare_content"
+  }
+]

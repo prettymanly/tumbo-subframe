@@ -61,6 +61,7 @@ export default function ProviderDetailPage() {
         .select("*")
         .eq("provider_id", providerId)
         .eq("is_placeholder", false)
+        .eq("hidden_from_directory", false)
         .order("name", { ascending: true });
 
       setClasses(classData || []);

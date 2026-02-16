@@ -20,6 +20,14 @@ interface FadeInUpProps {
   as?: "div" | "section" | "span" | "article" | "li";
 }
 
+const motionByTag = {
+  div: motion.div,
+  section: motion.section,
+  span: motion.span,
+  article: motion.article,
+  li: motion.li,
+} as const;
+
 export function FadeInUp({
   children,
   className,
@@ -33,7 +41,7 @@ export function FadeInUp({
   const ref = React.useRef(null);
   const isInView = useInView(ref, { once, margin });
 
-  const Component = motion.create(as);
+  const Component = motionByTag[as] ?? motion.div;
 
   return (
     <Component

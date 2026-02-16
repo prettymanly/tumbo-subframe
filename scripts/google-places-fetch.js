@@ -7,6 +7,7 @@
  * Cost for ~861 providers (~$49, within $200/mo free tier):
  *   Text Search:    861 × $0.032 = $27.55
  *   Place Details:  861 × $0.025 = $21.53
+ * See docs/COST_AND_API_RULES.md for red flags and no recurring runs.
  *
  * Run: node scripts/google-places-fetch.js
  */
