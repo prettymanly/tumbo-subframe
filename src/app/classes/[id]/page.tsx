@@ -407,7 +407,7 @@ export default function ClassDetailPage() {
   const [claimOpen, setClaimOpen] = useState(false);
   const [reportOpen, setReportOpen] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  // nearbyClasses removed — will return with behaviour-based recommendations
+  const [taxonomyTags, setTaxonomyTags] = useState<{ slug: string; label: string; dimension: "content" | "philosophy" | "experience" | "child" }[]>([]);
 
   // ── Fetch class + provider from Supabase ──
   useEffect(() => {
@@ -437,6 +437,29 @@ export default function ClassDetailPage() {
           .eq("id", classData.provider_id)
           .single();
         setProvider(providerData || null);
+      }
+
+      // Fetch taxonomy tags (from class_taxonomy_tags table)
+      const { data: tagRows } = await supabase
+        .from("class_taxonomy_tags")
+        .select("tag_slug, dimension")
+        .eq("class_id", classData.id);
+
+      if (tagRows && tagRows.length > 0) {
+        // Resolve slugs to labels via the taxonomy lookup
+        const { TAXONOMY_BY_SLUG } = await import("@/lib/tags/taxonomy");
+        const resolved = tagRows
+          .map((row: { tag_slug: string; dimension: string }) => {
+            const tag = TAXONOMY_BY_SLUG.get(row.tag_slug);
+            return tag
+              ? { slug: row.tag_slug, label: tag.label, dimension: tag.dimension }
+              : null;
+          })
+          .filter(Boolean) as { slug: string; label: string; dimension: "content" | "philosophy" | "experience" | "child" }[];
+        // Sort: content first, then philosophy, experience, child
+        const dimOrder = { content: 0, philosophy: 1, experience: 2, child: 3 };
+        resolved.sort((a, b) => dimOrder[a.dimension] - dimOrder[b.dimension]);
+        setTaxonomyTags(resolved);
       }
 
       setLoading(false);
@@ -563,35 +586,21 @@ export default function ClassDetailPage() {
                     {cls.vibe_line.charAt(0).toUpperCase() + cls.vibe_line.slice(1)}
                   </p>
                 )}
-                {/* Content tags — editorial metadata */}
-                {contentSources?.content_tags && (
-                  <div className="flex flex-wrap gap-x-6 gap-y-1.5 text-[12px] text-gray-500">
-                    {contentSources.content_tags.subject && (
-                      <span><span className="font-semibold text-gray-400 uppercase tracking-wider text-[10px]">Subject:</span> {contentSources.content_tags.subject}</span>
-                    )}
-                    {contentSources.content_tags.philosophy && (
-                      <span><span className="font-semibold text-gray-400 uppercase tracking-wider text-[10px]">Philosophy:</span> {contentSources.content_tags.philosophy}</span>
-                    )}
-                    {contentSources.content_tags.experience && (
-                      <span><span className="font-semibold text-gray-400 uppercase tracking-wider text-[10px]">Experience:</span> {contentSources.content_tags.experience}</span>
-                    )}
-                    {contentSources.content_tags.child && (
-                      <span><span className="font-semibold text-gray-400 uppercase tracking-wider text-[10px]">Child:</span> {contentSources.content_tags.child}</span>
-                    )}
-                  </div>
-                )}
+                {/* Taxonomy tags — loaded from class_taxonomy_tags or derived fallback */}
                 <div className="flex items-center gap-2 flex-wrap">
-                  {cls.category && <TagPill label={cls.category} category="content" size="md" />}
-                  {cls.age_min != null && <TagPill label={formatAgeRange(cls.age_min, cls.age_max)} category="child" size="md" />}
-                  {contextualTags.map((tag) => (
-                    <TagPill key={tag.label} label={tag.label} category={tag.category} size="md" />
-                  ))}
-                  {googleRating && (
-                    <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-[var(--tumbo-cream)] text-[var(--tumbo-orange)] text-[12px] font-semibold border border-[var(--tumbo-hover)]">
-                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
-                      {googleRating.toFixed(1)}
-                    </div>
+                  {taxonomyTags.length > 0 ? (
+                    taxonomyTags.map((tag) => (
+                      <TagPill key={tag.slug} label={tag.label} category={tag.dimension} size="md" />
+                    ))
+                  ) : (
+                    <>
+                      {cls.category && <TagPill label={cls.category} category="content" size="md" />}
+                      {contextualTags.map((tag) => (
+                        <TagPill key={tag.label} label={tag.label} category={tag.category} size="md" />
+                      ))}
+                    </>
                   )}
+                  {cls.age_min != null && <TagPill label={formatAgeRange(cls.age_min, cls.age_max)} category="child" size="md" />}
                 </div>
               </div>
 
