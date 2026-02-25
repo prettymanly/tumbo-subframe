@@ -1,40 +1,54 @@
 "use client";
 
-// ── /classes-alt — Editorial discovery surface (Variant 2: Hybrid) ──
-// Radically different presentation from /classes. Same data pipeline.
-//
-// Structure:
-//   EditorialHero  — Framer-scale heading, search, taxonomy tags (no intent chips)
-//   Section A      — Showcase grid (Rail 1 data, EditorialCard, 3-col)
-//   Section B      — Collections (4 intent rails as large tiles with thumbnails)
-//   Section C      — More to explore (infinite scroll grid, EditorialCard)
-//
-// Non-negotiables:
-//   • No intent chips on this surface
-//   • Taxonomy tags use same getTopTags + selectDisplayTags pipeline as /classes
-//   • No data logic duplication beyond the state hooks (same as /classes/page.tsx)
-//   • /classes remains untouched
+// ── /classes-alt — MagicPath V2 Directory ──
+// Bold Orange hero + cream content area + horizontal rail carousels.
+// Same data pipeline as before — only the visual layer changed.
 
 import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { ModernPageLayout } from "@/components/ui/modern-page-layout";
-import { EditorialHero } from "@/components/ui/editorial-hero";
-import type { TagRowItem } from "@/components/ui/hero-section";
-import { EditorialCard } from "@/components/ui/editorial-card";
-import { CollectionTile } from "@/components/ui/collection-tile";
-import { RailSkeleton } from "@/components/ui/rail-section";
-import { RailLoader } from "@/components/ui/rail-loader";
-import ClassFilterSidebarIntegrated from "@/components/ui/class-filter-sidebar-integrated";
-import { FilterState } from "@/components/ui/filter-chips";
-import FilterChips from "@/components/ui/filter-chips";
-import { CustomClassCard, BadgeItem } from "@/components/ui/class-card";
+import Fuse from "fuse.js";
+import MPNavbar from "@/components/ui/mp-navbar";
+import { MPCard } from "@/components/ui/mp-card";
+import { MPRail } from "@/components/ui/mp-rail";
+import { MPFilterSidebar, MPFilterState, MP_DEFAULT_FILTERS } from "@/components/ui/mp-filter-sidebar";
 import { DBClass, Provider, getTopTags } from "@/lib/types/tags";
-import { RAIL_ORDER, RAIL_MAP, RAILS } from "@/lib/rails/config";
+import { RAIL_ORDER, RAILS } from "@/lib/rails/config";
 import { selectDisplayTags } from "@/lib/rails/warm-tags";
 import type { RailApiResponse, RailCardItem } from "@/lib/rails/types";
-import type { TagCategory } from "@/components/ui/tag-pill";
 
-// ── Collection rails (intent-based rails 3–6) ──
-const COLLECTION_RAILS = RAILS.filter((r) => r.intentSignals.length > 0);
+// ── Extract estate/area name from a full Singapore address ──
+const SG_ESTATES = [
+  "Bukit Timah", "Bukit Batok", "Bukit Merah", "Bukit Panjang",
+  "Jurong West", "Jurong East", "Jurong",
+  "Ang Mo Kio", "Toa Payoh", "Bishan", "Hougang", "Sengkang", "Punggol",
+  "Tampines", "Pasir Ris", "Bedok", "Simei", "Changi",
+  "Clementi", "Queenstown", "Commonwealth", "Dover", "Holland",
+  "Woodlands", "Yishun", "Sembawang", "Admiralty",
+  "Choa Chu Kang", "Tengah",
+  "Paya Lebar", "Geylang", "Kallang", "Lavender", "Bugis",
+  "Orchard", "Dhoby Ghaut", "Somerset", "Newton", "Novena",
+  "Harbourfront", "Telok Blangah", "Sentosa",
+  "Marina Bay", "Tanjong Pagar", "Shenton", "Raffles Place",
+  "City Hall", "Bras Basah", "Prinsep",
+  "Serangoon", "Kovan", "Potong Pasir",
+  "MacPherson", "Mountbatten", "Katong", "Marine Parade",
+  "Thomson", "Marymount", "Bright Hill",
+  "Yio Chu Kang", "Lentor",
+  "West Coast", "Pasir Panjang", "Kent Ridge",
+  "Tiong Bahru", "Redhill", "Alexandra",
+  "Camden", "Tanglin", "River Valley",
+  "Neil Rd", "Chinatown", "Outram",
+  "Little India", "Farrer Park", "Jalan Besar",
+]
+function extractEstate(loc?: string | null): string | undefined {
+  if (!loc) return undefined
+  for (const estate of SG_ESTATES) {
+    if (loc.toLowerCase().includes(estate.toLowerCase())) return estate
+  }
+  // Fallback: try to grab area from "Blk X <Area>" or just return first meaningful segment
+  const parts = loc.split(",")[0].trim()
+  if (parts === "Singapore" || parts.length < 3) return undefined
+  return parts.length > 25 ? undefined : parts
+}
 
 // ── Session seed — stable within a day ──
 function getSessionSeed(): number {
@@ -49,7 +63,7 @@ function getSessionSeed(): number {
   return seed;
 }
 
-// ── Fetch a single rail from the API ──
+// ── Fetch rail from API ──
 async function fetchRail(
   railId: string,
   seed: number,
@@ -66,29 +80,11 @@ async function fetchRail(
   }
 }
 
-// ── Category fallback images ──
-const CATEGORY_IMAGES: Record<string, string> = {
-  Art: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&q=70",
-  Dance: "https://images.unsplash.com/photo-1547153760-18fc86324498?w=400&q=70",
-  Music: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&q=70",
-  Swimming: "https://images.unsplash.com/photo-1560089000-7433a4ebbd64?w=400&q=70",
-  Cooking: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&q=70",
-};
 function getClassImage(cls: DBClass): string {
-  return cls.photo_url || CATEGORY_IMAGES[cls.category || ""] || CATEGORY_IMAGES.Art;
-}
-
-// ── Responsive ──
-function useIsMobile(): boolean {
-  const [mobile, setMobile] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 767px)");
-    setMobile(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setMobile(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-  return mobile;
+  const url = cls.photo_url
+  if (!url) return "/photos/Default/Placeholder.png"
+  if (url.includes("places.googleapis.com")) return "/photos/Default/Placeholder.png"
+  return url
 }
 
 // ── Deduplicate ──
@@ -116,61 +112,17 @@ function qualityScore(cls: DBClass): number {
   return s;
 }
 
-const INFINITE_BATCH = 20;
-
-// ── Sentinel ──
-function InfiniteScrollSentinel({ onLoadMore }: { onLoadMore: () => void }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const cb = useRef(onLoadMore);
-  cb.current = onLoadMore;
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) cb.current(); },
-      { rootMargin: "600px 0px" },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-  return (
-    <div ref={ref} className="flex w-full items-center justify-center py-8">
-      <div className="h-6 w-6 animate-spin rounded-full border-2 border-neutral-200 border-t-[var(--tumbo-orange)]" />
-    </div>
-  );
-}
-
-// ── Editorial grid skeleton ──
-function EditorialGridSkeleton() {
-  return (
-    <div className="grid w-full grid-cols-2 md:grid-cols-3 gap-5 md:gap-6 px-6 md:px-10 lg:px-16">
-      {[1, 2, 3, 4, 5, 6].map((i) => (
-        <div key={i} className="animate-pulse">
-          <div className="rounded-xl bg-white ring-1 ring-black/[0.04] overflow-hidden">
-            <div className="w-full h-48 md:h-56 lg:h-64 bg-neutral-100" />
-            <div className="px-4 pt-3 pb-4 flex flex-col gap-1.5">
-              <div className="h-3 w-16 bg-neutral-100 rounded" />
-              <div className="h-4 w-3/4 bg-neutral-200 rounded" />
-              <div className="h-3 w-20 bg-neutral-100 rounded" />
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
+const INFINITE_BATCH = 24;
+const PAGE_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
 // ══════════════════════════════════════════════════════════════
 // ── Main page component ──
 // ══════════════════════════════════════════════════════════════
 
-function ClassDirectoryAltPage() {
-  const isMobile = useIsMobile();
-
-  // ── Core state (same data pipeline as /classes) ──
+export default function MPDirectoryV2Page() {
+  // ── Core state (same data pipeline) ──
   const [seed, setSeed] = useState(0);
   const [railData, setRailData] = useState<Record<string, RailApiResponse>>({});
-  const [bookmarkedClasses, setBookmarkedClasses] = useState<Set<string>>(new Set());
   const [totalClasses, setTotalClasses] = useState(0);
 
   const railDataRef = useRef(railData);
@@ -179,14 +131,11 @@ function ClassDirectoryAltPage() {
   const loadingRef = useRef<Set<string>>(new Set());
 
   // ── Search / filter / tag state ──
+  const [inputValue, setInputValue] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterSidebarOpen, setFilterSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeTag, setActiveTag] = useState<string | null>(null);
-  const [currentFilters, setCurrentFilters] = useState<FilterState>({
-    locations: [], ageRanges: [], days: [], timeSlots: [],
-    priceRanges: [], contentTypes: [], experienceStyles: [],
-    educationalPhilosophies: [], personalityTraits: [], searchTerms: [],
-  });
+  const [filters, setFilters] = useState<MPFilterState>(MP_DEFAULT_FILTERS);
 
   // ── Browse dataset ──
   const [allClasses, setAllClasses] = useState<DBClass[]>([]);
@@ -194,27 +143,17 @@ function ClassDirectoryAltPage() {
   const [browseLoading, setBrowseLoading] = useState(false);
   const allClassesLoadedRef = useRef(false);
 
-  const [infiniteCount, setInfiniteCount] = useState(INFINITE_BATCH);
+  const [page, setPage] = useState(1);
+  const [visibleRails, setVisibleRails] = useState(1);
+
+  // ── Debounced search ──
+  useEffect(() => {
+    const timer = setTimeout(() => setSearchQuery(inputValue), 300);
+    return () => clearTimeout(timer);
+  }, [inputValue]);
 
   // ── Initialize ──
   useEffect(() => { setSeed(getSessionSeed()); }, []);
-
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem("tumbo_bookmarks");
-      if (saved) setBookmarkedClasses(new Set(JSON.parse(saved)));
-    } catch { /* noop */ }
-  }, []);
-
-  const toggleBookmark = useCallback((classId: string) => {
-    setBookmarkedClasses((prev) => {
-      const next = new Set(prev);
-      if (next.has(classId)) next.delete(classId);
-      else next.add(classId);
-      try { localStorage.setItem("tumbo_bookmarks", JSON.stringify([...next])); } catch { /* noop */ }
-      return next;
-    });
-  }, []);
 
   const seedRef = useRef(seed);
   seedRef.current = seed;
@@ -222,21 +161,17 @@ function ClassDirectoryAltPage() {
   const loadRail = useCallback(async (railId: string) => {
     if (railDataRef.current[railId] || loadingRef.current.has(railId)) return;
     loadingRef.current.add(railId);
-    setRailData((prev) => ({ ...prev }));
 
     const data = await fetchRail(railId, seedRef.current, shownIdsRef.current);
     loadingRef.current.delete(railId);
 
     if (data) {
       setRailData((prev) => ({ ...prev, [railId]: data }));
-      const newIds = data.items.map((item) => item.id);
-      shownIdsRef.current = [...shownIdsRef.current, ...newIds];
-    } else {
-      setRailData((prev) => ({ ...prev }));
+      shownIdsRef.current = [...shownIdsRef.current, ...data.items.map((i) => i.id)];
     }
   }, []);
 
-  // ── Fetch total class count ──
+  // ── Fetch total ──
   useEffect(() => {
     fetch("/api/rails/meta")
       .then((r) => r.json())
@@ -244,7 +179,7 @@ function ClassDirectoryAltPage() {
       .catch(() => {});
   }, []);
 
-  // ── Lazy-load all classes for search/filter/infinite scroll ──
+  // ── Load all classes for browse/search ──
   const loadAllClasses = useCallback(async () => {
     if (allClassesLoadedRef.current || browseLoading) return;
     allClassesLoadedRef.current = true;
@@ -262,359 +197,539 @@ function ClassDirectoryAltPage() {
       for (const p of providerRes.data || []) pMap[p.id] = p;
       setProviderMap(pMap);
     } catch (e) {
-      allClassesLoadedRef.current = false; // allow retry on failure
+      allClassesLoadedRef.current = false;
       console.error("Failed to load classes:", e);
     }
     setBrowseLoading(false);
   }, [browseLoading]);
 
-  // ── Search/filter state ──
-  const isSearchActive = searchQuery.trim().length > 0 || activeTag !== null;
-  const hasActiveFilters = Object.values(currentFilters).some(
-    (v) => Array.isArray(v) && v.length > 0,
-  );
-  const showFilteredGrid = isSearchActive || hasActiveFilters;
-
-
-  // ── Top tags for taxonomy row ──
-  const topTags: TagRowItem[] = useMemo(() => {
-    if (allClasses.length === 0) return [];
-    return getTopTags(allClasses, selectDisplayTags);
+  // ── Top tags ──
+  const topTags = useMemo(() => {
+    if (allClasses.length === 0) return [] as string[];
+    return getTopTags(allClasses, selectDisplayTags).map((t) => t.label);
   }, [allClasses]);
 
-  // ── Filtered classes ──
+  // ── Enriched search index: class data + flattened tag labels ──
+  // Each entry has the original DBClass plus a `_searchTags` string
+  // so Fuse can fuzzy-match against tag names like "Builds Confidence"
+  const searchIndex = useMemo(() => {
+    return allClasses.map((c) => {
+      const tags = selectDisplayTags(c);
+      const provName = c.provider_id ? providerMap[c.provider_id]?.name ?? "" : "";
+      return {
+        ...c,
+        _searchTags: tags.map((t) => t.label).join(" "),
+        _providerName: provName,
+      };
+    });
+  }, [allClasses, providerMap]);
+
+  // ── Fuse.js instance — rebuilt when index changes ──
+  const fuse = useMemo(() => {
+    if (searchIndex.length === 0) return null;
+    return new Fuse(searchIndex, {
+      keys: [
+        { name: "name", weight: 0.3 },
+        { name: "_providerName", weight: 0.2 },
+        { name: "category", weight: 0.15 },
+        { name: "_searchTags", weight: 0.2 },
+        { name: "vibe_line", weight: 0.08 },
+        { name: "description", weight: 0.07 },
+      ],
+      threshold: 0.5,        // 0 = exact, 1 = match anything. 0.5 = generous typo tolerance
+      distance: 300,         // how far from expected position chars can be
+      minMatchCharLength: 2, // don't match single chars
+      includeScore: true,
+      ignoreLocation: true,  // search anywhere in the field, not just start
+    });
+  }, [searchIndex]);
+
+  // ── Fallback: simple case-insensitive substring match ──
+  const substringSearch = useCallback((query: string, items: typeof searchIndex): DBClass[] => {
+    const q = query.toLowerCase();
+    // Support multi-word: split on spaces, each token must appear somewhere
+    const tokens = q.split(/\s+/).filter(Boolean);
+    return items.filter((c) => {
+      const haystack = [
+        c.name,
+        c._providerName,
+        c.category,
+        c._searchTags,
+        c.vibe_line,
+        c.description,
+        c.summary,
+      ].filter(Boolean).join(" ").toLowerCase();
+      return tokens.every((tok) => haystack.includes(tok));
+    }) as unknown as DBClass[];
+  }, []);
+
+  // ── Filter mode ──
+  const isFilterMode = useMemo(() =>
+    searchQuery.trim() !== "" ||
+    activeTag !== null ||
+    filters.tags.length > 0 ||
+    filters.location !== "All Areas" ||
+    filters.priceMax < 200 ||
+    filters.ageMin > 0 ||
+    filters.ageMax < 18,
+  [searchQuery, activeTag, filters]);
+
+  // ── Filtered classes — Fuse for text, then hard filters for tags/age/price ──
   const filteredClasses = useMemo(() => {
-    return allClasses.filter((cls) => {
+    const q = searchQuery.trim();
+
+    // Step 1: fuzzy text search (or all classes if no query)
+    let candidates: DBClass[];
+    if (q && fuse) {
+      // Try Fuse.js fuzzy search first
+      const fuseResults = fuse.search(q);
+      candidates = fuseResults.map((r) => r.item as unknown as DBClass);
+
+      // Fallback: if Fuse returns nothing, try simple substring match
+      if (candidates.length === 0 && searchIndex.length > 0) {
+        candidates = substringSearch(q, searchIndex);
+      }
+    } else if (q && searchIndex.length > 0) {
+      // Fuse not ready yet but we have data — use substring
+      candidates = substringSearch(q, searchIndex);
+    } else {
+      candidates = allClasses;
+    }
+
+    // Step 2: hard filters (tag pill, category, age, price)
+    return candidates.filter((c) => {
       if (activeTag) {
-        const cardTags = selectDisplayTags(cls);
-        if (!cardTags.some((t) => t.label === activeTag)) return false;
+        const tags = selectDisplayTags(c);
+        if (!tags.some((t) => t.label === activeTag)) return false;
       }
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        if (
-          !cls.name.toLowerCase().includes(q) &&
-          !(cls.description || "").toLowerCase().includes(q) &&
-          !(cls.category || "").toLowerCase().includes(q) &&
-          !(cls.vibe_line || "").toLowerCase().includes(q)
-        ) return false;
-      }
-      if (currentFilters.priceRanges.length > 0 && cls.price) {
-        if (!currentFilters.priceRanges.some((range) => {
-          if (range === "Under $30") return cls.price! < 30;
-          if (range === "$30-$50") return cls.price! >= 30 && cls.price! <= 50;
-          if (range === "$50-$80") return cls.price! > 50 && cls.price! <= 80;
-          if (range === "Over $80") return cls.price! > 80;
-          return true;
-        })) return false;
-      }
-      if (currentFilters.ageRanges.length > 0) {
-        if (!currentFilters.ageRanges.some((range) => {
-          if (range === "0-2 years" && cls.age_min != null) return cls.age_min <= 2;
-          if (range === "3-5 years") return (cls.age_min ?? 99) <= 5 && (cls.age_max ?? 0) >= 3;
-          if (range === "6-8 years") return (cls.age_min ?? 99) <= 8 && (cls.age_max ?? 0) >= 6;
-          if (range === "9-12 years") return (cls.age_min ?? 99) <= 12 && (cls.age_max ?? 0) >= 9;
-          if (range === "13+ years" && cls.age_max != null) return cls.age_max >= 13;
-          return true;
-        })) return false;
-      }
+      if (filters.tags.length > 0 && !(c.category && filters.tags.some((t) => t.toLowerCase() === c.category!.toLowerCase()))) return false;
+      if (filters.ageMin > 0 && (c.age_min == null || c.age_min > filters.ageMax)) return false;
+      if (filters.ageMax < 18 && (c.age_max == null || c.age_max < filters.ageMin)) return false;
+      if (filters.priceMax < 200 && c.price != null && c.price > filters.priceMax) return false;
       return true;
     });
-  }, [allClasses, searchQuery, activeTag, currentFilters.priceRanges, currentFilters.ageRanges]);
+  }, [allClasses, searchQuery, activeTag, filters, fuse, searchIndex, substringSearch]);
 
-  const toBrowseBadges = useCallback((cls: DBClass): BadgeItem[] => {
-    return selectDisplayTags(cls).map((t) => ({ label: t.label, category: t.dimension as TagCategory }));
-  }, []);
-
-  // ── Infinite scroll ──
-  const allRailsLoaded = RAIL_ORDER.every((rid) => railData[rid]);
-
-  // ── Load all classes when search/filter/tag activates ──
-  useEffect(() => {
-    if (showFilteredGrid && !allClassesLoadedRef.current) {
-      loadAllClasses();
-    }
-  }, [showFilteredGrid, loadAllClasses]);
-
-  // ── Load all classes once all rails finish (for taxonomy tags + "More to explore") ──
-  useEffect(() => {
-    if (allRailsLoaded && !allClassesLoadedRef.current && !showFilteredGrid) {
-      loadAllClasses();
-    }
-  }, [allRailsLoaded, showFilteredGrid, loadAllClasses]);
-
-  const handleLoadMore = useCallback(() => {
-    setInfiniteCount((prev) => prev + INFINITE_BATCH);
-  }, []);
-
-  const infiniteClasses = useMemo(() => {
-    if (allClasses.length === 0) return [];
-    const shownSet = new Set(shownIdsRef.current);
-    return allClasses.filter((cls) => !shownSet.has(cls.id));
-  }, [allClasses]);
-
-  // ── Handlers ──
-  const handleFiltersChange = useCallback((f: FilterState) => setCurrentFilters(f), []);
-  const handleFilterClick = useCallback(() => setFilterSidebarOpen((p) => !p), []);
-  const handleTagClick = useCallback((v: string) => {
-    setActiveTag(v || null);
-    setInfiniteCount(INFINITE_BATCH);
-  }, []);
-  const handleSearchChange = useCallback((q: string) => {
-    setSearchQuery(q);
-    setInfiniteCount(INFINITE_BATCH);
-  }, []);
-
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && filterSidebarOpen) setFilterSidebarOpen(false);
-    };
-    document.addEventListener("keydown", handleEsc);
-    return () => document.removeEventListener("keydown", handleEsc);
-  }, [filterSidebarOpen]);
-
-  // ── Eagerly load all rails for collection tile previews ──
-  // Rail 1 loads immediately, rest stagger every 400ms after 1s
+  // ── Load all rails on mount ──
   useEffect(() => {
     if (seed === 0) return;
-    // Reset loading guards on mount (handles HMR + StrictMode double-mount)
     loadingRef.current.clear();
     let cancelled = false;
     const timers: ReturnType<typeof setTimeout>[] = [];
-    // Load first rail immediately for showcase grid
     loadRail(RAIL_ORDER[0]);
-    // Stagger remaining rails
     RAIL_ORDER.slice(1).forEach((railId, i) => {
-      timers.push(setTimeout(() => {
-        if (!cancelled) loadRail(railId);
-      }, 1000 + i * 400));
+      timers.push(setTimeout(() => { if (!cancelled) loadRail(railId); }, 1000 + i * 400));
     });
-    return () => {
-      cancelled = true;
-      timers.forEach(clearTimeout);
-    };
+    return () => { cancelled = true; timers.forEach(clearTimeout); };
   }, [seed, loadRail]);
+
+  const allRailsLoaded = RAIL_ORDER.every((rid) => railData[rid]);
+
+  // ── Progressive rail reveal ──
+  useEffect(() => {
+    if (isFilterMode) return;
+    const timer = setTimeout(() => {
+      if (visibleRails < RAIL_ORDER.length) setVisibleRails((v) => v + 1);
+    }, 600);
+    return () => clearTimeout(timer);
+  }, [visibleRails, isFilterMode]);
+
+  // ── Load classes for search/filter ──
+  useEffect(() => {
+    if (isFilterMode && !allClassesLoadedRef.current) loadAllClasses();
+  }, [isFilterMode, loadAllClasses]);
+
+  // ── Load classes once all rails finish ──
+  useEffect(() => {
+    if (allRailsLoaded && !allClassesLoadedRef.current && !isFilterMode) loadAllClasses();
+  }, [allRailsLoaded, isFilterMode, loadAllClasses]);
+
+  // ── "More to explore" items ──
+  const moreItems = useMemo(() => {
+    const shownSet = new Set(shownIdsRef.current);
+    return allClasses.filter((c) => !shownSet.has(c.id));
+  }, [allClasses]);
+
+  const paginatedMore = useMemo(() => moreItems.slice(0, page * INFINITE_BATCH), [moreItems, page]);
+
+  // ── InfiniteScroll for "More to explore" ──
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const [loadingMore, setLoadingMore] = useState(false);
+  useEffect(() => {
+    const el = loadMoreRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !loadingMore && paginatedMore.length < moreItems.length) {
+        setLoadingMore(true);
+        setTimeout(() => { setPage((p) => p + 1); setLoadingMore(false); }, 400);
+      }
+    }, { rootMargin: "200px" });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [loadingMore, paginatedMore.length, moreItems.length]);
+
+  const totalActiveFilters = filters.tags.length + (filters.location !== "All Areas" ? 1 : 0) + (filters.priceMax < 200 ? 1 : 0) + (filters.ageMin > 0 || filters.ageMax < 18 ? 1 : 0);
+
+  // ── Rails data ──
+  const rails = useMemo(() =>
+    RAIL_ORDER.map((rid) => {
+      const config = RAILS.find((r) => r.railId === rid);
+      const data = railData[rid];
+      return { railId: rid, header: config?.header ?? rid, subheader: config?.subheader ?? "", items: data?.items ?? [] };
+    }),
+  [railData]);
 
   // ═══════════════════════════════════ RENDER ═══════════════════════════════════
 
-  // ── Get showcase items (Rail 1 = recommended) ──
-  const showcaseData = railData[RAIL_ORDER[0]];
-  const showcaseItems = showcaseData?.items ?? [];
-  const showcaseCount = isMobile ? 4 : 6;
+  return (
+    <div style={{ fontFamily: PAGE_FONT, background: "#FF4400", minHeight: "100vh", WebkitFontSmoothing: "antialiased", paddingTop: 12 }}>
+      <style>{`
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+        @keyframes mpPulse {
+          0%, 100% { opacity: 0.3; transform: scale(0.8); }
+          50% { opacity: 1; transform: scale(1.2); }
+        }
+      `}</style>
 
-  const mainContent = (
-    <div className="flex w-full flex-col items-start">
-      <EditorialHero
-        classCount={totalClasses}
-        searchQuery={searchQuery}
-        onSearchChange={handleSearchChange}
-        onFilterClick={handleFilterClick}
-        filterSidebarOpen={filterSidebarOpen}
-        tags={topTags}
-        activeTag={activeTag}
-        onTagClick={handleTagClick}
-      />
+      <MPFilterSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} filters={filters} onChange={setFilters} />
 
-      {/* Active filter chips */}
-      {hasActiveFilters && (
-        <div className="px-6 md:px-10 lg:px-16 w-full pt-2">
-          <FilterChips
-            filters={currentFilters}
-            onRemoveFilter={(filterType, value) => {
-              setCurrentFilters((prev) => ({
-                ...prev,
-                [filterType]: (prev[filterType] as string[]).filter((item) => item !== value),
-              }));
-            }}
-            onClearAll={() => {
-              setCurrentFilters({
-                locations: [], ageRanges: [], days: [], timeSlots: [],
-                priceRanges: [], contentTypes: [], experienceStyles: [],
-                educationalPhilosophies: [], personalityTraits: [], searchTerms: [],
-              });
-              setSearchQuery("");
-              setActiveTag(null);
-            }}
-          />
-        </div>
-      )}
+      <MPNavbar />
 
-      {/* ── FILTERED GRID (search/tag/filter active) ── */}
-      {showFilteredGrid ? (
-        <div className="flex w-full flex-col items-start gap-4 pt-6 pb-12">
-          <div className="px-6 md:px-10 lg:px-16">
-            <p className="text-[13px] text-neutral-400">
-              {browseLoading ? "Loading..." : `${filteredClasses.length} classes found`}
-            </p>
-          </div>
-          {browseLoading ? (
-            <EditorialGridSkeleton />
-          ) : filteredClasses.length === 0 ? (
-            <div className="flex w-full flex-col items-center justify-center gap-4 py-20 px-6">
-              <span className="text-[24px] font-semibold text-default-font">No classes found</span>
-              <span className="text-[15px] text-neutral-500 text-center max-w-md">
-                Try broadening your search or removing some filters.
-              </span>
-            </div>
-          ) : (
-            <div className="grid w-full grid-cols-2 md:grid-cols-3 gap-5 md:gap-6 px-6 md:px-10 lg:px-16">
-              {filteredClasses.slice(0, infiniteCount).map((cls) => (
-                <CustomClassCard
-                  key={cls.id}
-                  id={cls.id}
-                  title={cls.name}
-                  providerName={cls.provider_id ? providerMap[cls.provider_id]?.name : undefined}
-                  description={cls.summary || cls.vibe_line || cls.description || ""}
-                  image={getClassImage(cls)}
-                  badges={toBrowseBadges(cls)}
-                  href={`/classes/${cls.id}`}
-                  isBookmarked={bookmarkedClasses.has(cls.id)}
-                  onBookmarkToggle={toggleBookmark}
-                  category={cls.category ?? undefined}
-                  ageMin={cls.age_min ?? undefined}
-                  ageMax={cls.age_max ?? undefined}
-                  vibeLine={cls.vibe_line ?? undefined}
-                />
-              ))}
-            </div>
-          )}
-          {filteredClasses.length > infiniteCount && (
-            <InfiniteScrollSentinel onLoadMore={handleLoadMore} />
-          )}
-        </div>
-      ) : (
-        /* ── EDITORIAL DISCOVERY MODE ── */
-        <>
-          {/* ═══ SECTION A — Showcase Grid ═══ */}
-          <section className="w-full pt-10 md:pt-16 pb-12 md:pb-20">
-            <div className="px-6 md:px-10 lg:px-16 mb-6 md:mb-8">
-              <h2 className="text-[20px] md:text-[24px] font-semibold text-default-font tracking-[-0.01em]">
-                Start here
-              </h2>
-              <p className="text-[13px] md:text-[15px] text-neutral-500 mt-1">
-                A fresh pick of classes worth exploring this week
-              </p>
-            </div>
+      {/* ═══════ HERO SECTION — Bold Orange ═══════ */}
+      <section style={{ background: "#FF4400", position: "relative", overflow: "hidden", padding: "80px 0 60px" }}>
+        {/* SVG topographic pattern */}
+        <svg
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.2 }}
+          viewBox="0 0 800 400"
+          preserveAspectRatio="xMidYMid slice"
+        >
+          <path d="M0 200 Q200 100 400 200 T800 200" fill="none" stroke="#fff" strokeWidth="1.5" />
+          <path d="M0 250 Q200 150 400 250 T800 250" fill="none" stroke="#fff" strokeWidth="1" />
+          <path d="M0 150 Q200 50 400 150 T800 150" fill="none" stroke="#fff" strokeWidth="1" />
+          <circle cx="650" cy="80" r="40" fill="none" stroke="#fff" strokeWidth="1" />
+          <circle cx="150" cy="320" r="60" fill="none" stroke="#fff" strokeWidth="1" />
+        </svg>
 
-            {showcaseItems.length > 0 ? (
-              <div className="grid w-full grid-cols-2 md:grid-cols-3 gap-5 md:gap-6 px-6 md:px-10 lg:px-16">
-                {showcaseItems.slice(0, showcaseCount).map((item, i) => (
-                  <EditorialCard
-                    key={item.id}
-                    id={item.id}
-                    title={item.title}
-                    providerName={item.providerName}
-                    image={item.image}
-                    href={item.href}
-                    isBookmarked={bookmarkedClasses.has(item.id)}
-                    onBookmarkToggle={toggleBookmark}
-                    category={item.category}
-                    priority={i < 2}
-                  />
-                ))}
-              </div>
-            ) : (
-              <EditorialGridSkeleton />
-            )}
-          </section>
-
-          {/* ── Divider ── */}
-          <div className="w-full px-6 md:px-10 lg:px-16">
-            <hr className="border-t border-neutral-200/60" />
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 900, margin: "0 auto", padding: "0 24px", textAlign: "center" }}>
+          {/* Badge */}
+          <div style={{ display: "inline-block", background: "rgba(255,255,255,0.15)", borderRadius: 100, padding: "6px 16px", marginBottom: 20 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: "#fff", letterSpacing: "0.04em" }}>
+              Singapore&apos;s class directory
+            </span>
           </div>
 
-          {/* ═══ SECTION B — Collections ═══ */}
-          <section className="w-full pt-12 md:pt-20 pb-12 md:pb-20">
-            <div className="px-6 md:px-10 lg:px-16 mb-8 md:mb-10">
-              <h2 className="text-[22px] md:text-[28px] font-semibold text-default-font tracking-[-0.02em]">
-                Collections
-              </h2>
-              <p className="text-[14px] md:text-[15px] text-neutral-500 mt-1.5">
-                Curated by what matters to your child
-              </p>
-            </div>
+          {/* Headline */}
+          <h1 style={{ margin: "0 0 12px", fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 700, color: "#fff", lineHeight: 1.05, letterSpacing: "-0.03em" }}>
+            The best classes aren&apos;t<br />always <span style={{ fontStyle: "italic" }}>the best classes.</span>
+          </h1>
+          <p style={{ margin: "0 0 32px", fontSize: 17, color: "rgba(255,255,255,0.75)", maxWidth: 720, marginLeft: "auto", marginRight: "auto" }}>
+            Tümbo surfaces the hidden gems that match your child&apos;s learning style<br />and your family&apos;s values — not just the programs with the longest waitlists.
+          </p>
 
-            <div className="grid w-full grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 px-6 md:px-10 lg:px-16">
-              {COLLECTION_RAILS.map((rail) => {
-                const data = railData[rail.railId];
+          {/* Search bar */}
+          <div style={{ maxWidth: 580, margin: "0 auto 24px", position: "relative" }}>
+            <div style={{ display: "flex", background: "#FDFBF7", borderRadius: 100, padding: "6px 6px 6px 20px", boxShadow: "0 4px 32px rgba(0,0,0,0.25)", alignItems: "center" }}>
+              <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.3)" strokeWidth={2} style={{ flexShrink: 0 }}>
+                <circle cx={11} cy={11} r={8} />
+                <path d="m21 21-4.35-4.35" />
+              </svg>
+              <input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Search for any class or activity..."
+                style={{
+                  flex: 1,
+                  border: "none",
+                  outline: "none",
+                  background: "transparent",
+                  fontSize: 15,
+                  padding: "12px 12px",
+                  color: "#000",
+                  fontFamily: PAGE_FONT,
+                }}
+              />
+              {inputValue && (
+                <button
+                  onClick={() => { setInputValue(""); setSearchQuery(""); }}
+                  style={{ background: "transparent", border: "none", cursor: "pointer", padding: "8px", display: "flex", alignItems: "center" }}
+                >
+                  <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.4)" strokeWidth={2}>
+                    <path d="M18 6 6 18M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+              <button
+                style={{
+                  background: "#FF4400",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: 100,
+                  padding: "12px 24px",
+                  fontSize: 14,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  fontFamily: PAGE_FONT,
+                  transition: "opacity 0.2s",
+                }}
+                onClick={() => setSearchQuery(inputValue)}
+              >
+                Search
+              </button>
+            </div>
+          </div>
+
+          {/* Filter + Tag pills row */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+            <button
+              onClick={() => setSidebarOpen(true)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "8px 16px",
+                borderRadius: 100,
+                border: "1.5px solid rgba(255,255,255,0.35)",
+                background: totalActiveFilters > 0 ? "rgba(255,255,255,0.2)" : "transparent",
+                color: "#fff",
+                fontSize: 13,
+                fontWeight: 500,
+                cursor: "pointer",
+                fontFamily: PAGE_FONT,
+                transition: "all 0.15s",
+              }}
+            >
+              <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth={2}>
+                <path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z" />
+              </svg>
+              Filters
+              {totalActiveFilters > 0 && (
+                <span style={{ background: "#fff", color: "#FF4400", borderRadius: "50%", width: 18, height: 18, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 10, fontWeight: 700 }}>
+                  {totalActiveFilters}
+                </span>
+              )}
+            </button>
+
+            <div style={{ width: 1, height: 20, background: "rgba(255,255,255,0.25)" }} />
+
+            {/* Tag pills */}
+            <div className="hide-scrollbar" style={{ display: "flex", gap: 6, overflowX: "auto", maxWidth: "60vw" }}>
+              {topTags.slice(0, 10).map((tag) => {
+                const isActive = activeTag === tag;
                 return (
-                  <CollectionTile
-                    key={rail.railId}
-                    railId={rail.railId}
-                    title={rail.header}
-                    description={rail.subheader}
-                    items={data?.items ?? []}
-                    onClick={() => {
-                      // Scroll to the section or could trigger a filter in future
-                      const el = document.getElementById(`rail-${rail.railId}`);
-                      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                  <button
+                    key={tag}
+                    onClick={() => setActiveTag((t) => t === tag ? null : tag)}
+                    style={{
+                      flexShrink: 0,
+                      padding: "6px 14px",
+                      borderRadius: 100,
+                      border: isActive ? "1.5px solid #fff" : "1.5px solid rgba(255,255,255,0.35)",
+                      background: isActive ? "#fff" : "transparent",
+                      color: isActive ? "#FF4400" : "#fff",
+                      fontSize: 13,
+                      fontWeight: isActive ? 700 : 500,
+                      cursor: "pointer",
+                      fontFamily: PAGE_FONT,
+                      transition: "all 0.15s",
+                      whiteSpace: "nowrap",
                     }}
-                  />
+                  >
+                    {tag}
+                  </button>
                 );
               })}
             </div>
-          </section>
-
-          {/* ── Divider ── */}
-          <div className="w-full px-6 md:px-10 lg:px-16">
-            <hr className="border-t border-neutral-200/60" />
           </div>
 
-          {/* ═══ SECTION C — More to explore ═══ */}
-          {allRailsLoaded && (
-            <section className="w-full pt-12 md:pt-20 pb-16">
-              <div className="px-6 md:px-10 lg:px-16 mb-6 md:mb-8">
-                <h2 className="text-[18px] md:text-[20px] font-semibold text-default-font">
-                  More to explore
-                </h2>
-                <p className="text-[12px] md:text-[13px] text-neutral-400 mt-1">
-                  Keep scrolling — we&apos;ll load more as you go
-                </p>
-              </div>
+          {/* Class count */}
+          <p style={{ margin: "16px 0 0", fontSize: 12, color: "rgba(255,255,255,0.5)" }}>
+            {isFilterMode
+              ? `${filteredClasses.length} classes found`
+              : totalClasses > 0
+                ? `${totalClasses.toLocaleString()} classes to explore`
+                : ""}
+          </p>
+        </div>
+      </section>
 
+      {/* ═══════ CONTENT AREA — Cream ═══════ */}
+      <div style={{ background: "#FDFBF7", minHeight: "60vh" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "48px 24px 80px" }}>
+
+          {isFilterMode ? (
+            /* ── FILTERED GRID ── */
+            <div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 24 }}>
+                <h2 style={{ margin: 0, fontSize: 24, fontWeight: 600, letterSpacing: "-0.02em", color: "#000" }}>
+                  {browseLoading ? "Loading..." : `${filteredClasses.length} classes found`}
+                </h2>
+                <span style={{ fontSize: 12, color: "rgba(0,0,0,0.4)" }}>Sorted by relevance</span>
+              </div>
               {browseLoading ? (
-                <div className="flex w-full items-center justify-center py-8">
-                  <div className="h-6 w-6 animate-spin rounded-full border-2 border-neutral-200 border-t-[var(--tumbo-orange)]" />
+                <GridSkeleton />
+              ) : filteredClasses.length === 0 ? (
+                <div style={{ textAlign: "center", padding: "80px 0" }}>
+                  <p style={{ fontSize: 24, fontWeight: 600, color: "#000", margin: "0 0 8px" }}>No classes found</p>
+                  <p style={{ fontSize: 15, color: "rgba(0,0,0,0.45)" }}>Try broadening your search or removing some filters.</p>
                 </div>
-              ) : infiniteClasses.length > 0 ? (
-                <div className="grid w-full grid-cols-2 md:grid-cols-3 gap-5 md:gap-6 px-6 md:px-10 lg:px-16">
-                  {infiniteClasses.slice(0, infiniteCount).map((cls) => (
-                    <EditorialCard
+              ) : (
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 20 }}>
+                  {filteredClasses.slice(0, page * INFINITE_BATCH).map((cls) => (
+                    <MPCard
                       key={cls.id}
                       id={cls.id}
                       title={cls.name}
-                      providerName={cls.provider_id ? providerMap[cls.provider_id]?.name : undefined}
+                      provider={cls.provider_id ? providerMap[cls.provider_id]?.name : undefined}
+                      summary={cls.vibe_line || cls.summary || ""}
                       image={getClassImage(cls)}
-                      href={`/classes/${cls.id}`}
-                      isBookmarked={bookmarkedClasses.has(cls.id)}
-                      onBookmarkToggle={toggleBookmark}
-                      category={cls.category ?? undefined}
+                      tags={selectDisplayTags(cls)}
+                      rating={cls.google_rating ?? undefined}
+                      reviewCount={cls.review_count ?? undefined}
+                      location={cls.location ?? undefined}
+                      price={cls.price ?? undefined}
+                      href={`/classes-alt/${cls.id}`}
+                      variant="v2"
                     />
                   ))}
                 </div>
-              ) : null}
-
-              {infiniteClasses.length > infiniteCount && (
-                <InfiniteScrollSentinel onLoadMore={handleLoadMore} />
               )}
-            </section>
-          )}
-        </>
-      )}
-    </div>
-  );
+              {filteredClasses.length > page * INFINITE_BATCH && (
+                <div ref={loadMoreRef} style={{ display: "flex", justifyContent: "center", padding: "32px 0" }}>
+                  <LoadingDots />
+                </div>
+              )}
+            </div>
+          ) : (
+            /* ── DISCOVERY MODE — Rails ── */
+            <div style={{ display: "flex", flexDirection: "column", gap: 64 }}>
+              {rails.slice(0, visibleRails).map((rail) => {
+                if (rail.items.length === 0) return null;
+                return (
+                  <MPRail key={rail.railId} title={rail.header} subtitle={rail.subheader}>
+                    {rail.items.map((item) => (
+                      <MPCard
+                        key={item.id}
+                        id={item.id}
+                        title={item.title}
+                        provider={item.providerName}
+                        summary={item.vibeLine || item.summary}
+                        image={item.image}
+                        tags={item.tags}
+                        href={`/classes-alt/${item.id}`}
+                        variant="v2"
+                        featured={rail.railId === "recommended"}
+                      />
+                    ))}
+                  </MPRail>
+                );
+              })}
 
-  return (
-    <ModernPageLayout>
-      <ClassFilterSidebarIntegrated
-        open={filterSidebarOpen}
-        onOpenChange={setFilterSidebarOpen}
-        currentFilters={currentFilters}
-        onFiltersChange={handleFiltersChange}
-      >
-        {mainContent}
-      </ClassFilterSidebarIntegrated>
-    </ModernPageLayout>
+              {/* Loading indicator between rails */}
+              {visibleRails < rails.length && (
+                <div style={{ display: "flex", justifyContent: "center", padding: "12px 0" }}>
+                  <LoadingDots />
+                </div>
+              )}
+
+              {/* ── MORE TO EXPLORE ── */}
+              {allRailsLoaded && !browseLoading && paginatedMore.length > 0 && (
+                <div>
+                  <div style={{ display: "inline-block", background: "rgba(255,68,0,0.08)", borderRadius: 100, padding: "5px 14px", marginBottom: 12 }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: "#FF4400", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                      More to explore
+                    </span>
+                  </div>
+                  <h2 style={{ margin: "0 0 6px", fontSize: 28, fontWeight: 600, letterSpacing: "-0.02em", color: "#000" }}>
+                    Every class, <span style={{ color: "rgba(0,0,0,0.3)" }}>one scroll</span>
+                  </h2>
+                  <p style={{ margin: "0 0 24px", fontSize: 14, color: "rgba(0,0,0,0.45)" }}>
+                    {moreItems.length} more classes to discover
+                  </p>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 20 }}>
+                    {paginatedMore.map((cls) => (
+                      <MPCard
+                        key={cls.id}
+                        id={cls.id}
+                        title={cls.name}
+                        summary={cls.vibe_line || cls.summary || ""}
+                        image={getClassImage(cls)}
+                        tags={selectDisplayTags(cls)}
+                        location={extractEstate(cls.location)}
+                        href={`/classes-alt/${cls.id}`}
+                        variant="v2"
+                      />
+                    ))}
+                  </div>
+                  {paginatedMore.length < moreItems.length && (
+                    <div ref={loadMoreRef} style={{ display: "flex", justifyContent: "center", padding: "32px 0" }}>
+                      <LoadingDots />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {allRailsLoaded && browseLoading && (
+                <div style={{ display: "flex", justifyContent: "center", padding: "32px 0" }}>
+                  <LoadingDots />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ═══════ FOOTER ═══════ */}
+      <footer style={{ background: "#000", padding: "40px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ width: 32, height: 32, background: "#FF4400", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <span style={{ color: "#fff", fontWeight: 700, fontSize: 14 }}>t</span>
+          </div>
+          <span style={{ fontSize: 14, fontWeight: 600, color: "#fff" }}>tumbo</span>
+        </div>
+        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>
+          &copy; {new Date().getFullYear()} Tumbo. All rights reserved.
+        </span>
+      </footer>
+    </div>
   );
 }
 
-export default ClassDirectoryAltPage;
+/* ── Loading dots ── */
+function LoadingDots() {
+  return (
+    <div style={{ display: "flex", gap: 6 }}>
+      {[0, 1, 2].map((i) => (
+        <div
+          key={i}
+          style={{
+            width: 8,
+            height: 8,
+            borderRadius: "50%",
+            background: "#FF4400",
+            animation: `mpPulse 1.2s ease-in-out infinite`,
+            animationDelay: `${i * 0.15}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* ── Grid skeleton ── */
+function GridSkeleton() {
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 20 }}>
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} style={{ background: "#fff", borderRadius: 20, border: "1px solid rgba(0,0,0,0.08)", overflow: "hidden" }}>
+          <div style={{ aspectRatio: "16/10", background: "#f5f0eb" }} />
+          <div style={{ padding: "16px 18px 18px", display: "flex", flexDirection: "column", gap: 8 }}>
+            <div style={{ width: 60, height: 10, background: "#f0ebe5", borderRadius: 4 }} />
+            <div style={{ width: "80%", height: 14, background: "#ede8e2", borderRadius: 4 }} />
+            <div style={{ width: "50%", height: 10, background: "#f0ebe5", borderRadius: 4 }} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}

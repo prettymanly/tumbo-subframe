@@ -71,25 +71,11 @@ function resolveChipSignals(ctx: ScoringContext): { chipSignals: string[]; chipC
   };
 }
 
-// ── Category images (fallbacks when class has no photo) ──
-const CATEGORY_IMAGES: Record<string, string> = {
-  Art: "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&q=70",
-  Dance: "https://images.unsplash.com/photo-1547153760-18fc86324498?w=400&q=70",
-  Music: "https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=400&q=70",
-  Swimming: "https://images.unsplash.com/photo-1560089000-7433a4ebbd64?w=400&q=70",
-  Cooking: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400&q=70",
-  Chinese: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&q=70",
-  Mathematics: "https://images.unsplash.com/photo-1596495577886-d920f1fb7238?w=400&q=70",
-  English: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&q=70",
-  Piano: "https://images.unsplash.com/photo-1552422535-c45813c61732?w=400&q=70",
-  Sports: "https://images.unsplash.com/photo-1461896836934-ber8cd65804?w=400&q=70",
-  Drama: "https://images.unsplash.com/photo-1503095396549-807759245b35?w=400&q=70",
-  Science: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&q=70",
-  Chess: "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=400&q=70",
-};
-
 function getClassImage(cls: DBClass): string {
-  return cls.photo_url || CATEGORY_IMAGES[cls.category || ""] || CATEGORY_IMAGES.Art;
+  const url = cls.photo_url
+  if (!url) return "/photos/Default/Placeholder.png"
+  if (url.includes("places.googleapis.com")) return "/photos/Default/Placeholder.png"
+  return url
 }
 
 // ── Convert DBClass → RailCardItem ──
@@ -104,7 +90,7 @@ function toCardItem(
     id: cls.id,
     title: cls.name,
     providerName,
-    summary: cls.summary || cls.vibe_line || cls.description || "",
+    summary: cls.vibe_line || cls.summary || cls.description || "",
     image: getClassImage(cls),
     tags,
     href: `/classes/${cls.id}`,
