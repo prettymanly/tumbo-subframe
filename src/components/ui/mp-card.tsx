@@ -192,10 +192,20 @@ export function MPCard({
     } catch {}
   }, [])
 
-  const cardWidth = masonry ? undefined : featured ? 520 : 260
-  // Featured: 2x width but same image HEIGHT as standard (260 * 10/16 ≈ 162px)
-  const imageAspect = featured ? "32/10" : (masonry ? "3/2" : "16/10")
-  const titleSize = masonry ? 15 : featured ? 18 : 15
+  // On mobile, featured cards should be same size as regular cards
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const mql = window.matchMedia("(max-width: 768px)")
+    setIsMobile(mql.matches)
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches)
+    mql.addEventListener("change", handler)
+    return () => mql.removeEventListener("change", handler)
+  }, [])
+
+  const effectiveFeatured = featured && !isMobile
+  const cardWidth = masonry ? undefined : effectiveFeatured ? 520 : 260
+  const imageAspect = effectiveFeatured ? "32/10" : (masonry ? "3/2" : "16/10")
+  const titleSize = masonry ? 15 : effectiveFeatured ? 18 : 15
 
   const priceDisplay =
     typeof price === "number"
@@ -233,6 +243,12 @@ export function MPCard({
       onMouseLeave={() => setHovered(false)}
     >
       <style>{`
+        @keyframes mpSavePillFade {
+          0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+          15%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+          70%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+          100% { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+        }
         @keyframes cardRubberBand {
           0%   { transform: translateY(0); }
           20%  { transform: translateY(-3px); }
@@ -284,19 +300,18 @@ export function MPCard({
             background: hovered ? "#FF4400" : "#f5f0eb",
           }}
         >
-          {image && (
-            <img
-              src={image}
-              alt={title}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                transition: "none",
-                transform: "none",
-              }}
-            />
-          )}
+          <img
+            src={image || "/photos/Default/Placeholder.png"}
+            alt={title}
+            onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/photos/Default/Placeholder.png"; }}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transition: "none",
+              transform: "none",
+            }}
+          />
 
           {/* Corner save button — always visible on touch devices */}
           <div className="mp-card-save-corner" style={{
@@ -309,7 +324,7 @@ export function MPCard({
                 setJustToggled(true)
                 setBookmarked(!bookmarked)
                 playWhoosh()
-                setTimeout(() => setJustToggled(false), 600)
+                setTimeout(() => setJustToggled(false), 2200)
               }}
               style={{
                 width: 36, height: 36, borderRadius: "50%", border: "none",
@@ -351,7 +366,7 @@ export function MPCard({
                 setJustToggled(true)
                 setBookmarked(!bookmarked)
                 playWhoosh()
-                setTimeout(() => setJustToggled(false), 600)
+                setTimeout(() => setJustToggled(false), 2200)
               }}
               style={{
                 position: "absolute",
@@ -441,6 +456,30 @@ export function MPCard({
               Added to Saved Classes
             </span>
           </div>
+
+          {/* "Added to Saved Classes" pill — visible on all devices when bookmarked */}
+          {justToggled && bookmarked && (
+            <span
+              className="mp-card-save-pill"
+              style={{
+                position: "absolute",
+                top: "50%", left: "50%",
+                transform: "translate(-50%, -50%)",
+                fontSize: 11, fontWeight: 600, color: "#fff",
+                letterSpacing: "0.02em",
+                background: "rgba(0, 0, 0, 0.75)",
+                backdropFilter: "blur(4px)",
+                padding: "8px 16px",
+                borderRadius: 100,
+                pointerEvents: "none",
+                whiteSpace: "nowrap",
+                zIndex: 10,
+                animation: "mpSavePillFade 2s ease forwards",
+              }}
+            >
+              Added to Saved Classes
+            </span>
+          )}
 
           {/* Rating badge */}
           {rating != null && rating > 0 && (

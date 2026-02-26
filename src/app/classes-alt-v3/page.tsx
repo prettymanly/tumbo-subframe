@@ -520,7 +520,7 @@ export default function MPDirectoryV3Page() {
         <MPNavbar />
 
         <header style={{
-          position: "sticky", top: 56, zIndex: 40,
+          position: "sticky", top: 0, zIndex: 55,
           background: "rgba(253,251,247,0.96)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
           borderBottom: "1px solid rgba(0,0,0,0.08)", padding: "12px 16px 0",
         }}>
@@ -564,7 +564,7 @@ export default function MPDirectoryV3Page() {
 
         {/* Mobile active chips — sticky below header, horizontal scroll */}
         {isFilterMode && hasActiveChips && (
-          <div className="hide-scrollbar" style={{ position: "sticky", top: 56, zIndex: 45, background: "#FDFBF7", borderBottom: "1px solid rgba(0,0,0,0.06)", padding: "10px 16px", display: "flex", gap: "6px", alignItems: "center", flexWrap: "nowrap", overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+          <div className="hide-scrollbar" style={{ background: "#FDFBF7", borderBottom: "1px solid rgba(0,0,0,0.06)", padding: "10px 16px", display: "flex", gap: "6px", alignItems: "center", flexWrap: "nowrap", overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
             <span style={{ fontSize: "12px", color: "rgba(0,0,0,0.4)", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.06em", flexShrink: 0 }}>Active:</span>
             {searchQuery.trim() && <FilterChip label={`"${searchQuery}"`} onRemove={() => setInputValue("")} />}
             {activeChips.map((chip) => <FilterChip key={chip} label={chip} onRemove={() => {
