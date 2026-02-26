@@ -194,7 +194,7 @@ export function MPCard({
 
   const cardWidth = masonry ? undefined : featured ? 520 : 260
   // Featured: 2x width but same image HEIGHT as standard (260 * 10/16 ≈ 162px)
-  const imageAspect = featured ? "32/10" : "16/10"
+  const imageAspect = featured ? "32/10" : (masonry ? "3/2" : "16/10")
   const titleSize = masonry ? 15 : featured ? 18 : 15
 
   const priceDisplay =
@@ -239,8 +239,21 @@ export function MPCard({
           55%  { transform: translateY(5px); }
           100% { transform: translateY(0); }
         }
-        .mp-card-bounce {
-          animation: cardRubberBand 0.25s cubic-bezier(0.22, 0.68, 0.31, 1.2) forwards;
+        /* Bounce only on hover-capable devices */
+        @media (hover: hover) and (pointer: fine) {
+          .mp-card-bounce {
+            animation: cardRubberBand 0.25s cubic-bezier(0.22, 0.68, 0.31, 1.2) forwards;
+          }
+        }
+        /* Touch: show corner save, hide hover overlay */
+        @media (hover: none) {
+          .mp-card-save-corner { display: block !important; }
+          .mp-card-save-hover { display: none !important; }
+        }
+        /* Desktop: hide corner save, show hover overlay */
+        @media (hover: hover) and (pointer: fine) {
+          .mp-card-save-corner { display: none !important; }
+          .mp-card-save-hover { display: block !important; }
         }
       `}</style>
 
@@ -285,8 +298,44 @@ export function MPCard({
             />
           )}
 
-          {/* Save button — centered, + / ✓ toggle */}
+          {/* Corner save button — always visible on touch devices */}
+          <div className="mp-card-save-corner" style={{
+            position: "absolute", top: 8, right: 8, zIndex: 5,
+          }}>
+            <button
+              onClick={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                setJustToggled(true)
+                setBookmarked(!bookmarked)
+                playWhoosh()
+                setTimeout(() => setJustToggled(false), 600)
+              }}
+              style={{
+                width: 36, height: 36, borderRadius: "50%", border: "none",
+                background: bookmarked ? "rgba(28,28,28,0.92)" : "rgba(255,255,255,0.85)",
+                backdropFilter: "blur(8px)", boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                transition: "background 0.3s ease, transform 0.15s ease",
+                transform: justToggled ? "scale(0.85)" : "scale(1)",
+              }}
+            >
+              <svg width={16} height={16} viewBox="0 0 24 24" fill="none"
+                stroke={bookmarked ? "#fff" : "#333"} strokeWidth={2.2} strokeLinecap="round"
+                style={{ position: "absolute", opacity: bookmarked ? 0 : 1, transition: "opacity 0.2s" }}>
+                <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              <svg width={16} height={16} viewBox="0 0 24 24" fill="none"
+                stroke="#fff" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"
+                style={{ position: "absolute", opacity: bookmarked ? 1 : 0, transition: "opacity 0.2s" }}>
+                <polyline points="4 12 9 17 20 6" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Hover overlay save — desktop only (hidden on touch) */}
           <div
+            className="mp-card-save-hover"
             style={{
               position: "absolute",
               inset: 0,
@@ -428,7 +477,7 @@ export function MPCard({
         {/* Content */}
         <div
           style={{
-            padding: "16px 18px 18px",
+            padding: masonry ? "12px 14px 14px" : "16px 18px 18px",
             display: "flex",
             flexDirection: "column",
             gap: 8,

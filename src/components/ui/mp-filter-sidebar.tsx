@@ -95,11 +95,12 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
           top: 0,
           right: 0,
           bottom: 0,
-          width: 380,
-          maxWidth: "90vw",
+          width: "100vw",
+          maxWidth: 420,
           background: "#FDFBF7",
           zIndex: 101,
           overflowY: "auto",
+          overscrollBehavior: "contain",
           display: "flex",
           flexDirection: "column",
           fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
@@ -127,8 +128,8 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
           <button
             onClick={onClose}
             style={{
-              width: 36,
-              height: 36,
+              width: 44,
+              height: 44,
               borderRadius: "50%",
               border: "1px solid rgba(0,0,0,0.12)",
               background: "transparent",
@@ -159,7 +160,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
                     key={tag}
                     onClick={() => toggleTag(tag)}
                     style={{
-                      padding: "7px 14px",
+                      padding: "10px 16px",
                       borderRadius: 100,
                       fontSize: 13,
                       fontWeight: 500,
@@ -169,6 +170,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
                       cursor: "pointer",
                       transition: "all 0.15s",
                       fontFamily: "inherit",
+                      minHeight: 44,
                     }}
                   >
                     {tag}
@@ -226,7 +228,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
                     key={loc}
                     onClick={() => setLocal((prev) => ({ ...prev, location: loc }))}
                     style={{
-                      padding: "7px 14px",
+                      padding: "10px 16px",
                       borderRadius: 100,
                       fontSize: 13,
                       fontWeight: 500,
@@ -236,6 +238,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
                       cursor: "pointer",
                       transition: "all 0.15s",
                       fontFamily: "inherit",
+                      minHeight: 44,
                     }}
                   >
                     {loc}
@@ -268,35 +271,20 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
 
         {/* Footer */}
         <div
+          className="mp-filter-footer"
           style={{
-            padding: "20px 28px",
+            padding: "20px 28px calc(20px + var(--sai-bottom, 0px))",
             borderTop: "1px solid rgba(0,0,0,0.08)",
             display: "flex",
-            gap: 12,
+            flexDirection: "column",
+            gap: 10,
           }}
         >
           <button
-            onClick={reset}
-            style={{
-              flex: 1,
-              padding: 12,
-              borderRadius: 100,
-              border: "1.5px solid rgba(0,0,0,0.15)",
-              background: "transparent",
-              fontSize: 14,
-              fontWeight: 500,
-              cursor: "pointer",
-              color: "#000",
-              fontFamily: "inherit",
-            }}
-          >
-            Reset
-          </button>
-          <button
             onClick={apply}
             style={{
-              flex: 2,
-              padding: 12,
+              width: "100%",
+              padding: 14,
               borderRadius: 100,
               border: "none",
               background: "#FF4400",
@@ -310,6 +298,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
               alignItems: "center",
               justifyContent: "center",
               gap: 8,
+              minHeight: 48,
             }}
           >
             Apply Filters
@@ -328,6 +317,24 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 18l6-6-6-6" />
               </svg>
             </span>
+          </button>
+          <button
+            onClick={reset}
+            style={{
+              width: "100%",
+              padding: 12,
+              borderRadius: 100,
+              border: "1.5px solid rgba(0,0,0,0.15)",
+              background: "transparent",
+              fontSize: 14,
+              fontWeight: 500,
+              cursor: "pointer",
+              color: "#000",
+              fontFamily: "inherit",
+              minHeight: 44,
+            }}
+          >
+            Reset
           </button>
         </div>
       </div>

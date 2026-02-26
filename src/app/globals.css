@@ -2,6 +2,11 @@
 
 /* Keep light touch globals to avoid fighting the Subframe preset */
 :root {
+  --sai-top: env(safe-area-inset-top, 0px);
+  --sai-bottom: env(safe-area-inset-bottom, 0px);
+  --sai-left: env(safe-area-inset-left, 0px);
+  --sai-right: env(safe-area-inset-right, 0px);
+
   --tumbo-text: #1f2937;
   --tumbo-background: #FDFBF7;
 
@@ -135,6 +140,10 @@ body {
   .ring-tumbo-orange { --tw-ring-color: color-mix(in srgb, var(--tumbo-orange) 40%, transparent); }
   .focus\:ring-tumbo-orange:focus { --tw-ring-color: color-mix(in srgb, var(--tumbo-orange) 40%, transparent); }
 
+  /* Safe-area padding helpers */
+  .pb-safe { padding-bottom: var(--sai-bottom); }
+  .pt-safe { padding-top: var(--sai-top); }
+
   /* Card hover — shadow only, no scale/translate (keeps bookmarks clickable) */
   .card-hover { transition: box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1); }
   .card-hover:hover { box-shadow: 0px 8px 24px rgba(0,0,0,0.06); }
@@ -148,4 +157,43 @@ body {
   .bg-tumbo-tag-philosophy { background-color: var(--tumbo-tag-philosophy); }
   .bg-tumbo-tag-experience { background-color: var(--tumbo-tag-experience); }
   .bg-tumbo-tag-child { background-color: var(--tumbo-tag-child); }
+}
+
+/* 1-column masonry for narrow phones (iPhone SE etc) */
+@media (max-width: 399px) {
+  .v3-masonry { column-count: 1 !important; column-gap: 0 !important; }
+}
+
+/* Touch-friendly range slider thumbs */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(0,0,0,0.08);
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #FF4400;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(255,68,0,0.3);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #FF4400;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 8px rgba(255,68,0,0.3);
+}
+
+/* Touch device: subtle press effect on cards instead of bounce */
+@media (hover: none) {
+  .mp-card-link:active { opacity: 0.92; transition: opacity 0.1s; }
 }

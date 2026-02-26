@@ -341,7 +341,7 @@ export function MPClassDetail({ backHref }: { backHref: string }) {
               }}>
                 {/* Back circle button */}
                 <Link href={backHref} style={{
-                  width: 34, height: 34, borderRadius: "50%",
+                  width: 44, height: 44, borderRadius: "50%",
                   background: "rgba(28,25,23,0.06)",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   textDecoration: "none",
@@ -362,7 +362,7 @@ export function MPClassDetail({ backHref }: { backHref: string }) {
                     setTimeout(() => setJustToggled(false), 600);
                   }}
                   style={{
-                    width: 34, height: 34, borderRadius: "50%",
+                    width: 44, height: 44, borderRadius: "50%",
                     border: "none",
                     background: bookmarked ? "#1C1917" : "rgba(28,25,23,0.06)",
                     cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
@@ -432,14 +432,14 @@ export function MPClassDetail({ backHref }: { backHref: string }) {
                 </p>
               )}
 
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 20 }}>
-                {resolvedTags.slice(0, 5).map((tag) => {
+              <div className="mp-tag-row" style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 20 }}>
+                {resolvedTags.slice(0, 5).map((tag, idx) => {
                   const colors = DIMENSION_COLORS[tag.dimension] || DIMENSION_COLORS.content;
                   return (
-                    <span key={tag.label} style={{
-                      padding: "4px 10px", borderRadius: 100,
+                    <span key={tag.label} className={idx >= 3 ? "mp-tag-overflow" : ""} style={{
+                      padding: "6px 12px", borderRadius: 100,
                       background: colors.bg, color: colors.text,
-                      fontSize: 10, fontWeight: 700,
+                      fontSize: 11, fontWeight: 700,
                       letterSpacing: "0.05em", textTransform: "uppercase",
                     }}>
                       {tag.label}
@@ -447,8 +447,13 @@ export function MPClassDetail({ backHref }: { backHref: string }) {
                   );
                 })}
                 {cls.age_min != null && (
-                  <span style={{ padding: "4px 10px", borderRadius: 100, background: DIMENSION_COLORS.child.bg, color: DIMENSION_COLORS.child.text, fontSize: 10, fontWeight: 700 }}>
+                  <span style={{ padding: "6px 12px", borderRadius: 100, background: DIMENSION_COLORS.child.bg, color: DIMENSION_COLORS.child.text, fontSize: 11, fontWeight: 700 }}>
                     {formatAgeRange(cls.age_min, cls.age_max)}
+                  </span>
+                )}
+                {resolvedTags.length > 3 && (
+                  <span className="mp-tag-overflow-count" style={{ fontSize: 11, color: "rgba(28,25,23,0.35)", fontWeight: 500, display: "none", alignItems: "center" }}>
+                    +{resolvedTags.length - 3} more
                   </span>
                 )}
               </div>
@@ -518,8 +523,10 @@ export function MPClassDetail({ backHref }: { backHref: string }) {
               <img
                 src={heroImage}
                 alt={cls.name}
+                className="mp-hero-img"
                 style={{
-                  width: "100%", height: 420, objectFit: "cover", display: "block",
+                  width: "100%", height: "auto", aspectRatio: "16/9", maxHeight: 420,
+                  objectFit: "cover", display: "block",
                   transition: "transform 0.6s cubic-bezier(0.25,0.1,0.25,1)",
                 }}
                 onMouseEnter={(e) => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.02)"; }}
@@ -734,7 +741,7 @@ export function MPClassDetail({ backHref }: { backHref: string }) {
       <div
         style={{
           position: "fixed",
-          bottom: showToast ? 32 : -60,
+          bottom: showToast ? "calc(32px + var(--sai-bottom, 0px))" : -60,
           left: "50%",
           transform: "translateX(-50%)",
           zIndex: 200,
@@ -797,20 +804,38 @@ export function MPClassDetail({ backHref }: { backHref: string }) {
           .mp-detail-grid > main {
             padding-top: 0 !important;
           }
+          .mp-hero-img {
+            aspect-ratio: 4/3 !important;
+            max-height: 280px !important;
+          }
+          .mp-tag-overflow { display: none !important; }
+          .mp-tag-overflow-count { display: inline-flex !important; }
+        }
+        @media (min-width: 841px) {
+          .mp-info-row {
+            flex-direction: row !important;
+            align-items: baseline !important;
+            justify-content: space-between !important;
+            gap: 12px !important;
+          }
+          .mp-info-row > span:last-child {
+            text-align: right;
+            font-size: 13px !important;
+          }
         }
       `}</style>
     </div>
   );
 }
 
-/* ── Info row for left sidebar card ── */
+/* ── Info row for left sidebar card — stacks on mobile ── */
 function InfoRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12 }}>
+    <div className="mp-info-row" style={{ display: "flex", flexDirection: "column", gap: 2 }}>
       <span style={{ fontSize: 11, fontWeight: 600, color: "rgba(28,25,23,0.35)", textTransform: "uppercase", letterSpacing: "0.05em", flexShrink: 0 }}>
         {label}
       </span>
-      <span style={{ fontSize: 13, fontWeight: 500, color: "#1C1917", textAlign: "right", lineHeight: 1.4 }}>
+      <span style={{ fontSize: 14, fontWeight: 500, color: "#1C1917", lineHeight: 1.4 }}>
         {children}
       </span>
     </div>
@@ -940,7 +965,7 @@ function NumberedBlocks({ text }: { text: string }) {
           <span
             style={{
               fontFamily: "Georgia, 'Times New Roman', serif",
-              fontSize: 64,
+              fontSize: "clamp(40px, 10vw, 64px)",
               fontWeight: 400,
               lineHeight: 0.85,
               color: "rgba(28,25,23,0.07)",

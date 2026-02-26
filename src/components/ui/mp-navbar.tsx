@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useState, useRef, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/contexts/AuthContext"
@@ -48,9 +49,7 @@ export default function MPNavbar() {
       >
         {/* Left: Logo */}
         <Link href={homeUrl} className="flex-shrink-0 no-underline">
-          <span className="text-[17px] font-bold text-black tracking-[-0.03em]">
-            tumbo
-          </span>
+          <Image src="/photos/Default/TumboLogo.png" alt="Tumbo" width={80} height={28} style={{ objectFit: "contain" }} priority />
         </Link>
 
         {/* Center: Nav links */}
@@ -142,15 +141,13 @@ export default function MPNavbar() {
           }}
         >
           <Link href={homeUrl} className="flex-shrink-0 no-underline">
-            <span className="text-[15px] font-bold text-black tracking-[-0.03em]">
-              tumbo
-            </span>
+            <Image src="/photos/Default/TumboLogo.png" alt="Tumbo" width={68} height={24} style={{ objectFit: "contain" }} priority />
           </Link>
 
           <div className="flex items-center gap-2">
             {!isAuthenticated && (
               <button
-                className="px-3 py-1 text-[12px] font-semibold text-white bg-[#FF4400] border-0 cursor-pointer"
+                className="px-4 py-2 text-[13px] font-semibold text-white bg-[#FF4400] border-0 cursor-pointer min-h-[44px]"
                 style={{ borderRadius: 100, fontFamily: "inherit" }}
                 onClick={() => { setAuthMode("register"); setAuthModalOpen(true) }}
               >
@@ -158,7 +155,7 @@ export default function MPNavbar() {
               </button>
             )}
             <button
-              className="p-2 text-gray-500 hover:text-gray-900 transition-colors bg-transparent border-0 cursor-pointer"
+              className="p-3 -mr-1 text-gray-500 hover:text-gray-900 transition-colors bg-transparent border-0 cursor-pointer"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -173,11 +170,20 @@ export default function MPNavbar() {
           </div>
         </header>
 
+        {/* Backdrop overlay — tap outside to dismiss */}
+        {mobileMenuOpen && (
+          <div
+            className="fixed inset-0 z-40"
+            onClick={() => setMobileMenuOpen(false)}
+            style={{ background: "rgba(0,0,0,0.15)" }}
+          />
+        )}
+
         {/* Slide-down mobile menu */}
         <div
           className={cn(
-            "border-b border-black/[0.08] overflow-hidden transition-all duration-200",
-            mobileMenuOpen ? "max-h-72 opacity-100" : "max-h-0 opacity-0"
+            "relative z-50 border-b border-black/[0.08] overflow-hidden transition-all duration-200",
+            mobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
           )}
           style={{
             background: "rgba(253,251,247,0.96)",
@@ -196,7 +202,7 @@ export default function MPNavbar() {
                 <MobileNavLink href="/userdashboard" label="Saved Classes" onClick={() => setMobileMenuOpen(false)} />
                 <button
                   onClick={() => { logout(); setMobileMenuOpen(false) }}
-                  className="px-3 py-2.5 text-[14px] font-medium text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors bg-transparent border-0 cursor-pointer text-left"
+                  className="px-3 py-3 text-[14px] font-medium text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors bg-transparent border-0 cursor-pointer text-left min-h-[44px]"
                 >
                   Sign out
                 </button>
@@ -207,7 +213,7 @@ export default function MPNavbar() {
                 <div className="h-px bg-neutral-100 mx-3 my-1" />
                 <button
                   onClick={() => { setAuthMode("signin"); setAuthModalOpen(true); setMobileMenuOpen(false) }}
-                  className="px-3 py-2.5 text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-neutral-50 rounded-lg transition-colors bg-transparent border-0 cursor-pointer text-left"
+                  className="px-3 py-3 text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-neutral-50 rounded-lg transition-colors bg-transparent border-0 cursor-pointer text-left min-h-[44px]"
                 >
                   Sign in
                 </button>
@@ -244,7 +250,7 @@ function MobileNavLink({ href, label, onClick }: { href: string; label: string; 
   return (
     <Link
       href={href}
-      className="px-3 py-2.5 text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-neutral-50 rounded-lg transition-colors no-underline"
+      className="px-3 py-3 text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-neutral-50 rounded-lg transition-colors no-underline min-h-[44px] flex items-center"
       onClick={onClick}
     >
       {label}
@@ -276,7 +282,7 @@ function SavedPill() {
 /* ── Mobile "Saved" link — greyed out with inline label ── */
 function MobileSavedLink() {
   return (
-    <span className="px-3 py-2.5 text-[14px] font-medium text-gray-300 rounded-lg flex items-center justify-between cursor-default">
+    <span className="px-3 py-3 text-[14px] font-medium text-gray-300 rounded-lg flex items-center justify-between cursor-default min-h-[44px]">
       <span>
         Saved
       </span>
