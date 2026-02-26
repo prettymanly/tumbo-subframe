@@ -19,7 +19,7 @@ const ModernPageLayout = React.forwardRef<
   return (
     <div
       className={cn(
-        "flex h-screen w-full flex-col items-center",
+        "flex h-screen w-full flex-col items-center overflow-x-hidden",
         className
       )}
       ref={ref}
@@ -27,7 +27,7 @@ const ModernPageLayout = React.forwardRef<
     >
       <TumboNavbar />
       {children ? (
-        <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-4 overflow-y-auto bg-default-background">
+        <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-4 overflow-y-auto overflow-x-hidden bg-default-background" style={{ overscrollBehaviorX: "none" }}>
           {children}
         </div>
       ) : null}

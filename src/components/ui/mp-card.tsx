@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useState, useCallback, useRef } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 import type { WarmTag, TagDimension } from "@/lib/rails/types"
 
 // ── Dimension → solid color (matches TagPill from V1) ──

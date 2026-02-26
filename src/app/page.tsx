@@ -29,8 +29,8 @@ function TumboHome() {
 
   return (
     <ModernPageLayout>
-      <div className="flex w-full flex-col items-center justify-center bg-default-background">
-        <div className="flex w-full flex-col items-center justify-center gap-8 bg-default-background px-6 pt-40 pb-24">
+      <div className="flex w-full flex-col items-center justify-center bg-default-background overflow-x-clip">
+        <div className="flex w-full flex-col items-center justify-center gap-8 bg-default-background px-6 pt-40 pb-24 mobile:pt-24 mobile:pb-16">
           <FadeInUp delay={0} duration={0.8} offset={40}>
             <span className="max-w-[1024px] whitespace-pre-wrap font-['Lexend'] text-[95px] font-[900] leading-[84px] text-default-font text-center -tracking-[0.04em] mobile:font-['Montserrat'] mobile:text-[62px] mobile:font-[900] mobile:leading-[58px] mobile:tracking-normal">
               The best classes{"\n"}aren&apos;t always {"\n"}the <em>best</em> classes.
@@ -112,7 +112,7 @@ function TumboHome() {
             </div>
           </div>
         </FadeInUp>
-        <FadeInUp className="flex w-full flex-col items-center justify-center gap-4 px-12 py-12">
+        <FadeInUp className="flex w-full flex-col items-center justify-center gap-4 px-6 py-12">
           <span className="whitespace-pre-wrap text-heading-1 font-heading-1 text-default-font">
             {"Every parent has a shortcut."}
           </span>
