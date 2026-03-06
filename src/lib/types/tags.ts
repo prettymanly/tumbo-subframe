@@ -74,6 +74,7 @@ export interface DBClass {
   outcome_expectations?: string;
   is_placeholder: boolean;
   hidden_from_directory?: boolean;
+  best_parent_quote?: string;
   discovered_from?: string;
   created_at: string;
   updated_at: string;
@@ -538,10 +539,10 @@ export const TAG_TYPES = {
 export type TagTypeName = (typeof TAG_TYPES)[keyof typeof TAG_TYPES];
 
 export const TAG_TYPE_COLORS: Record<TagTypeName, string> = {
-  [TAG_TYPES.CONTENT]: "#3B82F6",
-  [TAG_TYPES.PHILOSOPHY]: "#10B981",
-  [TAG_TYPES.EXPERIENCE]: "#F59E0B",
-  [TAG_TYPES.CHILD]: "#EF4444",
+  [TAG_TYPES.CONTENT]: "#7E401A",      // warm brown  — matches --tumbo-tag-content
+  [TAG_TYPES.PHILOSOPHY]: "#FF3C00",   // red-orange  — matches --tumbo-tag-philosophy
+  [TAG_TYPES.EXPERIENCE]: "#F1B313",   // gold        — matches --tumbo-tag-experience
+  [TAG_TYPES.CHILD]: "#FF6966",        // coral       — matches --tumbo-tag-child
 };
 
 export function getTagColor(tag: Tag | TagType): string {

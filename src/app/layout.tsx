@@ -59,6 +59,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Figma capture script — temporary, remove after capturing */}
+        <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${lexend.variable} ${plexMono.variable} ${instrumentSerif.variable} ${inter.variable} antialiased`}
       >

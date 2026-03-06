@@ -729,18 +729,6 @@ export default function MPDirectoryV3Page() {
           </main>
         </div>
 
-        {/* Footer */}
-        <footer style={{ background: "#000", color: "rgba(255,255,255,0.45)", padding: "36px 40px" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "16px" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <div style={{ width: "24px", height: "24px", background: "#FF4400", borderRadius: "6px", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <span style={{ color: "#fff", fontWeight: 700, fontSize: "11px" }}>t</span>
-              </div>
-              <span style={{ fontSize: "13px", fontWeight: 600, color: "rgba(255,255,255,0.8)" }}>tumbo</span>
-            </div>
-            <p style={{ margin: 0, fontSize: "12px" }}>&copy; {new Date().getFullYear()} Tumbo Singapore. All rights reserved.</p>
-          </div>
-        </footer>
       </div>
     </div>
   );

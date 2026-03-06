@@ -25,6 +25,60 @@ import { selectDisplayTags } from "./warm-tags";
 import { CHIP_MAP } from "./config";
 import type { IntentChipId } from "./config";
 
+// ── Hard-exclude categories that are NEVER children's activity classes ──
+// These are Google Places business types that slipped past is_placeholder/hidden
+// checks. Unlike SUPPRESS_CATEGORIES (which only hides the tag label), these
+// prevent the listing from appearing in ANY rail.
+const EXCLUDE_CATEGORIES_FROM_RAILS = new Set([
+  "Photography service",
+  "Photography studio",
+  "Photography class",
+  "Portrait studio",
+  "Photographer",
+  "Video production service",
+  "Adult education school",
+  "Corporate office",
+  "Government office",
+  "Pet boarding service",
+  "Dog day care center",
+  "Animal shelter",
+  "Animal hospital",
+  "Veterinarian",
+  "Internet cafe",
+  "Event management company",
+  "Non-profit organization",
+  "Non-governmental organization",
+  "Association / Organization",
+  "Psychotherapist",
+  "Occupational therapist",
+  "Speech pathologist",
+  "Distance learning center",
+  "Computer training school",
+  "Academic department",
+  "Animation studio",
+  "Farm",
+  "Garden center",
+]);
+
+// ── Name-pattern exclusions for miscategorized listings ──
+// Some listings have valid categories (e.g. "Art", "Languages") but their names
+// reveal they're not children's activities. These regexes catch the worst offenders.
+const EXCLUDE_NAME_PATTERNS = [
+  /\bphotography studio\b/i,
+  /^photography (service|class) at\b/i,
+  /\bmedical[,\s].*dental\b/i,
+  /\bhealthcare courses?\b/i,
+  /\bphoto(graphy)? (pte|ltd|inc)\b/i,
+];
+
+// Return true if this class should be excluded from rails / browse
+export function shouldExcludeFromRails(cls: DBClass): boolean {
+  const cat = cls.category ?? "";
+  if (EXCLUDE_CATEGORIES_FROM_RAILS.has(cat)) return true;
+  const name = cls.name ?? "";
+  return EXCLUDE_NAME_PATTERNS.some((rx) => rx.test(name));
+}
+
 // ── Deduplicate classes by provider_id ──
 // Many providers have multiple class rows (category splits from ingestion).
 // Keep the best representative per provider: prefer the row with the longest
@@ -73,8 +127,8 @@ function resolveChipSignals(ctx: ScoringContext): { chipSignals: string[]; chipC
 
 function getClassImage(cls: DBClass): string {
   const url = cls.photo_url
-  if (!url) return "/photos/Default/Placeholder.png"
-  if (url.includes("places.googleapis.com")) return "/photos/Default/Placeholder.png"
+  if (!url) return ""  // No photo → ClassPlaceholder renders
+  if (url.includes("places.googleapis.com")) return ""
   return url
 }
 
@@ -98,6 +152,8 @@ function toCardItem(
     ageMin: cls.age_min ?? undefined,
     ageMax: cls.age_max ?? undefined,
     vibeLine: cls.vibe_line ?? undefined,
+    parentQuote: cls.best_parent_quote ?? undefined,
+    location: cls.location ?? undefined,
   };
 }
 
@@ -128,7 +184,11 @@ export function buildRail(
   //    Then deduplicate by provider to collapse category-split ingestion artifacts.
   let pool = deduplicateByProvider(
     allClasses.filter(
-      (c) => !ctx.excludeIds.has(c.id) && !c.is_placeholder && c.hidden_from_directory !== true
+      (c) =>
+        !ctx.excludeIds.has(c.id) &&
+        !c.is_placeholder &&
+        c.hidden_from_directory !== true &&
+        !shouldExcludeFromRails(c)
     )
   );
 
@@ -211,7 +271,11 @@ export function buildSerendipityRail(
 ): { items: RailCardItem[]; shownIds: string[] } {
   const pool = deduplicateByProvider(
     allClasses.filter(
-      (c) => !ctx.excludeIds.has(c.id) && !c.is_placeholder && c.hidden_from_directory !== true
+      (c) =>
+        !ctx.excludeIds.has(c.id) &&
+        !c.is_placeholder &&
+        c.hidden_from_directory !== true &&
+        !shouldExcludeFromRails(c)
     )
   );
 

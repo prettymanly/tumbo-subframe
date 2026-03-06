@@ -26,7 +26,7 @@ const RAIL_SELECT = [
   "typical_child_profile", "not_ideal_for", "outcome_expectations",
   "category", "age_min", "age_max", "photo_url", "google_rating",
   "review_count", "updated_at", "created_at", "schedule", "location",
-  "is_placeholder", "hidden_from_directory", "price",
+  "is_placeholder", "hidden_from_directory", "price", "best_parent_quote",
 ].join(",");
 
 // Cache the class pool in memory for 5 min to avoid hitting Supabase on every rail request.

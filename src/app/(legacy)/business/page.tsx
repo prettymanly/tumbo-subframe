@@ -89,7 +89,7 @@ export default function BusinessLandingPage() {
       {/* ── Navbar (minimal, business-specific) ── */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-neutral-200/50">
         <nav className="flex h-14 items-center justify-between px-5 md:px-8 max-w-[1200px] mx-auto w-full">
-          <Link href="/" className="flex items-center gap-2.5">
+          <Link href="/explore" className="flex items-center gap-2.5">
             <img
               className="h-5 object-contain"
               src="https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/y2rsnhq3mex4auk54aye.png"
@@ -282,7 +282,7 @@ export default function BusinessLandingPage() {
       <footer className="px-6 py-8 border-t border-neutral-100">
         <div className="max-w-[1024px] mx-auto flex items-center justify-between text-[12px] text-gray-400">
           <span>© {new Date().getFullYear()} Tümbo</span>
-          <Link href="/" className="hover:text-gray-600 transition-colors no-underline text-gray-400">
+          <Link href="/explore" className="hover:text-gray-600 transition-colors no-underline text-gray-400">
             ← Back to Tümbo for parents
           </Link>
         </div>

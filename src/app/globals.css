@@ -1,48 +1,326 @@
 @import "tailwindcss";
 
-/* Keep light touch globals to avoid fighting the Subframe preset */
+/* Prevent layout shift when scrollbar appears/disappears */
+html { scrollbar-gutter: stable; }
+
+/* ═══════════════════════════════════════════════════════════════
+   TUMBO DESIGN SYSTEM — Colour Tokens
+   Three-tier architecture: Primitives → Semantic → Component
+   ═══════════════════════════════════════════════════════════════ */
 :root {
+  /* Safe-area insets */
   --sai-top: env(safe-area-inset-top, 0px);
   --sai-bottom: env(safe-area-inset-bottom, 0px);
-  --sai-left: env(safe-area-inset-left, 0px);
-  --sai-right: env(safe-area-inset-right, 0px);
 
-  --tumbo-text: #1f2937;
-  --tumbo-background: #FDFBF7;
+  /* ── TIER 1: PRIMITIVES ──────────────────────────────────────
+     Raw colour values. Named by hue + weight.
+     Never use these directly in components — use semantic tokens. */
 
-  /* Tumbo semantic color tokens */
-  --tumbo-orange: #FF4400;
-  --tumbo-cream: #F3F1ED;
-  --tumbo-hover: #E2D6C7;
-  --tumbo-label: #B6AFA6;
-  --tumbo-muted: #99A1AF;
-  
-  /* Tag category active colors */
-  --tumbo-tag-content: #7E401A;
-  --tumbo-tag-philosophy: #FF3C00;
-  --tumbo-tag-experience: #F1B313;
-  --tumbo-tag-child: #FF6966;
-  
-  /* shadcn/ui CSS variables for proper dialog styling */
+  /* Orange scale (brand) — base: #FF4400 */
+  --color-orange-50:  #FFF5F0;
+  --color-orange-100: #FFE8DB;
+  --color-orange-200: #FFCDB3;
+  --color-orange-300: #FFA878;
+  --color-orange-400: #FF7A3D;
+  --color-orange-500: #FF4400;
+  --color-orange-600: #CC3700;
+  --color-orange-700: #992900;
+  --color-orange-800: #661C00;
+  --color-orange-900: #331000;
+
+  /* Neutral scale (warm grey) — base derived from #1C1917 */
+  --color-neutral-50:  #FDFBF7;
+  --color-neutral-100: #F3F1ED;
+  --color-neutral-200: #E2D6C7;
+  --color-neutral-300: #C4B9AB;
+  --color-neutral-400: #99918A;
+  --color-neutral-500: #78716C;
+  --color-neutral-600: #57534E;
+  --color-neutral-700: #44403C;
+  --color-neutral-800: #292524;
+  --color-neutral-900: #1C1917;
+  --color-neutral-950: #0F0E0D;
+
+  /* Red scale (danger/error) */
+  --color-red-50:  #FEF2F2;
+  --color-red-100: #FEE2E2;
+  --color-red-200: #FECACA;
+  --color-red-500: #EF4444;
+  --color-red-600: #DC2626;
+  --color-red-700: #B91C1C;
+
+  /* Green scale (success) */
+  --color-green-50:  #F0FDF4;
+  --color-green-100: #DCFCE7;
+  --color-green-500: #22C55E;
+  --color-green-600: #16A34A;
+  --color-green-700: #15803D;
+
+  /* Amber scale (warning) */
+  --color-amber-50:  #FFFBEB;
+  --color-amber-100: #FEF3C7;
+  --color-amber-500: #F59E0B;
+  --color-amber-600: #D97706;
+  --color-amber-800: #92400E;
+
+  /* Blue scale (info) */
+  --color-blue-50:  #EFF6FF;
+  --color-blue-100: #DBEAFE;
+  --color-blue-500: #3B82F6;
+  --color-blue-600: #2563EB;
+  --color-blue-700: #1D4ED8;
+
+  /* Tag dimension colours */
+  --color-tag-content:    #7E401A;
+  --color-tag-philosophy: #FF3C00;
+  --color-tag-experience: #F1B313;
+  --color-tag-child:      #FF6966;
+
+  /* White */
+  --color-white: #FFFFFF;
+
+  /* ── TIER 2: SEMANTIC TOKENS ─────────────────────────────────
+     Purpose-based. Reference primitives.
+     These are what components should use. */
+
+  /* Backgrounds */
+  --tumbo-background:    var(--color-neutral-50);
+  --tumbo-cream:         var(--color-neutral-100);
+  --tumbo-hover:         var(--color-neutral-200);
+  --color-bg-page:       var(--color-neutral-50);
+  --color-bg-card:       var(--color-white);
+  --color-bg-subtle:     var(--color-neutral-100);
+  --color-bg-frosted:    rgba(255,255,255,0.7);
+
+  /* Text */
+  --tumbo-text:          var(--color-neutral-900);
+  --color-text-primary:  var(--color-neutral-900);
+  --color-text-heading:  var(--color-neutral-950);
+  --color-text-secondary: var(--color-neutral-600);
+  --tumbo-label:         var(--color-neutral-500);
+  --tumbo-muted:         var(--color-neutral-500);
+  --color-text-placeholder: var(--color-neutral-400);
+  --color-text-tertiary: var(--color-neutral-400);
+
+  /* Brand accent */
+  --tumbo-orange:              var(--color-orange-500);
+  --tumbo-orange-hover:        var(--color-orange-600);
+  --tumbo-orange-active:       var(--color-orange-700);
+  --tumbo-orange-subtle:       var(--color-orange-50);
+  --color-accent-primary:      var(--color-orange-500);
+  --color-accent-primary-hover: var(--color-orange-600);
+
+  /* Borders & Dividers */
+  --color-border-default: var(--color-neutral-200);
+  --color-border-subtle:  rgba(28,25,23,0.06);
+  --color-border-strong:  rgba(28,25,23,0.15);
+
+  /* Shadows (standardised opacity scale) */
+  --color-shadow-sm:  rgba(28,25,23,0.04);
+  --color-shadow-md:  rgba(28,25,23,0.06);
+  --color-shadow-lg:  rgba(28,25,23,0.08);
+  --color-shadow-xl:  rgba(28,25,23,0.12);
+
+  /* Focus */
+  --color-focus-ring: color-mix(in srgb, var(--tumbo-orange) 30%, transparent);
+
+  /* Semantic status colours */
+  --color-danger:       var(--color-red-600);
+  --color-danger-bg:    var(--color-red-50);
+  --color-danger-text:  var(--color-red-700);
+  --color-success:      var(--color-green-600);
+  --color-success-bg:   var(--color-green-50);
+  --color-success-text: var(--color-green-700);
+  --color-warning:      var(--color-amber-600);
+  --color-warning-bg:   var(--color-amber-50);
+  --color-warning-text: var(--color-amber-800);
+  --color-info:         var(--color-blue-600);
+  --color-info-bg:      var(--color-blue-50);
+  --color-info-text:    var(--color-blue-700);
+
+  /* Disabled state */
+  --color-disabled-opacity: 0.4;
+
+  /* Tag dimension colours (semantic aliases) */
+  --tumbo-tag-content:    var(--color-tag-content);
+  --tumbo-tag-philosophy: var(--color-tag-philosophy);
+  --tumbo-tag-experience: var(--color-tag-experience);
+  --tumbo-tag-child:      var(--color-tag-child);
+
+  /* ── TIER 3: COMPONENT TOKENS ────────────────────────────────
+     Scoped to specific UI elements. Optional but useful. */
+
+  /* Primary button */
+  --button-bg-primary:          var(--color-accent-primary);
+  --button-bg-primary-hover:    var(--color-accent-primary-hover);
+  --button-text-primary:        var(--color-white);
+
+  /* Pill/tag — inactive */
+  --pill-bg-inactive:     transparent;
+  --pill-border-inactive: var(--color-border-strong);
+  --pill-text-inactive:   var(--color-text-primary);
+
+  /* Pill/tag — active */
+  --pill-bg-active:       var(--color-accent-primary);
+  --pill-text-active:     var(--color-white);
+
+  /* Overlay */
+  --color-overlay: rgba(0,0,0,0.5);
+  --color-shadow-overlay: rgba(28,25,23,0.75);
+
+  /* ── SHADCN/UI COMPAT (required by Dialog etc.) ──────────── */
   --background: 255 255 255;
   --foreground: 15 23 42;
   --border: 226 232 240;
   --ring: 15 23 42;
   --muted-foreground: 100 116 139;
-  
-  /* Sidebar CSS variables */
-  --sidebar-background: 0 0% 98%;
-  --sidebar-foreground: 240 5.3% 26.1%;
-  --sidebar-primary: 240 5.9% 10%;
-  --sidebar-primary-foreground: 0 0% 98%;
-  --sidebar-accent: 240 4.8% 95.9%;
-  --sidebar-accent-foreground: 240 5.9% 10%;
-  --sidebar-border: 220 13% 91%;
-  --sidebar-ring: 217.2 91.2% 59.8%;
-  
-  /* Custom sidebar width */
+
+  /* Sidebar layout */
   --sidebar-width: 320px;
   --sidebar-width-icon: 3rem;
+
+  /* ═══════════════════════════════════════════════════════════════
+     TUMBO DESIGN SYSTEM — Spacing Tokens
+     Comfortable density (8px base). Two-tier: Primitives → Semantic.
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* ── SPACING PRIMITIVES ────────────────────────────────────────
+     Linear at small end for precision, progressive jumps at large end.
+     Never use these directly in components — use semantic tokens. */
+  --space-0:  0px;
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+  --space-9:  96px;
+
+  /* ── SPACING SEMANTIC TOKENS ───────────────────────────────────
+     Purpose-based. Components should use these. */
+
+  /* Component anatomy */
+  --padding-card-x:        var(--space-7);    /* 48px */
+  --padding-card-y:        var(--space-7);    /* 48px */
+  --padding-callout:       var(--space-4);    /* 16px */
+  --padding-button-x:      var(--space-4);    /* 16px */
+  --padding-button-y:      var(--space-2);    /* 8px */
+  --padding-input-y:       var(--space-3);    /* 12px */
+
+  /* Element relationships */
+  --gap-label-content:     var(--space-5);    /* 24px — section label to its content */
+  --gap-icon-label:        var(--space-1);    /* 4px — icon to its text */
+  --gap-inline:            var(--space-2);    /* 8px — between inline elements */
+  --gap-editorial-block:   var(--space-6);    /* 32px — between editorial paragraphs */
+  --gap-subhead-body:      var(--space-2);    /* 8px — subhead to body coupling */
+  --gap-source-pills:      var(--space-2);    /* 8px — between source pill items */
+
+  /* Section rhythm */
+  --gap-section:           var(--space-8);    /* 64px — between major sections */
+  --gap-card-stack:        40px;              /* 40px — between stacked cards */
+  --gap-card-grid:         var(--space-2);    /* 8px — tight grid, breathing INSIDE cards */
+
+  /* Layout */
+  --padding-page-x:        var(--space-4);    /* 16px — scales at breakpoints */
+  --padding-page-top:      var(--space-6);    /* 32px */
+  --padding-page-bottom:   var(--space-7);    /* 48px */
+
+  /* ═══════════════════════════════════════════════════════════════
+     TUMBO DESIGN SYSTEM — Typography Tokens
+     Major Third (1.25×) scale from 14px base. Two-tier: Primitives → Semantic.
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* ── TYPE SCALE PRIMITIVES ──────────────────────────────────────
+     Raw sizes on a Major Third progression: 10 · 12 · 14 · 15 · 18 · 22 · 28 · 40
+     Never reference these directly in components — use semantic tokens. */
+  --font-size-2xs:  9px;
+  --font-size-xs:   10px;
+  --font-size-sm:   12px;
+  --font-size-base: 14px;
+  --font-size-md:   15px;
+  --font-size-lg:   18px;
+  --font-size-xl:   22px;
+  --font-size-2xl:  28px;
+  --font-size-3xl:  40px;
+
+  /* ── LINE HEIGHT PRIMITIVES ─────────────────────────────────────
+     Tightens as font size increases (display→tight, body→relaxed). */
+  --leading-none:      1;
+  --leading-tight:     1.25;
+  --leading-snug:      1.4;
+  --leading-normal:    1.55;
+  --leading-relaxed:   1.65;
+  --leading-loose:     1.7;
+
+  /* ── FONT WEIGHT PRIMITIVES ─────────────────────────────────── */
+  --weight-regular:    400;
+  --weight-medium:     500;
+  --weight-semibold:   600;
+  --weight-bold:       700;
+
+  /* ── TRACKING PRIMITIVES ────────────────────────────────────── */
+  --tracking-tight:    -0.01em;
+  --tracking-normal:   0;
+  --tracking-wide:     0.04em;
+  --tracking-wider:    0.1em;
+  --tracking-widest:   0.12em;
+
+  /* ── TYPOGRAPHY SEMANTIC TOKENS ──────────────────────────────────
+     Purpose-based. These are what components should use. */
+
+  /* Section labels — small uppercase markers above content blocks */
+  --type-label-size:       11px;
+  --type-label-weight:     var(--weight-bold);
+  --type-label-tracking:   var(--tracking-wider);
+
+  /* Body — default reading text */
+  --type-body-size:        var(--font-size-md);
+  --type-body-weight:      var(--weight-regular);
+  --type-body-leading:     var(--leading-loose);
+
+  /* Editorial — larger body for editorial/review blocks */
+  --type-editorial-size:   var(--font-size-lg);
+  --type-editorial-weight: var(--weight-regular);
+  --type-editorial-leading: var(--leading-loose);
+
+  /* Subhead — editorial subheadings (same size as body, heavier) */
+  --type-subhead-weight:   var(--weight-medium);
+  --type-subhead-leading:  var(--leading-snug);
+  --type-subhead-tracking: var(--tracking-tight);
+
+  /* Lede — opening statement / description text */
+  --type-lede-size:        var(--font-size-xl);
+  --type-lede-weight:      var(--weight-regular);
+  --type-lede-leading:     var(--leading-normal);
+  --type-lede-tracking:    var(--tracking-tight);
+
+  /* Caption — secondary info, meta text */
+  --type-caption-size:     var(--font-size-sm);
+  --type-caption-weight:   var(--weight-regular);
+
+  /* Source label — tiny attribution text above source pills */
+  --type-source-label-size:    var(--font-size-2xs);
+  --type-source-label-weight:  var(--weight-bold);
+
+  /* Pill — tag/pill text */
+  --type-pill-size:        11px;
+  --type-pill-weight:      var(--weight-medium);
+  --type-pill-tracking:    var(--tracking-wide);
+
+  /* ── CARD SURFACE TOKENS ──────────────────────────────────────
+     Extracted from inline styles so layout modes can override them. */
+  --card-radius:           28px;
+  --card-border:           1px solid transparent;
+  --card-shadow:           none;
+  --card-radius-inner:     20px;   /* quote block, inner cards */
+  --card-radius-sm:        16px;   /* callout boxes */
+  --hero-radius:           28px;
+
+  /* ── SHELL LAYOUT TOKENS ─────────────────────────────────── */
+  --shell-gap:             32px;
+  --shell-top:             32px;
 }
 
 @layer base {
@@ -200,4 +478,35 @@ input[type="range"]::-moz-range-thumb {
 /* Touch device: subtle press effect on cards instead of bounce */
 @media (hover: none) {
   .mp-card-link:active { opacity: 0.92; transition: opacity 0.1s; }
+}
+
+/* Slide-up reveal: disable on touch devices */
+@media (hover: none) {
+  .mp-card-link { overflow: hidden; }
+}
+
+/* Button press feedback */
+.btn-press {
+  transition: transform 0.1s ease;
+}
+.btn-press:active {
+  transform: scale(0.97);
+}
+
+/* Skeleton pulse animation */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Accessibility: respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

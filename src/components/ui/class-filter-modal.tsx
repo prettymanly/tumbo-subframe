@@ -50,25 +50,25 @@ function ClassFilterModal({ open, onOpenChange }: ClassFilterModalProps) {
     
     const tagLower = tagName.toLowerCase();
     
-    // Content Tags - Brown (#7E401A)
+    // Content Tags - Brown
     if (['math', 'music', 'ballet', 'coding', 'mandarin', 'drama', 'art', 'dance', 'stem', 'sports'].some(keyword => tagLower.includes(keyword))) {
-      return '#7E401A';
-    } 
-    // Philosophy Tags - Red/Orange (#FF3C00)
+      return 'var(--tumbo-tag-content)';
+    }
+    // Philosophy Tags - Red/Orange
     else if (['montessori', 'reggio', 'play-based', 'islamic', 'waldorf', 'academic', 'values-led'].some(keyword => tagLower.includes(keyword))) {
-      return '#FF3C00';
-    } 
-    // Experience Tags - Yellow/Amber (#F1B313)
+      return 'var(--tumbo-tag-philosophy)';
+    }
+    // Experience Tags - Yellow/Amber
     else if (['1-to-1', 'small group', 'movement-based', 'high-energy', 'quiet', 'sensory', 'outdoor'].some(keyword => tagLower.includes(keyword))) {
-      return '#F1B313';
-    } 
-    // Child Tags - Coral/Pink (#FF6966)
+      return 'var(--tumbo-tag-experience)';
+    }
+    // Child Tags - Coral/Pink
     else if (['shy', 'curious', 'sensitive', 'confident', 'high-energy'].some(keyword => tagLower.includes(keyword))) {
-      return '#FF6966';
-    } 
+      return 'var(--tumbo-tag-child)';
+    }
     // Default to Content Tags color
     else {
-      return '#7E401A';
+      return 'var(--tumbo-tag-content)';
     }
   };
 
@@ -111,7 +111,7 @@ function ClassFilterModal({ open, onOpenChange }: ClassFilterModalProps) {
   };
   return (
     <DialogLayout open={open} onOpenChange={onOpenChange}>
-      <div className="flex h-full w-full flex-col items-center max-h-[100vh]" style={{ backgroundColor: '#FDFBF7' }}>
+      <div className="flex h-full w-full flex-col items-center max-h-[100vh]" style={{ backgroundColor: 'var(--tumbo-background)' }}>
         <div className="flex w-full items-center border-b border-solid border-neutral-border px-4 py-4">
           <IconButton
             icon={<FeatherX />}
@@ -170,7 +170,7 @@ function ClassFilterModal({ open, onOpenChange }: ClassFilterModalProps) {
                       : 'text-gray-700 hover:text-gray-800'
                   }`}
                   style={{
-                    backgroundColor: selectedAgeRanges.includes(ageRange) ? '#7E401A' : 'transparent',
+                    backgroundColor: selectedAgeRanges.includes(ageRange) ? 'var(--tumbo-tag-content)' : 'transparent',
                     border: selectedAgeRanges.includes(ageRange) ? 'none' : '1px solid #E2D6C7'
                   }}
                 >
@@ -194,7 +194,7 @@ function ClassFilterModal({ open, onOpenChange }: ClassFilterModalProps) {
                       : 'text-gray-700 hover:text-gray-800'
                   }`}
                   style={{
-                    backgroundColor: selectedDays.includes(day) ? '#F1B313' : 'transparent',
+                    backgroundColor: selectedDays.includes(day) ? 'var(--tumbo-tag-experience)' : 'transparent',
                     border: selectedDays.includes(day) ? 'none' : '1px solid #E2D6C7'
                   }}
                 >
@@ -217,7 +217,7 @@ function ClassFilterModal({ open, onOpenChange }: ClassFilterModalProps) {
                       : 'text-gray-700 hover:text-gray-800'
                   }`}
                   style={{
-                    backgroundColor: selectedTimeSlots.includes(timeSlot.name) ? '#F1B313' : 'transparent',
+                    backgroundColor: selectedTimeSlots.includes(timeSlot.name) ? 'var(--tumbo-tag-experience)' : 'transparent',
                     border: selectedTimeSlots.includes(timeSlot.name) ? 'none' : '1px solid #E2D6C7'
                   }}
                 >
@@ -242,7 +242,7 @@ function ClassFilterModal({ open, onOpenChange }: ClassFilterModalProps) {
                       : 'text-gray-700 hover:text-gray-800'
                   }`}
                   style={{
-                    backgroundColor: selectedPriceBadges.includes(priceBadge) ? '#7E401A' : 'transparent',
+                    backgroundColor: selectedPriceBadges.includes(priceBadge) ? 'var(--tumbo-tag-content)' : 'transparent',
                     border: selectedPriceBadges.includes(priceBadge) ? 'none' : '1px solid #E2D6C7'
                   }}
                 >

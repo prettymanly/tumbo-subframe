@@ -12,10 +12,10 @@ interface TagBadgeProps {
 
 // Category-specific color map matching TagPill tokens
 const CATEGORY_STYLES: Record<TagCategory, { bg: string; text: string }> = {
-  content:    { bg: "bg-[#7E401A]",  text: "text-white" },
-  philosophy: { bg: "bg-[#FF3C00]",  text: "text-white" },
-  experience: { bg: "bg-[#F1B313]",  text: "text-white" },
-  child:      { bg: "bg-[#FF6966]",  text: "text-white" },
+  content:    { bg: "bg-[var(--tumbo-tag-content)]",     text: "text-white" },
+  philosophy: { bg: "bg-[var(--tumbo-tag-philosophy)]",   text: "text-white" },
+  experience: { bg: "bg-[var(--tumbo-tag-experience)]",   text: "text-white" },
+  child:      { bg: "bg-[var(--tumbo-tag-child)]",        text: "text-white" },
 };
 
 function classifyTag(name: string): TagCategory {

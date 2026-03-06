@@ -28,7 +28,9 @@ const ModernPageLayout = React.forwardRef<
       <TumboNavbar />
       {children ? (
         <div className="flex w-full grow shrink-0 basis-0 flex-col items-start gap-4 overflow-y-auto overflow-x-hidden bg-default-background" style={{ overscrollBehaviorX: "none" }}>
-          {children}
+          <div style={{ width: "100%", maxWidth: "min(1600px, calc(100% - 48px))", margin: "0 auto" }}>
+            {children}
+          </div>
         </div>
       ) : null}
     </div>

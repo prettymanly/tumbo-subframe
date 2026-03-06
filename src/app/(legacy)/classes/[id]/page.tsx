@@ -486,7 +486,7 @@ export default function ClassDetailPage() {
         <div className="flex w-full flex-col items-center justify-center gap-4 py-20">
           <span className="text-heading-1 font-heading-1 text-default-font">Class not found</span>
           <span className="text-body text-gray-500">This class may have been removed or the link is incorrect.</span>
-          <Link href="/classes" className="mt-4 px-6 py-3 rounded-full bg-[var(--tumbo-orange)] text-white font-semibold hover:opacity-90 transition-opacity">
+          <Link href="/explore" className="mt-4 px-6 py-3 rounded-full bg-[var(--tumbo-orange)] text-white font-semibold hover:opacity-90 transition-opacity">
             Browse all classes
           </Link>
         </div>

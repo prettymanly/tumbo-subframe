@@ -48,8 +48,8 @@ const WarmFilterBadgeRoot = React.forwardRef<HTMLDivElement, WarmFilterBadgeRoot
         </div>
         <div
           className={SubframeUtils.twClassNames(
-            "flex min-w-[24px] items-center justify-center gap-2 rounded-md bg-[#F3F1ED] px-1 py-1",
-            { "bg-[#F3F1ED] group-hover/9f379f68:bg-[#F3F1ED]": selected }
+            "flex min-w-[24px] items-center justify-center gap-2 rounded-md bg-[var(--tumbo-cream)] px-1 py-1",
+            { "bg-[var(--tumbo-cream)] group-hover/9f379f68:bg-[var(--tumbo-cream)]": selected }
           )}
         >
           {count ? (

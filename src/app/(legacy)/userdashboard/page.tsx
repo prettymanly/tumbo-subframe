@@ -392,7 +392,7 @@ export default function UserDashboard() {
               personalisation features are coming soon.
             </p>
             <Link
-              href="/classes"
+              href="/explore"
               className="mt-2 px-5 py-2.5 rounded-full bg-[var(--tumbo-orange)] text-white text-[14px] font-medium hover:opacity-90 transition-opacity no-underline"
             >
               Browse classes
@@ -520,7 +520,7 @@ export default function UserDashboard() {
                   </span>
                 </div>
                 <Link
-                  href="/classes"
+                  href="/explore"
                   className="text-[13px] font-semibold text-[var(--tumbo-orange)] hover:underline no-underline"
                 >
                   Browse more →
@@ -630,7 +630,7 @@ export default function UserDashboard() {
                     </p>
                   </div>
                   <Link
-                    href="/classes"
+                    href="/explore"
                     className="mt-1 px-4 py-2 rounded-full bg-[var(--tumbo-orange)] text-white text-[13px] font-medium hover:opacity-90 transition-opacity no-underline"
                   >
                     Browse classes

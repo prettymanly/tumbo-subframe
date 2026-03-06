@@ -17,7 +17,7 @@ interface MPRailProps {
 export function MPRail({
   title,
   subtitle,
-  fadeTo = "#FDFBF7",
+  fadeTo = "var(--tumbo-background)",
   children,
 }: MPRailProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -54,7 +54,7 @@ export function MPRail({
               fontSize: 24,
               fontWeight: 600,
               letterSpacing: "-0.02em",
-              color: "#000",
+              color: "var(--color-text-primary)",
               lineHeight: 1.1,
             }}
           >
@@ -65,7 +65,7 @@ export function MPRail({
               style={{
                 margin: "6px 0 0",
                 fontSize: 14,
-                color: "rgba(0,0,0,0.45)",
+                color: "var(--color-text-secondary)",
                 lineHeight: 1.5,
                 maxWidth: 500,
               }}
@@ -155,8 +155,8 @@ function ArrowButton({
         width: 40,
         height: 40,
         borderRadius: "50%",
-        border: `1.5px solid ${hovered ? "#FF4400" : "rgba(0,0,0,0.15)"}`,
-        background: hovered ? "#FF4400" : "transparent",
+        border: `1.5px solid ${hovered ? "var(--tumbo-orange)" : "var(--color-border-strong)"}`,
+        background: hovered ? "var(--tumbo-orange)" : "transparent",
         cursor: "pointer",
         display: "flex",
         alignItems: "center",

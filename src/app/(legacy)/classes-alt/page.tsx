@@ -679,18 +679,6 @@ export default function MPDirectoryV2Page() {
         </div>
       </div>
 
-      {/* ═══════ FOOTER ═══════ */}
-      <footer style={{ background: "#000", padding: "40px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <div style={{ width: 32, height: 32, background: "#FF4400", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <span style={{ color: "#fff", fontWeight: 700, fontSize: 14 }}>t</span>
-          </div>
-          <span style={{ fontSize: 14, fontWeight: 600, color: "#fff" }}>tumbo</span>
-        </div>
-        <span style={{ fontSize: 12, color: "rgba(255,255,255,0.4)" }}>
-          &copy; {new Date().getFullYear()} Tumbo. All rights reserved.
-        </span>
-      </footer>
     </div>
   );
 }

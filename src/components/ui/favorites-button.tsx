@@ -55,9 +55,9 @@ export function FavoritesButton({
       className={cn(
         "h-10 w-full flex-none transition-all duration-200 group relative overflow-hidden",
         // Rest state - no stroke, no background, dark grey text
-        !isFavorited && "border-0 bg-transparent text-gray-600 hover:bg-[#E2D6C7] hover:border-0 hover:text-gray-600",
+        !isFavorited && "border-0 bg-transparent text-gray-600 hover:bg-[var(--tumbo-hover)] hover:border-0 hover:text-gray-600",
         // Favorited state - filled with brand orange and white text
-        isFavorited && "bg-[#FF4400] border-2 border-[#FF4400] text-white hover:bg-[#E63D00] hover:border-[#E63D00] hover:text-white",
+        isFavorited && "bg-[var(--tumbo-orange)] border-2 border-[var(--tumbo-orange)] text-white hover:bg-[var(--tumbo-orange-hover)] hover:border-[var(--tumbo-orange-hover)] hover:text-white",
         // Hover state
         "hover:shadow-md hover:scale-[1.02]",
         // Loading state

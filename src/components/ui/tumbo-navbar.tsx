@@ -38,7 +38,7 @@ export default function TumboNavbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  const homeUrl = isAuthenticated ? "/userdashboard" : "/"
+  const homeUrl = "/explore"
 
   return (
     <>
@@ -64,26 +64,10 @@ export default function TumboNavbar() {
             {/* Desktop links — flat, no dropdown */}
             <div className="hidden md:flex items-center gap-1">
               <Link
-                href="/classes"
+                href="/explore"
                 className="relative px-3 py-2 text-[14px] font-medium text-gray-500 hover:text-gray-900 transition-colors duration-200 group"
               >
-                Classes V1
-                <span className="absolute bottom-0.5 left-3 right-3 h-[1.5px] bg-[var(--tumbo-orange)] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-full" />
-              </Link>
-
-              <Link
-                href="/classes-alt"
-                className="relative px-3 py-2 text-[14px] font-medium text-gray-500 hover:text-gray-900 transition-colors duration-200 group"
-              >
-                Classes V2
-                <span className="absolute bottom-0.5 left-3 right-3 h-[1.5px] bg-[var(--tumbo-orange)] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-full" />
-              </Link>
-
-              <Link
-                href="/classes-alt-v3"
-                className="relative px-3 py-2 text-[14px] font-medium text-gray-500 hover:text-gray-900 transition-colors duration-200 group"
-              >
-                Classes V3
+                Explore
                 <span className="absolute bottom-0.5 left-3 right-3 h-[1.5px] bg-[var(--tumbo-orange)] scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-left rounded-full" />
               </Link>
 
@@ -123,7 +107,7 @@ export default function TumboNavbar() {
                     Our AI assistant will help you find the perfect class for your child. For now, browse our class directory.
                   </p>
                   <Link
-                    href="/classes"
+                    href="/explore"
                     className="inline-block mt-2.5 text-[12px] font-semibold text-[var(--tumbo-orange)] hover:underline"
                     onClick={() => setComingSoonToast(false)}
                   >
@@ -194,7 +178,7 @@ export default function TumboNavbar() {
                     )}
                     <div className="h-px bg-neutral-100 mx-1 mb-1" />
                     <Link
-                      href="/userdashboard"
+                      href="/explore"
                       className="flex w-full items-center gap-2 px-3 py-2 rounded-lg text-[13px] text-gray-600 hover:bg-neutral-50 hover:text-gray-900 transition-colors duration-150 no-underline"
                       onClick={() => setUserMenuOpen(false)}
                     >
@@ -282,25 +266,11 @@ export default function TumboNavbar() {
         >
           <div className="px-5 py-3 flex flex-col gap-0.5">
             <Link
-              href="/classes"
+              href="/explore"
               className="px-3 py-2.5 text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-neutral-50 rounded-lg transition-colors"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Classes V1
-            </Link>
-            <Link
-              href="/classes-alt"
-              className="px-3 py-2.5 text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-neutral-50 rounded-lg transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Classes V2
-            </Link>
-            <Link
-              href="/classes-alt-v3"
-              className="px-3 py-2.5 text-[14px] font-medium text-gray-600 hover:text-gray-900 hover:bg-neutral-50 rounded-lg transition-colors"
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Classes V3
+              Explore
             </Link>
             <Link
               href="/providers"

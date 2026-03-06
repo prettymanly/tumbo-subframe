@@ -31,13 +31,13 @@ export default function MPNavbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  const homeUrl = isAuthenticated ? "/userdashboard" : "/"
+  const homeUrl = "/explore"
 
   return (
     <>
       {/* ── Desktop navbar: floating pill ── */}
       <nav
-        className="hidden md:flex sticky z-50 items-center justify-between h-[60px] bg-[#FDFBF7] border border-black/[0.08] px-5 pl-9"
+        className="hidden md:flex sticky z-50 items-center justify-between h-[60px] bg-[var(--tumbo-background)] border border-black/[0.08] px-5 pl-9"
         style={{
           top: 12,
           borderRadius: 24,
@@ -54,9 +54,7 @@ export default function MPNavbar() {
 
         {/* Center: Nav links */}
         <div className="flex items-center gap-1">
-          <NavPill href="/classes" label="Classes V1" />
-          <NavPill href="/classes-alt" label="Classes V2" />
-          <NavPill href="/classes-alt-v3" label="Classes V3" />
+          <NavPill href="/explore" label="Explore" />
           <SavedPill />
         </div>
 
@@ -78,7 +76,7 @@ export default function MPNavbar() {
               {/* User dropdown */}
               <div
                 className={cn(
-                  "absolute top-full right-0 mt-2 w-52 rounded-xl bg-[#FDFBF7] p-1.5 shadow-lg shadow-black/[0.08] ring-1 ring-black/[0.05] transition-all duration-150 origin-top-right",
+                  "absolute top-full right-0 mt-2 w-52 rounded-xl bg-[var(--tumbo-background)] p-1.5 shadow-lg shadow-black/[0.08] ring-1 ring-black/[0.05] transition-all duration-150 origin-top-right",
                   userMenuOpen
                     ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
                     : "opacity-0 scale-[0.97] -translate-y-1 pointer-events-none"
@@ -92,7 +90,7 @@ export default function MPNavbar() {
                 )}
                 <div className="h-px bg-neutral-100 mx-1 mb-1" />
                 <Link
-                  href="/userdashboard"
+                  href="/explore"
                   className="flex w-full items-center gap-2 px-3 py-2 rounded-lg text-[13px] text-gray-600 hover:bg-neutral-50 hover:text-gray-900 transition-colors no-underline"
                   onClick={() => setUserMenuOpen(false)}
                 >
@@ -117,7 +115,7 @@ export default function MPNavbar() {
                 Sign in
               </button>
               <button
-                className="px-[18px] py-2 text-[13px] font-semibold text-white bg-[#FF4400] hover:opacity-90 border-0 cursor-pointer transition-opacity"
+                className="px-[18px] py-2 text-[13px] font-semibold text-white bg-[var(--tumbo-orange)] hover:opacity-90 border-0 cursor-pointer transition-opacity"
                 style={{ borderRadius: 100, fontFamily: "inherit" }}
                 onClick={() => { setAuthMode("register"); setAuthModalOpen(true) }}
               >
@@ -147,7 +145,7 @@ export default function MPNavbar() {
           <div className="flex items-center gap-2">
             {!isAuthenticated && (
               <button
-                className="px-4 py-2 text-[13px] font-semibold text-white bg-[#FF4400] border-0 cursor-pointer min-h-[44px]"
+                className="px-4 py-2 text-[13px] font-semibold text-white bg-[var(--tumbo-orange)] border-0 cursor-pointer min-h-[44px]"
                 style={{ borderRadius: 100, fontFamily: "inherit" }}
                 onClick={() => { setAuthMode("register"); setAuthModalOpen(true) }}
               >
@@ -175,7 +173,7 @@ export default function MPNavbar() {
           <div
             className="fixed inset-0 z-40"
             onClick={() => setMobileMenuOpen(false)}
-            style={{ background: "rgba(0,0,0,0.15)" }}
+            style={{ background: "var(--color-border-strong)" }}
           />
         )}
 
@@ -192,14 +190,12 @@ export default function MPNavbar() {
           }}
         >
           <div className="px-5 py-3 flex flex-col gap-0.5">
-            <MobileNavLink href="/classes" label="Classes V1" onClick={() => setMobileMenuOpen(false)} />
-            <MobileNavLink href="/classes-alt" label="Classes V2" onClick={() => setMobileMenuOpen(false)} />
-            <MobileNavLink href="/classes-alt-v3" label="Classes V3" onClick={() => setMobileMenuOpen(false)} />
+            <MobileNavLink href="/explore" label="Explore" onClick={() => setMobileMenuOpen(false)} />
             <MobileSavedLink />
             {isAuthenticated && (
               <>
                 <div className="h-px bg-neutral-100 mx-3 my-1" />
-                <MobileNavLink href="/userdashboard" label="Saved Classes" onClick={() => setMobileMenuOpen(false)} />
+                <MobileNavLink href="/explore" label="Saved Classes" onClick={() => setMobileMenuOpen(false)} />
                 <button
                   onClick={() => { logout(); setMobileMenuOpen(false) }}
                   className="px-3 py-3 text-[14px] font-medium text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors bg-transparent border-0 cursor-pointer text-left min-h-[44px]"

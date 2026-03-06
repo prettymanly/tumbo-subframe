@@ -256,7 +256,7 @@ export default function ProviderDetailPage() {
             ) : (
               <div className="flex w-full flex-col items-center justify-center gap-3 py-16 rounded-lg border border-dashed border-neutral-200">
                 <span className="text-[14px] text-gray-400">No enriched classes for this provider yet</span>
-                <Link href="/classes" className="text-[13px] font-semibold text-[var(--tumbo-orange)] hover:underline">
+                <Link href="/explore" className="text-[13px] font-semibold text-[var(--tumbo-orange)] hover:underline">
                   Browse all classes →
                 </Link>
               </div>

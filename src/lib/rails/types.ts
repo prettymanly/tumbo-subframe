@@ -34,6 +34,8 @@ export interface RailCardItem {
   ageMin?: number;
   ageMax?: number;
   vibeLine?: string;
+  parentQuote?: string;
+  location?: string;
 }
 
 // ── Scoring weights for a rail ──

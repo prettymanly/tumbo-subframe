@@ -132,10 +132,10 @@ function FilterTag({
 
 // ── Color mapping for tag categories ──
 const TAG_COLORS = {
-  content: "#7E401A",
-  philosophy: "#FF3C00",
-  experience: "#F1B313",
-  personality: "#FF6966",
+  content: "var(--tumbo-tag-content)",
+  philosophy: "var(--tumbo-tag-philosophy)",
+  experience: "var(--tumbo-tag-experience)",
+  personality: "var(--tumbo-tag-child)",
 } as const
 
 function getTagColor(tagName: string, category: keyof typeof TAG_COLORS): string {

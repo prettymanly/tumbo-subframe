@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ModernPageLayout } from "@/components/ui/modern-page-layout";
+// Layout handled by app shell — no ModernPageLayout wrapper needed
 import { FadeInUp } from "@/components/ui/fade-in-up";
 import { FeatherArrowUp } from "@subframe/core";
 import { FeatherLandmark } from "@subframe/core";
@@ -12,7 +12,6 @@ import { IconWithBackground } from "@/components/subframe/ui/components/IconWith
 import { FeatherCheckCircle2 } from "@subframe/core";
 import { FeatherShield } from "@subframe/core";
 import { Accordion } from "@/components/subframe/ui/components/Accordion";
-import { BoldFooter } from "@/components/subframe/ui/components/BoldFooter";
 
 function TumboHome() {
   // Search phrases for animated placeholder
@@ -28,7 +27,7 @@ function TumboHome() {
   ];
 
   return (
-    <ModernPageLayout>
+    <>
       <div className="flex w-full flex-col items-center justify-center bg-default-background overflow-x-clip">
         <div className="flex w-full flex-col items-center justify-center gap-8 bg-default-background px-6 pt-40 pb-24 mobile:pt-24 mobile:pb-16">
           <FadeInUp delay={0} duration={0.8} offset={40}>
@@ -46,7 +45,7 @@ function TumboHome() {
           <FadeInUp delay={0.3} duration={0.7}>
             <div className="flex w-full flex-col items-center justify-center gap-3 px-4 py-4">
               <Link
-                href="/classes"
+                href="/explore"
                 className="flex h-14 w-full max-w-[768px] flex-none items-center justify-center gap-2 rounded-full bg-tumbo-cream px-2 py-2 no-underline hover:ring-2 hover:ring-[var(--tumbo-orange)]/20 transition-all duration-200 group/search"
               >
                 <div className="h-auto grow shrink-0 basis-0 flex items-center pl-4">
@@ -388,11 +387,8 @@ function TumboHome() {
             </div>
           </div>
         </FadeInUp>
-        <div className="flex w-full flex-col items-start">
-          <BoldFooter />
-        </div>
       </div>
-    </ModernPageLayout>
+    </>
   );
 }
 

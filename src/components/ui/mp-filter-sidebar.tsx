@@ -81,7 +81,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
         style={{
           position: "fixed",
           inset: 0,
-          background: "rgba(0,0,0,0.35)",
+          background: "var(--tumbo-label)",
           zIndex: 100,
           backdropFilter: "blur(2px)",
           animation: "mpFadeIn 0.2s ease",
@@ -97,7 +97,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
           bottom: 0,
           width: "100vw",
           maxWidth: 420,
-          background: "#FDFBF7",
+          background: "var(--tumbo-background)",
           zIndex: 101,
           overflowY: "auto",
           overscrollBehavior: "contain",
@@ -111,7 +111,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
         <div
           style={{
             padding: "28px 28px 20px",
-            borderBottom: "1px solid rgba(0,0,0,0.08)",
+            borderBottom: "1px solid var(--color-border-subtle)",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
@@ -121,7 +121,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
             <h2 style={{ margin: 0, fontSize: 20, fontWeight: 600, letterSpacing: "-0.02em", color: "#000" }}>
               Filters
             </h2>
-            <p style={{ margin: "4px 0 0", fontSize: 12, color: "rgba(0,0,0,0.4)" }}>
+            <p style={{ margin: "4px 0 0", fontSize: 12, color: "var(--color-text-secondary)" }}>
               Narrow down your search
             </p>
           </div>
@@ -131,7 +131,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
               width: 44,
               height: 44,
               borderRadius: "50%",
-              border: "1px solid rgba(0,0,0,0.12)",
+              border: "1px solid var(--color-shadow-lg)",
               background: "transparent",
               cursor: "pointer",
               display: "flex",
@@ -149,7 +149,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
         <div style={{ flex: 1, padding: "24px 28px", display: "flex", flexDirection: "column", gap: 32 }}>
           {/* Category */}
           <div>
-            <label style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, color: "rgba(0,0,0,0.4)", display: "block", marginBottom: 14 }}>
+            <label style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, color: "var(--color-text-secondary)", display: "block", marginBottom: 14 }}>
               Category
             </label>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -164,8 +164,8 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
                       borderRadius: 100,
                       fontSize: 13,
                       fontWeight: 500,
-                      border: active ? "1.5px solid #FF4400" : "1.5px solid rgba(0,0,0,0.15)",
-                      background: active ? "#FF4400" : "transparent",
+                      border: active ? "1.5px solid var(--tumbo-orange)" : "1.5px solid var(--color-border-strong)",
+                      background: active ? "var(--tumbo-orange)" : "transparent",
                       color: active ? "#fff" : "#000",
                       cursor: "pointer",
                       transition: "all 0.15s",
@@ -182,12 +182,12 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
 
           {/* Age range */}
           <div>
-            <label style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, color: "rgba(0,0,0,0.4)", display: "block", marginBottom: 14 }}>
+            <label style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, color: "var(--color-text-secondary)", display: "block", marginBottom: 14 }}>
               Age Range
             </label>
             <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
               <div style={{ flex: 1 }}>
-                <p style={{ margin: "0 0 6px", fontSize: 11, color: "rgba(0,0,0,0.35)" }}>
+                <p style={{ margin: "0 0 6px", fontSize: 11, color: "var(--tumbo-label)" }}>
                   Min: {local.ageMin}
                 </p>
                 <input
@@ -196,11 +196,11 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
                   max={18}
                   value={local.ageMin}
                   onChange={(e) => setLocal((prev) => ({ ...prev, ageMin: +e.target.value }))}
-                  style={{ width: "100%", accentColor: "#FF4400" }}
+                  style={{ width: "100%", accentColor: "var(--tumbo-orange)" }}
                 />
               </div>
               <div style={{ flex: 1 }}>
-                <p style={{ margin: "0 0 6px", fontSize: 11, color: "rgba(0,0,0,0.35)" }}>
+                <p style={{ margin: "0 0 6px", fontSize: 11, color: "var(--tumbo-label)" }}>
                   Max: {local.ageMax}
                 </p>
                 <input
@@ -209,7 +209,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
                   max={18}
                   value={local.ageMax}
                   onChange={(e) => setLocal((prev) => ({ ...prev, ageMax: +e.target.value }))}
-                  style={{ width: "100%", accentColor: "#FF4400" }}
+                  style={{ width: "100%", accentColor: "var(--tumbo-orange)" }}
                 />
               </div>
             </div>
@@ -217,7 +217,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
 
           {/* Location */}
           <div>
-            <label style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, color: "rgba(0,0,0,0.4)", display: "block", marginBottom: 14 }}>
+            <label style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, color: "var(--color-text-secondary)", display: "block", marginBottom: 14 }}>
               Location
             </label>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -232,7 +232,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
                       borderRadius: 100,
                       fontSize: 13,
                       fontWeight: 500,
-                      border: active ? "1.5px solid #000" : "1.5px solid rgba(0,0,0,0.15)",
+                      border: active ? "1.5px solid #000" : "1.5px solid var(--color-border-strong)",
                       background: active ? "#000" : "transparent",
                       color: active ? "#fff" : "#000",
                       cursor: "pointer",
@@ -250,7 +250,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
 
           {/* Max price */}
           <div>
-            <label style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, color: "rgba(0,0,0,0.4)", display: "block", marginBottom: 14 }}>
+            <label style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.06em", fontWeight: 700, color: "var(--color-text-secondary)", display: "block", marginBottom: 14 }}>
               Max Price
             </label>
             <input
@@ -260,9 +260,9 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
               step={5}
               value={local.priceMax}
               onChange={(e) => setLocal((prev) => ({ ...prev, priceMax: +e.target.value }))}
-              style={{ width: "100%", accentColor: "#FF4400" }}
+              style={{ width: "100%", accentColor: "var(--tumbo-orange)" }}
             />
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "rgba(0,0,0,0.35)", marginTop: 4 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--tumbo-label)", marginTop: 4 }}>
               <span>$0</span>
               <span>{local.priceMax >= 200 ? "S$200+" : `S$${local.priceMax}`}</span>
             </div>
@@ -274,7 +274,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
           className="mp-filter-footer"
           style={{
             padding: "20px 28px calc(20px + var(--sai-bottom, 0px))",
-            borderTop: "1px solid rgba(0,0,0,0.08)",
+            borderTop: "1px solid var(--color-border-subtle)",
             display: "flex",
             flexDirection: "column",
             gap: 10,
@@ -287,7 +287,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
               padding: 14,
               borderRadius: 100,
               border: "none",
-              background: "#FF4400",
+              background: "var(--tumbo-orange)",
               color: "#fff",
               fontSize: 14,
               fontWeight: 600,
@@ -324,7 +324,7 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
               width: "100%",
               padding: 12,
               borderRadius: 100,
-              border: "1.5px solid rgba(0,0,0,0.15)",
+              border: "1.5px solid var(--color-border-strong)",
               background: "transparent",
               fontSize: 14,
               fontWeight: 500,

@@ -27,25 +27,25 @@ function FilterChips({ filters, onRemoveFilter, onClearAll }: FilterChipsProps) 
   const getTagColor = (tagName: string) => {
     const tagLower = tagName.toLowerCase();
     
-    // Content Tags - Brown (#7E401A)
+    // Content Tags - Brown
     if (['music', 'dance', 'art', 'creative', 'design', 'stem', 'tech', 'robotics', 'coding', 'science', 'math', 'language', 'writing', 'reading', 'sports', 'pottery', 'painting', 'visual', 'drawing', 'sculpture', 'crafts'].some(keyword => tagLower.includes(keyword))) {
-      return '#7E401A';
-    } 
-    // Philosophy Tags - Red/Orange (#FF3C00)
+      return 'var(--tumbo-tag-content)';
+    }
+    // Philosophy Tags - Red/Orange
     else if (['montessori', 'reggio', 'waldorf', 'project-based', 'play-based', 'bilingual', 'cultural', 'heritage', 'philosophy', 'values', 'learning', 'story-driven', 'imaginative', 'mindful'].some(keyword => tagLower.includes(keyword))) {
-      return '#FF3C00';
-    } 
-    // Experience Tags - Yellow/Amber (#F1B313)
+      return 'var(--tumbo-tag-philosophy)';
+    }
+    // Experience Tags - Yellow/Amber
     else if (['small group', 'large group', 'one-on-one', 'outdoor', 'tactile', 'messy', 'high energy', 'fast-paced', 'collaborative', 'competitive', 'hands-on', 'interactive', 'immersive', 'sensory'].some(keyword => tagLower.includes(keyword))) {
-      return '#F1B313';
-    } 
-    // Child Tags - Coral/Pink (#FF6966)
+      return 'var(--tumbo-tag-experience)';
+    }
+    // Child Tags - Coral/Pink
     else if (['confidence', 'leadership', 'creativity', 'problem-solving', 'shy', 'outgoing', 'visual learner', 'kinesthetic', 'focus', 'communication', 'critical thinking', 'fine motor', 'gross motor', 'social skills', 'emotional', 'self-expression'].some(keyword => tagLower.includes(keyword))) {
-      return '#FF6966';
-    } 
+      return 'var(--tumbo-tag-child)';
+    }
     // Default to Content Tags color
     else {
-      return '#7E401A';
+      return 'var(--tumbo-tag-content)';
     }
   };
 
