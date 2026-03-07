@@ -17,6 +17,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createServer } from "@/lib/supabase/server";
 import { selectDisplayTags } from "@/lib/rails/warm-tags";
+import { shouldExcludeFromRails } from "@/lib/rails/build-rail";
 import type { DBClass } from "@/lib/types/tags";
 import type { WarmTag } from "@/lib/rails/types";
 
@@ -152,8 +153,8 @@ export async function GET(req: NextRequest) {
   // Use cached class pool (5 min TTL) — avoids re-fetching 1,200 rows on every request.
   const allRows = await getCachedClassPool(supabase);
 
-  // Deduplicate by provider
-  let pool = deduplicateByProvider(allRows);
+  // Deduplicate by provider, then apply centralized exclusion filter
+  let pool = deduplicateByProvider(allRows).filter((c) => !shouldExcludeFromRails(c));
 
   // Exclude IDs (already shown in rails)
   if (excludeIds.size > 0) {

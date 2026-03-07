@@ -19,6 +19,7 @@ import {
 import { DBClass, Provider, getTopTags } from "@/lib/types/tags";
 import { RAIL_ORDER, RAILS } from "@/lib/rails/config";
 import { selectDisplayTags } from "@/lib/rails/warm-tags";
+import { shouldExcludeFromRails } from "@/lib/rails/build-rail";
 import type { RailApiResponse } from "@/lib/rails/types";
 import type { TagRowItem } from "@/components/ui/hero-section";
 import { useExplore } from "./explore-context";
@@ -89,31 +90,8 @@ function getClassImage(cls: DBClass): string {
   return url;
 }
 
-// ── Exclude non-children listings that slipped past ingestion checks ──
-const EXCLUDE_CATEGORIES = new Set([
-  "Photography service", "Photography studio", "Photography class",
-  "Portrait studio", "Photographer", "Video production service",
-  "Adult education school", "Corporate office", "Government office",
-  "Pet boarding service", "Dog day care center", "Animal shelter",
-  "Animal hospital", "Veterinarian", "Internet cafe",
-  "Event management company", "Non-profit organization",
-  "Non-governmental organization", "Association / Organization",
-  "Psychotherapist", "Occupational therapist", "Speech pathologist",
-  "Distance learning center", "Computer training school",
-  "Academic department", "Animation studio", "Farm", "Garden center",
-]);
-const EXCLUDE_NAME_RX = [
-  /\bphotography studio\b/i,
-  /^photography (service|class) at\b/i,
-  /\bmedical[,\s].*dental\b/i,
-  /\bhealthcare courses?\b/i,
-  /\bphoto(graphy)? (pte|ltd|inc)\b/i,
-];
-function shouldExclude(cls: DBClass): boolean {
-  if (EXCLUDE_CATEGORIES.has(cls.category ?? "")) return true;
-  const name = cls.name ?? "";
-  return EXCLUDE_NAME_RX.some((rx) => rx.test(name));
-}
+// Exclusion logic imported from @/lib/rails/build-rail (single source of truth)
+const shouldExclude = shouldExcludeFromRails;
 
 function deduplicateByProvider(classes: DBClass[]): DBClass[] {
   const best = new Map<string, DBClass>();

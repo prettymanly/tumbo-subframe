@@ -28,53 +28,109 @@ import type { IntentChipId } from "./config";
 // ── Hard-exclude categories that are NEVER children's activity classes ──
 // These are Google Places business types that slipped past is_placeholder/hidden
 // checks. Unlike SUPPRESS_CATEGORIES (which only hides the tag label), these
-// prevent the listing from appearing in ANY rail.
-const EXCLUDE_CATEGORIES_FROM_RAILS = new Set([
-  "Photography service",
-  "Photography studio",
-  "Photography class",
-  "Portrait studio",
-  "Photographer",
-  "Video production service",
-  "Adult education school",
-  "Corporate office",
-  "Government office",
-  "Pet boarding service",
-  "Dog day care center",
-  "Animal shelter",
-  "Animal hospital",
-  "Veterinarian",
-  "Internet cafe",
-  "Event management company",
-  "Non-profit organization",
-  "Non-governmental organization",
-  "Association / Organization",
-  "Psychotherapist",
-  "Occupational therapist",
-  "Speech pathologist",
-  "Distance learning center",
-  "Computer training school",
-  "Academic department",
+// prevent the listing from appearing in ANY rail or browse grid.
+//
+// SINGLE SOURCE OF TRUTH: explore-browse.tsx imports this function.
+// Do NOT maintain separate exclusion lists elsewhere.
+const EXCLUDE_CATEGORIES = new Set([
+  // Photography / media
+  "Photography service", "Photography studio", "Photography class",
+  "Portrait studio", "Photographer", "Video production service",
   "Animation studio",
-  "Farm",
-  "Garden center",
+  // Adult / higher education
+  "Adult education school", "Junior college", "University",
+  "Vocational school", "Distance learning center", "Computer training school",
+  "Academic department", "Christian college", "International school",
+  "Educational institution",
+  // Generic Google Places types (not actual class providers)
+  "Education center", "Training centre", "Training center",
+  "Training provider", "Learning center", "Tutoring service",
+  "Coaching center", "School",
+  // Religious (non-class)
+  "Meditation center",
+  // Therapy / medical (not enrichment)
+  "Speech pathologist", "Occupational therapist", "Psychotherapist",
+  "Hospital", "Clinic", "Doctor", "Dentist", "Physiotherapist",
+  "Pharmacy", "Veterinary care", "Animal hospital",
+  // Non-class services
+  "Corporate office", "Government office",
+  "Pet boarding service", "Dog day care center", "Animal shelter",
+  "Veterinarian", "Pet store",
+  "Internet cafe", "Event management company",
+  "Non-profit organization", "Non-governmental organization",
+  "Association / Organization",
+  "Farm", "Garden center", "Garden",
+  // Beauty / wellness (adult)
+  "Beauty salon", "Hair salon", "Spa",
+  // Professional services
+  "Real estate agency", "Insurance agency", "Accounting firm",
+  "Law firm", "Consultant",
+  // Food / retail
+  "Restaurant", "Cafe", "Bar", "Bakery", "Supermarket", "Grocery store",
+  "Shopping mall", "Book store", "Florist",
+  // Transport
+  "Bus station", "Train station", "Car rental", "Parking",
+  // Other
+  "Water park", "Archery range",
 ]);
 
 // ── Name-pattern exclusions for miscategorized listings ──
 // Some listings have valid categories (e.g. "Art", "Languages") but their names
 // reveal they're not children's activities. These regexes catch the worst offenders.
 const EXCLUDE_NAME_PATTERNS = [
-  /\bphotography studio\b/i,
-  /^photography (service|class) at\b/i,
+  // Photography / photo studios
+  /\bphotography\s*(studio|service|class)?\b/i,
+  /\bphoto\s*studio\b/i,
+  /\bphoto(graphy)?\s*(pte|ltd|inc)\b/i,
+  // Junior colleges / higher ed
+  /\bjunior\s+college\b/i,
+  /\bJC\b/,
+  /\bpolytechnic\b/i,
+  /\buniversity\b/i,
+  /\bNUS\b/, /\bNTU\b/, /\bSMU\b/, /\bITE\b/,
+  /\bSIM\s+Global\b/i,
+  // A/O Level (secondary/JC prep, not enrichment)
+  /\bA[\s-]?level\b/i,
+  /\bO[\s-]?level\b/i,
+  // Corporate / adult
+  /\bcorporate\b/i,
+  /\bMBA\b/,
+  // Healthcare / medical
   /\bmedical[,\s].*dental\b/i,
   /\bhealthcare courses?\b/i,
-  /\bphoto(graphy)? (pte|ltd|inc)\b/i,
+  /\bdental\b/i,
+  // Religious orgs (not children's classes)
+  /\bbible\s+(college|school)\b/i,
+  // Wedding / events
+  /\bwedding\b/i,
+  // Pet / animal
+  /\bpet\b/i,
+  // Driving school
+  /\bdriving\b/i,
+  // Salon (exclude unless dance-related)
+  /\bsalon\b(?!.*dance)/i,
+  // Maid services
+  /\bmaid\b/i,
+  // Real estate / insurance
+  /\breal\s+estate\b/i,
+  /\binsurance\b/i,
+  // Esports / gaming (not children's enrichment)
+  /\besports?\b/i,
+  /\bLAN\s+shop\b/i,
+  /\bcyber\s+cafe\b/i,
+  // Google Places auto-prefix: "Category at Business Name"
+  /^(Education center|Training centre|Training center|Learning center|Training provider|Tutoring service|Coaching center|Meditation center|Speech pathologist|Occupational therapist|Educational institution|Animation studio|Internet cafe|Christian college|School|Garden)\s+at\s+/i,
+  // LEGO retail stores (not enrichment)
+  /\bLEGO\s+Certified\s+Store\b/i,
+  // Distributors (sell products, not classes)
+  /\bdistributor\b/i,
 ];
 
-// Return true if this class should be excluded from rails / browse
+// Return true if this class should be excluded from rails / browse.
+// This is the SINGLE SOURCE OF TRUTH for runtime exclusion.
 export function shouldExcludeFromRails(cls: DBClass): boolean {
   const cat = cls.category ?? "";
-  if (EXCLUDE_CATEGORIES_FROM_RAILS.has(cat)) return true;
+  if (EXCLUDE_CATEGORIES.has(cat)) return true;
   const name = cls.name ?? "";
   return EXCLUDE_NAME_PATTERNS.some((rx) => rx.test(name));
 }
