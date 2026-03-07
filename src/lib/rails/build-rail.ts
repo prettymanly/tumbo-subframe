@@ -74,6 +74,34 @@ const EXCLUDE_CATEGORIES = new Set([
   "Water park", "Archery range",
 ]);
 
+// ── Description-based exclusions for miscategorized listings ──
+// Some listings pass category + name checks but their description reveals they're
+// NOT children's enrichment classes (e.g. photography studios categorized as "Art").
+// The AI enrichment rewrites descriptions to sound class-like, so we check what
+// the business ACTUALLY IS, not incidental keyword mentions.
+const EXCLUDE_DESC_PATTERNS = [
+  /photography\s*(studio|service|company)/i,
+  /photo\s*studio/i,
+  /\bphotographer\b/i,
+  /specializ\w+ in.*\b(portrait|headshot|photoshoot)/i,
+  /\b(maternity|newborn|family|baby)\s*(portrait|photoshoot|photo\s*session)/i,
+  /capturing\s*(precious\s*)?moments/i,
+  /sewing\s*machine\s*(retail|shop|store)/i,
+  /\bthread\s*supplier\b/i,
+  /\b(retailer|distributor|supplier|wholesaler)\b/i,
+  /\bsports?\s*bar\b/i,
+  /\bhotel\b.*\b(room|accommodation|stay|guest)/i,
+  /\baccommodation\b/i,
+  /\bdance\s*shoe\s*(retail|shop|store)/i,
+  /\bindoor\s*playground\b/i,
+  /\btrampoline\s*park\b/i,
+  /\bbounce\s*(park|house|world)\b/i,
+  /\bescape\s*room\b/i,
+  /\bgaming\s*(centre|center|cafe|lounge|arena)\b/i,
+  /\bgo[\s-]?kart/i,
+  /\bkaraoke\b/i,
+];
+
 // ── Name-pattern exclusions for miscategorized listings ──
 // Some listings have valid categories (e.g. "Art", "Languages") but their names
 // reveal they're not children's activities. These regexes catch the worst offenders.
@@ -128,11 +156,15 @@ const EXCLUDE_NAME_PATTERNS = [
 
 // Return true if this class should be excluded from rails / browse.
 // This is the SINGLE SOURCE OF TRUTH for runtime exclusion.
+// Three layers: category → name → description content.
 export function shouldExcludeFromRails(cls: DBClass): boolean {
   const cat = cls.category ?? "";
   if (EXCLUDE_CATEGORIES.has(cat)) return true;
   const name = cls.name ?? "";
-  return EXCLUDE_NAME_PATTERNS.some((rx) => rx.test(name));
+  if (EXCLUDE_NAME_PATTERNS.some((rx) => rx.test(name))) return true;
+  const desc = cls.description ?? "";
+  if (desc && EXCLUDE_DESC_PATTERNS.some((rx) => rx.test(desc))) return true;
+  return false;
 }
 
 // ── Deduplicate classes by provider_id ──
