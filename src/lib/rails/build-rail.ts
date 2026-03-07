@@ -100,6 +100,29 @@ const EXCLUDE_DESC_PATTERNS = [
   /\bgaming\s*(centre|center|cafe|lounge|arena)\b/i,
   /\bgo[\s-]?kart/i,
   /\bkaraoke\b/i,
+  // Prenatal / postnatal (adult wellness, not children's enrichment)
+  /\bprenatal\b/i,
+  /\bpostnatal\b/i,
+  /\bantenatal\b/i,
+  /\bmaternity\b/i,
+  // Wedding / corporate events
+  /\bwedding\s*(planning|planner|venue|event|reception|ceremony)/i,
+  /\bcorporate\s*(event|training|retreat|workshop|team\s*building)/i,
+  // Retail stores (sell products, not classes)
+  /\btoy\s*(store|shop|retail)\b/i,
+  /\bart\s*supply\s*(store|shop)\b/i,
+  /\bmusic\s*(store|shop|retail)\b/i,
+  /\bsport(s|ing)?\s*(store|shop|retail|equipment)\b/i,
+  /\bbookshop\b/i,
+  /\bstationery\s*(store|shop)\b/i,
+  // JC / adult-only tuition
+  /\bH[12]\s*(Math|Chemistry|Physics|Economics|Biology)\b/,
+  /\bJC\s*(level|student|tuition)\b/i,
+  /\bA[\s-]?level\s*(tuition|prep|class)/i,
+  // Chiropractic / medical
+  /\bchiropr/i,
+  /\bphysiotherapy\b/i,
+  /\bosteopath/i,
 ];
 
 // ── Name-pattern exclusions for miscategorized listings ──
@@ -161,10 +184,13 @@ const AMBIGUOUS_CATEGORIES = new Set([
   "Art", "Dance", "Music", "Cooking", "Martial Arts", "Languages",
   "Sports", "Yoga", "Drama", "Rock Climbing", "Skating", "Football",
   "Badminton", "Tennis", "Table Tennis", "Archery", "Fencing",
-  "Coding", "Science", "Chess",
+  "Coding", "Science", "Chess", "Swimming", "Gymnastics", "STEM",
+  "Water Sports", "Holiday Camp",
 ]);
 
-// Positive signals in description/name that confirm it's for children
+// Positive signals in description/name that confirm it's for children.
+// Be strict: "student" and "parent" are too broad (adult academies use these).
+// Only include terms that strongly imply children's enrichment.
 const CHILDREN_SIGNALS = [
   /\bchildren\b/i, /\bchild\b/i, /\bkid(s|'s)?\b/i,
   /\btoddler/i, /\bbab(y|ies)\b/i, /\binfant/i, /\bjunior\b/i,
@@ -175,8 +201,8 @@ const CHILDREN_SIGNALS = [
   /\blittle\s*(one|learner|artist|dancer|musician)/i,
   /ages?\s+\d/i, /\d+\s*(-|to)\s*\d+\s*y(ear|r)/i, /\bunder\s*\d+/i,
   /\bschool\s*holiday/i, /\bholiday\s*(camp|programme|program|class)/i,
-  /\bP[1-6]\b/,
-  /\bstudent(s)?\b/i, /\bparent(s)?\b/i, /\bfamil(y|ies)\b/i,
+  /\bp[1-6]\b/i,  // Primary 1-6 (case-insensitive since text is lowercased)
+  /\bfamil(y|ies)\b/i,
   /\bson\b/i, /\bdaughter\b/i,
 ];
 
