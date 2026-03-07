@@ -242,8 +242,8 @@ export function ExploreSidebarDetail({ fullData, provider, taxonomyTags }: Explo
             {title}
           </h1>
 
-          {/* "by Provider" — subtle attribution (plain text, not a link) */}
-          {providerName && (
+          {/* "by Provider" — subtle attribution, hidden when title already contains provider name */}
+          {providerName && !title.toLowerCase().includes(providerName.toLowerCase()) && (
             <p style={{
               margin: "0 0 6px", fontSize: 12, fontWeight: 500, color: "var(--tumbo-label)",
             }}>

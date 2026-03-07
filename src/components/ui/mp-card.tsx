@@ -448,11 +448,24 @@ export const MPCard = React.memo(function MPCard({
               </p>
             )}
 
-            {/* Spacer pushes pills to bottom */}
+            {/* Spacer pushes footer to bottom */}
             <div style={{ flex: 1 }} />
 
+            {/* Metadata line: age + location (factual, scannable text) */}
+            {(ageRange || location) && (
+              <p style={{
+                margin: 0, marginBottom: 6,
+                fontSize: 11, fontWeight: 500,
+                color: "var(--color-text-secondary)",
+                letterSpacing: "-0.01em",
+                overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+              }}>
+                {[ageRange, location].filter(Boolean).join(" · ")}
+              </p>
+            )}
+
             {/* Separator + Tags row */}
-            {(ageRange || tags.length > 0 || priceDisplay) && (
+            {(tags.length > 0 || priceDisplay) && (
               <>
                 <div style={{ borderTop: `1px solid ${footerBorder}`, marginBottom: 10 }} />
                 <div style={{
@@ -469,28 +482,7 @@ export const MPCard = React.memo(function MPCard({
                     maxHeight: 55,
                     overflow: "hidden",
                   }}>
-                    {ageRange && (
-                      <span
-                        style={{
-                          display: "inline-flex",
-                          alignItems: "center",
-                          fontSize: 9,
-                          textTransform: "uppercase",
-                          letterSpacing: "0.04em",
-                          fontWeight: 700,
-                          padding: "4px 8px",
-                          borderRadius: 100,
-                          border: "1.5px solid var(--color-border-strong)",
-                          color: "var(--color-text-secondary)",
-                          background: "transparent",
-                          whiteSpace: "nowrap",
-                          flexShrink: 0,
-                        }}
-                      >
-                        {ageRange}
-                      </span>
-                    )}
-                    {tags.slice(0, 2).map((tag) =>
+                    {tags.slice(0, 3).map((tag) =>
                       variant === "v2" ? (
                         <DimensionPill key={tag.label} label={tag.label} dimension={tag.dimension} />
                       ) : (

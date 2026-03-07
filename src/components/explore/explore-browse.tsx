@@ -182,7 +182,7 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
   const allClassesLoadedRef = useRef(false);
 
   const [page, setPage] = useState(1);
-  const [visibleRails, setVisibleRails] = useState(1);
+  const [visibleRails, setVisibleRails] = useState(RAIL_ORDER.length);
   const [loadingMore, setLoadingMore] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement>(null);
 

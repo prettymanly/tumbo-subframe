@@ -85,6 +85,10 @@ export const WARM_CONTENT_MAP: Record<string, string> = {
   Languages: "Languages",
   "Financial Literacy": "Life Skills",
   "Life Skills": "Life Skills",
+
+  // Religious / faith-based
+  "Islamic Studies": "Islamic Studies",
+  "Christian Education": "Christian Education",
   Chess: "Chess & Strategy",
   Piano: "Piano",
 
