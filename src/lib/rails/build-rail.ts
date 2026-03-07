@@ -154,9 +154,35 @@ const EXCLUDE_NAME_PATTERNS = [
   /\bdistributor\b/i,
 ];
 
+// ── Categories that serve both adults and children ──
+// For these, we require an explicit children signal in description or age range.
+// Without one, we can't trust that it's a children's enrichment class.
+const AMBIGUOUS_CATEGORIES = new Set([
+  "Art", "Dance", "Music", "Cooking", "Martial Arts", "Languages",
+  "Sports", "Yoga", "Drama", "Rock Climbing", "Skating", "Football",
+  "Badminton", "Tennis", "Table Tennis", "Archery", "Fencing",
+  "Coding", "Science", "Chess",
+]);
+
+// Positive signals in description/name that confirm it's for children
+const CHILDREN_SIGNALS = [
+  /\bchildren\b/i, /\bchild\b/i, /\bkid(s|'s)?\b/i,
+  /\btoddler/i, /\bbab(y|ies)\b/i, /\binfant/i, /\bjunior\b/i,
+  /\byouth\b/i, /\byoung\s*(learner|student|one|child|artist|dancer|musician)/i,
+  /\bpreschool/i, /\bpre-school/i, /\bkindergarten/i,
+  /\bprimary\b/i, /\bsecondary\b/i, /\bteen(s|ager)?\b/i,
+  /\benrichment\b/i, /\bboy(s)?\b/i, /\bgirl(s)?\b/i,
+  /\blittle\s*(one|learner|artist|dancer|musician)/i,
+  /ages?\s+\d/i, /\d+\s*(-|to)\s*\d+\s*y(ear|r)/i, /\bunder\s*\d+/i,
+  /\bschool\s*holiday/i, /\bholiday\s*(camp|programme|program|class)/i,
+  /\bP[1-6]\b/,
+  /\bstudent(s)?\b/i, /\bparent(s)?\b/i, /\bfamil(y|ies)\b/i,
+  /\bson\b/i, /\bdaughter\b/i,
+];
+
 // Return true if this class should be excluded from rails / browse.
 // This is the SINGLE SOURCE OF TRUTH for runtime exclusion.
-// Three layers: category → name → description content.
+// Four layers: category → name → description blacklist → children signal gate.
 export function shouldExcludeFromRails(cls: DBClass): boolean {
   const cat = cls.category ?? "";
   if (EXCLUDE_CATEGORIES.has(cat)) return true;
@@ -164,6 +190,18 @@ export function shouldExcludeFromRails(cls: DBClass): boolean {
   if (EXCLUDE_NAME_PATTERNS.some((rx) => rx.test(name))) return true;
   const desc = cls.description ?? "";
   if (desc && EXCLUDE_DESC_PATTERNS.some((rx) => rx.test(desc))) return true;
+
+  // Layer 4: For ambiguous categories, require a positive children signal.
+  // If description + name has zero evidence it's for children, exclude it.
+  if (AMBIGUOUS_CATEGORIES.has(cat)) {
+    const hasChildAge = (cls.age_min != null && cls.age_min >= 0 && cls.age_min <= 14)
+      || (cls.age_max != null && (cls.age_max as number) > 0 && (cls.age_max as number) <= 18);
+    if (hasChildAge) return false;
+    const text = (desc + " " + name).toLowerCase();
+    const hasChildSignal = CHILDREN_SIGNALS.some((rx) => rx.test(text));
+    if (!hasChildSignal) return true;
+  }
+
   return false;
 }
 
