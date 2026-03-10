@@ -451,21 +451,8 @@ export const MPCard = React.memo(function MPCard({
             {/* Spacer pushes footer to bottom */}
             <div style={{ flex: 1 }} />
 
-            {/* Metadata line: age + location (factual, scannable text) */}
-            {(ageRange || location) && (
-              <p style={{
-                margin: 0, marginBottom: 6,
-                fontSize: 11, fontWeight: 500,
-                color: "var(--color-text-secondary)",
-                letterSpacing: "-0.01em",
-                overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
-              }}>
-                {[ageRange, location].filter(Boolean).join(" · ")}
-              </p>
-            )}
-
-            {/* Separator + Tags row */}
-            {(tags.length > 0 || priceDisplay) && (
+            {/* Separator + Tags row (age pill first, then dimension pills) */}
+            {(ageRange || tags.length > 0 || priceDisplay) && (
               <>
                 <div style={{ borderTop: `1px solid ${footerBorder}`, marginBottom: 10 }} />
                 <div style={{
@@ -482,7 +469,8 @@ export const MPCard = React.memo(function MPCard({
                     maxHeight: 55,
                     overflow: "hidden",
                   }}>
-                    {tags.slice(0, 3).map((tag) =>
+                    {ageRange && <AgePill label={ageRange} />}
+                    {tags.slice(0, ageRange ? 2 : 3).map((tag) =>
                       variant === "v2" ? (
                         <DimensionPill key={tag.label} label={tag.label} dimension={tag.dimension} />
                       ) : (
@@ -594,6 +582,31 @@ export const MPCard = React.memo(function MPCard({
     </Link>
   )
 })
+
+/* ── Age pill: outline style, neutral color ── */
+function AgePill({ label }: { label: string }) {
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        fontSize: 9,
+        textTransform: "uppercase",
+        letterSpacing: "0.04em",
+        fontWeight: 700,
+        padding: "4px 8px",
+        borderRadius: 100,
+        border: "1.5px solid var(--color-text-secondary)",
+        color: "var(--color-text-secondary)",
+        background: "transparent",
+        whiteSpace: "nowrap",
+        flexShrink: 0,
+      }}
+    >
+      {label}
+    </span>
+  )
+}
 
 /* ── V2 Dimension pill: solid dimension color + icon ── */
 function DimensionPill({ label, dimension }: { label: string; dimension: TagDimension }) {
