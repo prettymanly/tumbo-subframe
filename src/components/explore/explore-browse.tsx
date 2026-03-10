@@ -581,17 +581,18 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
 
       {visibleRails < rails.length && <div style={{ textAlign: "center", padding: "20px 0 60px" }}><LoadingDots /></div>}
 
-      {allRailsLoaded && !browseLoading && paginatedMore.length > 0 && (() => {
-        const isOpen = !collapsedSections.has("more-to-explore");
-        return (
-          <AccordionSection
-            id="more-to-explore"
-            title="More to explore"
-            subtitle={`${moreItems.length} more classes not shown above`}
-            itemCount={paginatedMore.length}
-            isOpen={isOpen}
-            onToggle={() => toggleSection("more-to-explore")}
-          >
+      {/* ── Endless scroll: every class on Tumbo ── */}
+      {allRailsLoaded && !browseLoading && paginatedMore.length > 0 && (
+        <>
+          <div style={{ marginTop: 40, marginBottom: 24, paddingTop: 20, borderTop: "1px solid var(--color-border-subtle)" }}>
+            <h2 style={{ margin: 0, fontSize: 26, fontWeight: 600, letterSpacing: "-0.03em", color: "var(--color-text-primary)" }}>
+              Every class on T&uuml;mbo
+            </h2>
+            <p style={{ margin: "6px 0 0", fontSize: 14, color: "var(--color-text-secondary)", fontWeight: 400 }}>
+              Keep scrolling — there&apos;s always more to discover
+            </p>
+          </div>
+          <div className="v3-masonry">
             {paginatedMore.map((cls) => {
               const provider = cls.provider_id ? providerMap[cls.provider_id]?.name : undefined;
               const tags = selectDisplayTags(cls);
@@ -631,16 +632,18 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
                 </div>
               );
             })}
-            {/* Infinite scroll sentinel */}
-            <div ref={loadMoreRef} style={{ height: "40px", display: "flex", alignItems: "center", justifyContent: "center", breakInside: "avoid" as const }}>
-              {loadingMore && <LoadingDots />}
-              {!loadingMore && paginatedMore.length >= moreItems.length && moreItems.length > 0 && (
-                <p style={{ fontSize: "13px", color: "var(--color-text-secondary)", margin: 0 }}>You&apos;ve seen it all</p>
-              )}
-            </div>
-          </AccordionSection>
-        );
-      })()}
+          </div>
+          {/* Infinite scroll sentinel */}
+          <div ref={loadMoreRef} style={{ height: 60, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            {loadingMore && <LoadingDots />}
+            {!loadingMore && paginatedMore.length >= moreItems.length && moreItems.length > 0 && (
+              <p style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: 0, padding: "20px 0" }}>
+                That&apos;s every class — {moreItems.length + shownIdsRef.current.length} and counting
+              </p>
+            )}
+          </div>
+        </>
+      )}
 
       {allRailsLoaded && browseLoading && <div style={{ display: "flex", justifyContent: "center", padding: "32px 0" }}><LoadingDots /></div>}
     </>
