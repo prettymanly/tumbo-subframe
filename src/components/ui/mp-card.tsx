@@ -98,11 +98,11 @@ const PILL_COLORS_V3 = ["var(--tumbo-tag-content)", "var(--tumbo-tag-experience)
 
 // ── Fixed card dimensions ──
 const CARD_W = 280
-const CARD_H = 315     // total card height — room for title+summary+pills+breathing
+const CARD_H = 345     // total card height — room for title+summary+2 rows of pills+breathing
 const IMAGE_H = 185    // fixed image height (image-forward, less text at rest)
 const PAD = 16         // internal padding
 const FEATURED_W = 520
-const FEATURED_H = 315
+const FEATURED_H = 345
 
 export interface MPCardProps {
   id: string
@@ -226,10 +226,8 @@ export const MPCard = React.memo(function MPCard({
   }, [])
 
   const effectiveFeatured = featured && !isMobile
-  const isFixedSize = true   // always enforce uniform height
   const cardWidth = masonry ? undefined : effectiveFeatured ? FEATURED_W : CARD_W
   const cardHeight = effectiveFeatured ? FEATURED_H : CARD_H
-  const imgH = effectiveFeatured ? 155 : IMAGE_H
   const titleSize = masonry ? 15 : effectiveFeatured ? 18 : 14
 
   const priceDisplay =
@@ -255,8 +253,8 @@ export const MPCard = React.memo(function MPCard({
   const hasReveal = !!(parentQuote || location)
 
   // Slide-up amount: CLAMPED so title never goes above card top.
-  // Max slide = imageHeight - topPadding (keeps title flush with top + padding)
-  const maxSlide = imgH - PAD
+  // Use half the card height as max slide (image is flexible, so use card-level limit)
+  const maxSlide = Math.floor(cardHeight / 2) - PAD
   const slideUp = hovered && hasReveal ? Math.min(revealH, maxSlide) : 0
 
   return (
@@ -368,14 +366,17 @@ export const MPCard = React.memo(function MPCard({
           style={{
             transition: "transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1)",
             transform: `translateY(-${slideUp}px)`,
+            display: "flex",
+            flexDirection: "column",
+            height: cardHeight,
           }}
         >
-          {/* Image — fixed height for uniform cards */}
+          {/* Image — fills remaining space after content (hug) */}
           <div
             style={{
-              height: imgH,
+              flex: 1,
+              minHeight: 0,
               overflow: "hidden",
-              flexShrink: 0,
               background: "var(--tumbo-cream)",
             }}
           >
@@ -402,14 +403,11 @@ export const MPCard = React.memo(function MPCard({
             )}
           </div>
 
-          {/* Content — minHeight fills remaining card space so reveal stays clipped */}
+          {/* Content — natural height, image absorbs remaining space */}
           <div
             style={{
-              padding: `${PAD}px ${PAD}px ${PAD}px`,
-              display: "flex",
-              flexDirection: "column",
-              gap: 0,
-              minHeight: cardHeight - imgH, boxSizing: "border-box" as const,
+              padding: PAD,
+              flexShrink: 0,
             }}
           >
             {/* Title — 2-line clamp */}
@@ -448,9 +446,6 @@ export const MPCard = React.memo(function MPCard({
               </p>
             )}
 
-            {/* Spacer pushes footer to bottom */}
-            <div style={{ flex: 1 }} />
-
             {/* Separator + Tags row (age pill first, then dimension pills) */}
             {(ageRange || tags.length > 0 || priceDisplay) && (
               <>
@@ -466,8 +461,6 @@ export const MPCard = React.memo(function MPCard({
                     flexWrap: "wrap",
                     gap: 5,
                     flex: 1,
-                    maxHeight: 55,
-                    overflow: "hidden",
                   }}>
                     {ageRange && <AgePill label={ageRange} />}
                     {tags.slice(0, ageRange ? 2 : 3).map((tag) =>
