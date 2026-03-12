@@ -56,7 +56,6 @@ const CONTENT_TAGS: TaxonomyTag[] = [
   { slug: "creative-writing", label: "Creative Writing", dimension: "content", group: "Academic Enrichment" },
   { slug: "phonics", label: "Phonics", dimension: "content", group: "Academic Enrichment" },
   { slug: "reading-literacy", label: "Reading & Literacy", dimension: "content", group: "Academic Enrichment" },
-  { slug: "malay", label: "Malay", dimension: "content", group: "Academic Enrichment" },
   { slug: "tamil", label: "Tamil", dimension: "content", group: "Academic Enrichment" },
 
   // 🧪 Exam Prep & Olympiads

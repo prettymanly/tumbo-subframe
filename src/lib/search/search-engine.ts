@@ -396,14 +396,14 @@ export function autocomplete(
     let matched = false;
 
     // Direct match
-    if (catLower.includes(qLower) || fuzzyScore(qLower, catLower) >= 40) {
+    if (catLower.includes(qLower) || fuzzyScore(qLower, catLower) >= 60) {
       matched = true;
     }
 
     // Synonym match
     if (!matched) {
       for (const token of expandedTokens) {
-        if (catLower.includes(token) || fuzzyScore(token, catLower) >= 40) {
+        if (catLower.includes(token) || fuzzyScore(token, catLower) >= 60) {
           matched = true;
           break;
         }
@@ -611,10 +611,11 @@ export function fullSearch(
       matchType = "fuzzy";
     }
 
-    // 2. Category match (+100)
+    // 2. Category match (+100) — require strong match (>=60) to prevent
+    //    false positives like "malay" → "play" (Levenshtein dist=2)
     for (const token of expandedTokens) {
       const catScore = fuzzyScore(token, entry.categoryLower);
-      if (catScore >= 40) {
+      if (catScore >= 60) {
         score += 100 + catScore;
         if (matchType === "description") matchType = "category";
         break;
