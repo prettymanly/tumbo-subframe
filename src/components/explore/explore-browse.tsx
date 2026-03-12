@@ -8,7 +8,6 @@
 
 import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import type Fuse from "fuse.js";
 import { MPCard } from "@/components/ui/mp-card";
 import { FadeInUp } from "@/components/ui/fade-in-up";
 import {
@@ -24,6 +23,8 @@ import type { RailApiResponse } from "@/lib/rails/types";
 import type { TagRowItem } from "@/components/ui/hero-section";
 import { useExplore } from "./explore-context";
 import type { BrowseStats } from "./explore-sidebar-browse";
+import { SearchAutocomplete } from "./search-autocomplete";
+import { buildSearchIndex, fullSearch, type SearchIndex } from "@/lib/search/search-engine";
 
 // ── SG estate extraction ──
 const SG_ESTATES = [
@@ -88,6 +89,21 @@ function getClassImage(cls: DBClass): string {
   if (!url) return "";  // No photo → ClassPlaceholder will render
   if (url.includes("places.googleapis.com")) return "";  // Google Places → use placeholder
   return url;
+}
+
+// ── Memoized tag lookup — avoids recomputing selectDisplayTags for the same class ──
+// selectDisplayTags is pure (deterministic for the same DBClass), so we cache results
+// in a WeakMap keyed by the class object reference. The cache is automatically GC'd
+// when classes are released. This avoids O(N * tagCost) per render in filteredClasses
+// and dimensionCounts which both iterate allClasses.
+const _tagCache = new WeakMap<DBClass, ReturnType<typeof selectDisplayTags>>();
+function cachedDisplayTags(cls: DBClass): ReturnType<typeof selectDisplayTags> {
+  let cached = _tagCache.get(cls);
+  if (!cached) {
+    cached = selectDisplayTags(cls);
+    _tagCache.set(cls, cached);
+  }
+  return cached;
 }
 
 // Exclusion logic imported from @/lib/rails/build-rail (single source of truth)
@@ -160,7 +176,6 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
   railDataRef.current = railData;
   const shownIdsRef = useRef<string[]>([]);
   const loadingRef = useRef<Set<string>>(new Set());
-  const FuseModule = useRef<typeof import('fuse.js') | null>(null);
 
   const [inputValue, setInputValue] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
@@ -196,7 +211,7 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
     });
   }, []);
 
-  useEffect(() => { const t = setTimeout(() => setSearchQuery(inputValue), 300); return () => clearTimeout(t); }, [inputValue]);
+  useEffect(() => { const t = setTimeout(() => setSearchQuery(inputValue), 150); return () => clearTimeout(t); }, [inputValue]);
   useEffect(() => { setSeed(getSessionSeed()); }, []);
 
   const seedRef = useRef(seed);
@@ -223,9 +238,16 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
       const { supabaseBrowser } = await import("@/lib/supabase/client");
       const { fetchAllVisibleClasses } = await import("@/lib/supabase/queries");
       const supabase = supabaseBrowser();
+      const BROWSE_SELECT = [
+        "id", "name", "provider_id", "summary", "vibe_line", "description",
+        "typical_child_profile", "not_ideal_for", "outcome_expectations",
+        "category", "age_min", "age_max", "photo_url", "google_rating",
+        "review_count", "updated_at", "created_at", "schedule", "location",
+        "is_placeholder", "hidden_from_directory", "price", "best_parent_quote",
+      ].join(",");
       const [allVisible, providerRes] = await Promise.all([
-        fetchAllVisibleClasses(supabase),
-        supabase.from("providers").select("*"),
+        fetchAllVisibleClasses(supabase, BROWSE_SELECT),
+        supabase.from("providers").select("id, name"),
       ]);
       setAllClasses(deduplicateByProvider((allVisible as unknown as DBClass[]).filter((c) => !shouldExclude(c))));
       const pMap: Record<string, Provider> = {};
@@ -247,7 +269,7 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
   // ── Computed top tags (from allClasses — available later, richer) ──
   const computedTopTags: TagRowItem[] = useMemo(() => {
     if (allClasses.length === 0) return [];
-    return getTopTags(allClasses, selectDisplayTags);
+    return getTopTags(allClasses, cachedDisplayTags);
   }, [allClasses]);
 
   // ── Effective top tags: API data immediately, computed data once ready ──
@@ -258,7 +280,7 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
     if (allClasses.length === 0) return {} as Record<string, TagRowItem[]>;
     const dimMap: Record<string, Map<string, number>> = {};
     for (const cls of allClasses) {
-      const tags = selectDisplayTags(cls);
+      const tags = cachedDisplayTags(cls);
       for (const tag of tags) {
         const dim = tag.dimension;
         if (!dimMap[dim]) dimMap[dim] = new Map();
@@ -281,39 +303,11 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
     return allTagsByDimension[dim] || [];
   }, [topTags, activeDimension, allTagsByDimension]);
 
-  const searchIndex = useMemo(() => {
-    return allClasses.map((c) => {
-      const tags = selectDisplayTags(c);
-      const provName = c.provider_id ? providerMap[c.provider_id]?.name ?? "" : "";
-      return { ...c, _searchTags: tags.map((t) => t.label).join(" "), _providerName: provName };
-    });
+  // ── Tumbo search engine (replaces Fuse.js — zero-dependency, built once) ──
+  const tumboSearchIndex = useMemo<SearchIndex | null>(() => {
+    if (allClasses.length === 0) return null;
+    return buildSearchIndex(allClasses, providerMap);
   }, [allClasses, providerMap]);
-
-  const [fuse, setFuse] = useState<Fuse<(typeof searchIndex)[number]> | null>(null);
-  useEffect(() => {
-    if (searchIndex.length === 0) { setFuse(null); return; }
-    let cancelled = false;
-    (async () => {
-      if (!FuseModule.current) {
-        FuseModule.current = await import("fuse.js");
-      }
-      if (cancelled) return;
-      const FuseClass = FuseModule.current.default;
-      setFuse(new FuseClass(searchIndex, {
-        keys: [{ name: "name", weight: 0.3 }, { name: "_providerName", weight: 0.2 }, { name: "category", weight: 0.15 }, { name: "_searchTags", weight: 0.2 }, { name: "vibe_line", weight: 0.08 }, { name: "description", weight: 0.07 }],
-        threshold: 0.5, distance: 300, minMatchCharLength: 2, includeScore: true, ignoreLocation: true,
-      }));
-    })();
-    return () => { cancelled = true; };
-  }, [searchIndex]);
-
-  const substringSearch = useCallback((query: string, items: typeof searchIndex): DBClass[] => {
-    const tokens = query.toLowerCase().split(/\s+/).filter(Boolean);
-    return items.filter((c) => {
-      const haystack = [c.name, c._providerName, c.category, c._searchTags, c.vibe_line, c.description, c.summary].filter(Boolean).join(" ").toLowerCase();
-      return tokens.every((tok) => haystack.includes(tok));
-    }) as unknown as DBClass[];
-  }, []);
 
   const isFilterMode = useMemo(() =>
     searchQuery.trim() !== "" || activeTags.size > 0 || activeDimension !== "All" || filters.tags.length > 0 || filters.location !== "All Areas" || filters.priceMax < 200 || filters.ageMin > 0 || filters.ageMax < 18,
@@ -322,17 +316,14 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
   const filteredClasses = useMemo(() => {
     const q = searchQuery.trim();
     let candidates: DBClass[];
-    if (q && fuse) {
-      const fuseResults = fuse.search(q);
-      candidates = fuseResults.map((r) => r.item as unknown as DBClass);
-      if (candidates.length === 0 && searchIndex.length > 0) candidates = substringSearch(q, searchIndex);
-    } else if (q && searchIndex.length > 0) {
-      candidates = substringSearch(q, searchIndex);
+    if (q && tumboSearchIndex) {
+      const results = fullSearch(tumboSearchIndex, q);
+      candidates = results.map((r) => r.cls);
     } else {
       candidates = allClasses;
     }
     return candidates.filter((c) => {
-      const tags = (activeTags.size > 0 || activeDimension !== "All") ? selectDisplayTags(c) : null;
+      const tags = (activeTags.size > 0 || activeDimension !== "All") ? cachedDisplayTags(c) : null;
       if (activeTags.size > 0) {
         if (!Array.from(activeTags).every((at) => tags!.some((t) => t.label === at))) return false;
       }
@@ -345,25 +336,22 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
       if (filters.priceMax < 200 && c.price != null && c.price > filters.priceMax) return false;
       return true;
     });
-  }, [allClasses, searchQuery, activeTags, activeDimension, filters, fuse, searchIndex, substringSearch]);
+  }, [allClasses, searchQuery, activeTags, activeDimension, filters, tumboSearchIndex]);
 
   // ── Dimension counts (reactive to search + pill + sidebar filters, but NOT dimension) ──
   const dimensionCounts = useMemo(() => {
     const q = searchQuery.trim();
     let candidates: DBClass[];
-    if (q && fuse) {
-      const fuseResults = fuse.search(q);
-      candidates = fuseResults.map((r) => r.item as unknown as DBClass);
-      if (candidates.length === 0 && searchIndex.length > 0) candidates = substringSearch(q, searchIndex);
-    } else if (q && searchIndex.length > 0) {
-      candidates = substringSearch(q, searchIndex);
+    if (q && tumboSearchIndex) {
+      const results = fullSearch(tumboSearchIndex, q);
+      candidates = results.map((r) => r.cls);
     } else {
       candidates = allClasses;
     }
     // Apply pill + sidebar filters (everything EXCEPT dimension)
     const base = candidates.filter((c) => {
       if (activeTags.size > 0) {
-        const tags = selectDisplayTags(c);
+        const tags = cachedDisplayTags(c);
         if (!Array.from(activeTags).every((at) => tags.some((t) => t.label === at))) return false;
       }
       if (filters.tags.length > 0 && !(c.category && filters.tags.some((t) => t.toLowerCase() === c.category!.toLowerCase()))) return false;
@@ -375,14 +363,14 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
     // Count per dimension
     const counts: Record<string, number> = { all: base.length };
     for (const cls of base) {
-      const tags = selectDisplayTags(cls);
+      const tags = cachedDisplayTags(cls);
       const dims = new Set(tags.map((t) => t.dimension));
       for (const d of dims) {
         counts[d] = (counts[d] || 0) + 1;
       }
     }
     return counts;
-  }, [allClasses, searchQuery, activeTags, filters, fuse, searchIndex, substringSearch]);
+  }, [allClasses, searchQuery, activeTags, filters, tumboSearchIndex]);
 
   // ── Rail loading (parallel) ──
   useEffect(() => {
@@ -394,11 +382,19 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
   const allRailsLoaded = RAIL_ORDER.every((rid) => railData[rid]);
 
   useEffect(() => { if (isFilterMode) return; const t = setTimeout(() => { if (visibleRails < RAIL_ORDER.length) setVisibleRails((v) => v + 1); }, 600); return () => clearTimeout(t); }, [visibleRails, isFilterMode]);
-  // Start loading allClasses on mount — no waterfall, no waiting for rails.
-  // Ref guard prevents double-loading. Search, filters & dimension tags are
-  // ready sooner; the default "All" tag strip uses /api/tags/top in the
-  // meantime so pills appear instantly.
-  useEffect(() => { loadAllClasses(); }, [loadAllClasses]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Defer loading allClasses until after initial paint + rails are visible.
+  // Uses requestIdleCallback (with 3s fallback) so the browser prioritises
+  // rendering the rail cards first. Search, filters & dimension tags will
+  // still be ready before most users scroll past the rails. The default
+  // "All" tag strip uses /api/tags/top in the meantime so pills appear
+  // instantly without waiting for allClasses.
+  useEffect(() => {
+    const schedule = typeof requestIdleCallback === "function"
+      ? (cb: () => void) => { const id = requestIdleCallback(cb, { timeout: 3000 }); return () => cancelIdleCallback(id); }
+      : (cb: () => void) => { const id = setTimeout(cb, 1500); return () => clearTimeout(id); };
+    const cancel = schedule(() => loadAllClasses());
+    return cancel;
+  }, [loadAllClasses]);
 
   const moreItems = useMemo(() => { const s = new Set(shownIdsRef.current); return allClasses.filter((c) => !s.has(c.id)); }, [allClasses]);
   const paginatedMore = useMemo(() => moreItems.slice(0, page * INFINITE_BATCH), [moreItems, page]);
@@ -423,6 +419,47 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
 
   const clearAll = useCallback(() => {
     setInputValue(""); setSearchQuery(""); setActiveTags(new Set()); setActiveDimension("All"); setFilters(MP_DEFAULT_FILTERS);
+  }, []);
+
+  // ── Autocomplete handlers ──
+  const handleAcSelectCategory = useCallback((category: string) => {
+    setFilters((f) => ({ ...f, tags: [category] }));
+    setInputValue("");
+    setSearchQuery("");
+  }, []);
+
+  const handleAcSelectClass = useCallback((classId: string) => {
+    // Navigate to class detail page
+    const cls = allClasses.find((c) => c.id === classId);
+    if (cls) {
+      const provider = cls.provider_id ? providerMap[cls.provider_id]?.name : undefined;
+      const tags = cachedDisplayTags(cls);
+      selectClass(classId, {
+        id: classId,
+        title: cls.name,
+        provider,
+        summary: cls.vibe_line || cls.summary || undefined,
+        image: getClassImage(cls),
+        tags: tags.map((t) => ({ label: t.label, dimension: t.dimension as "content" | "philosophy" | "experience" | "child" })),
+        location: cls.location ?? undefined,
+        price: cls.price ?? undefined,
+      });
+    }
+  }, [allClasses, providerMap, selectClass]);
+
+  const handleAcSelectTag = useCallback((tagLabel: string) => {
+    setActiveTags((prev) => {
+      const next = new Set(prev);
+      next.add(tagLabel);
+      return next;
+    });
+    setInputValue("");
+    setSearchQuery("");
+  }, []);
+
+  const handleAcSearch = useCallback((query: string) => {
+    setInputValue(query);
+    setSearchQuery(query);
   }, []);
 
   // ── Active chips for display ──
@@ -595,7 +632,7 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
           <div className="v3-masonry">
             {paginatedMore.map((cls) => {
               const provider = cls.provider_id ? providerMap[cls.provider_id]?.name : undefined;
-              const tags = selectDisplayTags(cls);
+              const tags = cachedDisplayTags(cls);
               const location = extractEstate(cls.location);
               return (
                 <div
@@ -662,7 +699,7 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
         <div className="v3-masonry">
           {filteredClasses.slice(0, page * INFINITE_BATCH).map((cls, cardIdx) => {
             const provider = cls.provider_id ? providerMap[cls.provider_id]?.name : undefined;
-            const tags = selectDisplayTags(cls);
+            const tags = cachedDisplayTags(cls);
             const location = cls.location ?? undefined;
             return (
               <FadeInUp key={cls.id} delay={Math.min(cardIdx, 12) * 0.04} offset={20} duration={0.5}>
@@ -750,21 +787,16 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
       {/* Search + filter row — sticky on scroll */}
       <div className="v3-search-sticky">
       <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "0" }}>
-        <div style={{
-          display: "flex", alignItems: "center", flex: 1, maxWidth: "540px",
-          background: "var(--color-bg-card)", border: "1.5px solid var(--color-shadow-md)", borderRadius: "100px", overflow: "hidden",
-        }}>
-          <div style={{ padding: "0 16px", display: "flex", alignItems: "center" }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-neutral-400)" strokeWidth="2"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
-          </div>
-          <input type="text" placeholder="Search classes, activities, providers..." value={inputValue} onChange={(e) => setInputValue(e.target.value)} style={{
-            flex: 1, border: "none", outline: "none", fontSize: "14px", padding: "13px 0",
-            background: "transparent", color: "var(--color-text-primary)", fontFamily: "inherit",
-          }} />
-          {inputValue && (
-            <button onClick={() => setInputValue("")} style={{ padding: "0 14px", background: "transparent", border: "none", cursor: "pointer", color: "var(--color-neutral-400)", fontSize: "18px" }} aria-label="Clear search">&times;</button>
-          )}
-        </div>
+        <SearchAutocomplete
+          allClasses={allClasses}
+          providerMap={providerMap}
+          onSelectCategory={handleAcSelectCategory}
+          onSelectClass={handleAcSelectClass}
+          onSelectTag={handleAcSelectTag}
+          onSearch={handleAcSearch}
+          value={inputValue}
+          onChange={setInputValue}
+        />
 
         <button onClick={() => setSidebarOpen(true)} style={{
           flexShrink: 0, display: "flex", alignItems: "center", gap: "8px", padding: "12px 20px",

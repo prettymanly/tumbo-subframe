@@ -1,29 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Lexend, IBM_Plex_Mono, Instrument_Serif, Inter } from "next/font/google";
+import { Lexend, Instrument_Serif, Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 const lexend = Lexend({
   variable: "--font-lexend",
   subsets: ["latin"],
-  display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  variable: "--font-plex-mono",
-  subsets: ["latin"],
-  weight: ["400"],
   display: "swap",
 });
 
@@ -59,12 +41,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        {/* Figma capture script — temporary, remove after capturing */}
-        <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
-      </head>
+      <head />
+
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${lexend.variable} ${plexMono.variable} ${instrumentSerif.variable} ${inter.variable} antialiased`}
+        className={`${lexend.variable} ${instrumentSerif.variable} ${inter.variable} antialiased`}
       >
         <AuthProvider>
           {children}

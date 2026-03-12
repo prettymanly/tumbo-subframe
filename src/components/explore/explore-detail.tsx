@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import {
   DBClass,
@@ -554,9 +555,13 @@ function SimilarCard({
     >
       {/* Image -- 16:10 aspect, matching MPCard */}
       <div style={{ aspectRatio: "16/10", overflow: "hidden", flexShrink: 0, background: "var(--tumbo-cream)" }}>
-        <img
+        <Image
           src={img}
           alt={cls.name}
+          width={400}
+          height={250}
+          loading="lazy"
+          sizes="280px"
           style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
         />
       </div>
@@ -667,48 +672,65 @@ export function ExploreDetail({ classId, onDataLoaded }: ExploreDetailProps) {
       if (error || !classData) { setNotFound(true); setLoading(false); return; }
       setCls(classData);
 
-      let fetchedProvider: Provider | null = null;
+      // ── Parallel fetch: provider, siblings, taxonomy tags, nearby places ──
+      // These all depend on classData but NOT on each other, so we fire them
+      // concurrently. Previous sequential waterfall added 4-6 round-trips.
+      const providerPromise = classData.provider_id
+        ? supabase.from("providers").select("*").eq("id", classData.provider_id).single()
+        : Promise.resolve({ data: null });
 
-      if (classData.provider_id) {
-        const { data: providerData } = await supabase
-          .from("providers")
-          .select("*")
-          .eq("id", classData.provider_id)
-          .single();
-        fetchedProvider = providerData || null;
-        if (!cancelled) setProvider(fetchedProvider);
+      const siblingsPromise = classData.provider_id
+        ? supabase.from("classes")
+            .select("id, name, photo_url, location, vibe_line, summary, best_parent_quote, age_min, age_max")
+            .eq("provider_id", classData.provider_id)
+            .eq("is_placeholder", false)
+            .neq("id", classData.id)
+            .limit(10)
+        : Promise.resolve({ data: null });
 
-        // Other locations: sibling classes from the same provider
-        const { data: siblingClasses } = await supabase
-          .from("classes")
-          .select("id, name, photo_url, location, vibe_line, summary, best_parent_quote, age_min, age_max")
-          .eq("provider_id", classData.provider_id)
-          .eq("is_placeholder", false)
-          .neq("id", classData.id)
-          .limit(10);
-        if (!cancelled && siblingClasses && siblingClasses.length > 0) {
-          setOtherLocations(siblingClasses.map((c) => ({
-            id: c.id,
-            name: c.name,
-            photo_url: c.photo_url ?? undefined,
-            location: c.location ?? undefined,
-            vibe_line: c.vibe_line ?? undefined,
-            summary: c.summary ?? undefined,
-            best_parent_quote: c.best_parent_quote ?? undefined,
-            age_min: c.age_min ?? undefined,
-            age_max: c.age_max ?? undefined,
-          })));
-        }
-      }
-
-      let resolvedTaxonomyTags: { slug: string; label: string; dimension: string }[] = [];
-
-      const { data: tagRows } = await supabase
+      const taxonomyPromise = supabase
         .from("class_taxonomy_tags")
         .select("tag_slug, dimension")
         .eq("class_id", classData.id);
 
-      // Track whether taxonomy-based similar classes were found
+      const nearbyPromise = classData.provider_id
+        ? supabase.from("providers").select("nearby_places").eq("id", classData.provider_id).single()
+        : Promise.resolve({ data: null });
+
+      const [providerRes, siblingsRes, taxonomyRes, nearbyRes] = await Promise.all([
+        providerPromise, siblingsPromise, taxonomyPromise, nearbyPromise,
+      ]);
+
+      if (cancelled) return;
+
+      // ── Process provider ──
+      const fetchedProvider: Provider | null = providerRes.data || null;
+      if (fetchedProvider) setProvider(fetchedProvider);
+
+      // ── Process siblings (other locations) ──
+      const siblingClasses = siblingsRes.data;
+      if (siblingClasses && siblingClasses.length > 0) {
+        setOtherLocations(siblingClasses.map((c: Record<string, unknown>) => ({
+          id: c.id as string,
+          name: c.name as string,
+          photo_url: (c.photo_url as string) ?? undefined,
+          location: (c.location as string) ?? undefined,
+          vibe_line: (c.vibe_line as string) ?? undefined,
+          summary: (c.summary as string) ?? undefined,
+          best_parent_quote: (c.best_parent_quote as string) ?? undefined,
+          age_min: (c.age_min as number) ?? undefined,
+          age_max: (c.age_max as number) ?? undefined,
+        })));
+      }
+
+      // ── Process nearby places ──
+      if (nearbyRes.data?.nearby_places && typeof nearbyRes.data.nearby_places === "object") {
+        setNearbyPlaces(nearbyRes.data.nearby_places as Record<string, { name: string; placeId?: string; distanceMeters?: number | null; googleMapsUri?: string | null }[]>);
+      }
+
+      // ── Process taxonomy tags + similar classes ──
+      let resolvedTaxonomyTags: { slug: string; label: string; dimension: string }[] = [];
+      const tagRows = taxonomyRes.data;
       let foundSimilar = false;
 
       if (tagRows && tagRows.length > 0) {
@@ -824,18 +846,6 @@ export function ExploreDetail({ classId, onDataLoaded }: ExploreDetailProps) {
         }
       }
 
-      // Nearby places from provider JSON column
-      if (classData.provider_id) {
-        const provRaw = await supabase
-          .from("providers")
-          .select("nearby_places")
-          .eq("id", classData.provider_id)
-          .single();
-        if (!cancelled && provRaw.data?.nearby_places && typeof provRaw.data.nearby_places === "object") {
-          setNearbyPlaces(provRaw.data.nearby_places as Record<string, { name: string; placeId?: string; distanceMeters?: number | null; googleMapsUri?: string | null }[]>);
-        }
-      }
-
       if (!cancelled) {
         setLoading(false);
 
@@ -900,9 +910,13 @@ export function ExploreDetail({ classId, onDataLoaded }: ExploreDetailProps) {
         }}
         onClick={() => setLightboxOpen(true)}
       >
-        <img
+        <Image
           src={heroImage}
           alt={cls.name}
+          width={900}
+          height={506}
+          sizes="(max-width: 768px) 100vw, 60vw"
+          priority
           className="explore-hero-img"
           style={{
             width: "100%", height: "auto", aspectRatio: "16/9", maxHeight: 420,

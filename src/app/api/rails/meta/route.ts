@@ -4,8 +4,30 @@
 
 import { NextResponse } from "next/server";
 import { createServer } from "@/lib/supabase/server";
-import { visibleClassesCount } from "@/lib/supabase/queries";
 import { RAIL_ORDER } from "@/lib/rails/config";
+
+// In-memory cache for the class count — avoids hitting Supabase on every request.
+// The count only changes when classes are added/removed (rare), so a 10 min TTL
+// is safe. Previous implementation fetched ALL rows to count distinct providers.
+let countCache: { count: number; ts: number } | null = null;
+const COUNT_CACHE_TTL = 600_000; // 10 min
+
+async function getCachedClassCount(): Promise<number> {
+  const now = Date.now();
+  if (countCache && now - countCache.ts < COUNT_CACHE_TTL) return countCache.count;
+
+  const supabase = createServer();
+  // Lightweight HEAD query — PostgREST returns just the count, no row data.
+  const { count } = await supabase
+    .from("classes")
+    .select("id", { count: "exact", head: true })
+    .eq("is_placeholder", false)
+    .eq("hidden_from_directory", false);
+
+  const result = count ?? 0;
+  countCache = { count: result, ts: now };
+  return result;
+}
 
 export async function GET() {
   const now = new Date();
@@ -19,11 +41,10 @@ export async function GET() {
     dailySeed = (dailySeed * 31 + dateStr.charCodeAt(i)) & 0x7fffffff;
   }
 
-  // Fetch visible class count (lightweight HEAD query, cached at CDN level)
+  // Lightweight cached count — HEAD query, no row data fetched.
   let totalClasses = 0;
   try {
-    const supabase = createServer();
-    totalClasses = await visibleClassesCount(supabase);
+    totalClasses = await getCachedClassCount();
   } catch {
     // Non-critical — page works without count
   }

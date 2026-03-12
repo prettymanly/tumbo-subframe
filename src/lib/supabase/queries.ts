@@ -26,6 +26,17 @@ type SupabaseClientLike = { from: (...args: any[]) => any };
 
 const PAGE_SIZE = 1000;
 
+// Columns safe for bulk queries — excludes raw_reviews (~20 MB), discovered_from (~1 MB), source.
+// Use this default whenever you don't need the full row. For single-row detail lookups
+// that need raw_reviews, use a direct .from("classes").select("*").eq("id", id) instead.
+const SAFE_BULK_SELECT = [
+  "id", "name", "provider_id", "summary", "vibe_line", "description",
+  "typical_child_profile", "not_ideal_for", "outcome_expectations",
+  "category", "age_min", "age_max", "photo_url", "google_rating",
+  "review_count", "updated_at", "created_at", "schedule", "location",
+  "is_placeholder", "hidden_from_directory", "price", "best_parent_quote",
+].join(",");
+
 /**
  * Returns a query builder scoped to visible classes only.
  * Chain additional filters, ordering, etc. on the returned builder.
@@ -33,15 +44,17 @@ const PAGE_SIZE = 1000;
  * IMPORTANT: PostgREST caps results at 1000 rows by default.
  * If you need ALL rows, use fetchAllVisibleClasses() instead.
  *
+ * @param select - Column list. Defaults to SAFE_BULK_SELECT (excludes raw_reviews/discovered_from).
+ *
  * @example
  *   const { data } = await visibleClassesQuery(supabase)
  *     .order("google_rating", { ascending: false })
  *     .limit(100);
  */
-export function visibleClassesQuery(supabase: SupabaseClientLike) {
+export function visibleClassesQuery(supabase: SupabaseClientLike, select: string = SAFE_BULK_SELECT) {
   return supabase
     .from("classes")
-    .select("*")
+    .select(select)
     .eq("is_placeholder", false)
     .eq("hidden_from_directory", false);
 }
@@ -61,7 +74,7 @@ export function visibleClassesQuery(supabase: SupabaseClientLike) {
  */
 export async function fetchAllVisibleClasses<T = Record<string, unknown>>(
   supabase: SupabaseClientLike,
-  select = "*"
+  select: string = SAFE_BULK_SELECT
 ): Promise<T[]> {
   const allRows: T[] = [];
   let from = 0;
