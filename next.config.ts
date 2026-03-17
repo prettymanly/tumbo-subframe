@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "**",
       },
+      {
+        protocol: "http",
+        hostname: "**",
+      },
     ],
     // Limit Next.js image optimization memory usage
     minimumCacheTTL: 3600, // 1 hour — default is 60s
@@ -24,9 +28,10 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
+      // Legacy /explore → root
       {
-        source: "/",
-        destination: "/explore",
+        source: "/explore",
+        destination: "/",
         permanent: false,
       },
     ];

@@ -7,7 +7,7 @@ import type { TagCategory } from "./tag-pill";
 // ── Tag row item (computed by page from loaded data) ──
 export interface TagRowItem {
   label: string;
-  dimension: "content" | "philosophy" | "experience" | "child";
+  dimension: "content" | "philosophy" | "experience" | "child" | "location";
 }
 
 interface HeroSectionProps {

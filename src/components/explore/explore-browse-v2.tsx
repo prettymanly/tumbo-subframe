@@ -7,6 +7,7 @@
 // Owns all data-fetching and state management.
 
 import React, { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { MPCard } from "@/components/ui/mp-card";
 import { FadeInUp } from "@/components/ui/fade-in-up";
@@ -18,15 +19,16 @@ import {
 import { DBClass, Provider, getTopTags } from "@/lib/types/tags";
 import { RAIL_ORDER, RAILS } from "@/lib/rails/config";
 import { selectDisplayTags } from "@/lib/rails/warm-tags";
-import { shouldExcludeFromRails } from "@/lib/rails/build-rail";
 import type { RailApiResponse } from "@/lib/rails/types";
 import type { TagRowItem } from "@/components/ui/hero-section";
 import { useExplore } from "./explore-context";
 import type { BrowseStats } from "./explore-sidebar-browse";
 import { SearchAutocomplete } from "./search-autocomplete";
 import { buildSearchIndex, fullSearch, type SearchIndex } from "@/lib/search/search-engine";
+import { DimensionSearchBar } from "./dimension-search-bar";
 
 // ── SG estate extraction ──
+// Estate names matched against location strings (order matters — longer/more specific first)
 const SG_ESTATES = [
   "Bukit Timah","Bukit Batok","Bukit Merah","Bukit Panjang",
   "Jurong West","Jurong East","Jurong",
@@ -49,13 +51,59 @@ const SG_ESTATES = [
   "Camden","Tanglin","River Valley",
   "Neil Rd","Chinatown","Outram",
   "Little India","Farrer Park","Jalan Besar",
+  "Upper Thomson","Balestier","Whampoa",
+  "Aljunied","Eunos","Kembangan",
+  "Hillview","Dairy Farm",
+  "Tuas","Pioneer","Boon Lay",
+  "Telok Kurau","Siglap","Frankel",
+  "Upper Bukit Timah","Beauty World",
+  "Bartley","Tai Seng","Ubi",
 ];
+
+// Singapore postal district → neighbourhood (first 2 digits of 6-digit postal code)
+const POSTAL_DISTRICT_MAP: Record<string, string> = {
+  "01": "Raffles Place", "02": "Raffles Place", "03": "Queenstown", "04": "Telok Blangah",
+  "05": "Pasir Panjang", "06": "City Hall", "07": "Bugis", "08": "Little India",
+  "09": "Orchard", "10": "Orchard", "11": "Novena", "12": "Balestier",
+  "13": "MacPherson", "14": "Geylang", "15": "Katong", "16": "Bedok",
+  "17": "Changi", "18": "Tampines", "19": "Hougang", "20": "Bishan",
+  "21": "Clementi", "22": "Jurong", "23": "Bukit Panjang", "24": "Tengah",
+  "25": "Woodlands", "26": "Upper Thomson", "27": "Yishun", "28": "Serangoon",
+  "29": "Ang Mo Kio", "30": "Ang Mo Kio", "31": "Bukit Batok", "32": "Bukit Batok",
+  "33": "Bukit Timah", "34": "Bukit Timah", "35": "Bukit Timah", "36": "Bukit Timah",
+  "37": "Bukit Timah", "38": "Geylang", "39": "Kallang", "40": "Kallang",
+  "41": "Kallang", "42": "Geylang", "43": "Katong", "44": "Katong",
+  "45": "Katong", "46": "Bedok", "47": "Tampines", "48": "Pasir Ris",
+  "49": "Pasir Ris", "50": "Bukit Merah", "51": "Bukit Merah",
+  "53": "Toa Payoh", "54": "Toa Payoh", "55": "Bishan", "56": "Bishan",
+  "57": "Ang Mo Kio", "58": "MacPherson", "59": "Kovan", "60": "Hougang",
+  "65": "Sengkang", "67": "Sengkang", "68": "Punggol",
+  "69": "Woodlands", "70": "Woodlands", "71": "Woodlands",
+  "72": "Jurong West", "73": "Jurong West",
+  "75": "Yishun", "76": "Yishun",
+  "77": "Sembawang", "78": "Sembawang",
+  "79": "Sengkang", "80": "Ang Mo Kio",
+  "82": "Punggol",
+};
 
 function extractEstate(loc?: string | null): string | undefined {
   if (!loc) return undefined;
+
+  // 1. Try matching estate names directly
+  const lower = loc.toLowerCase();
   for (const estate of SG_ESTATES) {
-    if (loc.toLowerCase().includes(estate.toLowerCase())) return estate;
+    if (lower.includes(estate.toLowerCase())) return estate;
   }
+
+  // 2. Try postal code extraction (6-digit Singapore postal code)
+  const postalMatch = loc.match(/(?:Singapore\s*)?(\d{6})/i) || loc.match(/\b(\d{6})\b/);
+  if (postalMatch) {
+    const district = postalMatch[1].slice(0, 2);
+    const mapped = POSTAL_DISTRICT_MAP[district];
+    if (mapped) return mapped;
+  }
+
+  // 3. Fallback: first part before comma if short enough
   const parts = loc.split(",")[0].trim();
   if (parts === "Singapore" || parts.length < 3) return undefined;
   return parts.length > 25 ? undefined : parts;
@@ -107,7 +155,6 @@ function cachedDisplayTags(cls: DBClass): ReturnType<typeof selectDisplayTags> {
 }
 
 // Exclusion logic imported from @/lib/rails/build-rail (single source of truth)
-const shouldExclude = shouldExcludeFromRails;
 
 function deduplicateByProvider(classes: DBClass[]): DBClass[] {
   const best = new Map<string, DBClass>();
@@ -183,6 +230,20 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
   const [activeTags, setActiveTags] = useState<Set<string>>(new Set());
   const [activeDimension, setActiveDimension] = useState<string>("All");
   const [filters, setFilters] = useState<MPFilterState>(MP_DEFAULT_FILTERS);
+  const [searchBarCollapsed, setSearchBarCollapsed] = useState(false);
+  const [filterModalOpen, setFilterModalOpen] = useState(false);
+  const heroSearchRef = useRef<HTMLDivElement>(null);
+
+  // ── Scroll detection: collapse dimension bar when hero version scrolls out ──
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setSearchBarCollapsed(!entry.isIntersecting),
+      { threshold: 0, rootMargin: "-56px 0px 0px 0px" } // account for topbar height
+    );
+    const el = heroSearchRef.current;
+    if (el) observer.observe(el);
+    return () => { if (el) observer.unobserve(el); };
+  }, []);
 
   // ── Sync dimension when sidebar requests a change ──
   useEffect(() => {
@@ -249,7 +310,10 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
         fetchAllVisibleClasses(supabase, BROWSE_SELECT),
         supabase.from("providers").select("id, name"),
       ]);
-      setAllClasses(deduplicateByProvider((allVisible as unknown as DBClass[]).filter((c) => !shouldExclude(c))));
+      // No shouldExclude filter here — allClasses powers search + autocomplete
+      // which should find ALL visible listings. Rail exclusions are handled
+      // server-side by the /api/rails/ endpoints.
+      setAllClasses(allVisible as unknown as DBClass[]);
       const pMap: Record<string, Provider> = {};
       for (const p of providerRes.data || []) pMap[p.id] = p;
       setProviderMap(pMap);
@@ -293,6 +357,19 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
         .sort((a, b) => b[1] - a[1])
         .map(([label]) => ({ label, dimension: dim as TagRowItem["dimension"] }));
     }
+
+    // ── Location dimension: derived from listing location field ──
+    const locCounts = new Map<string, number>();
+    for (const cls of allClasses) {
+      const estate = extractEstate(cls.location);
+      if (estate) {
+        locCounts.set(estate, (locCounts.get(estate) || 0) + 1);
+      }
+    }
+    result["location"] = [...locCounts.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .map(([label]) => ({ label, dimension: "location" as TagRowItem["dimension"] }));
+
     return result;
   }, [allClasses]);
 
@@ -322,10 +399,24 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
     } else {
       candidates = allClasses;
     }
+    // Split active tags into location vs regular tags
+    const activeLocationTags = new Set<string>();
+    const activeRegularTags = new Set<string>();
+    const locationLabels = new Set((allTagsByDimension["location"] || []).map((t) => t.label));
+    for (const at of activeTags) {
+      if (locationLabels.has(at)) activeLocationTags.add(at);
+      else activeRegularTags.add(at);
+    }
+
     return candidates.filter((c) => {
-      const tags = (activeTags.size > 0 || activeDimension !== "All") ? cachedDisplayTags(c) : null;
-      if (activeTags.size > 0) {
-        if (!Array.from(activeTags).every((at) => tags!.some((t) => t.label === at))) return false;
+      const tags = (activeRegularTags.size > 0 || activeDimension !== "All") ? cachedDisplayTags(c) : null;
+      // Location filter: listing must match ANY active location (OR logic)
+      if (activeLocationTags.size > 0) {
+        const estate = extractEstate(c.location);
+        if (!estate || !activeLocationTags.has(estate)) return false;
+      }
+      if (activeRegularTags.size > 0) {
+        if (!Array.from(activeRegularTags).every((at) => tags!.some((t) => t.label === at))) return false;
       }
       if (activeDimension !== "All") {
         if (!tags!.some((t) => t.dimension === activeDimension.toLowerCase())) return false;
@@ -336,7 +427,7 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
       if (filters.priceMax < 200 && c.price != null && c.price > filters.priceMax) return false;
       return true;
     });
-  }, [allClasses, searchQuery, activeTags, activeDimension, filters, tumboSearchIndex]);
+  }, [allClasses, searchQuery, activeTags, activeDimension, filters, tumboSearchIndex, allTagsByDimension]);
 
   // ── Dimension counts (reactive to search + pill + sidebar filters, but NOT dimension) ──
   const dimensionCounts = useMemo(() => {
@@ -368,6 +459,10 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
       for (const d of dims) {
         counts[d] = (counts[d] || 0) + 1;
       }
+      // Location dimension: count if listing has an extractable estate
+      if (extractEstate(cls.location)) {
+        counts["location"] = (counts["location"] || 0) + 1;
+      }
     }
     return counts;
   }, [allClasses, searchQuery, activeTags, filters, tumboSearchIndex]);
@@ -396,7 +491,7 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
     return cancel;
   }, [loadAllClasses]);
 
-  const moreItems = useMemo(() => { const s = new Set(shownIdsRef.current); return allClasses.filter((c) => !s.has(c.id)); }, [allClasses]);
+  const moreItems = useMemo(() => { const s = new Set(shownIdsRef.current); return deduplicateByProvider(allClasses.filter((c) => !s.has(c.id))); }, [allClasses]);
   const paginatedMore = useMemo(() => moreItems.slice(0, page * INFINITE_BATCH), [moreItems, page]);
 
   useEffect(() => {
@@ -461,6 +556,25 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
     setInputValue(query);
     setSearchQuery(query);
   }, []);
+
+  // ── Tag label → dimension color lookup ──
+  const tagDimColorMap = useMemo(() => {
+    const map: Record<string, string> = {};
+    const DIM_COLORS: Record<string, string> = {
+      content: "var(--tumbo-tag-content)",
+      philosophy: "var(--tumbo-tag-philosophy)",
+      experience: "var(--tumbo-tag-experience)",
+      child: "var(--tumbo-tag-child)",
+      location: "var(--tumbo-tag-location)",
+    };
+    for (const [dim, tags] of Object.entries(allTagsByDimension)) {
+      const color = DIM_COLORS[dim] || "var(--tumbo-orange)";
+      for (const tag of tags) {
+        map[tag.label] = color;
+      }
+    }
+    return map;
+  }, [allTagsByDimension]);
 
   // ── Active chips for display ──
   const activeChips = useMemo(() => {
@@ -759,14 +873,7 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
         .v3-masonry { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--gap-card-grid, 16px); }
         .v3-masonry-item { position: relative; }
 
-        /* Sticky search area */
-        .v3-search-sticky {
-          position: sticky; top: 0; z-index: 25;
-          background: var(--color-bg-page);
-          padding-top: 16px; padding-bottom: 12px;
-        }
-
-        /* Sticky section headers — below search bar */
+        /* Sticky section headers */
         .v3-section-header { position: relative; z-index: 15; background: var(--color-bg-page); }
         @media (min-width: 1024px) {
           .v3-section-header { position: sticky; top: 56px; }
@@ -784,55 +891,52 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
 
       <MPFilterSidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} filters={filters} onChange={setFilters} />
 
-      {/* Search + filter row — sticky on scroll */}
-      <div className="v3-search-sticky">
-      <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "0" }}>
-        <SearchAutocomplete
-          allClasses={allClasses}
-          providerMap={providerMap}
-          onSelectCategory={handleAcSelectCategory}
-          onSelectClass={handleAcSelectClass}
-          onSelectTag={handleAcSelectTag}
-          onSearch={handleAcSearch}
-          value={inputValue}
-          onChange={setInputValue}
+      {/* Floating "Filter classes" FAB — bounces in when hero bar scrolls out */}
+      <FloatingFilterFAB
+        visible={searchBarCollapsed && !filterModalOpen}
+        onClick={() => setFilterModalOpen(true)}
+        activeCount={activeTags.size}
+      />
+
+      {/* Floating filter modal — white panel at bottom with all dimension pills */}
+      <FloatingFilterModal
+        open={filterModalOpen}
+        onClose={() => setFilterModalOpen(false)}
+        allTagsByDimension={allTagsByDimension}
+        activeTags={activeTags}
+        onToggleTag={(label) => setActiveTags((prev) => { const next = new Set(prev); if (next.has(label)) next.delete(label); else next.add(label); return next; })}
+      />
+
+      {/* Nav search icon — portaled into top bar */}
+      <NavSearchPortal
+        allClasses={allClasses}
+        providerMap={providerMap}
+        inputValue={inputValue}
+        onInputChange={setInputValue}
+        onSelectCategory={handleAcSelectCategory}
+        onSelectClass={handleAcSelectClass}
+        onSelectTag={handleAcSelectTag}
+        onSearch={handleAcSearch}
+      />
+
+      {/* Hero dimension search bar — visible until scrolled past */}
+      <div ref={heroSearchRef} style={{ marginBottom: 16 }}>
+        <DimensionSearchBar
+          allTagsByDimension={allTagsByDimension}
+          activeTags={activeTags}
+          onToggleTag={(label) => setActiveTags((prev) => { const next = new Set(prev); if (next.has(label)) next.delete(label); else next.add(label); return next; })}
+          onSearch={() => {}}
+          collapsed={false}
+          totalClasses={totalClasses}
         />
+      </div>
 
-        <button onClick={() => setSidebarOpen(true)} style={{
-          flexShrink: 0, display: "flex", alignItems: "center", gap: "8px", padding: "12px 20px",
-          borderRadius: "100px", border: "1.5px solid var(--color-border-strong)",
-          background: totalActiveFilters > 0 ? "var(--tumbo-orange)" : "transparent",
-          color: totalActiveFilters > 0 ? "white" : "var(--color-text-primary)",
-          fontSize: "13px", fontWeight: 600, cursor: "pointer", fontFamily: "inherit", transition: "all 0.15s",
+      {/* Active chips — only visible in filter mode */}
+      {isFilterMode && hasActiveChips && (
+        <div style={{
+          display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px",
+          flexWrap: "wrap",
         }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><line x1="4" y1="6" x2="20" y2="6" /><line x1="8" y1="12" x2="16" y2="12" /><line x1="11" y1="18" x2="13" y2="18" /></svg>
-          Filters{totalActiveFilters > 0 ? ` (${totalActiveFilters})` : ""}
-        </button>
-      </div>
-      </div>
-
-      {/* Tag strip — scrolls away */}
-      <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "16px" }}>
-        <PillStrip size="lg" />
-        <button onClick={clearAll} className="btn-press" style={{
-          flexShrink: 0, padding: "6px 14px", borderRadius: "100px", border: "1.5px solid var(--color-border-strong)",
-          background: "transparent", color: "var(--color-text-secondary)", fontSize: "12px", fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
-          opacity: isFilterMode ? 1 : 0, pointerEvents: isFilterMode ? "auto" : "none",
-          transition: "opacity 0.15s ease",
-        }}>Clear</button>
-      </div>
-
-      {/* Count + active chips */}
-      <div style={{
-        display: "flex", alignItems: "center", gap: "12px", marginBottom: "24px",
-        paddingBottom: "16px", paddingTop: "0px",
-        borderBottom: "1px solid var(--color-border-subtle)", flexWrap: "wrap",
-        ...(isFilterMode && hasActiveChips ? { position: "sticky" as const, top: 56, zIndex: 20, background: "var(--color-bg-page)", paddingTop: "16px" } : {}),
-      }}>
-        <div style={{ fontSize: "12px", color: "var(--color-text-secondary)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
-          {isFilterMode ? `${filteredClasses.length} classes found` : totalClasses > 0 ? `${totalClasses.toLocaleString()} classes to explore` : ""}
-        </div>
-        {isFilterMode && hasActiveChips && (
           <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", alignItems: "center" }}>
             <AnimatePresence mode="popLayout">
               {searchQuery.trim() && (
@@ -842,7 +946,7 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
               )}
               {activeChips.map((chip, chipIdx) => (
                 <motion.div key={chip} layout initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.85, transition: { delay: chipIdx * 0.03, duration: 0.15 } }} transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}>
-                  <FilterChip label={chip} onRemove={() => {
+                  <FilterChip label={chip} color={tagDimColorMap[chip]} onRemove={() => {
                     if (activeTags.has(chip)) setActiveTags((prev) => { const next = new Set(prev); next.delete(chip); return next; });
                     else if (filters.tags.includes(chip)) setFilters((f) => ({ ...f, tags: f.tags.filter((t) => t !== chip) }));
                     else if (chip === filters.location) setFilters((f) => ({ ...f, location: "All Areas" }));
@@ -852,8 +956,8 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
             </AnimatePresence>
             <button onClick={clearAll} className="btn-press" style={{ padding: "4px 12px", borderRadius: "100px", border: "none", background: "transparent", color: "var(--color-text-secondary)", fontSize: "11px", cursor: "pointer", fontFamily: "inherit", fontWeight: 600 }}>Clear all</button>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Content: filtered masonry or accordion browse sections */}
       {isFilterMode ? renderFilteredContent() : renderBrowseContent()}
@@ -962,12 +1066,359 @@ function AccordionSection({
 }
 
 // ══════════════════════════════════════════════════════════════
+// ── Floating Filter FAB — bounces in from bottom when hero bar scrolls away ──
+// ══════════════════════════════════════════════════════════════
+
+function FloatingFilterFAB({
+  visible,
+  onClick,
+  activeCount,
+}: {
+  visible: boolean;
+  onClick: () => void;
+  activeCount: number;
+}) {
+  const [mounted, setMounted] = useState(false);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (visible) {
+      setMounted(true);
+      // Double rAF for the bounce-in
+      requestAnimationFrame(() => requestAnimationFrame(() => setShow(true)));
+    } else {
+      setShow(false);
+      const t = setTimeout(() => setMounted(false), 400);
+      return () => clearTimeout(t);
+    }
+  }, [visible]);
+
+  if (!mounted) return null;
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        bottom: 32,
+        left: 0,
+        right: 0,
+        display: "flex",
+        justifyContent: "center",
+        zIndex: 50,
+        pointerEvents: "none",
+        transform: show ? "translateY(0)" : "translateY(80px)",
+        opacity: show ? 1 : 0,
+        transition: "transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55), opacity 0.3s ease",
+      }}
+    >
+      <button
+        onClick={onClick}
+        style={{
+          pointerEvents: "auto",
+          display: "flex",
+          alignItems: "center",
+          gap: 8,
+          padding: "14px 24px",
+          borderRadius: 100,
+          border: "none",
+          background: "var(--tumbo-orange)",
+          color: "#fff",
+          fontSize: 15,
+          fontWeight: 600,
+          fontFamily: "inherit",
+          cursor: "pointer",
+          boxShadow: "0 4px 24px rgba(0,0,0,0.15)",
+          transition: "transform 0.15s, box-shadow 0.15s",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = "scale(1.04)";
+          e.currentTarget.style.boxShadow = "0 6px 28px rgba(0,0,0,0.2)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = "scale(1)";
+          e.currentTarget.style.boxShadow = "0 4px 24px rgba(0,0,0,0.15)";
+        }}
+      >
+        <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <line x1={4} y1={6} x2={20} y2={6} />
+          <line x1={8} y1={12} x2={16} y2={12} />
+          <line x1={11} y1={18} x2={13} y2={18} />
+        </svg>
+        Filter classes
+        {activeCount > 0 && (
+          <span
+            style={{
+              minWidth: 20,
+              height: 20,
+              borderRadius: 10,
+              background: "rgba(255,255,255,0.3)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 11,
+              fontWeight: 700,
+              lineHeight: 1,
+            }}
+          >
+            {activeCount}
+          </span>
+        )}
+      </button>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════
+// ── Floating Filter Modal — white panel with dimension pills ──
+// ══════════════════════════════════════════════════════════════
+
+function FloatingFilterModal({
+  open,
+  onClose,
+  allTagsByDimension,
+  activeTags,
+  onToggleTag,
+}: {
+  open: boolean;
+  onClose: () => void;
+  allTagsByDimension: Record<string, { label: string; dimension: string }[]>;
+  activeTags: Set<string>;
+  onToggleTag: (label: string) => void;
+}) {
+  const [mounted, setMounted] = useState(false);
+  const [show, setShow] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (open) {
+      setMounted(true);
+      requestAnimationFrame(() => requestAnimationFrame(() => setShow(true)));
+    } else {
+      setShow(false);
+      const t = setTimeout(() => setMounted(false), 350);
+      return () => clearTimeout(t);
+    }
+  }, [open]);
+
+  // Lock body + html scroll when modal is open
+  useEffect(() => {
+    if (!open) return;
+    const prevBody = document.body.style.overflow;
+    const prevHtml = document.documentElement.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prevBody;
+      document.documentElement.style.overflow = prevHtml;
+    };
+  }, [open]);
+
+  // Close on Escape
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [open, onClose]);
+
+  if (!mounted) return null;
+
+  return createPortal(
+    <div
+      onClick={(e) => {
+        // Close when clicking the backdrop (not the panel itself)
+        if (e.target === e.currentTarget) onClose();
+      }}
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 9999,
+        display: "flex",
+        alignItems: "flex-end",
+        justifyContent: "center",
+        background: show ? "rgba(0,0,0,0.25)" : "transparent",
+        transition: "background 0.3s ease",
+        pointerEvents: show ? "auto" : "none",
+      }}
+    >
+      <div
+        ref={panelRef}
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          marginBottom: 32,
+          width: "min(820px, calc(100% - 32px))",
+          position: "relative",
+          transform: show ? "translateY(0)" : "translateY(40px)",
+          opacity: show ? 1 : 0,
+          transition: "transform 0.35s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.3s ease",
+        }}
+      >
+        {/* Reuse the same 4-segment DimensionSearchBar as the hero */}
+        <DimensionSearchBar
+          allTagsByDimension={allTagsByDimension}
+          activeTags={activeTags}
+          onToggleTag={onToggleTag}
+          onSearch={onClose}
+          collapsed={false}
+          totalClasses={0}
+          dropdownAbove
+        />
+      </div>
+    </div>,
+    document.body
+  );
+}
+
+// ══════════════════════════════════════════════════════════════
+// ── Nav Search Icon — portals into #v2-search-portal in the top bar ──
+// ══════════════════════════════════════════════════════════════
+
+function NavSearchPortal({
+  allClasses,
+  providerMap,
+  inputValue,
+  onInputChange,
+  onSelectCategory,
+  onSelectClass,
+  onSelectTag,
+  onSearch,
+}: {
+  allClasses: DBClass[];
+  providerMap: Record<string, Provider>;
+  inputValue: string;
+  onInputChange: (v: string) => void;
+  onSelectCategory: (category: string) => void;
+  onSelectClass: (classId: string) => void;
+  onSelectTag: (tagLabel: string) => void;
+  onSearch: (query: string) => void;
+}) {
+  const [portalTarget, setPortalTarget] = useState<HTMLElement | null>(null);
+  const [expanded, setExpanded] = useState(false);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+
+  // Find the portal target in the DOM (right-side, beside hamburger)
+  useEffect(() => {
+    const el = document.getElementById("v2-search-icon-portal");
+    if (el) setPortalTarget(el);
+  }, []);
+
+  // Click-outside to collapse
+  useEffect(() => {
+    if (!expanded) return;
+    const handler = (e: MouseEvent) => {
+      const inside = searchContainerRef.current?.contains(e.target as Node);
+      if (searchContainerRef.current && !inside) {
+        setExpanded(false);
+        onInputChange("");
+      }
+    };
+    // Use setTimeout to avoid catching the same click that opened the search
+    const timer = setTimeout(() => {
+      document.addEventListener("mousedown", handler);
+    }, 100);
+    return () => { clearTimeout(timer); document.removeEventListener("mousedown", handler); };
+  }, [expanded, onInputChange]);
+
+  // Escape to collapse
+  useEffect(() => {
+    if (!expanded) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setExpanded(false);
+        onInputChange("");
+      }
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [expanded, onInputChange]);
+
+  // Wrap handlers to collapse search after selection
+  const handleSelectCategory = useCallback((category: string) => {
+    onSelectCategory(category);
+    setExpanded(false);
+  }, [onSelectCategory]);
+
+  const handleSelectClass = useCallback((classId: string) => {
+    onSelectClass(classId);
+    setExpanded(false);
+  }, [onSelectClass]);
+
+  const handleSelectTag = useCallback((tagLabel: string) => {
+    onSelectTag(tagLabel);
+    setExpanded(false);
+  }, [onSelectTag]);
+
+  const handleSearch = useCallback((query: string) => {
+    onSearch(query);
+    setExpanded(false);
+  }, [onSearch]);
+
+  if (!portalTarget) return null;
+
+  return createPortal(
+    <div ref={searchContainerRef} style={{ position: "relative" }}>
+      {!expanded ? (
+        /* Search icon button — stays right beside hamburger */
+        <button
+          onClick={() => setExpanded(true)}
+          aria-label="Search"
+          style={{
+            width: 36,
+            height: 36,
+            borderRadius: "50%",
+            border: "none",
+            background: "transparent",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "var(--tumbo-text)",
+            opacity: 0.6,
+            transition: "opacity 0.15s, background 0.15s",
+            padding: 0,
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.background = "rgba(0,0,0,0.04)"; }}
+          onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.6"; e.currentTarget.style.background = "transparent"; }}
+        >
+          <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <circle cx={11} cy={11} r={8} />
+            <line x1={21} y1={21} x2={16.65} y2={16.65} />
+          </svg>
+        </button>
+      ) : (
+        /* Expanded: search bar expands leftward from icon position */
+        <div style={{
+          position: "absolute",
+          right: 0,
+          top: "50%",
+          transform: "translateY(-50%)",
+          width: "min(480px, calc(100vw - 120px))",
+          zIndex: 50,
+        }}>
+          <SearchAutocomplete
+            allClasses={allClasses}
+            providerMap={providerMap}
+            onSelectCategory={handleSelectCategory}
+            onSelectClass={handleSelectClass}
+            onSelectTag={handleSelectTag}
+            onSearch={handleSearch}
+            value={inputValue}
+            onChange={onInputChange}
+          />
+        </div>
+      )}
+    </div>,
+    portalTarget
+  );
+}
+
+// ══════════════════════════════════════════════════════════════
 // ── Helper Components ──
 // ══════════════════════════════════════════════════════════════
 
-function FilterChip({ label, onRemove }: { label: string; onRemove: () => void }) {
+function FilterChip({ label, onRemove, color }: { label: string; onRemove: () => void; color?: string }) {
   return (
-    <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", padding: "5px 10px 5px 12px", borderRadius: "100px", background: "var(--tumbo-orange)", color: "white", fontSize: "12px", fontWeight: 600 }}>
+    <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", padding: "5px 10px 5px 12px", borderRadius: "100px", background: color || "var(--tumbo-orange)", color: "white", fontSize: "12px", fontWeight: 600 }}>
       {label}
       <button onClick={onRemove} style={{ width: "16px", height: "16px", borderRadius: "50%", background: "rgba(255,255,255,0.25)", border: "none", color: "white", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "10px", padding: 0 }} aria-label={`Remove ${label} filter`}>&times;</button>
     </div>

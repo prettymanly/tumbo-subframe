@@ -75,6 +75,7 @@ html { scrollbar-gutter: stable; }
   --color-tag-philosophy: #FF3C00;
   --color-tag-experience: #F1B313;
   --color-tag-child:      #FF6966;
+  --color-tag-location:   #2D8A4E;
 
   /* White */
   --color-white: #FFFFFF;
@@ -146,6 +147,7 @@ html { scrollbar-gutter: stable; }
   --tumbo-tag-philosophy: var(--color-tag-philosophy);
   --tumbo-tag-experience: var(--color-tag-experience);
   --tumbo-tag-child:      var(--color-tag-child);
+  --tumbo-tag-location:   var(--color-tag-location);
 
   /* ── TIER 3: COMPONENT TOKENS ────────────────────────────────
      Scoped to specific UI elements. Optional but useful. */
@@ -176,7 +178,7 @@ html { scrollbar-gutter: stable; }
   --muted-foreground: 100 116 139;
 
   /* Sidebar layout */
-  --sidebar-width: 320px;
+  --sidebar-width: 430px;
   --sidebar-width-icon: 3rem;
 
   /* ═══════════════════════════════════════════════════════════════
@@ -202,8 +204,8 @@ html { scrollbar-gutter: stable; }
      Purpose-based. Components should use these. */
 
   /* Component anatomy */
-  --padding-card-x:        var(--space-7);    /* 48px */
-  --padding-card-y:        var(--space-7);    /* 48px */
+  --padding-card-x:        var(--space-6);    /* 32px — tightened from 48px */
+  --padding-card-y:        36px;              /* 36px — tightened from 48px */
   --padding-callout:       var(--space-4);    /* 16px */
   --padding-button-x:      var(--space-4);    /* 16px */
   --padding-button-y:      var(--space-2);    /* 8px */
@@ -213,13 +215,13 @@ html { scrollbar-gutter: stable; }
   --gap-label-content:     var(--space-5);    /* 24px — section label to its content */
   --gap-icon-label:        var(--space-1);    /* 4px — icon to its text */
   --gap-inline:            var(--space-2);    /* 8px — between inline elements */
-  --gap-editorial-block:   var(--space-6);    /* 32px — between editorial paragraphs */
+  --gap-editorial-block:   var(--space-5);    /* 24px — tightened from 32px */
   --gap-subhead-body:      var(--space-2);    /* 8px — subhead to body coupling */
   --gap-source-pills:      var(--space-2);    /* 8px — between source pill items */
 
   /* Section rhythm */
   --gap-section:           var(--space-8);    /* 64px — between major sections */
-  --gap-card-stack:        40px;              /* 40px — between stacked cards */
+  --gap-card-stack:        28px;              /* 28px — tightened from 40px */
   --gap-card-grid:         var(--space-2);    /* 8px — tight grid, breathing INSIDE cards */
 
   /* Layout */
@@ -356,7 +358,7 @@ html { scrollbar-gutter: stable; }
 }
 
 .group\/sidebar-wrapper {
-  --sidebar-width: 320px !important;
+  --sidebar-width: 430px !important;
   --sidebar-width-icon: 3rem !important;
 }
 

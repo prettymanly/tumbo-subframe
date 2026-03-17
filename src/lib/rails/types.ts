@@ -103,6 +103,8 @@ export interface RailConfig {
   density: RailDensity;
   /** Is this the serendipity rail? Special mixture rules apply. */
   isSerendipity?: boolean;
+  /** Pinned listing IDs — always shown first, in order. Bypass scoring/filtering. */
+  pinnedIds?: string[];
 }
 
 // ── Scoring context (per-request) ──
