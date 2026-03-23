@@ -75,6 +75,7 @@ export interface DBClass {
   is_placeholder: boolean;
   hidden_from_directory?: boolean;
   best_parent_quote?: string;
+  class_experience?: string;
   discovered_from?: string;
   created_at: string;
   updated_at: string;

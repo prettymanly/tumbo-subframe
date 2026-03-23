@@ -11,8 +11,8 @@ import {
   deriveContextualTags,
 } from "@/lib/types/tags";
 import { MPCard } from "@/components/ui/mp-card";
+import { TextRevealInline } from "@/components/ui/text-reveal";
 
-const PAGE_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
 function formatAgeRange(ageMin?: number | null, ageMax?: number | null): string | undefined {
   if (ageMin == null && ageMax == null) return undefined;
@@ -76,6 +76,7 @@ function EditorialBlocks({ text, variant = "dark" }: { text: string; variant?: "
   // dark = white text on dark/orange bg, light = dark text on cream/white bg
   const subheadColor = variant === "dark" ? "#fff" : "var(--tumbo-text)";
   const bodyColor = variant === "dark" ? "#fff" : "var(--color-text-secondary)";
+  const ledeColor = variant === "dark" ? "#fff" : "var(--tumbo-text)";
   const bodySize = variant === "dark" ? "var(--type-editorial-size)" : "var(--type-body-size)";
   const subheadSize = variant === "dark" ? "var(--type-editorial-size)" : "var(--type-body-size)";
   const subheadWeight = variant === "dark" ? "var(--weight-regular)" : "var(--type-subhead-weight)";
@@ -88,6 +89,7 @@ function EditorialBlocks({ text, variant = "dark" }: { text: string; variant?: "
   while (i < raw.length) {
     const block = raw[i];
     const nextBlock = raw[i + 1];
+    const isFirst = nodes.length === 0;
 
     // Pattern 1: subhead\nbody within same block (single newline separator)
     const firstNewline = block.indexOf("\n");
@@ -95,11 +97,11 @@ function EditorialBlocks({ text, variant = "dark" }: { text: string; variant?: "
       const subhead = block.slice(0, firstNewline).trim();
       const body = block.slice(firstNewline + 1).trim();
       nodes.push(
-        <div key={i} style={{ marginTop: nodes.length > 0 ? "var(--gap-editorial-block)" : 0 }}>
+        <div key={i} style={{ marginTop: !isFirst ? "var(--gap-editorial-block)" : 0 }}>
           <p style={{ margin: "0 0 var(--gap-subhead-body)", fontSize: subheadSize, fontWeight: subheadWeight, color: subheadColor, lineHeight: "var(--type-subhead-leading)", letterSpacing: "var(--type-subhead-tracking)" }}>
             {subhead}
           </p>
-          <p style={{ margin: 0, fontSize: bodySize, fontWeight: "var(--type-body-weight)", color: bodyColor, lineHeight: "var(--type-body-leading)" }}>{body}</p>
+          <p style={{ margin: 0, fontSize: bodySize, fontWeight: isFirst ? "var(--weight-medium)" : "var(--type-body-weight)", color: isFirst ? ledeColor : bodyColor, lineHeight: "var(--type-body-leading)" }}>{body}</p>
         </div>
       );
       i += 1;
@@ -109,20 +111,26 @@ function EditorialBlocks({ text, variant = "dark" }: { text: string; variant?: "
     // Pattern 2: short standalone block followed by a longer block -> subhead + body
     if (block.length <= SUBHEAD_MAX && nextBlock && nextBlock.length > SUBHEAD_MAX) {
       nodes.push(
-        <div key={i} style={{ marginTop: nodes.length > 0 ? "var(--gap-editorial-block)" : 0 }}>
+        <div key={i} style={{ marginTop: !isFirst ? "var(--gap-editorial-block)" : 0 }}>
           <p style={{ margin: "0 0 var(--gap-subhead-body)", fontSize: subheadSize, fontWeight: subheadWeight, color: subheadColor, lineHeight: "var(--type-subhead-leading)", letterSpacing: "var(--type-subhead-tracking)" }}>
             {block}
           </p>
-          <p style={{ margin: 0, fontSize: bodySize, fontWeight: "var(--type-body-weight)", color: bodyColor, lineHeight: "var(--type-body-leading)" }}>{nextBlock}</p>
+          <p style={{ margin: 0, fontSize: bodySize, fontWeight: isFirst ? "var(--weight-medium)" : "var(--type-body-weight)", color: isFirst ? ledeColor : bodyColor, lineHeight: "var(--type-body-leading)" }}>{nextBlock}</p>
         </div>
       );
       i += 2;
       continue;
     }
 
-    // Plain body paragraph
+    // Plain body paragraph — first one is lede style
     nodes.push(
-      <p key={i} style={{ margin: 0, marginTop: nodes.length > 0 ? "var(--gap-label-content)" : 0, fontSize: bodySize, fontWeight: "var(--type-body-weight)", color: bodyColor, lineHeight: "var(--type-body-leading)" }}>
+      <p key={i} style={{
+        margin: 0, marginTop: !isFirst ? 18 : 0,
+        fontSize: bodySize,
+        fontWeight: isFirst ? "var(--weight-medium)" : "var(--type-body-weight)",
+        color: isFirst ? ledeColor : bodyColor,
+        lineHeight: "var(--type-body-leading)",
+      }}>
         {block}
       </p>
     );
@@ -198,7 +206,7 @@ function NumberedBlocks({ text, variant = "dark" }: { text: string; variant?: "d
           {/* Poster-scale serif numeral */}
           <span
             style={{
-              fontFamily: "Georgia, 'Times New Roman', serif",
+              fontFamily: "var(--font-instrument-serif), Georgia, 'Times New Roman', serif",
               fontSize: "clamp(40px, 10vw, 64px)",
               fontWeight: 400,
               lineHeight: 0.85,
@@ -245,15 +253,53 @@ function NumberedBlocks({ text, variant = "dark" }: { text: string; variant?: "d
 }
 
 /* ── Source attribution pills ── */
+interface SourceEntry { name: string; url?: string }
+
+function parseSourceEntries(raw: unknown): SourceEntry[] {
+  // Format 1: array of {name, url} objects (new format)
+  if (Array.isArray(raw)) {
+    return raw.map((item) =>
+      typeof item === "string" ? { name: item } : { name: item.name, url: item.url }
+    );
+  }
+  // Format 2: comma-separated string (legacy format)
+  if (typeof raw === "string" && raw.length > 0) {
+    return raw.split(",").map((s: string) => ({ name: s.trim() })).filter((e) => e.name);
+  }
+  return [];
+}
+
 function SourcePills({ discovered_from, section, variant = "dark" }: { discovered_from: string; section?: string; variant?: "light" | "dark" }) {
   try {
     const parsed = JSON.parse(discovered_from);
-    const sources: string[] = section
+    const raw = section
       ? (parsed[section] || parsed.description || [])
       : (parsed.description || []);
-    if (!sources || sources.length === 0) return null;
+    const sources = parseSourceEntries(raw);
+    if (sources.length === 0) return null;
 
     const isLight = variant === "light";
+    const basePill: React.CSSProperties = {
+      padding: "var(--space-1) var(--space-3)", borderRadius: 100,
+      fontSize: "var(--type-pill-size)", fontWeight: "var(--type-pill-weight)",
+      textTransform: "uppercase", letterSpacing: "var(--tracking-wide)",
+      textDecoration: "none",
+      transition: "border-color 0.15s ease, color 0.15s ease",
+    };
+
+    const linkPill: React.CSSProperties = {
+      ...basePill,
+      border: isLight ? "1px solid rgba(255,255,255,0.5)" : "1px solid var(--color-border-subtle)",
+      color: isLight ? "#fff" : "var(--tumbo-text)",
+      cursor: "pointer",
+    };
+
+    const plainPill: React.CSSProperties = {
+      ...basePill,
+      border: isLight ? "1px solid rgba(255,255,255,0.3)" : "1px solid var(--color-border-subtle)",
+      color: isLight ? "rgba(255,255,255,0.6)" : "var(--color-text-tertiary)",
+    };
+
     return (
       <div>
         <p style={{
@@ -263,18 +309,24 @@ function SourcePills({ discovered_from, section, variant = "dark" }: { discovere
         }}>
           Written based on these sources
         </p>
+        <style>{`
+          .source-pill-link:hover {
+            border-color: var(--tumbo-text) !important;
+            text-decoration: underline;
+          }
+        `}</style>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--gap-source-pills)" }}>
-          {sources.map((s: string, i: number) => (
-            <span key={i} style={{
-              padding: "var(--space-1) var(--space-3)", borderRadius: 100,
-              border: isLight ? "1px solid rgba(255,255,255,0.5)" : "1px solid var(--color-border-subtle)",
-              fontSize: "var(--type-pill-size)", fontWeight: "var(--type-pill-weight)",
-              color: isLight ? "#fff" : "var(--color-text-tertiary)",
-              textTransform: "uppercase", letterSpacing: "var(--tracking-wide)",
-            }}>
-              {s}
-            </span>
-          ))}
+          {sources.map((s, i) =>
+            s.url ? (
+              <a key={i} href={s.url} target="_blank" rel="noopener noreferrer" className="source-pill-link" style={linkPill}>
+                {s.name} ↗
+              </a>
+            ) : (
+              <span key={i} style={plainPill}>
+                {s.name}
+              </span>
+            )
+          )}
         </div>
       </div>
     );
@@ -547,7 +599,6 @@ function SimilarCard({
         display: "flex", flexDirection: "column",
         background: hovered ? "var(--tumbo-orange)" : "var(--color-bg-card)",
         border: hovered ? "1px solid var(--tumbo-orange)" : "1px solid var(--color-shadow-md)",
-        fontFamily: PAGE_FONT,
         animation: hovered ? "exploreSimCardBounce 0.25s cubic-bezier(0.22, 0.68, 0.31, 1.2)" : undefined,
       }}
       onMouseEnter={() => setHovered(true)}
@@ -895,12 +946,14 @@ export function ExploreDetail({ classId, onDataLoaded }: ExploreDetailProps) {
   const displayAddress = cls.location || googleData?.google_address || provider?.street_address || null;
 
   // Best review quote for pull-quote treatment
-  const bestQuote = reviews
+  // Prefer curated best_parent_quote, fall back to longest review
+  const curatedQuote = cls.best_parent_quote || null;
+  const autoQuote = reviews
     .filter((r) => r.text.length > 60)
     .sort((a, b) => b.text.length - a.text.length)[0] || null;
 
   return (
-    <div style={{ padding: "var(--padding-page-top) 0 var(--padding-page-bottom)", fontFamily: PAGE_FONT }}>
+    <div style={{ padding: "var(--padding-page-top) 0 var(--padding-page-bottom)" }}>
 
       {/* ── Hero image ── */}
       <div
@@ -928,36 +981,76 @@ export function ExploreDetail({ classId, onDataLoaded }: ExploreDetailProps) {
         />
       </div>
 
+      {/* ── Vibe line — display-weight with scroll reveal ── */}
+      {cls.vibe_line && (
+        <ScrollReveal><div style={{
+          background: "var(--color-bg-card)", borderRadius: "var(--card-radius)",
+          border: "var(--card-border)",
+          padding: "var(--padding-card-y) var(--padding-card-x)",
+          marginBottom: 16,
+          boxShadow: "var(--card-shadow)",
+        }}>
+          <TextRevealInline
+            text={cls.vibe_line.charAt(0).toUpperCase() + cls.vibe_line.slice(1)}
+            className="text-[28px] font-extrabold leading-[1.3] tracking-tight text-[var(--tumbo-text)]"
+          />
+        </div></ScrollReveal>
+      )}
+
       {/* ═══════════════════════════════════
           SECTION 1 -- About (the editorial lede)
           Open on orange bg, white text, large type.
          ═══════════════════════════════════ */}
       {cls.description && (
-        <ScrollReveal><div style={{ marginBottom: "var(--gap-section)", padding: "0 var(--space-1)" }}>
+        <ScrollReveal><div style={{
+          background: "var(--color-bg-card)", borderRadius: "var(--card-radius)",
+          border: "var(--card-border)",
+          padding: "var(--padding-card-y) var(--padding-card-x)",
+          marginBottom: "var(--gap-card-stack)",
+          boxShadow: "var(--card-shadow)",
+        }}>
           <p style={{
-            margin: "0 0 var(--gap-subhead-body)", fontSize: "var(--type-label-size)", fontWeight: "var(--type-label-weight)",
-            textTransform: "uppercase", letterSpacing: "var(--tracking-widest)",
+            margin: "0 0 var(--gap-label-content)", fontSize: "var(--type-label-size)", fontWeight: "var(--type-label-weight)",
+            textTransform: "uppercase", letterSpacing: "var(--type-label-tracking)",
             color: "var(--color-text-tertiary)",
           }}>
             About this class
           </p>
-          <p style={{
-            margin: 0, fontSize: "var(--type-lede-size)", fontWeight: "var(--type-lede-weight)",
-            color: "var(--tumbo-orange)", lineHeight: "var(--type-lede-leading)",
-            letterSpacing: "var(--type-lede-tracking)",
-          }}>
-            {cleanText(cls.description)}
-          </p>
+          <EditorialBlocks text={cleanText(cls.description)} variant="light" />
           {cls.discovered_from && (
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "var(--gap-source-pills)", marginTop: "var(--gap-label-content)" }}>
+            <div style={{ marginTop: "var(--gap-label-content)" }}>
               <SourcePills discovered_from={cls.discovered_from!} variant="dark" />
             </div>
           )}
         </div></ScrollReveal>
       )}
 
-      {/* Visual separator -- warm translucent line */}
-      <div style={{ height: 1, background: "var(--color-border-subtle)", margin: "0 0 var(--gap-section)" }} />
+      {/* ═══════════════════════════════════
+          SECTION 1B -- What happens in class (sensory observation)
+         ═══════════════════════════════════ */}
+      {cls.class_experience && (
+        <ScrollReveal><div style={{
+          background: "var(--color-bg-card)", borderRadius: "var(--card-radius)",
+          border: "var(--card-border)",
+          padding: "var(--padding-card-y) var(--padding-card-x)",
+          marginBottom: "var(--gap-card-stack)",
+          boxShadow: "var(--card-shadow)",
+        }}>
+          <p style={{
+            margin: "0 0 var(--gap-label-content)", fontSize: "var(--type-label-size)", fontWeight: "var(--type-label-weight)",
+            textTransform: "uppercase", letterSpacing: "var(--type-label-tracking)",
+            color: "var(--color-text-tertiary)",
+          }}>
+            What happens in class
+          </p>
+          <EditorialBlocks text={cleanText(cls.class_experience)} variant="light" />
+          {cls.discovered_from && (
+            <div style={{ marginTop: "var(--gap-label-content)" }}>
+              <SourcePills discovered_from={cls.discovered_from!} section="class_experience" variant="dark" />
+            </div>
+          )}
+        </div></ScrollReveal>
+      )}
 
       {/* ═══════════════════════════════════
           SECTION 2 -- What parents say (cream card)
@@ -997,48 +1090,57 @@ export function ExploreDetail({ classId, onDataLoaded }: ExploreDetailProps) {
           {/* Editorial review synthesis with bold subheads */}
           {cls.summary && <EditorialBlocks text={cleanText(cls.summary)} variant="light" />}
 
-          {/* Pull quote -- dark editorial moment */}
-          {bestQuote && (
-            <div style={{
-              marginTop: "var(--gap-editorial-block)",
-              background: "linear-gradient(145deg, var(--tumbo-text) 0%, #292420 100%)",
-              borderRadius: "var(--card-radius-inner)", padding: "var(--padding-card-y) var(--padding-card-x)",
-              position: "relative", overflow: "hidden",
-            }}>
-              {/* Large decorative quotation mark */}
-              <span style={{
-                position: "absolute", top: 4, left: 20,
-                fontSize: 96, fontWeight: 700, lineHeight: 1,
-                color: "rgba(255,255,255,0.06)",
-                fontFamily: "Georgia, 'Times New Roman', serif",
-              }}>
-                &ldquo;
-              </span>
-              <p style={{
-                margin: 0, fontSize: "var(--type-editorial-size)", fontStyle: "italic",
-                color: "rgba(255,255,255,0.85)", lineHeight: "var(--leading-relaxed)",
-                fontFamily: "Georgia, 'Times New Roman', serif",
-                position: "relative", zIndex: 1,
-                paddingTop: "var(--space-3)",
-              }}>
-                {bestQuote.text.length > 280 ? bestQuote.text.substring(0, 280).trim() + "..." : bestQuote.text}
-              </p>
-              <div style={{ display: "flex", alignItems: "center", gap: "var(--gap-inline)", marginTop: "var(--gap-label-content)", position: "relative", zIndex: 1 }}>
-                <div style={{ width: 20, height: 1, background: "rgba(255,255,255,0.2)" }} />
-                <span style={{ fontSize: "var(--type-caption-size)", fontWeight: "var(--weight-semibold)", color: "rgba(255,255,255,0.5)" }}>
-                  {bestQuote.author}
-                </span>
-                <span style={{ fontSize: "var(--type-pill-size)", color: "rgba(255,255,255,0.3)" }}>Parent, Google review</span>
-              </div>
-            </div>
-          )}
-
-          {/* Source pills */}
+          {/* Source pills — before quote so reading order is: synthesis → sources → highlight */}
           {cls.discovered_from && (
             <div style={{ marginTop: "var(--gap-label-content)" }}>
               <SourcePills discovered_from={cls.discovered_from!} section="reviews" variant="dark" />
             </div>
           )}
+
+          {/* Pull quote — speech bubble style */}
+          {(curatedQuote || autoQuote) && (() => {
+            const authorName = curatedQuote ? "Parent" : autoQuote!.author;
+            return (
+            <div style={{ marginTop: "var(--gap-editorial-block)" }}>
+              {/* Speech bubble — sharp corners, pink bg, full-width */}
+              <div style={{
+                background: "#F8C8D4",
+                borderRadius: 0,
+                padding: "var(--padding-card-y) var(--padding-card-x)",
+                marginLeft: "calc(-1 * var(--padding-card-x))",
+                marginRight: "calc(-1 * var(--padding-card-x))",
+              }}>
+                <p style={{
+                  margin: 0, fontSize: "var(--type-editorial-size)", fontStyle: "italic",
+                  color: "var(--tumbo-text)", lineHeight: "var(--leading-relaxed)",
+                  fontFamily: "var(--font-instrument-serif), Georgia, 'Times New Roman', serif",
+                }}>
+                  {curatedQuote
+                    ? (curatedQuote.length > 280 ? curatedQuote.substring(0, 280).trim() + "..." : curatedQuote)
+                    : (autoQuote!.text.length > 280 ? autoQuote!.text.substring(0, 280).trim() + "..." : autoQuote!.text)
+                  }
+                </p>
+              </div>
+              {/* Attribution + speech bubble tail — side by side */}
+              <div style={{ display: "flex", alignItems: "flex-start", gap: 8, marginTop: 0 }}>
+                {/* Attribution text */}
+                <div style={{ display: "flex", flexDirection: "column", gap: 2, paddingTop: 10 }}>
+                  <span style={{ fontSize: "var(--font-size-base)", fontWeight: "var(--weight-semibold)", color: "var(--tumbo-text)" }}>
+                    {authorName}
+                  </span>
+                  <span style={{ fontSize: "var(--type-caption-size)", color: "var(--color-text-tertiary)" }}>
+                    Google Reviews
+                  </span>
+                </div>
+                {/* Smooth curved tail — flipped horizontally, curve on right */}
+                <div style={{
+                  width: 24, height: 20, background: "#F8C8D4", flexShrink: 0,
+                  clipPath: "ellipse(100% 100% at 0% 0%)",
+                }} />
+              </div>
+            </div>
+            );
+          })()}
         </div></ScrollReveal>
       )}
 
@@ -1082,6 +1184,11 @@ export function ExploreDetail({ classId, onDataLoaded }: ExploreDetailProps) {
               </p>
             </div>
           )}
+          {cls.discovered_from && (
+            <div style={{ marginTop: "var(--gap-label-content)" }}>
+              <SourcePills discovered_from={cls.discovered_from!} section="typical_child_profile" variant="dark" />
+            </div>
+          )}
         </div></ScrollReveal>
       )}
 
@@ -1104,6 +1211,11 @@ export function ExploreDetail({ classId, onDataLoaded }: ExploreDetailProps) {
             What to expect
           </p>
           <NumberedBlocks text={cleanText(cls.outcome_expectations)} variant="light" />
+          {cls.discovered_from && (
+            <div style={{ marginTop: "var(--gap-label-content)" }}>
+              <SourcePills discovered_from={cls.discovered_from!} section="outcome_expectations" variant="dark" />
+            </div>
+          )}
         </div></ScrollReveal>
       )}
 

@@ -103,7 +103,6 @@ export function MPFilterSidebar({ isOpen, onClose, filters, onChange }: MPFilter
           overscrollBehavior: "contain",
           display: "flex",
           flexDirection: "column",
-          fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
           animation: "mpSlideIn 0.3s cubic-bezier(0.2, 0, 0, 1)",
         }}
       >

@@ -15,7 +15,7 @@ import { ExploreBrowse } from "./explore-browse";
 import { ExploreDetail } from "./explore-detail";
 import type { DBClass, Provider } from "@/lib/types/tags";
 
-const PAGE_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+
 const CONTAINER_MAX = "min(1600px, calc(100% - 48px))";
 
 const DEFAULT_STATS: BrowseStats = {
@@ -105,7 +105,6 @@ export function ExploreShell() {
         style={{
           minHeight: "100vh",
           background: "var(--tumbo-background)",
-          fontFamily: PAGE_FONT,
           transition: "background 0.4s ease",
         }}
       >
@@ -132,8 +131,8 @@ export function ExploreShell() {
             style={{
               position: "sticky",
               top: 24,
-              width: sidebarOpen ? 300 : 0,
-              minWidth: sidebarOpen ? 300 : 0,
+              width: sidebarOpen ? 430 : 0,
+              minWidth: sidebarOpen ? 430 : 0,
               flexShrink: 0,
               alignSelf: "flex-start",
               overflow: "hidden",
@@ -141,7 +140,7 @@ export function ExploreShell() {
             }}
           >
             {/* Inner wrapper keeps content from collapsing weirdly */}
-            <div style={{ width: 300, opacity: sidebarOpen ? 1 : 0, transition: "opacity 0.2s ease" }}>
+            <div style={{ width: 430, opacity: sidebarOpen ? 1 : 0, transition: "opacity 0.2s ease" }}>
             {/* ── Sidebar Nav (persistent across browse/detail) ── */}
             <div style={{ marginBottom: 28 }}>
               {/* Logo */}
@@ -179,7 +178,6 @@ export function ExploreShell() {
                       borderRadius: 100,
                       textDecoration: "none",
                       transition: "all 0.15s",
-                      fontFamily: PAGE_FONT,
                     }}
                   >
                     Explore
@@ -192,7 +190,6 @@ export function ExploreShell() {
                       color: "var(--tumbo-label)",
                       borderRadius: 100,
                       cursor: "default",
-                      fontFamily: PAGE_FONT,
                     }}
                     title="Coming soon"
                   >
@@ -252,7 +249,6 @@ export function ExploreShell() {
                             boxShadow: "0 8px 24px var(--color-shadow-xl)",
                             padding: 6,
                             zIndex: 100,
-                            fontFamily: PAGE_FONT,
                           }}
                         >
                           {user && (
@@ -314,7 +310,6 @@ export function ExploreShell() {
                           fontWeight: 500,
                           color: "var(--tumbo-label)",
                           padding: "6px 8px",
-                          fontFamily: PAGE_FONT,
                           transition: "color 0.15s",
                         }}
                       >
@@ -334,7 +329,6 @@ export function ExploreShell() {
                           border: "none",
                           cursor: "pointer",
                           borderRadius: 100,
-                          fontFamily: PAGE_FONT,
                           transition: "opacity 0.15s",
                         }}
                       >

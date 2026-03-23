@@ -4,8 +4,6 @@ import React from "react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 
-const PAGE_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
-
 const MOCK_SAVED = [
   { id: "creative-little-architects", title: "Creative Little Architects", provider: "Art Studio Kids", location: "Ubi" },
   { id: "clay-explorers", title: "Clay Explorers", provider: "Art Studio Kids", location: "Bukit Timah" },
@@ -18,7 +16,7 @@ export default function SavedPage() {
 
   if (!isAuthenticated) {
     return (
-      <div style={{ fontFamily: PAGE_FONT, padding: "80px 0", textAlign: "center" }}>
+      <div style={{ padding: "80px 0", textAlign: "center" }}>
         <h2 style={{ fontSize: 24, fontWeight: 700, margin: "0 0 8px" }}>
           Sign in to save your favourites
         </h2>
@@ -45,7 +43,7 @@ export default function SavedPage() {
   }
 
   return (
-    <div style={{ fontFamily: PAGE_FONT }}>
+    <div>
       <h1 style={{ fontSize: 28, fontWeight: 800, margin: "0 0 4px" }}>
         Saved Classes
       </h1>

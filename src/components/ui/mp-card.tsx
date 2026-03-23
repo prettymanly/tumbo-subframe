@@ -265,7 +265,6 @@ export const MPCard = React.memo(function MPCard({
         width: masonry ? "100%" : cardWidth,
         minWidth: masonry ? undefined : cardWidth,
         flexShrink: masonry ? undefined : 0,
-        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
         position: "relative",
         textDecoration: "none",
         color: "inherit",
@@ -363,6 +362,7 @@ export const MPCard = React.memo(function MPCard({
 
         {/* ── Sliding inner — translates up on hover to reveal content ── */}
         <div
+          className="mp-card-slider"
           style={{
             transition: "transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1)",
             transform: `translateY(-${slideUp}px)`,
@@ -373,6 +373,7 @@ export const MPCard = React.memo(function MPCard({
         >
           {/* Image — fills remaining space after content (hug) */}
           <div
+            className="mp-card-image"
             style={{
               flex: 1,
               minHeight: 0,
@@ -405,6 +406,7 @@ export const MPCard = React.memo(function MPCard({
 
           {/* Content — natural height, image absorbs remaining space */}
           <div
+            className="mp-card-content"
             style={{
               padding: PAD,
               flexShrink: 0,
@@ -446,10 +448,10 @@ export const MPCard = React.memo(function MPCard({
               </p>
             )}
 
-            {/* Separator + Tags row (age pill first, then dimension pills) */}
+            {/* Tags row (age pill first, then dimension pills) */}
             {(ageRange || tags.length > 0 || priceDisplay) && (
               <>
-                <div style={{ borderTop: `1px solid ${footerBorder}`, marginBottom: 10 }} />
+                <div style={{ marginTop: 10 }} />
                 <div style={{
                   display: "flex",
                   justifyContent: "space-between",

@@ -34,7 +34,7 @@ const SAFE_BULK_SELECT = [
   "typical_child_profile", "not_ideal_for", "outcome_expectations",
   "category", "age_min", "age_max", "photo_url", "google_rating",
   "review_count", "updated_at", "created_at", "schedule", "location",
-  "is_placeholder", "hidden_from_directory", "price", "best_parent_quote",
+  "is_placeholder", "hidden_from_directory", "price", "best_parent_quote", "class_experience",
 ].join(",");
 
 /**

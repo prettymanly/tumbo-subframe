@@ -17,7 +17,6 @@ import {
   deriveContextualTags,
 } from "@/lib/types/tags";
 
-const PAGE_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 const CONTAINER_MAX = "min(1280px, calc(100% - 48px))";
 
 /** Dimension → color palette (matches mp-card.tsx & tag-pill.tsx) */
@@ -269,7 +268,7 @@ export function MPClassDetail({ backHref }: { backHref: string }) {
 
   if (notFound || !cls) {
     return (
-      <div style={{ fontFamily: PAGE_FONT, background: "var(--tumbo-orange)", minHeight: "100vh" }}>
+      <div style={{ background: "var(--tumbo-orange)", minHeight: "100vh" }}>
         <MPNavbar />
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "120px 24px", textAlign: "center" }}>
           <h1 style={{ fontSize: 28, fontWeight: 600, color: "#fff", margin: "0 0 8px" }}>Class not found</h1>
@@ -313,7 +312,7 @@ export function MPClassDetail({ backHref }: { backHref: string }) {
     .sort((a, b) => b.text.length - a.text.length)[0] || null;
 
   return (
-    <div style={{ fontFamily: PAGE_FONT, background: "var(--tumbo-orange)", minHeight: "100vh", WebkitFontSmoothing: "antialiased" }}>
+    <div style={{ background: "var(--tumbo-orange)", minHeight: "100vh", WebkitFontSmoothing: "antialiased" }}>
       <MPNavbar />
 
       {/* ═══════ CENTERED CONTAINER ═══════ */}
@@ -396,7 +395,7 @@ export function MPClassDetail({ backHref }: { backHref: string }) {
                     <span style={{
                       fontSize: 36, fontWeight: 700, color: "rgba(255,255,255,0.85)",
                       letterSpacing: "0.08em",
-                      fontFamily: "Georgia, 'Times New Roman', serif",
+                      fontFamily: "var(--font-instrument-serif), Georgia, 'Times New Roman', serif",
                     }}>
                       {acronym}
                     </span>
@@ -617,14 +616,14 @@ export function MPClassDetail({ backHref }: { backHref: string }) {
                       position: "absolute", top: 4, left: 20,
                       fontSize: 96, fontWeight: 700, lineHeight: 1,
                       color: "rgba(255,255,255,0.06)",
-                      fontFamily: "Georgia, 'Times New Roman', serif",
+                      fontFamily: "var(--font-instrument-serif), Georgia, 'Times New Roman', serif",
                     }}>
                       &ldquo;
                     </span>
                     <p style={{
                       margin: 0, fontSize: 18, fontStyle: "italic",
                       color: "rgba(255,255,255,0.85)", lineHeight: 1.6,
-                      fontFamily: "Georgia, 'Times New Roman', serif",
+                      fontFamily: "var(--font-instrument-serif), Georgia, 'Times New Roman', serif",
                       position: "relative", zIndex: 1,
                       paddingTop: 12,
                     }}>
@@ -967,7 +966,7 @@ function NumberedBlocks({ text, variant = "dark" }: { text: string; variant?: "d
           {/* Poster-scale serif numeral — spans ~3 lines of body text */}
           <span
             style={{
-              fontFamily: "Georgia, 'Times New Roman', serif",
+              fontFamily: "var(--font-instrument-serif), Georgia, 'Times New Roman', serif",
               fontSize: "clamp(40px, 10vw, 64px)",
               fontWeight: 400,
               lineHeight: 0.85,
@@ -1302,7 +1301,6 @@ function SimilarCard({
         display: "flex", flexDirection: "column",
         background: hovered ? "var(--tumbo-orange)" : "var(--color-bg-card)",
         border: hovered ? "1px solid var(--tumbo-orange)" : "1px solid var(--color-shadow-md)",
-        fontFamily: PAGE_FONT,
         animation: hovered ? "simCardBounce 0.25s cubic-bezier(0.22, 0.68, 0.31, 1.2)" : undefined,
       }}
       onMouseEnter={() => setHovered(true)}
@@ -1367,7 +1365,7 @@ function SimilarCard({
 /* ── Loading skeleton ── */
 function DetailSkeleton() {
   return (
-    <div style={{ fontFamily: PAGE_FONT, background: "var(--tumbo-orange)", minHeight: "100vh" }}>
+    <div style={{ background: "var(--tumbo-orange)", minHeight: "100vh" }}>
       <MPNavbar />
       <div style={{ maxWidth: CONTAINER_MAX, margin: "0 auto", padding: "24px 0 0" }}>
         <div className="mp-detail-grid" style={{ display: "flex", gap: 24, alignItems: "flex-start" }}>

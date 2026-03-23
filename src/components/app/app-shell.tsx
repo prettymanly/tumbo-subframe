@@ -1,16 +1,22 @@
 "use client";
 
 import { useState, useCallback, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { LayoutGroup, AnimatePresence, motion } from "framer-motion";
 import { useExplore } from "@/components/explore/explore-context";
 import { AppSidebar } from "./app-sidebar";
+import { SidebarNav } from "./sidebar-nav";
+import { SidebarAuth } from "./sidebar-auth";
 import type { BrowseStats } from "@/components/explore/explore-sidebar-browse";
 import { ExploreBrowse } from "@/components/explore/explore-browse";
 import { ExploreDetail } from "@/components/explore/explore-detail";
 import type { DBClass, Provider } from "@/lib/types/tags";
 
-const PAGE_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+const SIDEBAR_WIDTH = 430;
+const TOPBAR_HEIGHT = 56;
+const CONTAINER_MAX = "min(1600px, calc(100% - 48px))";
 
 const DEFAULT_STATS: BrowseStats = {
   totalClasses: 0,
@@ -28,7 +34,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   // Determine which view to show in the sidebar
   const isExploreBrowse = pathname === "/" || pathname === "/explore";
   const isExploreDetail =
-    pathname.startsWith("/class/") && explore.view === "detail";
+    (pathname.startsWith("/class/") || pathname.startsWith("/explore/")) && explore.view === "detail";
   const sidebarView = isExploreDetail
     ? "detail"
     : isExploreBrowse
@@ -36,7 +42,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       : "other";
 
   // Is this the explore section (browse or detail)?
-  const isExploreSection = isExploreBrowse || pathname.startsWith("/class/");
+  const isExploreSection = isExploreBrowse || pathname.startsWith("/class/") || pathname.startsWith("/explore/");
+
+  // Sidebar always visible
+  const sidebarOpen = true;
 
   // Stats state lifted here so sidebar can read what browse computes
   const [browseStats, setBrowseStats] = useState<BrowseStats>(DEFAULT_STATS);
@@ -79,104 +88,141 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     setDetailData({ fullData: null, provider: null, taxonomyTags: [] });
   }, [explore.selectedClassId]);
 
-  // Background color based on view
-  const bgColor = isExploreDetail ? "var(--tumbo-orange)" : "var(--tumbo-background)";
-
   return (
     <LayoutGroup>
       <div
         style={{
-          display: "flex",
           minHeight: "100vh",
-          background: bgColor,
-          fontFamily: PAGE_FONT,
-          transition: "background 0.4s ease",
+          background: "var(--tumbo-background)",
         }}
       >
-        {/* LEFT SIDEBAR — fixed full height */}
-        <aside
+        {/* ── Top navigation bar ── */}
+        <header
           style={{
-            position: "fixed",
+            position: "sticky",
             top: 0,
-            left: 0,
-            bottom: 0,
-            width: 300,
-            flexShrink: 0,
-            zIndex: 10,
-            background: isExploreDetail ? "var(--tumbo-orange)" : "var(--tumbo-background)",
-            transition: "background 0.4s ease",
-            borderRight: isExploreDetail
-              ? "none"
-              : "1px solid rgba(0,0,0,0.06)",
+            zIndex: 40,
+            background: "var(--tumbo-background)",
+            borderBottom: "1px solid rgba(0,0,0,0.06)",
           }}
         >
-          <AppSidebar
-            view={sidebarView}
-            browseStats={browseStats}
-            onDimensionChange={handleDimensionChange}
-            detailData={detailData}
-          />
-        </aside>
-
-        {/* RIGHT CONTENT — offset by sidebar width */}
-        <main
-          style={{
-            marginLeft: 300,
-            flex: 1,
-            minWidth: 0,
-            position: "relative",
-            minHeight: "100vh",
-          }}
-        >
-          {isExploreSection ? (
-            <>
-              {/* Browse: always mounted, hidden when detail is active */}
-              <div
-                style={{
-                  visibility:
-                    explore.view === "browse" ? "visible" : "hidden",
-                  position:
-                    explore.view === "browse" ? "relative" : "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  opacity: explore.view === "browse" ? 1 : 0,
-                  pointerEvents:
-                    explore.view === "browse" ? "auto" : "none",
-                  transition: "opacity 0.15s ease",
-                  padding: "24px 32px 0",
-                }}
-              >
-                <ExploreBrowse
-                  onStatsChange={handleStatsChange}
-                  requestedDimension={requestedDimension}
+          <div
+            style={{
+              maxWidth: CONTAINER_MAX,
+              margin: "0 auto",
+              height: TOPBAR_HEIGHT,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "0 24px",
+            }}
+          >
+            {/* Left: logo + nav */}
+            <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+              <Link href="/explore" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
+                <Image
+                  src="/photos/Default/TumboLogo.png"
+                  alt="Tümbo"
+                  width={80}
+                  height={28}
+                  style={{ display: "block" }}
                 />
-              </div>
+              </Link>
+              <SidebarNav />
+            </div>
+            {/* Right: auth */}
+            <SidebarAuth />
+          </div>
+        </header>
 
-              {/* Detail: mounted only when active */}
-              <AnimatePresence>
-                {explore.view === "detail" && explore.selectedClassId && (
-                  <motion.div
-                    key={explore.selectedClassId}
-                    initial={{ opacity: 0, x: 40 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 40 }}
-                    transition={{ duration: 0.3, delay: 0.15 }}
-                    style={{ padding: "24px 32px 0" }}
-                  >
-                    <ExploreDetail
-                      classId={explore.selectedClassId}
-                      onDataLoaded={handleDetailDataLoaded}
-                    />
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </>
-          ) : (
-            /* Non-explore pages: render children directly */
-            <div style={{ padding: "24px 32px 0", maxWidth: "min(1300px, 100%)" }}>{children}</div>
-          )}
-        </main>
+        {/* Two-column layout inside max-width container */}
+        <div
+          style={{
+            maxWidth: CONTAINER_MAX,
+            margin: "0 auto",
+            paddingTop: 16,
+            display: "flex",
+            gap: "var(--shell-gap, 0px)",
+            alignItems: "flex-start",
+            minHeight: `calc(100vh - ${TOPBAR_HEIGHT}px)`,
+          }}
+        >
+          {/* LEFT SIDEBAR — fixed to viewport, never scrolls */}
+          <aside
+            className="hidden md:block"
+            style={{
+              position: "fixed",
+              top: TOPBAR_HEIGHT + 16,
+              left: `max(24px, calc((100vw - 1600px) / 2 + 24px))`,
+              width: SIDEBAR_WIDTH,
+              height: `calc(100vh - ${TOPBAR_HEIGHT + 16}px)`,
+              overflowY: "auto",
+              zIndex: 20,
+            }}
+          >
+            <AppSidebar
+              view={sidebarView}
+              browseStats={browseStats}
+              onDimensionChange={handleDimensionChange}
+              detailData={detailData}
+            />
+          </aside>
+          {/* Spacer to reserve sidebar width in flow */}
+          <div
+            className="hidden md:block"
+            style={{ width: SIDEBAR_WIDTH, minWidth: SIDEBAR_WIDTH, flexShrink: 0 }}
+          />
+
+          {/* RIGHT CONTENT */}
+          <main style={{ flex: 1, minWidth: 0, position: "relative" }}>
+            {isExploreSection ? (
+              <>
+                {/* Browse: always mounted, hidden when detail is active */}
+                <div
+                  style={{
+                    visibility:
+                      explore.view === "browse" ? "visible" : "hidden",
+                    position:
+                      explore.view === "browse" ? "relative" : "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    opacity: explore.view === "browse" ? 1 : 0,
+                    pointerEvents:
+                      explore.view === "browse" ? "auto" : "none",
+                    transition: "opacity 0.15s ease",
+                  }}
+                >
+                  <ExploreBrowse
+                    onStatsChange={handleStatsChange}
+                    requestedDimension={requestedDimension}
+                  />
+                </div>
+
+                {/* Detail: mounted only when active */}
+                <AnimatePresence>
+                  {explore.view === "detail" && explore.selectedClassId && (
+                    <motion.div
+                      key={explore.selectedClassId}
+                      initial={{ opacity: 0, x: 40 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 40 }}
+                      transition={{ duration: 0.3, delay: 0.15 }}
+                    >
+                      <ExploreDetail
+                        classId={explore.selectedClassId}
+                        onDataLoaded={handleDetailDataLoaded}
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </>
+            ) : (
+              /* Non-explore pages: render children directly */
+              <div style={{ maxWidth: "min(1300px, 100%)" }}>{children}</div>
+            )}
+          </main>
+        </div>
       </div>
     </LayoutGroup>
   );

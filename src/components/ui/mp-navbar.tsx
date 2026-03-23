@@ -44,7 +44,6 @@ export default function MPNavbar() {
           maxWidth: "min(1280px, calc(100% - 48px))",
           marginLeft: "auto",
           marginRight: "auto",
-          fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
         }}
       >
         {/* Left: Logo */}
@@ -135,7 +134,6 @@ export default function MPNavbar() {
             backdropFilter: "blur(12px)",
             WebkitBackdropFilter: "blur(12px)",
             borderBottom: "1px solid rgba(0,0,0,0.08)",
-            fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
           }}
         >
           <Link href={homeUrl} className="flex-shrink-0 no-underline">
@@ -186,7 +184,6 @@ export default function MPNavbar() {
           style={{
             background: "rgba(253,251,247,0.96)",
             backdropFilter: "blur(12px)",
-            fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
           }}
         >
           <div className="px-5 py-3 flex flex-col gap-0.5">

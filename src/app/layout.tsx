@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Lexend, Instrument_Serif, Inter } from "next/font/google";
+import { Lexend, Instrument_Serif, Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 
@@ -20,6 +20,14 @@ const instrumentSerif = Instrument_Serif({
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -44,7 +52,7 @@ export default function RootLayout({
       <head />
 
       <body
-        className={`${lexend.variable} ${instrumentSerif.variable} ${inter.variable} antialiased`}
+        className={`${lexend.variable} ${instrumentSerif.variable} ${inter.variable} ${ibmPlexMono.variable} antialiased`}
       >
         <AuthProvider>
           {children}

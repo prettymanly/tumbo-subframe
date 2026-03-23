@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { AuthModal } from "@/components/ui/auth-modal";
 
-const PAGE_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
-
 export function SidebarAuth() {
   const { user, isAuthenticated, logout } = useAuth();
   const [authModalOpen, setAuthModalOpen] = useState(false);
@@ -20,53 +18,45 @@ export function SidebarAuth() {
       .slice(0, 2);
 
     return (
-      <div style={{ fontFamily: PAGE_FONT, display: "flex", flexDirection: "column", gap: 8 }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          {user.avatar ? (
-            <img
-              src={user.avatar}
-              alt={user.name}
-              style={{ width: 32, height: 32, borderRadius: "50%", objectFit: "cover" }}
-            />
-          ) : (
-            <div
-              style={{
-                width: 32,
-                height: 32,
-                borderRadius: "50%",
-                background: "var(--tumbo-orange)",
-                color: "#fff",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 12,
-                fontWeight: 700,
-              }}
-            >
-              {initials}
-            </div>
-          )}
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: "var(--tumbo-text)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {user.name}
-            </div>
-            <div style={{ fontSize: 11, color: "var(--tumbo-label)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-              {user.email}
-            </div>
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        {user.avatar ? (
+          <img
+            src={user.avatar}
+            alt={user.name}
+            style={{ width: 32, height: 32, borderRadius: "50%", objectFit: "cover" }}
+          />
+        ) : (
+          <div
+            style={{
+              width: 32,
+              height: 32,
+              borderRadius: "50%",
+              background: "var(--tumbo-orange)",
+              color: "#fff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: 12,
+              fontWeight: 700,
+            }}
+          >
+            {initials}
           </div>
-        </div>
+        )}
+        <span style={{ fontSize: 13, fontWeight: 600, color: "var(--tumbo-text)", whiteSpace: "nowrap" }}>
+          {user.name}
+        </span>
         <button
           onClick={logout}
           className="btn-press"
           style={{
-            padding: "6px 0",
+            padding: "6px 14px",
             background: "transparent",
             border: "none",
             color: "var(--tumbo-label)",
             fontSize: 12,
             fontWeight: 500,
             cursor: "pointer",
-            textAlign: "left",
             fontFamily: "inherit",
           }}
         >
@@ -77,7 +67,7 @@ export function SidebarAuth() {
   }
 
   return (
-    <div style={{ fontFamily: PAGE_FONT, display: "flex", flexDirection: "column", gap: 8 }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
       <button
         onClick={() => {
           setAuthMode("signin");
@@ -85,14 +75,13 @@ export function SidebarAuth() {
         }}
         className="btn-press"
         style={{
-          padding: "8px 0",
+          padding: "6px 14px",
           background: "transparent",
           border: "none",
           color: "var(--tumbo-text)",
           fontSize: 13,
           fontWeight: 600,
           cursor: "pointer",
-          textAlign: "left",
           fontFamily: "inherit",
         }}
       >
@@ -114,7 +103,6 @@ export function SidebarAuth() {
           fontWeight: 600,
           cursor: "pointer",
           fontFamily: "inherit",
-          width: "100%",
         }}
       >
         Sign up

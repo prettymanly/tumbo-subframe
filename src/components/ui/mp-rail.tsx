@@ -34,7 +34,6 @@ export function MPRail({
     <div
       style={{
         marginBottom: 12,
-        fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif",
       }}
     >
       {/* Header */}

@@ -10,7 +10,7 @@ import {
   parseGooglePlaces,
 } from "@/lib/types/tags";
 
-const PAGE_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+
 
 /** Dimension color palette (matches mp-card.tsx & tag-pill.tsx) */
 const DIMENSION_COLORS: Record<string, { bg: string; text: string }> = {
@@ -20,14 +20,14 @@ const DIMENSION_COLORS: Record<string, { bg: string; text: string }> = {
   child:      { bg: "var(--tumbo-tag-child)", text: "#fff" },
 };
 
-/* ── Info row for sidebar card — stacks on mobile ── */
-function InfoRow({ label, children }: { label: string; children: React.ReactNode }) {
+/* ── Contact info row — label left, value right ── */
+function ContactRow({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="mp-info-row" style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-      <span style={{ fontSize: 11, fontWeight: 600, color: "var(--tumbo-label)", textTransform: "uppercase", letterSpacing: "0.05em", flexShrink: 0 }}>
+    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 16 }}>
+      <span style={{ fontSize: 13, fontWeight: 500, color: "var(--tumbo-label)", flexShrink: 0 }}>
         {label}
       </span>
-      <span style={{ fontSize: 14, fontWeight: 500, color: "var(--tumbo-text)", lineHeight: 1.4 }}>
+      <span style={{ fontSize: 13, fontWeight: 500, color: "var(--tumbo-text)", lineHeight: 1.4, textAlign: "right" }}>
         {children}
       </span>
     </div>
@@ -95,7 +95,9 @@ export function ExploreSidebarDetail({ fullData, provider, taxonomyTags }: Explo
   const cardData = selectedCardData;
 
   // Title: prefer fullData, fallback to cardData
-  const title = cls?.name ?? cardData?.title ?? "Loading...";
+  // Use short name (before em dash) for sidebar display
+  const fullName = cls?.name ?? cardData?.title ?? "Loading...";
+  const title = fullName.split(" — ")[0].trim();
 
   // Provider info
   const providerName = provider?.name ?? cardData?.provider ?? null;
@@ -145,8 +147,15 @@ export function ExploreSidebarDetail({ fullData, provider, taxonomyTags }: Explo
   // Price
   const displayPrice = cls?.price ?? (typeof cardData?.price === "number" ? cardData.price : null);
 
-  // Vibe line (enriched only)
-  const vibeLine = cls?.vibe_line ?? null;
+  // Banner image: class photo, fallback to card image
+  const rawBanner = cls?.photo_url ?? cardData?.image ?? null;
+  const bannerSrc = rawBanner && !rawBanner.includes("places.googleapis.com") ? rawBanner : null;
+
+  // DP image: provider logo from Google Places, fallback to null (shows acronym)
+  const googlePhotos = googleData?.google_photos;
+  const dpSrc = (googlePhotos && googlePhotos.length > 0 && !googlePhotos[0].includes("places.googleapis.com"))
+    ? googlePhotos[0]
+    : null;
 
   // Schedule (enriched only)
   const schedule = cls?.schedule ?? null;
@@ -162,32 +171,120 @@ export function ExploreSidebarDetail({ fullData, provider, taxonomyTags }: Explo
         border: "var(--card-border)",
         boxShadow: "var(--card-shadow)",
         overflow: "hidden",
-        fontFamily: PAGE_FONT,
       }}>
-        {/* ── Row 1: Back / Save buttons on cream bg ── */}
-        <div style={{
-          display: "flex", alignItems: "center", justifyContent: "space-between",
-          padding: "14px 16px 10px",
-        }}>
-          {/* Back circle button */}
-          <button
-            onClick={goBack}
-            className="btn-press"
-            style={{
-              width: 44, height: 44, borderRadius: "50%",
-              background: "var(--color-border-subtle)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              border: "none", cursor: "pointer",
-              transition: "background 0.2s ease",
-            }}
-            aria-label="Go back"
-          >
-            <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="var(--tumbo-label)" strokeWidth={2.2} strokeLinecap="round">
-              <path d="M15 18l-6-6 6-6" />
-            </svg>
-          </button>
+        {/* ── Banner image + DP overlay ── */}
+        <div style={{ position: "relative", margin: "20px 20px 0" }}>
+          {/* Banner — claimed listings show photo, unclaimed show placeholder */}
+          <div style={{
+            width: "100%", height: 140, overflow: "hidden",
+            borderRadius: 16,
+            background: "var(--tumbo-tag-experience)",
+          }}>
+            {bannerSrc ? (
+              <img src={bannerSrc} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            ) : (
+              <img src="/photos/Default/Placeholder.png" alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            )}
+          </div>
+          {/* DP circle — floats on bottom-left of banner */}
+          <div style={{
+            position: "absolute", bottom: -28, left: 16,
+            width: 60, height: 60, borderRadius: "50%",
+            background: "var(--tumbo-tag-experience)",
+            border: "3px solid var(--color-bg-card)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            overflow: "hidden",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+          }}>
+            {dpSrc ? (
+              <img src={dpSrc} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            ) : (
+              <span style={{
+                fontSize: 18, fontWeight: 700, color: "rgba(255,255,255,0.85)",
+                letterSpacing: "0.04em",
+              }}>
+                {acronym}
+              </span>
+            )}
+          </div>
+        </div>
 
-          {/* + / check save toggle */}
+        {/* ── Card body content ── */}
+        <div style={{ padding: "40px 24px 28px" }}>
+
+          <h1 style={{ margin: "0 0 6px", fontSize: 22, fontWeight: 600, color: "var(--tumbo-text)", lineHeight: 1.25, letterSpacing: "-0.02em" }}>
+            {title}
+          </h1>
+
+          {/* "by Provider" — subtle attribution, hidden when title already contains provider name */}
+          {providerName && !title.toLowerCase().includes(providerName.toLowerCase()) && (
+            <p style={{
+              margin: "0 0 8px", fontSize: 12, fontWeight: 500, color: "var(--tumbo-label)",
+            }}>
+              by {providerName}
+            </p>
+          )}
+
+          {/* Tag pills */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 16, marginBottom: 24 }}>
+            {resolvedTags.slice(0, 4).map((tag) => {
+              const colors = DIMENSION_COLORS[tag.dimension] || DIMENSION_COLORS.content;
+              return (
+                <span key={tag.label} style={{
+                  padding: "7px 14px", borderRadius: 100,
+                  background: colors.bg, color: colors.text,
+                  fontSize: 11, fontWeight: 700,
+                  letterSpacing: "0.05em", textTransform: "uppercase",
+                }}>
+                  {tag.label}
+                </span>
+              );
+            })}
+            {ageMin != null && (
+              <span style={{
+                padding: "6px 14px", borderRadius: 100,
+                background: "transparent",
+                border: "1.5px solid var(--tumbo-text)",
+                color: "var(--tumbo-text)",
+                fontSize: 11, fontWeight: 600,
+              }}>
+                {formatAgeRange(ageMin, ageMax)}
+              </span>
+            )}
+          </div>
+
+          {/* ── Contact info ── */}
+          {(displayAddress || displayPhone || displayWebsite) && (
+            <>
+              <div style={{ borderTop: "1px solid var(--color-border-subtle)", marginBottom: 20 }} />
+              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                {displayAddress && (
+                  <ContactRow label="Address">
+                    <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(displayAddress)}`}
+                      target="_blank" rel="noopener noreferrer"
+                      style={{ color: "var(--tumbo-text)", textDecoration: "none" }}>
+                      {displayAddress}
+                    </a>
+                  </ContactRow>
+                )}
+                {displayPhone && (
+                  <ContactRow label="Phone">
+                    <a href={`tel:${displayPhone}`} style={{ color: "var(--tumbo-text)", textDecoration: "none" }}>{displayPhone}</a>
+                  </ContactRow>
+                )}
+                {displayWebsite && (
+                  <ContactRow label="Website">
+                    <a href={displayWebsite} target="_blank" rel="noopener noreferrer"
+                      style={{ color: "var(--tumbo-orange)", fontWeight: 600, textDecoration: "none" }}>
+                      {displayWebsite.replace(/^https?:\/\//, "").replace(/\/$/, "").substring(0, 28)}
+                    </a>
+                  </ContactRow>
+                )}
+              </div>
+            </>
+          )}
+
+          {/* ── Wide bookmark button ── */}
           <button
             onClick={() => {
               setJustToggled(true);
@@ -198,132 +295,38 @@ export function ExploreSidebarDetail({ fullData, provider, taxonomyTags }: Explo
             }}
             className="btn-press"
             style={{
-              width: 44, height: 44, borderRadius: "50%",
-              border: "none",
-              background: bookmarked ? "var(--tumbo-text)" : "var(--color-border-subtle)",
-              cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-              transition: "background 0.3s ease, transform 0.15s ease",
-              transform: justToggled ? "scale(0.85)" : "scale(1)",
-              flexShrink: 0, position: "relative",
+              width: "100%", padding: "14px 0",
+              borderRadius: 12,
+              border: bookmarked ? "1.5px solid var(--tumbo-text)" : "1.5px solid var(--color-border-subtle)",
+              background: bookmarked ? "var(--tumbo-text)" : "transparent",
+              color: bookmarked ? "#fff" : "var(--tumbo-text)",
+              cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+              fontSize: 14, fontWeight: 600,
+              transition: "all 0.3s ease",
+              transform: justToggled ? "scale(0.97)" : "scale(1)",
+              marginTop: 24,
             }}
             aria-label={bookmarked ? "Remove from saved" : "Save class"}
           >
-            {/* + icon */}
-            <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke={bookmarked ? "#fff" : "var(--tumbo-label)"} strokeWidth={2.2} strokeLinecap="round"
-              style={{ position: "absolute", opacity: bookmarked ? 0 : 1, transform: bookmarked ? "rotate(90deg) scale(0.5)" : "rotate(0deg) scale(1)", transition: "opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-              <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
-            {/* check icon */}
-            <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke={bookmarked ? "#fff" : "var(--tumbo-label)"} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round"
-              style={{ position: "absolute", opacity: bookmarked ? 1 : 0, transform: bookmarked ? "rotate(0deg) scale(1)" : "rotate(-90deg) scale(0.5)", transition: "opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)" }}>
-              <polyline points="4 12 9 17 20 6" />
-            </svg>
+            {bookmarked ? (
+              <>
+                <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="4 12 9 17 20 6" />
+                </svg>
+                Saved
+              </>
+            ) : (
+              <>
+                <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
+                  <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+                </svg>
+                Bookmark
+              </>
+            )}
           </button>
-        </div>
 
-        {/* ── Row 2: Provider logo/acronym banner ── */}
-        <div style={{
-          width: "100%", height: 100, background: "var(--tumbo-tag-experience)",
-          display: "flex", alignItems: "center", justifyContent: "center",
-        }}>
-          <span style={{
-            fontSize: 36, fontWeight: 700, color: "rgba(255,255,255,0.85)",
-            letterSpacing: "0.08em",
-            fontFamily: "Georgia, 'Times New Roman', serif",
-          }}>
-            {acronym}
-          </span>
-        </div>
-
-        {/* ── Card body content ── */}
-        <div style={{ padding: "20px 24px 24px" }}>
-
-          <h1 style={{ margin: "0 0 4px", fontSize: 24, fontWeight: 600, color: "var(--tumbo-text)", lineHeight: 1.2, letterSpacing: "-0.025em" }}>
-            {title}
-          </h1>
-
-          {/* "by Provider" — subtle attribution, hidden when title already contains provider name */}
-          {providerName && !title.toLowerCase().includes(providerName.toLowerCase()) && (
-            <p style={{
-              margin: "0 0 6px", fontSize: 12, fontWeight: 500, color: "var(--tumbo-label)",
-            }}>
-              by {providerName}
-            </p>
-          )}
-
-          {vibeLine && (
-            <p style={{ margin: "0 0 16px", fontSize: 13, color: "var(--tumbo-label)", fontStyle: "italic", lineHeight: 1.5 }}>
-              {vibeLine.charAt(0).toUpperCase() + vibeLine.slice(1)}
-            </p>
-          )}
-
-          <div className="mp-tag-row" style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 20 }}>
-            {resolvedTags.slice(0, 5).map((tag, idx) => {
-              const colors = DIMENSION_COLORS[tag.dimension] || DIMENSION_COLORS.content;
-              return (
-                <span key={tag.label} className={idx >= 3 ? "mp-tag-overflow" : ""} style={{
-                  padding: "6px 12px", borderRadius: 100,
-                  background: colors.bg, color: colors.text,
-                  fontSize: 11, fontWeight: 700,
-                  letterSpacing: "0.05em", textTransform: "uppercase",
-                }}>
-                  {tag.label}
-                </span>
-              );
-            })}
-            {ageMin != null && (
-              <span style={{ padding: "6px 12px", borderRadius: 100, background: DIMENSION_COLORS.child.bg, color: DIMENSION_COLORS.child.text, fontSize: 11, fontWeight: 700 }}>
-                {formatAgeRange(ageMin, ageMax)}
-              </span>
-            )}
-            {resolvedTags.length > 3 && (
-              <span className="mp-tag-overflow-count" style={{ fontSize: 11, color: "var(--tumbo-label)", fontWeight: 500, display: "none", alignItems: "center" }}>
-                +{resolvedTags.length - 3} more
-              </span>
-            )}
-          </div>
-
-          <div style={{ borderTop: "1px solid var(--color-border-subtle)", marginBottom: 16 }} />
-
-          <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 16 }}>
-            {displayAddress && (
-              <InfoRow label="Address">
-                <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(displayAddress)}`}
-                  target="_blank" rel="noopener noreferrer"
-                  style={{ color: "var(--tumbo-text)", textDecoration: "underline", textDecorationColor: "var(--color-border-strong)", textUnderlineOffset: "2px" }}>
-                  {displayAddress}
-                </a>
-              </InfoRow>
-            )}
-            {ageMin != null && <InfoRow label="Age Group">{formatAgeRange(ageMin, ageMax)}</InfoRow>}
-            {displayPrice != null && <InfoRow label="Price">{formatPrice(displayPrice)}</InfoRow>}
-            {schedule && <InfoRow label="Schedule">{schedule}</InfoRow>}
-            {googleRating != null && googleRating > 0 && (
-              <InfoRow label="Google Rating">
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
-                  <svg width={14} height={14} viewBox="0 0 24 24" fill="var(--tumbo-tag-experience)"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /></svg>
-                  <strong>{googleRating.toFixed(1)}</strong>
-                  {googleReviewCount != null && <span style={{ color: "var(--tumbo-label)" }}>({googleReviewCount})</span>}
-                </span>
-                {provider && <span style={{ display: "block", fontSize: 10, color: "var(--tumbo-label)", marginTop: 1 }}>Rating for {provider.name}</span>}
-              </InfoRow>
-            )}
-            {displayPhone && (
-              <InfoRow label="Phone">
-                <a href={`tel:${displayPhone}`} style={{ color: "var(--tumbo-text)", textDecoration: "none" }}>{displayPhone}</a>
-              </InfoRow>
-            )}
-            {displayWebsite && (
-              <InfoRow label="Website">
-                <a href={displayWebsite} target="_blank" rel="noopener noreferrer"
-                  style={{ color: "var(--tumbo-orange)", fontWeight: 600, textDecoration: "none", fontSize: 13 }}>
-                  {displayWebsite.replace(/^https?:\/\//, "").replace(/\/$/, "").substring(0, 28)}
-                </a>
-              </InfoRow>
-            )}
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginTop: 8, paddingTop: 12, borderTop: "1px solid var(--color-border-subtle)" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10, marginTop: 14 }}>
             <span style={{ fontSize: 10, color: "var(--color-neutral-300)", cursor: "pointer", letterSpacing: "0.02em" }}>Claim this listing</span>
             <span style={{ fontSize: 10, color: "var(--color-border-subtle)" }}>&middot;</span>
             <span style={{ fontSize: 10, color: "var(--color-neutral-300)", cursor: "pointer", letterSpacing: "0.02em" }}>Report</span>
@@ -360,25 +363,6 @@ export function ExploreSidebarDetail({ fullData, provider, taxonomyTags }: Explo
         </svg>
         Added to Saved Classes
       </div>
-
-      <style>{`
-        @media (min-width: 841px) {
-          .mp-info-row {
-            flex-direction: row !important;
-            align-items: baseline !important;
-            justify-content: space-between !important;
-            gap: 12px !important;
-          }
-          .mp-info-row > span:last-child {
-            text-align: right;
-            font-size: 13px !important;
-          }
-        }
-        @media (max-width: 840px) {
-          .mp-tag-overflow { display: none !important; }
-          .mp-tag-overflow-count { display: inline-flex !important; }
-        }
-      `}</style>
     </>
   );
 }

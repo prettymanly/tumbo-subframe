@@ -4,7 +4,7 @@ import React from "react";
 import type { RailApiResponse } from "@/lib/rails/types";
 import type { TagRowItem } from "@/components/ui/hero-section";
 
-const PAGE_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+
 
 const DIMENSION_NAMES = ["All", "Content", "Philosophy", "Experience", "Child"];
 
@@ -35,7 +35,7 @@ export function ExploreSidebarBrowse({ stats, onDimensionChange }: ExploreSideba
   } = stats;
 
   return (
-    <div style={{ fontFamily: PAGE_FONT }}>
+    <div>
       <h2
         style={{
           margin: "0 0 12px",

@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const PAGE_FONT = "'Helvetica Neue', Helvetica, Arial, sans-serif";
-
 const NAV_ITEMS = [
   { href: "/", label: "Explore" },
   { href: "/about", label: "About" },
@@ -15,7 +13,7 @@ export function SidebarNav() {
   const pathname = usePathname();
 
   return (
-    <nav style={{ display: "flex", gap: 6, fontFamily: PAGE_FONT }}>
+    <nav style={{ display: "flex", gap: 6 }}>
       {NAV_ITEMS.map(({ href, label }) => {
         const isActive =
           href === "/"

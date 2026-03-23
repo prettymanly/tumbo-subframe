@@ -129,8 +129,8 @@ const EXCLUDE_DESC_PATTERNS = [
 // Some listings have valid categories (e.g. "Art", "Languages") but their names
 // reveal they're not children's activities. These regexes catch the worst offenders.
 const EXCLUDE_NAME_PATTERNS = [
-  // Photography / photo studios
-  /\bphotography\s*(studio|service|class)?\b/i,
+  // Photography / photo studios (require studio/service/pte suffix — don't exclude kids photography classes)
+  /\bphotography\s+(studio|service)\b/i,
   /\bphoto\s*studio\b/i,
   /\bphoto(graphy)?\s*(pte|ltd|inc)\b/i,
   // Junior colleges / higher ed
@@ -330,6 +330,19 @@ export function buildRail(
   ctx: ScoringContext,
   providerMap: Record<string, { name: string }>
 ): { items: RailCardItem[]; shownIds: string[] } {
+  // 0. Pinned-only rails: skip the scoring pipeline entirely
+  if (rail.pinnedIds && rail.pinnedIds.length > 0 && rail.fetchCount === 0) {
+    const pinnedMap = new Map(allClasses.map((c) => [c.id, c]));
+    const pinnedItems: DBClass[] = [];
+    for (const pid of rail.pinnedIds) {
+      const cls = pinnedMap.get(pid);
+      if (cls && !ctx.excludeIds.has(pid)) pinnedItems.push(cls);
+    }
+    const items = pinnedItems.map((cls) => toCardItem({ ...cls, _score: 1 } as ScoredClass, providerMap));
+    const shownIds = pinnedItems.map((cls) => cls.id);
+    return { items, shownIds };
+  }
+
   // 1. Filter out excluded IDs + hidden/placeholder classes
   //    Belt-and-suspenders: the API layer should already enforce visibility,
   //    but we double-check here to prevent leaks if called from a new context.
@@ -406,9 +419,25 @@ export function buildRail(
     rail.fetchCount
   );
 
-  // 9. Convert to card items
-  const items = diverse.map((cls) => toCardItem(cls, providerMap));
-  const shownIds = diverse.map((cls) => cls.id);
+  // 9. Prepend pinned items (if any) — they bypass scoring/filtering
+  let finalList = diverse;
+  if (rail.pinnedIds && rail.pinnedIds.length > 0) {
+    const pinnedMap = new Map(allClasses.map((c) => [c.id, c]));
+    const pinnedItems: ScoredClass[] = [];
+    for (const pid of rail.pinnedIds) {
+      const cls = pinnedMap.get(pid);
+      if (cls && !ctx.excludeIds.has(pid)) {
+        pinnedItems.push({ ...cls, _score: 1 });
+      }
+    }
+    // Remove pinned IDs from the scored list to avoid duplication
+    const pinnedSet = new Set(rail.pinnedIds);
+    finalList = [...pinnedItems, ...diverse.filter((c) => !pinnedSet.has(c.id))];
+  }
+
+  // 10. Convert to card items
+  const items = finalList.map((cls) => toCardItem(cls, providerMap));
+  const shownIds = finalList.map((cls) => cls.id);
 
   return { items, shownIds };
 }
