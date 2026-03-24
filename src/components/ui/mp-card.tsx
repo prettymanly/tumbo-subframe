@@ -1,9 +1,12 @@
 "use client"
 
 import React, { useState, useEffect, useLayoutEffect, useCallback, useRef } from "react"
+import { createPortal } from "react-dom"
 import Link from "next/link"
 import Image from "next/image"
 import { ClassPlaceholder } from "@/components/ui/class-placeholder"
+import { useAuth } from "@/contexts/AuthContext"
+import { AuthModal } from "@/components/ui/auth-modal"
 import type { WarmTag, TagDimension } from "@/lib/rails/types"
 
 // ── Dimension → solid color (matches TagPill from V1) ──
@@ -145,6 +148,8 @@ export const MPCard = React.memo(function MPCard({
   ageRange,
   parentQuote,
 }: MPCardProps) {
+  const { isAuthenticated } = useAuth()
+  const [authModalOpen, setAuthModalOpen] = useState(false)
   const [hovered, setHovered] = useState(false)
   const [bookmarked, setBookmarked] = useState(false)
   const [justToggled, setJustToggled] = useState(false)
@@ -258,11 +263,12 @@ export const MPCard = React.memo(function MPCard({
   const slideUp = hovered && hasReveal ? Math.min(revealH, maxSlide) : 0
 
   return (
+    <div style={{ width: masonry ? "100%" : cardWidth, flexShrink: 0, position: "relative" }}>
     <Link
       href={href}
       className="no-underline block mp-card-link"
       style={{
-        width: masonry ? "100%" : cardWidth,
+        width: "100%",
         minWidth: masonry ? undefined : cardWidth,
         flexShrink: masonry ? undefined : 0,
         position: "relative",
@@ -301,6 +307,10 @@ export const MPCard = React.memo(function MPCard({
           onClick={(e) => {
             e.preventDefault()
             e.stopPropagation()
+            if (!isAuthenticated) {
+              setAuthModalOpen(true)
+              return
+            }
             setJustToggled(true)
             setBookmarked(!bookmarked)
             playWhoosh()
@@ -575,7 +585,16 @@ export const MPCard = React.memo(function MPCard({
         </div>{/* end slider */}
       </div>
     </Link>
-  )
+    {authModalOpen && typeof document !== "undefined" && createPortal(
+      <AuthModal
+        isOpen={authModalOpen}
+        onClose={() => setAuthModalOpen(false)}
+        mode="signin"
+      />,
+      document.body
+    )}
+    </div>
+  );
 })
 
 /* ── Age pill: outline style, neutral color ── */
