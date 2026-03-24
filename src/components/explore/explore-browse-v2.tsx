@@ -740,7 +740,7 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
               Every class on T&uuml;mbo
             </h2>
             <p style={{ margin: "6px 0 0", fontSize: 14, color: "var(--color-text-secondary)", fontWeight: 400 }}>
-              Keep scrolling — there&apos;s always more to discover
+              Keep scrolling. There&apos;s always more to discover
             </p>
           </div>
           <div className="v3-masonry">
@@ -787,12 +787,27 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
           {/* Infinite scroll sentinel */}
           <div ref={loadMoreRef} style={{ height: 60, display: "flex", alignItems: "center", justifyContent: "center" }}>
             {loadingMore && <LoadingDots />}
-            {!loadingMore && paginatedMore.length >= moreItems.length && moreItems.length > 0 && (
-              <p style={{ fontSize: 13, color: "var(--color-text-secondary)", margin: 0, padding: "20px 0" }}>
-                That&apos;s every class — {moreItems.length + shownIdsRef.current.length} and counting
-              </p>
-            )}
           </div>
+          {/* End of list */}
+          {!loadingMore && paginatedMore.length >= moreItems.length && moreItems.length > 0 && (
+            <div style={{ textAlign: "center", padding: "40px 0 60px" }}>
+              <p style={{ fontSize: 14, color: "var(--color-text-secondary)", margin: "0 0 16px" }}>
+                You&apos;ve seen every class on T&uuml;mbo. {moreItems.length + shownIdsRef.current.length} and counting.
+              </p>
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                style={{
+                  background: "transparent", border: "1.5px solid var(--color-border-subtle)",
+                  borderRadius: 100, padding: "10px 24px", fontSize: 13, fontWeight: 600,
+                  color: "var(--tumbo-text)", cursor: "pointer", transition: "all 0.2s ease",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = "var(--tumbo-text)"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.borderColor = "var(--tumbo-text)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "var(--tumbo-text)"; e.currentTarget.style.borderColor = "var(--color-border-subtle)"; }}
+              >
+                Back to top
+              </button>
+            </div>
+          )}
         </>
       )}
 

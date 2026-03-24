@@ -1286,7 +1286,7 @@ export function ExploreDetail({ classId, onDataLoaded }: ExploreDetailProps) {
                 }}>
                   Heads up
                 </span>
-                {" \u2014 "}
+                {": "}
                 {cleanText(cls.not_ideal_for)}
               </p>
             </div>

@@ -44,7 +44,7 @@ export const RAILS: RailConfig[] = [
   {
     railId: "practitioner-teacher",
     header: "Taught by someone who still does it",
-    subheader: "The instructor is a working practitioner — not just a teacher",
+    subheader: "The instructor is a working practitioner, not just a teacher",
     weights: { quality: 0.30, freshness: 0.15, proximity: 0.00, intent: 0.40, weekend: 0.00, diversity: 0.15 },
     diversity: {
       maxPerProvider: 1,
@@ -97,7 +97,7 @@ export const RAILS: RailConfig[] = [
   {
     railId: "hands-dirty",
     header: "Hands dirty, something built",
-    subheader: "Classes where children make things — and learn by doing",
+    subheader: "Classes where children make things and learn by doing",
     weights: { quality: 0.25, freshness: 0.15, proximity: 0.00, intent: 0.45, weekend: 0.00, diversity: 0.15 },
     diversity: {
       maxPerProvider: 1,
