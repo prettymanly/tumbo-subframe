@@ -362,17 +362,66 @@ export function MobileTinderBrowse({
     )
   }
 
-  // No card available (empty rail)
+  // Still loading: all rails are empty and moreItems hasn't arrived
+  const allRailsEmpty = rails.every((r) => r.items.length === 0)
+  if (allRailsEmpty && moreItems.length === 0) {
+    return (
+      <div style={{
+        display: "flex", flexDirection: "column", alignItems: "center",
+        justifyContent: "center", height: `calc(100vh - ${NAVBAR_HEIGHT}px - 100px)`,
+        gap: 12, color: "var(--color-text-secondary)",
+      }}>
+        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+          {[0, 1, 2].map((i) => (
+            <span key={i} style={{
+              width: 8, height: 8, borderRadius: "50%",
+              background: "var(--tumbo-primary, #E8530E)", opacity: 0.4,
+              animation: `pulse 1.2s ease-in-out ${i * 0.2}s infinite`,
+            }} />
+          ))}
+        </div>
+        <p style={{ fontSize: 13, margin: 0 }}>Loading classes...</p>
+      </div>
+    )
+  }
+
+  // No card available (empty rail or still loading)
   if (!currentCard) {
-    // Auto-advance to next rail
-    if (!isEveryClassSection && currentRailIndex < totalRails) {
-      // Use effect-free advance
-      setTimeout(() => {
-        setCurrentRailIndex((prev) => prev + 1)
-        setCurrentCardIndex(0)
-      }, 0)
+    // Try to find next rail with items
+    if (!isEveryClassSection) {
+      let nextRailWithItems = -1
+      for (let i = currentRailIndex + 1; i < rails.length; i++) {
+        if (rails[i].items.length > 0) { nextRailWithItems = i; break }
+      }
+      if (nextRailWithItems >= 0) {
+        setTimeout(() => { setCurrentRailIndex(nextRailWithItems); setCurrentCardIndex(0) }, 0)
+        return null
+      }
+      // No rails with items found: check if "Every class" has data
+      if (shuffledMore.length > 0) {
+        setTimeout(() => { setCurrentRailIndex(totalRails); setCurrentCardIndex(0) }, 0)
+        return null
+      }
     }
-    return null
+    // Truly nothing available yet, show loading
+    return (
+      <div style={{
+        display: "flex", flexDirection: "column", alignItems: "center",
+        justifyContent: "center", height: `calc(100vh - ${NAVBAR_HEIGHT}px - 100px)`,
+        gap: 12, color: "var(--color-text-secondary)",
+      }}>
+        <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+          {[0, 1, 2].map((i) => (
+            <span key={i} style={{
+              width: 8, height: 8, borderRadius: "50%",
+              background: "var(--tumbo-primary, #E8530E)", opacity: 0.4,
+              animation: `pulse 1.2s ease-in-out ${i * 0.2}s infinite`,
+            }} />
+          ))}
+        </div>
+        <p style={{ fontSize: 13, margin: 0 }}>Loading classes...</p>
+      </div>
+    )
   }
 
   return (

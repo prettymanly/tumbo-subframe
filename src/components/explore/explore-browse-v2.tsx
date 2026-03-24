@@ -986,7 +986,7 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
       {/* Content: filtered masonry, mobile Tinder, or accordion browse sections */}
       {isFilterMode
         ? renderFilteredContent()
-        : isMobile && !searchQuery
+        : isMobile
           ? <MobileTinderBrowse
               rails={rails}
               moreItems={moreItems}
