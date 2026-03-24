@@ -821,7 +821,8 @@ export function ExploreDetail({ classId, onDataLoaded }: ExploreDetailProps) {
                 .from("classes")
                 .select("id, name, photo_url, category, provider_id, vibe_line, summary, location, best_parent_quote, age_min, age_max")
                 .in("id", topIds)
-                .eq("is_placeholder", false);
+                .eq("is_placeholder", false)
+                .eq("hidden_from_directory", false);
 
               if (simClasses && simClasses.length > 0) {
                 foundSimilar = true;
@@ -864,6 +865,7 @@ export function ExploreDetail({ classId, onDataLoaded }: ExploreDetailProps) {
           .select("id, name, photo_url, category, provider_id, vibe_line, summary, location, best_parent_quote, age_min, age_max")
           .eq("category", classData.category)
           .eq("is_placeholder", false)
+          .eq("hidden_from_directory", false)
           .neq("id", classData.id)
           .limit(6);
 
@@ -1164,22 +1166,30 @@ export function ExploreDetail({ classId, onDataLoaded }: ExploreDetailProps) {
           </p>
           <EditorialBlocks text={cleanText(cls.typical_child_profile)} variant="light" />
 
-          {/* Not ideal for -- warm amber callout */}
+          {/* Not ideal for -- gentle editorial aside, not a warning */}
           {cls.not_ideal_for && (
             <div style={{
-              marginTop: "var(--gap-label-content)", padding: "var(--padding-callout)",
-              background: "#FFF8F0",
-              borderRadius: "var(--card-radius-sm)",
-              borderLeft: "3px solid var(--tumbo-tag-experience)",
+              marginTop: 28,
+              paddingTop: 20,
+              borderTop: "1px solid rgba(0,0,0,0.06)",
             }}>
               <p style={{
-                margin: "0 0 var(--gap-subhead-body)", fontSize: "var(--type-label-size)", fontWeight: "var(--type-label-weight)",
-                textTransform: "uppercase", letterSpacing: "0.06em",
-                color: "#B8860B",
+                margin: 0,
+                fontSize: "var(--font-size-base)",
+                color: "var(--color-text-secondary)",
+                lineHeight: "var(--leading-relaxed)",
+                fontStyle: "italic",
               }}>
-                Not ideal for
-              </p>
-              <p style={{ margin: 0, fontSize: "var(--font-size-base)", color: "#8B7355", lineHeight: "var(--leading-relaxed)" }}>
+                <span style={{
+                  fontStyle: "normal",
+                  fontWeight: 600,
+                  color: "var(--tumbo-text)",
+                  fontSize: "0.85em",
+                  letterSpacing: "0.01em",
+                }}>
+                  Heads up
+                </span>
+                {" \u2014 "}
                 {cleanText(cls.not_ideal_for)}
               </p>
             </div>
