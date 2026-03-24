@@ -16,6 +16,8 @@ import {
   MPFilterState,
   MP_DEFAULT_FILTERS,
 } from "@/components/ui/mp-filter-sidebar";
+import { MobileTinderBrowse } from "@/components/explore/mobile-tinder-browse";
+import { useIsMobile } from "@/hooks/use-is-mobile";
 import { DBClass, Provider, getTopTags } from "@/lib/types/tags";
 import { RAIL_ORDER, RAILS } from "@/lib/rails/config";
 import { selectDisplayTags } from "@/lib/rails/warm-tags";
@@ -109,17 +111,26 @@ function extractEstate(loc?: string | null): string | undefined {
   return parts.length > 25 ? undefined : parts;
 }
 
-// ── Session seed ──
+// ── Session seed (per-tab, resets on new session for fresh content each visit) ──
 function getSessionSeed(): number {
   if (typeof window === "undefined") return 0;
-  const today = new Date().toISOString().slice(0, 10);
   const stored = sessionStorage.getItem("tumbo_seed");
-  const storedDate = sessionStorage.getItem("tumbo_seed_date");
-  if (stored && storedDate === today) return parseInt(stored);
+  if (stored) return parseInt(stored);
   const seed = Math.floor(Math.random() * 2147483647);
   sessionStorage.setItem("tumbo_seed", seed.toString());
-  sessionStorage.setItem("tumbo_seed_date", today);
   return seed;
+}
+
+/** Deterministic Fisher-Yates shuffle for client-side content rotation */
+export function seededShuffle<T>(arr: T[], seed: number): T[] {
+  const result = [...arr];
+  let s = seed;
+  for (let i = result.length - 1; i > 0; i--) {
+    s = (s * 1103515245 + 12345) & 0x7fffffff;
+    const j = s % (i + 1);
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
 }
 
 async function fetchRail(railId: string, seed: number, excludeIds: string[] = []): Promise<RailApiResponse | null> {
@@ -214,6 +225,7 @@ export interface ExploreBrowseProps {
 
 export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrowseProps) {
   const { selectClass } = useExplore();
+  const isMobile = useIsMobile(768);
 
   const [seed, setSeed] = useState(0);
   const [railData, setRailData] = useState<Record<string, RailApiResponse>>({});
@@ -888,11 +900,8 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
         .v3-masonry { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: var(--gap-card-grid, 16px); }
         .v3-masonry-item { position: relative; }
 
-        /* Sticky section headers */
-        .v3-section-header { position: relative; z-index: 15; background: var(--color-bg-page); }
-        @media (min-width: 1024px) {
-          .v3-section-header { position: sticky; top: 56px; }
-        }
+        /* Sticky section headers (all viewports) */
+        .v3-section-header { position: sticky; top: 56px; z-index: 15; background: var(--color-bg-page); }
 
         /* Accordion body animation */
         .v3-accordion-body {
@@ -974,8 +983,21 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
         </div>
       )}
 
-      {/* Content: filtered masonry or accordion browse sections */}
-      {isFilterMode ? renderFilteredContent() : renderBrowseContent()}
+      {/* Content: filtered masonry, mobile Tinder, or accordion browse sections */}
+      {isFilterMode
+        ? renderFilteredContent()
+        : isMobile && !searchQuery
+          ? <MobileTinderBrowse
+              rails={rails}
+              moreItems={moreItems}
+              providerMap={providerMap}
+              onCardClick={(id: string) => {
+                selectClass(id, { id, title: "", tags: [], provider: "" });
+              }}
+              sessionSeed={seed}
+            />
+          : renderBrowseContent()
+      }
     </div>
   );
 }
