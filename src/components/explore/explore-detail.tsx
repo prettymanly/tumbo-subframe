@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import {
@@ -524,12 +524,45 @@ function OtherLocationsSection({
 function SimilarClassesSection({
   classes,
 }: {
-  classes: { id: string; name: string; photo_url?: string; category?: string; provider_name?: string; shared_tags: number }[];
+  classes: { id: string; name: string; photo_url?: string; category?: string; provider_name?: string; shared_tags: number; vibe_line?: string; summary?: string; location?: string; best_parent_quote?: string; age_min?: number; age_max?: number }[];
 }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+  const [hovered, setHovered] = useState(false);
+
+  const checkScroll = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setCanScrollLeft(el.scrollLeft > 4);
+    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4);
+  }, []);
+
+  useEffect(() => {
+    checkScroll();
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener("scroll", checkScroll, { passive: true });
+    const ro = new ResizeObserver(checkScroll);
+    ro.observe(el);
+    return () => { el.removeEventListener("scroll", checkScroll); ro.disconnect(); };
+  }, [checkScroll, classes]);
+
+  const scroll = useCallback((dir: "left" | "right") => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const cardWidth = el.querySelector("a, div")?.getBoundingClientRect().width ?? 280;
+    el.scrollBy({ left: dir === "right" ? cardWidth + 16 : -(cardWidth + 16), behavior: "smooth" });
+  }, []);
+
   if (classes.length === 0) return null;
 
   return (
-    <div style={{ marginBottom: "var(--gap-card-stack)" }}>
+    <div
+      style={{ marginBottom: "var(--gap-card-stack)" }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <p style={{
         margin: "0 0 var(--gap-label-content)", fontSize: "var(--type-label-size)", fontWeight: "var(--type-label-weight)",
         textTransform: "uppercase", letterSpacing: "var(--type-label-tracking)",
@@ -539,36 +572,100 @@ function SimilarClassesSection({
         You might also like
       </p>
 
-      <div
-        className="explore-similar-scroll"
-        style={{
-          display: "flex", gap: "var(--gap-card-grid)", overflowX: "auto",
-          paddingBottom: "var(--space-2)",
-          scrollbarWidth: "none",
-          msOverflowStyle: "none" as React.CSSProperties["msOverflowStyle"],
-        }}
-      >
-        {classes.map((c) => {
-          const img = (c.photo_url && !c.photo_url.includes("places.googleapis.com"))
-            ? c.photo_url
-            : undefined;
-          return (
-            <MPCard
-              key={c.id}
-              id={c.id}
-              title={c.name}
-              provider={c.provider_name}
-              summary={c.vibe_line || c.summary}
-              image={img}
-              location={c.location}
-              href={`/explore/${c.id}`}
-              variant="v2"
-              category={c.category}
-              ageRange={formatAgeRange(c.age_min, c.age_max)}
-              parentQuote={c.best_parent_quote}
-            />
-          );
-        })}
+      {/* Scroll container with fade edges + arrow buttons */}
+      <div style={{ position: "relative" }}>
+        {/* Left fade + arrow */}
+        {canScrollLeft && (
+          <>
+            <div style={{
+              position: "absolute", left: 0, top: 0, bottom: 0, width: 64,
+              background: "linear-gradient(to right, var(--tumbo-background, #FAF7F2) 0%, transparent 100%)",
+              zIndex: 2, pointerEvents: "none",
+            }} />
+            <button
+              onClick={() => scroll("left")}
+              aria-label="Scroll left"
+              style={{
+                position: "absolute", left: 8, top: "50%", transform: "translateY(-60%)",
+                zIndex: 3, width: 40, height: 40, borderRadius: "50%",
+                background: "#fff", border: "1px solid rgba(0,0,0,0.08)",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                opacity: hovered ? 1 : 0,
+                transition: "opacity 0.2s ease, transform 0.15s ease",
+              }}
+              onMouseDown={(e) => { e.currentTarget.style.transform = "translateY(-60%) scale(0.92)"; }}
+              onMouseUp={(e) => { e.currentTarget.style.transform = "translateY(-60%) scale(1)"; }}
+            >
+              <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="var(--tumbo-text)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+          </>
+        )}
+
+        {/* Right fade + arrow */}
+        {canScrollRight && (
+          <>
+            <div style={{
+              position: "absolute", right: 0, top: 0, bottom: 0, width: 64,
+              background: "linear-gradient(to left, var(--tumbo-background, #FAF7F2) 0%, transparent 100%)",
+              zIndex: 2, pointerEvents: "none",
+            }} />
+            <button
+              onClick={() => scroll("right")}
+              aria-label="Scroll right"
+              style={{
+                position: "absolute", right: 8, top: "50%", transform: "translateY(-60%)",
+                zIndex: 3, width: 40, height: 40, borderRadius: "50%",
+                background: "#fff", border: "1px solid rgba(0,0,0,0.08)",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
+                opacity: hovered ? 1 : 0,
+                transition: "opacity 0.2s ease, transform 0.15s ease",
+              }}
+              onMouseDown={(e) => { e.currentTarget.style.transform = "translateY(-60%) scale(0.92)"; }}
+              onMouseUp={(e) => { e.currentTarget.style.transform = "translateY(-60%) scale(1)"; }}
+            >
+              <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="var(--tumbo-text)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </>
+        )}
+
+        <div
+          ref={scrollRef}
+          className="explore-similar-scroll"
+          style={{
+            display: "flex", gap: "var(--gap-card-grid)", overflowX: "auto",
+            paddingBottom: "var(--space-2)",
+            scrollbarWidth: "none",
+            msOverflowStyle: "none" as React.CSSProperties["msOverflowStyle"],
+          }}
+        >
+          {classes.map((c) => {
+            const img = (c.photo_url && !c.photo_url.includes("places.googleapis.com"))
+              ? c.photo_url
+              : undefined;
+            return (
+              <MPCard
+                key={c.id}
+                id={c.id}
+                title={c.name}
+                provider={c.provider_name}
+                summary={c.vibe_line || c.summary}
+                image={img}
+                location={c.location}
+                href={`/explore/${c.id}`}
+                variant="v2"
+                category={c.category}
+                ageRange={formatAgeRange(c.age_min, c.age_max)}
+                parentQuote={c.best_parent_quote}
+              />
+            );
+          })}
+        </div>
       </div>
 
       <style>{`
