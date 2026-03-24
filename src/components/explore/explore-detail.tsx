@@ -1080,6 +1080,80 @@ export function ExploreDetail({ classId, onDataLoaded }: ExploreDetailProps) {
         />
       </div>
 
+      {/* ── Mobile info card (visible only below md breakpoint) ── */}
+      <div className="md:hidden" style={{
+        background: "var(--color-bg-card)", borderRadius: "var(--card-radius)",
+        border: "var(--card-border)", padding: "20px",
+        marginBottom: "var(--gap-section)", boxShadow: "var(--card-shadow)",
+      }}>
+        {/* Title + provider */}
+        <h1 style={{ margin: 0, fontSize: 22, fontWeight: 600, color: "var(--tumbo-text)", lineHeight: 1.25, letterSpacing: "-0.02em" }}>
+          {cls.name}
+        </h1>
+        {provider?.name && !cls.name.toLowerCase().includes(provider.name.toLowerCase()) && (
+          <p style={{ margin: "4px 0 0", fontSize: 12, fontWeight: 500, color: "var(--tumbo-label)" }}>
+            by {provider.name}
+          </p>
+        )}
+
+        {/* Tags */}
+        {taxonomyTags.length > 0 && (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 14 }}>
+            {taxonomyTags.slice(0, 5).map((t) => (
+              <span key={t.slug} style={{
+                display: "inline-flex", alignItems: "center", gap: 4,
+                padding: "4px 10px", borderRadius: 100, fontSize: 10, fontWeight: 600,
+                textTransform: "uppercase", letterSpacing: "0.04em",
+                background: t.dimension === "content" ? "var(--tumbo-tag-content)"
+                  : t.dimension === "philosophy" ? "var(--tumbo-tag-philosophy)"
+                  : t.dimension === "experience" ? "var(--tumbo-tag-experience)"
+                  : t.dimension === "child" ? "var(--tumbo-tag-child)" : "#888",
+                color: t.dimension === "experience" ? "var(--tumbo-text)" : "#fff",
+              }}>
+                {t.label}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {/* Age */}
+        {(cls.age_min != null || cls.age_max != null) && (
+          <span style={{
+            display: "inline-block", marginTop: 10, padding: "4px 10px",
+            borderRadius: 100, fontSize: 10, fontWeight: 600, letterSpacing: "0.04em",
+            border: "1.5px solid var(--color-border-subtle)", color: "var(--tumbo-text)",
+          }}>
+            {formatAgeRange(cls.age_min, cls.age_max)}
+          </span>
+        )}
+
+        {/* Contact info */}
+        <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 8, fontSize: 13 }}>
+          {displayAddress && (
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 16 }}>
+              <span style={{ color: "var(--tumbo-label)", flexShrink: 0 }}>Address</span>
+              <span style={{ color: "var(--tumbo-text)", textAlign: "right", fontWeight: 500 }}>{displayAddress}</span>
+            </div>
+          )}
+          {(provider?.phone || googleData?.google_phone) && (
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 16 }}>
+              <span style={{ color: "var(--tumbo-label)", flexShrink: 0 }}>Phone</span>
+              <a href={`tel:${provider?.phone || googleData?.google_phone}`} style={{ color: "var(--tumbo-primary)", textDecoration: "none", fontWeight: 500 }}>
+                {provider?.phone || googleData?.google_phone}
+              </a>
+            </div>
+          )}
+          {(provider?.website || googleData?.google_website) && (
+            <div style={{ display: "flex", justifyContent: "space-between", gap: 16 }}>
+              <span style={{ color: "var(--tumbo-label)", flexShrink: 0 }}>Website</span>
+              <a href={provider?.website || googleData?.google_website} target="_blank" rel="noopener noreferrer" style={{ color: "var(--tumbo-primary)", textDecoration: "none", fontWeight: 500, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: 200 }}>
+                {(provider?.website || googleData?.google_website || "").replace(/^https?:\/\//, "")}
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* ── Vibe line — display-weight with scroll reveal ── */}
       {cls.vibe_line && (
         <ScrollReveal><div style={{
