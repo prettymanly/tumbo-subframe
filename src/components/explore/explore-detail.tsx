@@ -559,7 +559,7 @@ function SimilarClassesSection({
 
   return (
     <div
-      style={{ marginBottom: "var(--gap-card-stack)" }}
+      style={{ marginBottom: 0, paddingBottom: 24 }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -1052,7 +1052,7 @@ export function ExploreDetail({ classId, onDataLoaded }: ExploreDetailProps) {
     .sort((a, b) => b.text.length - a.text.length)[0] || null;
 
   return (
-    <div style={{ padding: "var(--padding-page-top) 0 var(--padding-page-bottom)" }}>
+    <div style={{ padding: "var(--padding-page-top) 0 0" }}>
 
       {/* ── Hero image ── */}
       <div

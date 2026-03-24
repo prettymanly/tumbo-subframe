@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import { useExplore, type ClassCardData } from "./explore-context";
+import { useAuth } from "@/contexts/AuthContext";
+import { AuthModal } from "@/components/ui/auth-modal";
 import type { DBClass, Provider } from "@/lib/types/tags";
 import {
   formatPrice,
@@ -81,6 +84,8 @@ interface ExploreSidebarDetailProps {
 export function ExploreSidebarDetail({ fullData, provider, taxonomyTags }: ExploreSidebarDetailProps) {
   const { selectedCardData, goBack } = useExplore();
 
+  const { isAuthenticated } = useAuth();
+  const [authModalOpen, setAuthModalOpen] = useState(false);
   const [bookmarked, setBookmarked] = useState(false);
   const [justToggled, setJustToggled] = useState(false);
   const [showToast, setShowToast] = useState(false);
@@ -147,15 +152,12 @@ export function ExploreSidebarDetail({ fullData, provider, taxonomyTags }: Explo
   // Price
   const displayPrice = cls?.price ?? (typeof cardData?.price === "number" ? cardData.price : null);
 
-  // Banner image: class photo, fallback to card image
-  const rawBanner = cls?.photo_url ?? cardData?.image ?? null;
-  const bannerSrc = rawBanner && !rawBanner.includes("places.googleapis.com") ? rawBanner : null;
+  // Banner image: always use orange eyes default for unclaimed listings
+  // When listing is claimed, provider can upload their own banner
+  const bannerSrc = "/photos/Default/Placeholder.png";
 
-  // DP image: provider logo from Google Places, fallback to null (shows acronym)
-  const googlePhotos = googleData?.google_photos;
-  const dpSrc = (googlePhotos && googlePhotos.length > 0 && !googlePhotos[0].includes("places.googleapis.com"))
-    ? googlePhotos[0]
-    : null;
+  // DP: always show acronym circle for now (claimed listings can upload their own later)
+  const dpSrc = null;
 
   // Schedule (enriched only)
   const schedule = cls?.schedule ?? null;
@@ -180,11 +182,7 @@ export function ExploreSidebarDetail({ fullData, provider, taxonomyTags }: Explo
             borderRadius: 16,
             background: "var(--tumbo-tag-experience)",
           }}>
-            {bannerSrc ? (
-              <img src={bannerSrc} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-            ) : (
-              <img src="/photos/Default/Placeholder.png" alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-            )}
+            <img src={bannerSrc} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
           </div>
           {/* DP circle — floats on bottom-left of banner */}
           <div style={{
@@ -287,6 +285,10 @@ export function ExploreSidebarDetail({ fullData, provider, taxonomyTags }: Explo
           {/* ── Wide bookmark button ── */}
           <button
             onClick={() => {
+              if (!isAuthenticated) {
+                setAuthModalOpen(true);
+                return;
+              }
               setJustToggled(true);
               const next = !bookmarked;
               setBookmarked(next);
@@ -363,6 +365,14 @@ export function ExploreSidebarDetail({ fullData, provider, taxonomyTags }: Explo
         </svg>
         Added to Saved Classes
       </div>
+      {authModalOpen && typeof document !== "undefined" && createPortal(
+        <AuthModal
+          isOpen={authModalOpen}
+          onClose={() => setAuthModalOpen(false)}
+          mode="signin"
+        />,
+        document.body
+      )}
     </>
   );
 }

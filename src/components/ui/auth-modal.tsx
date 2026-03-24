@@ -149,9 +149,9 @@ export function AuthModal({
         {/* ── Header ── */}
         <div className="flex flex-col items-center gap-2 text-center">
           <img
-            src="https://res.cloudinary.com/subframe/image/upload/v1711417507/shared/y2rsnhq3mex4auk54aye.png"
+            src="/photos/Default/TumboLogo.png"
             alt="Tümbo"
-            className="h-5 object-contain mb-1"
+            className="h-6 object-contain mb-1"
           />
           <h2 className="text-[20px] font-bold text-gray-900">
             {mode === "signin"
