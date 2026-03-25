@@ -84,7 +84,19 @@ export interface MobileTinderBrowseProps {
   providerMap: Record<string, { name: string }>
   onCardClick: (id: string) => void
   sessionSeed: number
+  allTagsByDimension: Record<string, Array<{ label: string; dimension: string }>>
+  activeTags: Set<string>
+  onToggleTag: (label: string) => void
 }
+
+// ── Filter dimension config (matches dimension-search-bar) ──
+const FILTER_DIMENSIONS = [
+  { key: "content", label: "Content", color: "var(--tumbo-tag-content, #E8530E)" },
+  { key: "philosophy", label: "Philosophy", color: "var(--tumbo-tag-philosophy, #D4A017)" },
+  { key: "experience", label: "Experience", color: "var(--tumbo-tag-experience, #2D8A4E)" },
+  { key: "child", label: "Child", color: "var(--tumbo-tag-child, #7C3AED)" },
+  { key: "location", label: "Location", color: "var(--tumbo-tag-location, #2563EB)" },
+]
 
 // ── Constants ──
 const BATCH_SIZE = 24
@@ -110,6 +122,9 @@ export function MobileTinderBrowse({
   providerMap,
   onCardClick,
   sessionSeed,
+  allTagsByDimension,
+  activeTags,
+  onToggleTag,
 }: MobileTinderBrowseProps) {
   const { isAuthenticated } = useAuth()
   const [authModalOpen, setAuthModalOpen] = useState(false)
@@ -424,79 +439,120 @@ export function MobileTinderBrowse({
     )
   }
 
+  // ── Vertical swipe detection for section snapping ──
+  const touchStartY = useRef(0)
+  const touchStartTime = useRef(0)
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0].clientY
+    touchStartTime.current = Date.now()
+  }, [])
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    const dy = touchStartY.current - e.changedTouches[0].clientY
+    const dt = Date.now() - touchStartTime.current
+    const velocity = Math.abs(dy) / dt
+
+    // Swipe down (finger moves up) = next section
+    if (dy > 60 || (dy > 30 && velocity > 0.3)) {
+      advanceToNextRail()
+    }
+    // Swipe up (finger moves down) = previous section
+    if (dy < -60 || (dy < -30 && velocity > 0.3)) {
+      if (currentRailIndex > 0) {
+        setCurrentRailIndex((prev) => prev - 1)
+        setCurrentCardIndex(0)
+      }
+    }
+  }, [advanceToNextRail, currentRailIndex])
+
+  // ── Filter bottom sheet ──
+  const [filterOpen, setFilterOpen] = useState(false)
+
+  const isCardSaved = savedIds.has(currentCard?.id ?? "")
+
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "column",
-        height: `calc(100vh - ${NAVBAR_HEIGHT}px)`,
+        height: "100vh",
         position: "relative",
         background: "var(--tumbo-background, #FAF7F2)",
+        overflow: "hidden",
       }}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
-      {/* ── Section header — full width, prominent ── */}
+      {/* ── 1. Section title (sticky top) ── */}
       <div
         style={{
           flexShrink: 0,
-          padding: "14px 20px 10px",
+          padding: "max(12px, env(safe-area-inset-top)) 20px 8px",
         }}
       >
-        <h2
-          style={{
-            margin: 0,
-            fontSize: 22,
-            fontWeight: 700,
-            color: "var(--tumbo-text, #111)",
-            lineHeight: 1.2,
-            fontFamily: "var(--font-lexend), system-ui, sans-serif",
-            letterSpacing: "-0.03em",
-          }}
+        <motion.div
+          key={sectionHeader}
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.25 }}
         >
-          {sectionHeader}
-        </h2>
-        {sectionSubheader && (
-          <p
+          <h2
             style={{
-              margin: "4px 0 0",
-              fontSize: 13,
-              color: "var(--tumbo-label, #888)",
-              lineHeight: 1.3,
+              margin: 0,
+              fontSize: 24,
+              fontWeight: 700,
+              color: "var(--tumbo-text, #111)",
+              lineHeight: 1.15,
+              fontFamily: "var(--font-lexend), system-ui, sans-serif",
+              letterSpacing: "-0.03em",
             }}
           >
-            {sectionSubheader}
-          </p>
-        )}
+            {sectionHeader}
+          </h2>
+          {sectionSubheader && (
+            <p
+              style={{
+                margin: "3px 0 0",
+                fontSize: 13,
+                color: "var(--tumbo-label, #888)",
+                lineHeight: 1.3,
+              }}
+            >
+              {sectionSubheader}
+            </p>
+          )}
+        </motion.div>
       </div>
 
-      {/* ── Card stack area — no overflow:hidden so shadow + swipe can breathe ── */}
+      {/* ── 2. Card (swipeable, fills available space) ── */}
       <div
         style={{
           flex: 1,
           position: "relative",
-          padding: "0 20px 12px",
+          padding: "4px 16px 8px",
           minHeight: 0,
         }}
       >
-        {/* Next card (underneath, peek effect) */}
+        {/* Next card peek */}
         {nextCard && !animatingOut && (
           <div
             style={{
               position: "absolute",
-              top: 4,
-              left: 24,
-              right: 24,
-              bottom: 16,
+              top: 8,
+              left: 20,
+              right: 20,
+              bottom: 12,
               zIndex: 1,
               borderRadius: 20,
               background: "#fff",
-              boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
               transform: "scale(0.96) translateY(6px)",
-              opacity: 0.5,
+              opacity: 0.4,
             }}
           />
         )}
 
-        {/* Current card (swipeable) */}
         <AnimatePresence mode="wait">
           {currentCard && !animatingOut && (
             <SwipeCard
@@ -510,7 +566,7 @@ export function MobileTinderBrowse({
               location={currentCard.location}
               ageRange={currentCard.ageRange}
               category={currentCard.category}
-              isSaved={savedIds.has(currentCard.id)}
+              isSaved={isCardSaved}
               onSwipeRight={handleSwipeRight}
               onSwipeLeft={handleSwipeLeft}
               onTap={handleTap}
@@ -519,80 +575,290 @@ export function MobileTinderBrowse({
         </AnimatePresence>
       </div>
 
-      {/* ── Bottom controls — minimal, just skip + save ── */}
+      {/* ── 3. Navigation buttons: ← X · Bookmark → ── */}
       <div
         style={{
           flexShrink: 0,
-          padding: "10px 20px max(16px, env(safe-area-inset-bottom))",
+          padding: "6px 20px",
           display: "flex",
-          flexDirection: "column",
-          gap: 8,
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 12,
         }}
       >
-        {/* Action buttons — only skip (X) and save (bookmark) */}
-        <div style={{ display: "flex", gap: 16, justifyContent: "center", alignItems: "center" }}>
-          {/* Skip / next rail */}
-          <button
-            onClick={handleSwipeLeft}
-            aria-label={isEveryClassSection ? "Skip card" : "Skip to next section"}
-            style={{
-              width: 52,
-              height: 52,
-              borderRadius: "50%",
-              border: "1.5px solid rgba(0,0,0,0.12)",
-              background: "#fff",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-            }}
-          >
-            <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="var(--tumbo-text, #111)" strokeWidth={2} strokeLinecap="round">
-              <line x1="18" y1="6" x2="6" y2="18" />
-              <line x1="6" y1="6" x2="18" y2="18" />
-            </svg>
-          </button>
+        {/* ← Previous card */}
+        <button
+          onClick={goToPrevCard}
+          disabled={currentCardIndex === 0}
+          aria-label="Previous card"
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: "50%",
+            border: "none",
+            background: "transparent",
+            cursor: currentCardIndex === 0 ? "default" : "pointer",
+            opacity: currentCardIndex === 0 ? 0.2 : 0.5,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transition: "opacity 0.15s",
+          }}
+        >
+          <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="var(--tumbo-text, #111)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
 
-          {/* Save — bookmark icon */}
-          <button
-            onClick={handleSwipeRight}
-            aria-label="Save class"
-            style={{
-              width: 52,
-              height: 52,
-              borderRadius: "50%",
-              border: "1.5px solid rgba(0,0,0,0.12)",
-              background: "#fff",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
-            }}
-          >
-            <svg width={22} height={22} viewBox="0 0 24 24" fill={savedIds.has(currentCard?.id ?? "") ? "var(--tumbo-primary, #E8530E)" : "none"} stroke={savedIds.has(currentCard?.id ?? "") ? "var(--tumbo-primary, #E8530E)" : "var(--tumbo-text, #111)"} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
-            </svg>
-          </button>
-        </div>
+        {/* X — skip to next section */}
+        <button
+          onClick={handleSwipeLeft}
+          aria-label={isEveryClassSection ? "Skip card" : "Next section"}
+          style={{
+            width: 52,
+            height: 52,
+            borderRadius: "50%",
+            border: "1.5px solid rgba(0,0,0,0.1)",
+            background: "#fff",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+          }}
+        >
+          <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="var(--tumbo-text, #111)" strokeWidth={2} strokeLinecap="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
 
-        {/* Subtle hint — only show on first card */}
-        {currentCardIndex === 0 && currentRailIndex === 0 && (
-          <p
-            style={{
-              margin: 0,
-              textAlign: "center",
-              fontSize: 11,
-              color: "var(--tumbo-label, #999)",
-              fontWeight: 400,
-              opacity: 0.7,
-            }}
-          >
-            Swipe right to save · Swipe left to skip · Tap for details
-          </p>
-        )}
+        {/* Bookmark — save */}
+        <button
+          onClick={handleSwipeRight}
+          aria-label="Save class"
+          style={{
+            width: 52,
+            height: 52,
+            borderRadius: "50%",
+            border: `1.5px solid ${isCardSaved ? "var(--tumbo-primary, #E8530E)" : "rgba(0,0,0,0.1)"}`,
+            background: isCardSaved ? "var(--tumbo-primary, #E8530E)" : "#fff",
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+            transition: "all 0.2s ease",
+          }}
+        >
+          <svg width={22} height={22} viewBox="0 0 24 24" fill={isCardSaved ? "#fff" : "none"} stroke={isCardSaved ? "#fff" : "var(--tumbo-text, #111)"} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+          </svg>
+        </button>
+
+        {/* → Next card */}
+        <button
+          onClick={goToNextCard}
+          disabled={currentCardIndex >= currentItems.length - 1}
+          aria-label="Next card"
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: "50%",
+            border: "none",
+            background: "transparent",
+            cursor: currentCardIndex >= currentItems.length - 1 ? "default" : "pointer",
+            opacity: currentCardIndex >= currentItems.length - 1 ? 0.2 : 0.5,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            transition: "opacity 0.15s",
+          }}
+        >
+          <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="var(--tumbo-text, #111)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
       </div>
+
+      {/* ── 4. Filter button ── */}
+      <div
+        style={{
+          flexShrink: 0,
+          padding: "4px 20px max(12px, env(safe-area-inset-bottom))",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <button
+          onClick={() => setFilterOpen(true)}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            padding: "10px 24px",
+            borderRadius: 100,
+            border: "1px solid rgba(0,0,0,0.08)",
+            background: "#fff",
+            cursor: "pointer",
+            fontFamily: "inherit",
+            fontSize: 13,
+            fontWeight: 500,
+            color: "var(--tumbo-text, #111)",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
+          }}
+        >
+          <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+          </svg>
+          Filters
+          {activeTags.size > 0 && (
+            <span style={{
+              background: "var(--tumbo-primary, #E8530E)",
+              color: "#fff",
+              fontSize: 11,
+              fontWeight: 700,
+              width: 18,
+              height: 18,
+              borderRadius: "50%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}>
+              {activeTags.size}
+            </span>
+          )}
+        </button>
+      </div>
+
+      {/* ── Filter bottom sheet overlay ── */}
+      <AnimatePresence>
+        {filterOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setFilterOpen(false)}
+              style={{
+                position: "fixed",
+                inset: 0,
+                background: "rgba(0,0,0,0.3)",
+                zIndex: 200,
+              }}
+            />
+            {/* Sheet */}
+            <motion.div
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "100%" }}
+              transition={{ type: "spring", damping: 28, stiffness: 300 }}
+              style={{
+                position: "fixed",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                zIndex: 201,
+                background: "#fff",
+                borderRadius: "24px 24px 0 0",
+                maxHeight: "70vh",
+                overflow: "auto",
+                padding: "20px 20px max(20px, env(safe-area-inset-bottom))",
+              }}
+            >
+              {/* Handle */}
+              <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+                <div style={{ width: 36, height: 4, borderRadius: 2, background: "rgba(0,0,0,0.12)" }} />
+              </div>
+              <h3 style={{ margin: "0 0 16px", fontSize: 18, fontWeight: 700, fontFamily: "var(--font-lexend), system-ui, sans-serif" }}>
+                Filters
+              </h3>
+              {/* Dimension sections */}
+              {FILTER_DIMENSIONS.map((dim) => {
+                const dimTags = allTagsByDimension[dim.key] || []
+                if (dimTags.length === 0) return null
+                return (
+                  <div key={dim.key} style={{ marginBottom: 16 }}>
+                    <p style={{
+                      margin: "0 0 8px",
+                      fontSize: 12,
+                      fontWeight: 600,
+                      color: dim.color,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.05em",
+                    }}>
+                      {dim.label}
+                    </p>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                      {dimTags.map((tag) => {
+                        const isActive = activeTags.has(tag.label)
+                        return (
+                          <button
+                            key={tag.label}
+                            onClick={() => onToggleTag(tag.label)}
+                            style={{
+                              padding: "7px 14px",
+                              borderRadius: 100,
+                              border: `1.5px solid ${isActive ? dim.color : "rgba(0,0,0,0.1)"}`,
+                              background: isActive ? dim.color : "transparent",
+                              color: isActive ? "#fff" : "var(--tumbo-text, #111)",
+                              fontSize: 13,
+                              fontWeight: 500,
+                              cursor: "pointer",
+                              fontFamily: "inherit",
+                              transition: "all 0.15s ease",
+                            }}
+                          >
+                            {tag.label}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )
+              })}
+              <button
+                onClick={() => setFilterOpen(false)}
+                style={{
+                  width: "100%",
+                  padding: "14px",
+                  borderRadius: 14,
+                  border: "none",
+                  background: "var(--tumbo-text, #111)",
+                  color: "#fff",
+                  fontSize: 15,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  fontFamily: "inherit",
+                  marginTop: 8,
+                }}
+              >
+                Done
+              </button>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* ── Subtle hint — first visit only ── */}
+      {currentCardIndex === 0 && currentRailIndex === 0 && (
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: 0,
+            right: 0,
+            transform: "translateY(-50%)",
+            textAlign: "center",
+            pointerEvents: "none",
+            zIndex: 0,
+            opacity: 0.4,
+            fontSize: 11,
+            color: "var(--tumbo-label, #888)",
+          }}
+        />
+      )}
 
       {/* ── Auth modal (portal) ── */}
       {authModalOpen && typeof document !== "undefined" && createPortal(

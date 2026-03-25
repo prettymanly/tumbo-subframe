@@ -1004,6 +1004,16 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
                 selectClass(id, { id, title: "", tags: [], provider: "" });
               }}
               sessionSeed={seed}
+              allTagsByDimension={allTagsByDimension}
+              activeTags={activeTags}
+              onToggleTag={(label: string) => {
+                setActiveTags((prev) => {
+                  const next = new Set(prev);
+                  if (next.has(label)) next.delete(label);
+                  else next.add(label);
+                  return next;
+                });
+              }}
             />
           : renderBrowseContent()
       }

@@ -390,6 +390,11 @@ export default function ExploreV2Page() {
   const snapFnRef = useRef<(() => void) | null>(null);
   const handleSnap = useCallback((fn: () => void) => { snapFnRef.current = fn; }, []);
 
+  // Scroll to top on mount (fixes mobile starting mid-page)
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <ExploreProvider>
       <HeroSnapEffect onSnap={handleSnap} />
@@ -490,10 +495,15 @@ export default function ExploreV2Page() {
             }
           }
 
-          /* ── Mobile: tighter, grouped, natural reflow ── */
+          /* ── Mobile: space-between like desktop, word-per-line headline ── */
           @media (max-width: 640px) {
             .v2-hero-inner {
-              padding-top: max(32px, 8vh);
+              display: flex;
+              flex-direction: column;
+              justify-content: space-between;
+              height: 100%;
+              padding-top: max(16px, 3vh);
+              padding-bottom: max(12px, 2vh);
             }
             .v2-hero-headline {
               font-size: 14vw;
@@ -506,7 +516,7 @@ export default function ExploreV2Page() {
             .v2-hero-subhead {
               font-size: 15px;
               line-height: 1.4;
-              margin-top: 24px;
+              margin-top: 0;
               font-weight: 400;
               color: var(--tumbo-label, #999);
             }
