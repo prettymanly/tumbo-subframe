@@ -308,6 +308,38 @@ export function MobileTinderBrowse({
     setAnimatingOut(null)
   }, [])
 
+  // ── Vertical swipe detection for section snapping ──
+  // IMPORTANT: these hooks must be declared before any early returns
+  const touchStartY = useRef(0)
+  const touchStartTime = useRef(0)
+  const [filterOpen, setFilterOpen] = useState(false)
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartY.current = e.touches[0]?.clientY ?? 0
+    touchStartTime.current = Date.now()
+  }, [])
+
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    const touch = e.changedTouches[0]
+    if (!touch) return
+    const dy = touchStartY.current - touch.clientY
+    const dt = Date.now() - touchStartTime.current
+    if (dt === 0) return
+    const velocity = Math.abs(dy) / dt
+
+    // Swipe down (finger moves up) = next section
+    if (dy > 60 || (dy > 30 && velocity > 0.3)) {
+      advanceToNextRail()
+    }
+    // Swipe up (finger moves down) = previous section
+    if (dy < -60 || (dy < -30 && velocity > 0.3)) {
+      if (currentRailIndex > 0) {
+        setCurrentRailIndex((prev) => prev - 1)
+        setCurrentCardIndex(0)
+      }
+    }
+  }, [advanceToNextRail, currentRailIndex])
+
   // ── Section header info ──
   const sectionHeader = isEveryClassSection ? "Every class" : (currentRail?.header ?? "")
   const sectionSubheader = isEveryClassSection
@@ -439,36 +471,6 @@ export function MobileTinderBrowse({
     )
   }
 
-  // ── Vertical swipe detection for section snapping ──
-  const touchStartY = useRef(0)
-  const touchStartTime = useRef(0)
-
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStartY.current = e.touches[0].clientY
-    touchStartTime.current = Date.now()
-  }, [])
-
-  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
-    const dy = touchStartY.current - e.changedTouches[0].clientY
-    const dt = Date.now() - touchStartTime.current
-    const velocity = Math.abs(dy) / dt
-
-    // Swipe down (finger moves up) = next section
-    if (dy > 60 || (dy > 30 && velocity > 0.3)) {
-      advanceToNextRail()
-    }
-    // Swipe up (finger moves down) = previous section
-    if (dy < -60 || (dy < -30 && velocity > 0.3)) {
-      if (currentRailIndex > 0) {
-        setCurrentRailIndex((prev) => prev - 1)
-        setCurrentCardIndex(0)
-      }
-    }
-  }, [advanceToNextRail, currentRailIndex])
-
-  // ── Filter bottom sheet ──
-  const [filterOpen, setFilterOpen] = useState(false)
-
   const isCardSaved = savedIds.has(currentCard?.id ?? "")
 
   return (
@@ -579,7 +581,7 @@ export function MobileTinderBrowse({
       <div
         style={{
           flexShrink: 0,
-          padding: "6px 20px",
+          padding: "6px 20px 68px",  /* 68px bottom to clear floating FAB */
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
@@ -681,165 +683,7 @@ export function MobileTinderBrowse({
         </button>
       </div>
 
-      {/* ── 4. Filter button ── */}
-      <div
-        style={{
-          flexShrink: 0,
-          padding: "4px 20px max(12px, env(safe-area-inset-bottom))",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <button
-          onClick={() => setFilterOpen(true)}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            padding: "10px 24px",
-            borderRadius: 100,
-            border: "1px solid rgba(0,0,0,0.08)",
-            background: "#fff",
-            cursor: "pointer",
-            fontFamily: "inherit",
-            fontSize: 13,
-            fontWeight: 500,
-            color: "var(--tumbo-text, #111)",
-            boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
-          }}
-        >
-          <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-          </svg>
-          Filters
-          {activeTags.size > 0 && (
-            <span style={{
-              background: "var(--tumbo-primary, #E8530E)",
-              color: "#fff",
-              fontSize: 11,
-              fontWeight: 700,
-              width: 18,
-              height: 18,
-              borderRadius: "50%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}>
-              {activeTags.size}
-            </span>
-          )}
-        </button>
-      </div>
-
-      {/* ── Filter bottom sheet overlay ── */}
-      <AnimatePresence>
-        {filterOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setFilterOpen(false)}
-              style={{
-                position: "fixed",
-                inset: 0,
-                background: "rgba(0,0,0,0.3)",
-                zIndex: 200,
-              }}
-            />
-            {/* Sheet */}
-            <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 28, stiffness: 300 }}
-              style={{
-                position: "fixed",
-                bottom: 0,
-                left: 0,
-                right: 0,
-                zIndex: 201,
-                background: "#fff",
-                borderRadius: "24px 24px 0 0",
-                maxHeight: "70vh",
-                overflow: "auto",
-                padding: "20px 20px max(20px, env(safe-area-inset-bottom))",
-              }}
-            >
-              {/* Handle */}
-              <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
-                <div style={{ width: 36, height: 4, borderRadius: 2, background: "rgba(0,0,0,0.12)" }} />
-              </div>
-              <h3 style={{ margin: "0 0 16px", fontSize: 18, fontWeight: 700, fontFamily: "var(--font-lexend), system-ui, sans-serif" }}>
-                Filters
-              </h3>
-              {/* Dimension sections */}
-              {FILTER_DIMENSIONS.map((dim) => {
-                const dimTags = allTagsByDimension[dim.key] || []
-                if (dimTags.length === 0) return null
-                return (
-                  <div key={dim.key} style={{ marginBottom: 16 }}>
-                    <p style={{
-                      margin: "0 0 8px",
-                      fontSize: 12,
-                      fontWeight: 600,
-                      color: dim.color,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.05em",
-                    }}>
-                      {dim.label}
-                    </p>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                      {dimTags.map((tag) => {
-                        const isActive = activeTags.has(tag.label)
-                        return (
-                          <button
-                            key={tag.label}
-                            onClick={() => onToggleTag(tag.label)}
-                            style={{
-                              padding: "7px 14px",
-                              borderRadius: 100,
-                              border: `1.5px solid ${isActive ? dim.color : "rgba(0,0,0,0.1)"}`,
-                              background: isActive ? dim.color : "transparent",
-                              color: isActive ? "#fff" : "var(--tumbo-text, #111)",
-                              fontSize: 13,
-                              fontWeight: 500,
-                              cursor: "pointer",
-                              fontFamily: "inherit",
-                              transition: "all 0.15s ease",
-                            }}
-                          >
-                            {tag.label}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-                )
-              })}
-              <button
-                onClick={() => setFilterOpen(false)}
-                style={{
-                  width: "100%",
-                  padding: "14px",
-                  borderRadius: 14,
-                  border: "none",
-                  background: "var(--tumbo-text, #111)",
-                  color: "#fff",
-                  fontSize: 15,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  fontFamily: "inherit",
-                  marginTop: 8,
-                }}
-              >
-                Done
-              </button>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+      {/* Filter button handled by the existing FloatingFilterFAB in explore-browse-v2 */}
 
       {/* ── Subtle hint — first visit only ── */}
       {currentCardIndex === 0 && currentRailIndex === 0 && (
