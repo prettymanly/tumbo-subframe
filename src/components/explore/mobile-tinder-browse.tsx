@@ -430,89 +430,68 @@ export function MobileTinderBrowse({
         display: "flex",
         flexDirection: "column",
         height: `calc(100vh - ${NAVBAR_HEIGHT}px)`,
-        overflow: "hidden",
         position: "relative",
+        background: "var(--tumbo-background, #FAF7F2)",
       }}
     >
-      {/* ── Sticky rail header ── */}
+      {/* ── Section header — full width, prominent ── */}
       <div
         style={{
           flexShrink: 0,
-          padding: "12px 16px 8px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderBottom: "1px solid var(--color-border-subtle, #e5e7eb)",
-          background: "var(--color-bg-card, #fff)",
+          padding: "14px 20px 10px",
         }}
       >
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <h2
-            style={{
-              margin: 0,
-              fontSize: 18,
-              fontWeight: 700,
-              color: "var(--color-text-primary, #111)",
-              lineHeight: 1.3,
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {sectionHeader}
-          </h2>
+        <h2
+          style={{
+            margin: 0,
+            fontSize: 22,
+            fontWeight: 700,
+            color: "var(--tumbo-text, #111)",
+            lineHeight: 1.2,
+            fontFamily: "var(--font-lexend), system-ui, sans-serif",
+            letterSpacing: "-0.03em",
+          }}
+        >
+          {sectionHeader}
+        </h2>
+        {sectionSubheader && (
           <p
             style={{
-              margin: "2px 0 0",
+              margin: "4px 0 0",
               fontSize: 13,
-              color: "var(--color-text-secondary, #6b7280)",
+              color: "var(--tumbo-label, #888)",
               lineHeight: 1.3,
             }}
           >
             {sectionSubheader}
           </p>
-        </div>
-        <span
-          style={{
-            flexShrink: 0,
-            fontSize: 11,
-            fontWeight: 600,
-            color: "var(--color-text-secondary, #6b7280)",
-            background: "var(--color-bg-subtle, #f3f4f6)",
-            padding: "4px 10px",
-            borderRadius: 100,
-            marginLeft: 12,
-          }}
-        >
-          {sectionCount} classes
-        </span>
+        )}
       </div>
 
-      {/* ── Card stack area ── */}
+      {/* ── Card stack area — no overflow:hidden so shadow + swipe can breathe ── */}
       <div
         style={{
           flex: 1,
           position: "relative",
-          padding: 16,
-          overflow: "hidden",
+          padding: "0 20px 12px",
+          minHeight: 0,
         }}
       >
-        {/* Next card (underneath) */}
+        {/* Next card (underneath, peek effect) */}
         {nextCard && !animatingOut && (
           <div
             style={{
               position: "absolute",
-              top: 16,
-              left: 16,
-              right: 16,
+              top: 4,
+              left: 24,
+              right: 24,
               bottom: 16,
               zIndex: 1,
-              borderRadius: 16,
-              overflow: "hidden",
+              borderRadius: 20,
               background: "#fff",
               boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
-              transform: "scale(0.97)",
-              opacity: 0.7,
+              transform: "scale(0.96) translateY(6px)",
+              opacity: 0.5,
             }}
           />
         )}
@@ -540,167 +519,79 @@ export function MobileTinderBrowse({
         </AnimatePresence>
       </div>
 
-      {/* ── Bottom controls ── */}
+      {/* ── Bottom controls — minimal, just skip + save ── */}
       <div
         style={{
           flexShrink: 0,
-          padding: "8px 16px 16px",
+          padding: "10px 20px max(16px, env(safe-area-inset-bottom))",
           display: "flex",
           flexDirection: "column",
-          gap: 10,
-          background: "var(--color-bg-card, #fff)",
-          borderTop: "1px solid var(--color-border-subtle, #e5e7eb)",
+          gap: 8,
         }}
       >
-        {/* Progress indicator */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 8,
-          }}
-        >
-          <span
-            style={{
-              fontSize: 12,
-              fontWeight: 600,
-              color: "var(--color-text-secondary, #6b7280)",
-            }}
-          >
-            {currentCardIndex + 1} of {Math.min(currentItems.length, totalCardsInSection)}
-          </span>
-
-          {/* Dot indicators (show up to 8 dots) */}
-          <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
-            {Array.from({ length: Math.min(8, currentItems.length) }).map((_, i) => {
-              const isActive = i === Math.min(currentCardIndex, 7)
-              return (
-                <div
-                  key={i}
-                  style={{
-                    width: isActive ? 8 : 5,
-                    height: isActive ? 8 : 5,
-                    borderRadius: "50%",
-                    background: isActive
-                      ? "var(--tumbo-orange, #f97316)"
-                      : "var(--color-border-subtle, #d1d5db)",
-                    transition: "all 0.2s ease",
-                  }}
-                />
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Navigation buttons */}
-        <div style={{ display: "flex", gap: 12, justifyContent: "center" }}>
-          {/* Previous card */}
-          <button
-            onClick={goToPrevCard}
-            disabled={currentCardIndex === 0}
-            aria-label="Previous card"
-            style={{
-              width: 44,
-              height: 44,
-              borderRadius: "50%",
-              border: "1.5px solid var(--color-border-subtle, #d1d5db)",
-              background: "var(--color-bg-card, #fff)",
-              cursor: currentCardIndex === 0 ? "not-allowed" : "pointer",
-              opacity: currentCardIndex === 0 ? 0.35 : 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              transition: "opacity 0.15s",
-            }}
-          >
-            <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary, #111)" strokeWidth={2} strokeLinecap="round">
-              <polyline points="12 19 5 12 12 5" />
-              <line x1="5" y1="12" x2="19" y2="12" />
-            </svg>
-          </button>
-
-          {/* Skip rail (left swipe equivalent) */}
+        {/* Action buttons — only skip (X) and save (bookmark) */}
+        <div style={{ display: "flex", gap: 16, justifyContent: "center", alignItems: "center" }}>
+          {/* Skip / next rail */}
           <button
             onClick={handleSwipeLeft}
-            aria-label={isEveryClassSection ? "Skip card" : "Skip rail"}
+            aria-label={isEveryClassSection ? "Skip card" : "Skip to next section"}
             style={{
-              width: 44,
-              height: 44,
+              width: 52,
+              height: 52,
               borderRadius: "50%",
-              border: "2px solid #ef4444",
-              background: "transparent",
+              border: "1.5px solid rgba(0,0,0,0.12)",
+              background: "#fff",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
             }}
           >
-            <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth={2.5} strokeLinecap="round">
+            <svg width={22} height={22} viewBox="0 0 24 24" fill="none" stroke="var(--tumbo-text, #111)" strokeWidth={2} strokeLinecap="round">
               <line x1="18" y1="6" x2="6" y2="18" />
               <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
           </button>
 
-          {/* Save (right swipe equivalent) */}
+          {/* Save — bookmark icon */}
           <button
             onClick={handleSwipeRight}
             aria-label="Save class"
             style={{
-              width: 44,
-              height: 44,
+              width: 52,
+              height: 52,
               borderRadius: "50%",
-              border: "2px solid #22c55e",
-              background: "transparent",
+              border: "1.5px solid rgba(0,0,0,0.12)",
+              background: "#fff",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
             }}
           >
-            <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
-              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-            </svg>
-          </button>
-
-          {/* Next card */}
-          <button
-            onClick={goToNextCard}
-            disabled={currentCardIndex >= currentItems.length - 1}
-            aria-label="Next card"
-            style={{
-              width: 44,
-              height: 44,
-              borderRadius: "50%",
-              border: "1.5px solid var(--color-border-subtle, #d1d5db)",
-              background: "var(--color-bg-card, #fff)",
-              cursor: currentCardIndex >= currentItems.length - 1 ? "not-allowed" : "pointer",
-              opacity: currentCardIndex >= currentItems.length - 1 ? 0.35 : 1,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              transition: "opacity 0.15s",
-            }}
-          >
-            <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary, #111)" strokeWidth={2} strokeLinecap="round">
-              <polyline points="12 5 19 12 12 19" />
-              <line x1="19" y1="12" x2="5" y2="12" />
+            <svg width={22} height={22} viewBox="0 0 24 24" fill={savedIds.has(currentCard?.id ?? "") ? "var(--tumbo-primary, #E8530E)" : "none"} stroke={savedIds.has(currentCard?.id ?? "") ? "var(--tumbo-primary, #E8530E)" : "var(--tumbo-text, #111)"} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
             </svg>
           </button>
         </div>
 
-        {/* Hint text */}
-        <p
-          style={{
-            margin: 0,
-            textAlign: "center",
-            fontSize: 11,
-            color: "var(--color-text-secondary, #9ca3af)",
-            fontWeight: 400,
-          }}
-        >
-          Swipe right to save · Swipe left to {isEveryClassSection ? "skip" : "skip rail"} · Tap for details
-        </p>
+        {/* Subtle hint — only show on first card */}
+        {currentCardIndex === 0 && currentRailIndex === 0 && (
+          <p
+            style={{
+              margin: 0,
+              textAlign: "center",
+              fontSize: 11,
+              color: "var(--tumbo-label, #999)",
+              fontWeight: 400,
+              opacity: 0.7,
+            }}
+          >
+            Swipe right to save · Swipe left to skip · Tap for details
+          </p>
+        )}
       </div>
 
       {/* ── Auth modal (portal) ── */}

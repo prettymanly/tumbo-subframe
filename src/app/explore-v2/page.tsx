@@ -48,8 +48,8 @@ function useHeroSnap(contentId: string) {
       const scrollY = window.scrollY;
       const snapTarget = getSnapTarget();
 
-      // First snap: user scrolls slightly in hero zone
-      if (!snappedRef.current && scrollY > 30 && scrollY < snapTarget - 50) {
+      // First snap: user scrolls slightly in hero zone (desktop only)
+      if (!snappedRef.current && scrollY > 30 && scrollY < snapTarget - 50 && window.innerWidth > 768) {
         snapToContent();
       }
 
@@ -465,6 +465,7 @@ export default function ExploreV2Page() {
             margin: 0;
           }
           .v2-hero-headline .v2-br { display: inline; }
+          .v2-hero-headline .v2-br-mobile { display: none; }
           .v2-hero-subhead {
             font-size: clamp(18px, 2.35vw, 34px);
             line-height: 1.2;
@@ -495,11 +496,13 @@ export default function ExploreV2Page() {
               padding-top: max(32px, 8vh);
             }
             .v2-hero-headline {
-              font-size: 12.5vw;
+              font-size: 14vw;
               line-height: 0.92;
               letter-spacing: -0.04em;
             }
+            /* On mobile, hide the desktop <br>s and use mobile-specific ones */
             .v2-hero-headline .v2-br { display: none; }
+            .v2-hero-headline .v2-br-mobile { display: inline; }
             .v2-hero-subhead {
               font-size: 15px;
               line-height: 1.4;
@@ -524,10 +527,16 @@ export default function ExploreV2Page() {
         >
           <div className="v2-hero-inner">
             <h1 className="v2-hero-headline">
-              The best classes{" "}
+              The best{" "}
+              <span className="v2-br-mobile"><br /></span>
+              classes{" "}
               <span className="v2-br"><br /></span>
-              aren&rsquo;t always{" "}
+              <span className="v2-br-mobile"><br /></span>
+              aren&rsquo;t{" "}
+              <span className="v2-br-mobile"><br /></span>
+              always{" "}
               <span className="v2-br"><br /></span>
+              <span className="v2-br-mobile"><br /></span>
               <span
                 style={{
                   fontFamily: "var(--font-instrument-serif), Georgia, serif",
@@ -540,6 +549,7 @@ export default function ExploreV2Page() {
               >
                 the best
               </span>{" "}
+              <span className="v2-br-mobile"><br /></span>
               classes.
             </h1>
             <p className="v2-hero-subhead">
@@ -558,6 +568,8 @@ export default function ExploreV2Page() {
           id="v2-browse-content"
           onClickCapture={(e) => {
             // Only snap (and block the click) when still in hero zone
+            // Skip on mobile — let users interact with filters without snapping
+            if (window.innerWidth <= 768) return;
             const content = document.getElementById("v2-browse-content");
             if (!content) return;
             const snapTarget = content.offsetTop - TOPBAR_HEIGHT - 48;
