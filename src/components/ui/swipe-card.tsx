@@ -155,12 +155,12 @@ export const SwipeCard = React.memo(function SwipeCard({
   // Simplify title (same logic as mp-card.tsx)
   const displayTitle = simplifyTitle(title)
 
-  // Separate gesture handlers from motion props to avoid type conflicts
-  const bindResult = bind()
+  // Spread all gesture handlers onto the motion div
+  const gestureHandlers = bind()
 
   return (
     <motion.div
-      onPointerDown={bindResult.onPointerDown as React.PointerEventHandler<HTMLDivElement>}
+      {...gestureHandlers}
       style={{
         x,
         rotate,

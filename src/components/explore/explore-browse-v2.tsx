@@ -20,8 +20,9 @@ import { MobileTinderBrowse } from "@/components/explore/mobile-tinder-browse";
 import { useIsMobile } from "@/hooks/use-is-mobile";
 import { DBClass, Provider, getTopTags } from "@/lib/types/tags";
 import { RAIL_ORDER, RAILS } from "@/lib/rails/config";
+import { buildRail, buildSerendipityRail } from "@/lib/rails/build-rail";
 import { selectDisplayTags } from "@/lib/rails/warm-tags";
-import type { RailApiResponse } from "@/lib/rails/types";
+import type { RailApiResponse, RailCardItem, ScoringContext } from "@/lib/rails/types";
 import type { TagRowItem } from "@/components/ui/hero-section";
 import { useExplore } from "./explore-context";
 import type { BrowseStats } from "./explore-sidebar-browse";
@@ -133,15 +134,7 @@ export function seededShuffle<T>(arr: T[], seed: number): T[] {
   return result;
 }
 
-async function fetchRail(railId: string, seed: number, excludeIds: string[] = []): Promise<RailApiResponse | null> {
-  try {
-    const params = new URLSearchParams({ seed: seed.toString(), limit: "12" });
-    if (excludeIds.length > 0) params.set("exclude", excludeIds.join(","));
-    const res = await fetch(`/api/rails/${railId}?${params.toString()}`);
-    if (!res.ok) return null;
-    return (await res.json()) as RailApiResponse;
-  } catch { return null; }
-}
+// Rails are now built client-side from allClasses (no API route needed)
 
 function getClassImage(cls: DBClass): string {
   const url = cls.photo_url;
@@ -228,7 +221,7 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
   const isMobile = useIsMobile(768);
 
   const [seed, setSeed] = useState(0);
-  const [railData, setRailData] = useState<Record<string, RailApiResponse>>({});
+  const [railData, setRailData] = useState<Record<string, { items: RailCardItem[]; shownIds: string[] }>>({});
   const [totalClasses, setTotalClasses] = useState(0);
 
   const railDataRef = useRef(railData);
@@ -290,18 +283,8 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
   const seedRef = useRef(seed);
   seedRef.current = seed;
 
-  const loadRail = useCallback(async (railId: string) => {
-    if (railDataRef.current[railId] || loadingRef.current.has(railId)) return;
-    loadingRef.current.add(railId);
-    const data = await fetchRail(railId, seedRef.current, shownIdsRef.current);
-    loadingRef.current.delete(railId);
-    if (data) {
-      setRailData((prev) => ({ ...prev, [railId]: data }));
-      shownIdsRef.current = [...shownIdsRef.current, ...data.items.map((i) => i.id)];
-    }
-  }, []);
-
-  useEffect(() => { fetch("/api/rails/meta").then((r) => r.json()).then((meta) => { if (meta.totalClasses) setTotalClasses(meta.totalClasses); }).catch(() => {}); }, []);
+  // totalClasses set from allClasses when loaded
+  useEffect(() => { if (allClasses.length > 0) setTotalClasses(allClasses.length); }, [allClasses]);
 
   const loadAllClasses = useCallback(async () => {
     if (allClassesLoadedRef.current || browseLoading) return;
@@ -479,12 +462,38 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
     return counts;
   }, [allClasses, searchQuery, activeTags, filters, tumboSearchIndex]);
 
-  // ── Rail loading (parallel) ──
+  // ── Build rails client-side from allClasses ──
   useEffect(() => {
-    if (seed === 0) return;
-    loadingRef.current.clear();
-    Promise.all(RAIL_ORDER.map((railId) => loadRail(railId)));
-  }, [seed, loadRail]);
+    if (seed === 0 || allClasses.length === 0) return;
+    // Don't rebuild if we already have all rails
+    if (RAIL_ORDER.every((rid) => railData[rid])) return;
+
+    const excludeIds = new Set<string>();
+    const ctx: ScoringContext = {
+      excludeIds,
+      activeChipId: null,
+      seed,
+    };
+
+    const newRailData: Record<string, { items: RailCardItem[]; shownIds: string[] }> = {};
+    for (const railId of RAIL_ORDER) {
+      const railConfig = RAILS.find((r) => r.railId === railId);
+      if (!railConfig) continue;
+
+      const isSerendipity = railConfig.railId === "serendipity";
+      const result = isSerendipity
+        ? buildSerendipityRail(allClasses, railConfig, ctx, providerMap)
+        : buildRail(allClasses, railConfig, ctx, providerMap);
+
+      newRailData[railId] = { items: result.items, shownIds: result.shownIds };
+      // Add shown IDs to exclude set so next rail doesn't repeat
+      for (const id of result.shownIds) excludeIds.add(id);
+    }
+    setRailData(newRailData);
+    // Update shownIds ref
+    const allShown = Object.values(newRailData).flatMap((r) => r.shownIds);
+    shownIdsRef.current = allShown;
+  }, [seed, allClasses, providerMap]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const allRailsLoaded = RAIL_ORDER.every((rid) => railData[rid]);
 
