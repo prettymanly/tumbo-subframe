@@ -952,7 +952,7 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
         onSearch={handleAcSearch}
       />
 
-      {/* Hero dimension search bar — hidden on mobile, visible on desktop */}
+      {/* Hero dimension search bar — desktop: full segmented bar, mobile: icon tab bar */}
       <div ref={heroSearchRef} className="hidden md:block" style={{ marginBottom: 16 }}>
         <DimensionSearchBar
           allTagsByDimension={allTagsByDimension}
@@ -961,6 +961,15 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
           onSearch={() => {}}
           collapsed={false}
           totalClasses={totalClasses}
+        />
+      </div>
+
+      {/* Mobile icon tab bar — 5 evenly-spaced icons with labels */}
+      <div className="md:hidden" style={{ marginBottom: 12 }}>
+        <MobileDimensionBar
+          allTagsByDimension={allTagsByDimension}
+          activeTags={activeTags}
+          onToggleTag={(label) => setActiveTags((prev) => { const next = new Set(prev); if (next.has(label)) next.delete(label); else next.add(label); return next; })}
         />
       </div>
 
@@ -1514,6 +1523,160 @@ function GridSkeleton() {
           </div>
         </div>
       ))}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════
+// ── Mobile Dimension Bar — 5 icon tabs with labels ──
+// ══════════════════════════════════════════════════════════════
+
+const MOBILE_DIMS = [
+  { key: "content", label: "Content", color: "var(--tumbo-tag-content, #E8530E)",
+    icon: (c: string) => <svg width={22} height={22} viewBox="0 0 24 24" fill={c} stroke="none"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" /><circle cx={12} cy={12} r={2} fill={c} opacity={0.4} /><rect x={11.2} y={1} width={1.6} height={3} rx={0.8} /><rect x={11.2} y={20} width={1.6} height={3} rx={0.8} /><rect x={1} y={11.2} width={3} height={1.6} rx={0.8} /><rect x={20} y={11.2} width={3} height={1.6} rx={0.8} /></svg> },
+  { key: "philosophy", label: "Philosophy", color: "var(--tumbo-tag-philosophy, #D4A017)",
+    icon: (c: string) => <svg width={22} height={22} viewBox="0 0 24 24" fill={c} stroke="none"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /></svg> },
+  { key: "experience", label: "Experience", color: "var(--tumbo-tag-experience, #2D8A4E)",
+    icon: (c: string) => <svg width={22} height={22} viewBox="0 0 24 24" fill={c} stroke="none"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" /></svg> },
+  { key: "child", label: "Child", color: "var(--tumbo-tag-child, #7C3AED)",
+    icon: (c: string) => <svg width={22} height={22} viewBox="0 0 24 24" fill={c} stroke="none"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg> },
+  { key: "location", label: "Location", color: "var(--tumbo-tag-location, #2563EB)",
+    icon: (c: string) => <svg width={22} height={22} viewBox="0 0 24 24" fill={c} stroke="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z" /></svg> },
+];
+
+function MobileDimensionBar({
+  allTagsByDimension,
+  activeTags,
+  onToggleTag,
+}: {
+  allTagsByDimension: Record<string, Array<{ label: string; dimension: string }>>;
+  activeTags: Set<string>;
+  onToggleTag: (label: string) => void;
+}) {
+  const [openDim, setOpenDim] = React.useState<string | null>(null);
+
+  // Count active tags per dimension
+  const activeCountByDim = MOBILE_DIMS.reduce((acc, dim) => {
+    const tags = allTagsByDimension[dim.key] || [];
+    acc[dim.key] = tags.filter((t) => activeTags.has(t.label)).length;
+    return acc;
+  }, {} as Record<string, number>);
+
+  return (
+    <div style={{ position: "relative" }}>
+      {/* Icon row */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "flex-start",
+          padding: "8px 4px 6px",
+          background: "var(--tumbo-background, #FAF7F2)",
+          borderRadius: 16,
+          border: "1px solid rgba(0,0,0,0.06)",
+        }}
+      >
+        {MOBILE_DIMS.map((dim) => {
+          const isActive = openDim === dim.key;
+          const hasFilters = activeCountByDim[dim.key] > 0;
+          const iconColor = isActive || hasFilters ? dim.color : "rgba(0,0,0,0.25)";
+
+          return (
+            <button
+              key={dim.key}
+              onClick={() => setOpenDim(isActive ? null : dim.key)}
+              style={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 3,
+                background: "transparent",
+                border: "none",
+                cursor: "pointer",
+                padding: "4px 2px",
+                position: "relative",
+                fontFamily: "inherit",
+              }}
+            >
+              {dim.icon(iconColor)}
+              <span
+                style={{
+                  fontSize: 10,
+                  fontWeight: isActive || hasFilters ? 600 : 500,
+                  color: isActive || hasFilters ? dim.color : "var(--tumbo-label, #888)",
+                  lineHeight: 1,
+                  letterSpacing: "0.01em",
+                }}
+              >
+                {dim.label}
+              </span>
+              {/* Active count badge */}
+              {hasFilters && (
+                <span
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: "calc(50% - 18px)",
+                    width: 14,
+                    height: 14,
+                    borderRadius: "50%",
+                    background: dim.color,
+                    color: "#fff",
+                    fontSize: 9,
+                    fontWeight: 700,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    lineHeight: 1,
+                  }}
+                >
+                  {activeCountByDim[dim.key]}
+                </span>
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Dropdown pill list */}
+      {openDim && (
+        <div
+          style={{
+            marginTop: 8,
+            display: "flex",
+            flexWrap: "wrap",
+            gap: 8,
+            padding: "0 4px",
+          }}
+        >
+          {(allTagsByDimension[openDim] || []).map((tag) => {
+            const isActive = activeTags.has(tag.label);
+            const dimConfig = MOBILE_DIMS.find((d) => d.key === openDim);
+            const color = dimConfig?.color || "#888";
+            return (
+              <button
+                key={tag.label}
+                onClick={() => onToggleTag(tag.label)}
+                style={{
+                  padding: "6px 14px",
+                  borderRadius: 100,
+                  border: `1.5px solid ${isActive ? color : "rgba(0,0,0,0.1)"}`,
+                  background: isActive ? color : "#fff",
+                  color: isActive ? "#fff" : "var(--tumbo-text, #111)",
+                  fontSize: 13,
+                  fontWeight: 500,
+                  cursor: "pointer",
+                  fontFamily: "inherit",
+                  transition: "all 0.15s ease",
+                }}
+              >
+                {tag.label}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
