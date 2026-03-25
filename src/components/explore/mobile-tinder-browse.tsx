@@ -135,6 +135,7 @@ export function MobileTinderBrowse({
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set())
   const [animatingOut, setAnimatingOut] = useState<"left" | "right" | null>(null)
   const [finished, setFinished] = useState(false)
+  const [sectionDirection, setSectionDirection] = useState<"up" | "down">("down")
 
   // "Every class" pagination
   const [moreLoadedCount, setMoreLoadedCount] = useState(BATCH_SIZE)
@@ -211,6 +212,7 @@ export function MobileTinderBrowse({
     } else if (!isEveryClassSection) {
       // Move to next rail
       const nextRail = currentRailIndex + 1
+      setSectionDirection("down")
       if (nextRail <= totalRails) {
         setCurrentRailIndex(nextRail)
         setCurrentCardIndex(0)
@@ -231,6 +233,7 @@ export function MobileTinderBrowse({
 
   const advanceToNextRail = useCallback(() => {
     const nextRail = currentRailIndex + 1
+    setSectionDirection("down")
     if (nextRail <= totalRails) {
       setCurrentRailIndex(nextRail)
       setCurrentCardIndex(0)
@@ -302,6 +305,7 @@ export function MobileTinderBrowse({
 
   // ── Back to top ──
   const backToTop = useCallback(() => {
+    setSectionDirection("up")
     setCurrentRailIndex(0)
     setCurrentCardIndex(0)
     setFinished(false)
@@ -329,11 +333,13 @@ export function MobileTinderBrowse({
 
     // Swipe down (finger moves up) = next section
     if (dy > 60 || (dy > 30 && velocity > 0.3)) {
+      setSectionDirection("down")
       advanceToNextRail()
     }
     // Swipe up (finger moves down) = previous section
     if (dy < -60 || (dy < -30 && velocity > 0.3)) {
       if (currentRailIndex > 0) {
+        setSectionDirection("up")
         setCurrentRailIndex((prev) => prev - 1)
         setCurrentCardIndex(0)
       }
@@ -481,101 +487,121 @@ export function MobileTinderBrowse({
         height: "100vh",
         position: "relative",
         background: "var(--tumbo-background, #FAF7F2)",
-        overflow: "hidden",
       }}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* ── 1. Section title (sticky top) ── */}
-      <div
-        style={{
-          flexShrink: 0,
-          padding: "max(12px, env(safe-area-inset-top)) 20px 8px",
-        }}
-      >
+      {/* ── 1. Section title + 2. Card — wrapped in directional AnimatePresence ── */}
+      <AnimatePresence mode="wait" custom={sectionDirection}>
         <motion.div
-          key={sectionHeader}
-          initial={{ opacity: 0, y: -8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.25 }}
+          key={`section-${currentRailIndex}`}
+          custom={sectionDirection}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          variants={{
+            enter: (dir: "up" | "down") => ({
+              y: dir === "down" ? 60 : -60,
+              opacity: 0,
+            }),
+            center: {
+              y: 0,
+              opacity: 1,
+            },
+            exit: (dir: "up" | "down") => ({
+              y: dir === "down" ? -60 : 60,
+              opacity: 0,
+            }),
+          }}
+          transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+          style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}
         >
-          <h2
-            style={{
-              margin: 0,
-              fontSize: 24,
-              fontWeight: 700,
-              color: "var(--tumbo-text, #111)",
-              lineHeight: 1.15,
-              fontFamily: "var(--font-lexend), system-ui, sans-serif",
-              letterSpacing: "-0.03em",
-            }}
-          >
-            {sectionHeader}
-          </h2>
-          {sectionSubheader && (
-            <p
-              style={{
-                margin: "3px 0 0",
-                fontSize: 13,
-                color: "var(--tumbo-label, #888)",
-                lineHeight: 1.3,
-              }}
-            >
-              {sectionSubheader}
-            </p>
-          )}
-        </motion.div>
-      </div>
-
-      {/* ── 2. Card (swipeable, fills available space) ── */}
-      <div
-        style={{
-          flex: 1,
-          position: "relative",
-          padding: "4px 16px 8px",
-          minHeight: 0,
-        }}
-      >
-        {/* Next card peek */}
-        {nextCard && !animatingOut && (
+          {/* Section title */}
           <div
             style={{
-              position: "absolute",
-              top: 8,
-              left: 20,
-              right: 20,
-              bottom: 12,
-              zIndex: 1,
-              borderRadius: 20,
-              background: "#fff",
-              boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
-              transform: "scale(0.96) translateY(6px)",
-              opacity: 0.4,
+              flexShrink: 0,
+              padding: "max(12px, env(safe-area-inset-top)) 20px 8px",
             }}
-          />
-        )}
+          >
+            <h2
+              style={{
+                margin: 0,
+                fontSize: 24,
+                fontWeight: 700,
+                color: "var(--tumbo-text, #111)",
+                lineHeight: 1.15,
+                fontFamily: "var(--font-lexend), system-ui, sans-serif",
+                letterSpacing: "-0.03em",
+              }}
+            >
+              {sectionHeader}
+            </h2>
+            {sectionSubheader && (
+              <p
+                style={{
+                  margin: "3px 0 0",
+                  fontSize: 13,
+                  color: "var(--tumbo-label, #888)",
+                  lineHeight: 1.3,
+                }}
+              >
+                {sectionSubheader}
+              </p>
+            )}
+          </div>
 
-        <AnimatePresence mode="wait">
-          {currentCard && !animatingOut && (
-            <SwipeCard
-              key={`${currentRailIndex}-${currentCardIndex}-${currentCard.id}`}
-              id={currentCard.id}
-              title={currentCard.title}
-              provider={currentCard.provider}
-              summary={currentCard.summary}
-              image={currentCard.image}
-              tags={currentCard.tags}
-              location={currentCard.location}
-              ageRange={currentCard.ageRange}
-              category={currentCard.category}
-              isSaved={isCardSaved}
-              onSwipeRight={handleSwipeRight}
-              onSwipeLeft={handleSwipeLeft}
-              onTap={handleTap}
-            />
-          )}
-        </AnimatePresence>
-      </div>
+          {/* Card (swipeable, fills available space) */}
+          <div
+            style={{
+              flex: 1,
+              position: "relative",
+              padding: "4px 12px 8px",
+              overflow: "hidden",
+              minHeight: 0,
+            }}
+          >
+            {/* Next card peek */}
+            {nextCard && !animatingOut && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: 8,
+                  left: 20,
+                  right: 20,
+                  bottom: 12,
+                  zIndex: 1,
+                  borderRadius: 20,
+                  background: "#fff",
+                  boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
+                  transform: "scale(0.96) translateY(6px)",
+                  opacity: 0.4,
+                }}
+              />
+            )}
+
+            <AnimatePresence mode="wait">
+              {currentCard && !animatingOut && (
+                <SwipeCard
+                  key={`${currentRailIndex}-${currentCardIndex}-${currentCard.id}`}
+                  id={currentCard.id}
+                  title={currentCard.title}
+                  provider={currentCard.provider}
+                  summary={currentCard.summary}
+                  image={currentCard.image}
+                  tags={currentCard.tags}
+                  location={currentCard.location}
+                  ageRange={currentCard.ageRange}
+                  category={currentCard.category}
+                  isSaved={isCardSaved}
+                  onSwipeRight={handleSwipeRight}
+                  onSwipeLeft={handleSwipeLeft}
+                  onTap={handleTap}
+                />
+              )}
+            </AnimatePresence>
+          </div>
+        </motion.div>
+      </AnimatePresence>
 
       {/* ── 3. Navigation buttons: ← X · Bookmark → ── */}
       <div

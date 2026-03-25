@@ -11,10 +11,10 @@ import type { RailConfig } from "./types";
 export const MAX_RAILS = 7;
 
 export const RAILS: RailConfig[] = [
-  // ── Rail 1: Start Here (featured — pinned editorial picks) ──
+  // ── Rail 1: Editor's Picks (featured — pinned editorial picks) ──
   {
     railId: "recommended",
-    header: "Start here",
+    header: "Editor\u2019s picks",
     subheader: "Three handpicked classes to begin with",
     weights: { quality: 0.35, freshness: 0.25, proximity: 0.00, intent: 0.00, weekend: 0.00, diversity: 0.40 },
     diversity: {

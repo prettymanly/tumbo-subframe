@@ -395,6 +395,30 @@ export default function ExploreV2Page() {
     window.scrollTo(0, 0);
   }, []);
 
+  // Auto-hide nav on mobile scroll (Instagram/Twitter pattern)
+  const [navVisible, setNavVisible] = useState(true);
+  const lastScrollYRef = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.innerWidth > 768) return;
+      const currentY = window.scrollY;
+      // Always show nav when near top
+      if (currentY < TOPBAR_HEIGHT) {
+        setNavVisible(true);
+      } else if (currentY > lastScrollYRef.current + 5) {
+        // Scrolling down (with 5px threshold to avoid jitter)
+        setNavVisible(false);
+      } else if (currentY < lastScrollYRef.current - 5) {
+        // Scrolling up
+        setNavVisible(true);
+      }
+      lastScrollYRef.current = currentY;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <ExploreProvider>
       <HeroSnapEffect onSnap={handleSnap} />
@@ -406,6 +430,8 @@ export default function ExploreV2Page() {
             top: 0,
             zIndex: 40,
             background: "var(--tumbo-background)",
+            transform: navVisible ? "translateY(0)" : "translateY(-100%)",
+            transition: "transform 0.3s ease",
           }}
         >
           <div

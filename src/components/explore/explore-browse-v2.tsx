@@ -952,8 +952,8 @@ export function ExploreBrowse({ onStatsChange, requestedDimension }: ExploreBrow
         onSearch={handleAcSearch}
       />
 
-      {/* Hero dimension search bar — visible until scrolled past */}
-      <div ref={heroSearchRef} style={{ marginBottom: 16 }}>
+      {/* Hero dimension search bar — hidden on mobile, visible on desktop */}
+      <div ref={heroSearchRef} className="hidden md:block" style={{ marginBottom: 16 }}>
         <DimensionSearchBar
           allTagsByDimension={allTagsByDimension}
           activeTags={activeTags}
